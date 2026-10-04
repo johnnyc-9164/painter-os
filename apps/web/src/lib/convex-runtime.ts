@@ -16,7 +16,7 @@ export async function snapshotCloud(request?: NextRequest) {
  if(!memberships.length)await bridge.fetchAuthMutation(api.painter.createWorkspace,{name:`${user.name}'s workspace`,onlyIfNone:true});
  if(request?.nextUrl.searchParams.has('workspaceId'))throw new Error('WORKSPACE_SELECTION_NOT_SUPPORTED');
  const snapshot=await bridge.fetchAuthQuery(api.painter.snapshot,{});
- const members=['owner','office_admin'].includes(snapshot.actor.role)?await bridge.fetchAuthQuery(api.painter.members,{}):undefined;return {...snapshot,members,session:snapshot.actor};
+ const members=['owner','office_admin'].includes(snapshot.actor.role)?await bridge.fetchAuthQuery(api.painter.members,{}):undefined;return {...snapshot,runtime:{...snapshot.runtime,kind:'convex' as const},members,session:snapshot.actor};
 }
 export async function commandCloud(command: Command) {
  const bridge=getConvexBridge();
