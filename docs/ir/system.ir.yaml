@@ -1,0 +1,57 @@
+irVersion: painter-os/1.0
+product:
+  id: painter-os
+  name: Painter OS
+  kind: vertical_business_os
+  trade: painting
+foundation:
+  backend: Contractor OS core v0.6.0 + painting component
+  frontend: Next.js App Router
+  ui: shadcn/ui
+  primitives: Base UI
+  style: base-lyra / Artisan Core
+  tenancy: multi-tenant
+  hostMembership: authenticated_host_resolver
+principles:
+- modular product surfaces; bounded runtime components
+- server-derived tenant/actor/permissions
+- typed commands + events between domains
+- evidence and verification for material actions
+- one coherent design system
+- mobile and desktop share domain components
+coreModules:
+- identity_tenancy
+- contacts
+- activity_evidence
+- tasks
+- files
+- notifications
+- search
+productModules:
+- overview
+- sales
+- estimating
+- customers
+- jobs
+- scheduling
+- field
+- finance
+- reviews_referrals
+- integrations
+- automation_knowledge
+- commercial_procurement
+verticalSlice:
+- lead
+- qualification
+- estimate
+- customer_approval
+- deposit
+- job
+- schedule
+- field_execution
+- completion
+- invoice
+- payment
+- review_referral
+runtimeRule: Do not create a Convex component per product module. Existing core +
+  painting are the starting runtime boundaries.

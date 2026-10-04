@@ -1,0 +1,108 @@
+TAP version 13
+# Subtest: all eleven exported business workflows execute in a synthetic end-to-end lifecycle
+ok 1 - all eleven exported business workflows execute in a synthetic end-to-end lifecycle
+  ---
+  duration_ms: 14.393359
+  type: 'test'
+  ...
+# Subtest: a second job cannot multiply the same contract budget
+not ok 2 - a second job cannot multiply the same contract budget
+  ---
+  duration_ms: 8.187747
+  type: 'test'
+  location: '/mnt/data/backend_work/contractor-os-core/tests/business-lifecycle.test.mjs:36:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected rejection.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/business-lifecycle.test.mjs:37:23)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: invoice issuance rejects contract overbilling and preserves drafts
+ok 3 - invoice issuance rejects contract overbilling and preserves drafts
+  ---
+  duration_ms: 10.375573
+  type: 'test'
+  ...
+# Subtest: draft jobs and payments cannot bypass the specialized creation paths
+not ok 4 - draft jobs and payments cannot bypass the specialized creation paths
+  ---
+  duration_ms: 0.347811
+  type: 'test'
+  location: '/mnt/data/backend_work/contractor-os-core/tests/business-lifecycle.test.mjs:46:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/business-lifecycle.test.mjs:47:9)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: subcontract assignment maintains both relation directions and requires both revisions
+ok 5 - subcontract assignment maintains both relation directions and requires both revisions
+  ---
+  duration_ms: 10.259602
+  type: 'test'
+  ...
+# Subtest: field reports require active job, valid crew size and non-future report date
+not ok 6 - field reports require active job, valid crew size and non-future report date
+  ---
+  duration_ms: 7.057225
+  type: 'test'
+  location: '/mnt/data/backend_work/contractor-os-core/tests/business-lifecycle.test.mjs:56:1'
+  failureType: 'testCodeFailure'
+  error: 'REQUIRED_INPUT: work_performed'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    fail (file:///mnt/data/backend_work/contractor-os-core/build/shared/port.js:4:11)
+    boundedString (file:///mnt/data/backend_work/contractor-os-core/build/shared/port.js:12:9)
+    str (file:///mnt/data/backend_work/contractor-os-core/build/shared/business.js:82:51)
+    executeBusinessCommand (file:///mnt/data/backend_work/contractor-os-core/build/shared/business.js:464:13)
+    async MemoryStore.transaction (file:///mnt/data/backend_work/contractor-os-core/tests/support/business-store.mjs:17:185)
+    async TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/business-lifecycle.test.mjs:58:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: change orders cannot adjust a closed job
+not ok 7 - change orders cannot adjust a closed job
+  ---
+  duration_ms: 6.58537
+  type: 'test'
+  location: '/mnt/data/backend_work/contractor-os-core/tests/business-lifecycle.test.mjs:62:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected rejection.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/business-lifecycle.test.mjs:65:2)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: rules written in markdown are not executed as automations
+ok 8 - rules written in markdown are not executed as automations
+  ---
+  duration_ms: 0.475499
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 4
+# fail 4
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 123.697576

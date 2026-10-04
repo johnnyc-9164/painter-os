@@ -1,0 +1,220 @@
+TAP version 13
+# Subtest: v040 formula 0: co_change_order.total_change
+ok 1 - v040 formula 0: co_change_order.total_change
+  ---
+  duration_ms: 8.862331
+  type: 'test'
+  ...
+# Subtest: v040 formula 1: co_change_order.total_change
+ok 2 - v040 formula 1: co_change_order.total_change
+  ---
+  duration_ms: 3.610546
+  type: 'test'
+  ...
+# Subtest: v040 formula 2: co_scope.total_estimated_cost
+ok 3 - v040 formula 2: co_scope.total_estimated_cost
+  ---
+  duration_ms: 2.908519
+  type: 'test'
+  ...
+# Subtest: v040 formula 3: co_contract.contract_duration_days
+ok 4 - v040 formula 3: co_contract.contract_duration_days
+  ---
+  duration_ms: 4.184529
+  type: 'test'
+  ...
+# Subtest: v040 formula 4: co_contract.contract_duration_days
+ok 5 - v040 formula 4: co_contract.contract_duration_days
+  ---
+  duration_ms: 4.787457
+  type: 'test'
+  ...
+# Subtest: v040 formula 5: co_contract.retainage_amount
+ok 6 - v040 formula 5: co_contract.retainage_amount
+  ---
+  duration_ms: 3.273938
+  type: 'test'
+  ...
+# Subtest: v040 formula 6: co_job.billing_variance
+ok 7 - v040 formula 6: co_job.billing_variance
+  ---
+  duration_ms: 3.487119
+  type: 'test'
+  ...
+# Subtest: v040 formula 7: co_job.outstanding_balance
+ok 8 - v040 formula 7: co_job.outstanding_balance
+  ---
+  duration_ms: 5.083863
+  type: 'test'
+  ...
+# Subtest: v040 formula 8: co_trade_spec.estimated_gallons
+ok 9 - v040 formula 8: co_trade_spec.estimated_gallons
+  ---
+  duration_ms: 4.047252
+  type: 'test'
+  ...
+# Subtest: v040 formula 9: co_trade_spec.estimated_gallons
+ok 10 - v040 formula 9: co_trade_spec.estimated_gallons
+  ---
+  duration_ms: 3.426578
+  type: 'test'
+  ...
+# Subtest: v040 formula 10: co_trade_spec.estimated_gallons
+ok 11 - v040 formula 10: co_trade_spec.estimated_gallons
+  ---
+  duration_ms: 3.543094
+  type: 'test'
+  ...
+# Subtest: v040 formula 11: co_trade_spec.estimated_gallons
+ok 12 - v040 formula 11: co_trade_spec.estimated_gallons
+  ---
+  duration_ms: 4.180613
+  type: 'test'
+  ...
+# Subtest: v040 formula 12: co_trade_spec.estimated_squares
+ok 13 - v040 formula 12: co_trade_spec.estimated_squares
+  ---
+  duration_ms: 2.992464
+  type: 'test'
+  ...
+# Subtest: v040 formula 13: co_trade_spec.estimated_squares
+ok 14 - v040 formula 13: co_trade_spec.estimated_squares
+  ---
+  duration_ms: 2.652533
+  type: 'test'
+  ...
+# Subtest: v040 formula 14: co_pricing_rule.effective_rate
+ok 15 - v040 formula 14: co_pricing_rule.effective_rate
+  ---
+  duration_ms: 3.031504
+  type: 'test'
+  ...
+# Subtest: v040 formula 15: co_pricing_rule.material_multiplier
+ok 16 - v040 formula 15: co_pricing_rule.material_multiplier
+  ---
+  duration_ms: 3.00275
+  type: 'test'
+  ...
+# Subtest: v040 formula 16: co_contact.full_name
+ok 17 - v040 formula 16: co_contact.full_name
+  ---
+  duration_ms: 4.130057
+  type: 'test'
+  ...
+# Subtest: v040 formula 17: co_contact.full_name
+ok 18 - v040 formula 17: co_contact.full_name
+  ---
+  duration_ms: 2.850556
+  type: 'test'
+  ...
+# Subtest: v040 formula 18: co_contact.full_name
+ok 19 - v040 formula 18: co_contact.full_name
+  ---
+  duration_ms: 2.782404
+  type: 'test'
+  ...
+# Subtest: v040 formula 19: co_subcontractor.compliance_status
+ok 20 - v040 formula 19: co_subcontractor.compliance_status
+  ---
+  duration_ms: 3.279311
+  type: 'test'
+  ...
+# Subtest: v040 formula 20: co_subcontractor.compliance_status
+ok 21 - v040 formula 20: co_subcontractor.compliance_status
+  ---
+  duration_ms: 2.741397
+  type: 'test'
+  ...
+# Subtest: v040 formula 21: co_subcontractor.compliance_status
+ok 22 - v040 formula 21: co_subcontractor.compliance_status
+  ---
+  duration_ms: 3.098194
+  type: 'test'
+  ...
+# Subtest: v040 formula 22: co_subcontractor.compliance_status
+ok 23 - v040 formula 22: co_subcontractor.compliance_status
+  ---
+  duration_ms: 3.353929
+  type: 'test'
+  ...
+# Subtest: v040 formula 23: co_subcontractor.compliance_status
+ok 24 - v040 formula 23: co_subcontractor.compliance_status
+  ---
+  duration_ms: 3.301695
+  type: 'test'
+  ...
+# Subtest: v040 formula 24: co_subcontractor.insurance_days_remaining
+ok 25 - v040 formula 24: co_subcontractor.insurance_days_remaining
+  ---
+  duration_ms: 2.766745
+  type: 'test'
+  ...
+# Subtest: v040 formula 25: co_subcontractor.license_days_remaining
+ok 26 - v040 formula 25: co_subcontractor.license_days_remaining
+  ---
+  duration_ms: 2.651522
+  type: 'test'
+  ...
+# Subtest: v040 formula 26: co_subcontractor.license_days_remaining
+ok 27 - v040 formula 26: co_subcontractor.license_days_remaining
+  ---
+  duration_ms: 8.647248
+  type: 'test'
+  ...
+# Subtest: v040 formula 27: co_invoice.balance_due
+ok 28 - v040 formula 27: co_invoice.balance_due
+  ---
+  duration_ms: 5.567577
+  type: 'test'
+  ...
+# Subtest: v040 formula 28: co_invoice.balance_due
+ok 29 - v040 formula 28: co_invoice.balance_due
+  ---
+  duration_ms: 7.408763
+  type: 'test'
+  ...
+# Subtest: v040 formula 29: co_bid.days_until_deadline
+ok 30 - v040 formula 29: co_bid.days_until_deadline
+  ---
+  duration_ms: 4.812655
+  type: 'test'
+  ...
+# Subtest: v040 formula 30: co_bid.days_until_deadline
+ok 31 - v040 formula 30: co_bid.days_until_deadline
+  ---
+  duration_ms: 4.557336
+  type: 'test'
+  ...
+# Subtest: v040 formulas report a JQ date-format conflict rather than silently normalizing an offset
+ok 32 - v040 formulas report a JQ date-format conflict rather than silently normalizing an offset
+  ---
+  duration_ms: 1.236411
+  type: 'test'
+  ...
+# Subtest: v040 formulas fail closed on a missing non-defaulted amount
+ok 33 - v040 formulas fail closed on a missing non-defaulted amount
+  ---
+  duration_ms: 0.115694
+  type: 'test'
+  ...
+# Subtest: v040 formulas do not execute unknown expression names
+ok 34 - v040 formulas do not execute unknown expression names
+  ---
+  duration_ms: 0.064527
+  type: 'test'
+  ...
+# Subtest: v040 formula time requires a finite, valid epoch
+ok 35 - v040 formula time requires a finite, valid epoch
+  ---
+  duration_ms: 1.171002
+  type: 'test'
+  ...
+1..35
+# tests 35
+# suites 0
+# pass 35
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 212.543625

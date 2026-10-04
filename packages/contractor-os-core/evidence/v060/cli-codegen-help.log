@@ -1,0 +1,23 @@
+Usage: convex codegen [options]
+
+Generate code in `convex/_generated/` based on the current contents of
+`convex/`.
+
+This code is generated automatically while running `npx convex dev` and should
+be committed to the repo (your code won't typecheck without it!). Regenerating
+it explicitly is rarely needed (e.g. in CI to ensure the correct code was
+checked in).
+
+This doesn't modify the code running on the deployment.
+
+Options:
+  --dry-run               Print out the generated configuration to stdout
+                          instead of writing to convex directory
+  --typecheck <mode>      Whether to check TypeScript files with `tsc --noEmit`.
+                          (choices: "enable", "try", "disable", default: "try")
+  --init                  Also (over-)write the default convex/README.md and
+                          convex/tsconfig.json files, otherwise only written
+                          when creating a new Convex project.
+  --component-dir <path>  Generate code for a specific component directory
+                          instead of the current application.
+  -h, --help              display help for command

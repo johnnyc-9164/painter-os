@@ -1,0 +1,12 @@
+COMMAND: npm run check:composition
+CWD: /agent/workspace/painter-os-bts/packages/contractor-os-core
+
+> @johnny/contractor-os-core@0.6.0 check:composition
+> python3 tools/validate_composition.py && python3 -m unittest discover -s tests -p test_composition.py
+
+Product composition valid: 10 runtime components; 6 config packs; scaffold/UI/tokens are declarations only
+....................
+----------------------------------------------------------------------
+Ran 20 tests in 0.718s
+
+OK

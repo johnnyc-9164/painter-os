@@ -1,0 +1,4 @@
+
+> @johnny/contractor-os-core@0.2.0 build:core
+> tsc -p tsconfig.core.json
+

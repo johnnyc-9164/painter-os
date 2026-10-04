@@ -1,0 +1,130 @@
+events:
+- name: LeadQualified
+  producer: sales
+  consumers:
+  - estimating
+  - automation_knowledge
+  payload:
+  - tenantId
+  - leadId
+  - customerId
+  - occurredAt
+- name: EstimateSent
+  producer: estimating
+  consumers:
+  - customers
+  - automation_knowledge
+  payload:
+  - tenantId
+  - estimateId
+  - customerId
+  - revision
+  - occurredAt
+- name: EstimateApproved
+  producer: estimating
+  consumers:
+  - jobs
+  - finance
+  - customers
+  - automation_knowledge
+  payload:
+  - tenantId
+  - estimateId
+  - customerId
+  - approvedRevision
+  - total
+  - occurredAt
+- name: DepositRequired
+  producer: finance
+  consumers:
+  - customers
+  - automation_knowledge
+  payload:
+  - tenantId
+  - invoiceId
+  - jobId
+  - amount
+  - dueAt
+- name: DepositReceived
+  producer: finance
+  consumers:
+  - jobs
+  - scheduling
+  - customers
+  payload:
+  - tenantId
+  - paymentId
+  - jobId
+  - amount
+  - occurredAt
+- name: JobScheduled
+  producer: scheduling
+  consumers:
+  - jobs
+  - field
+  - customers
+  payload:
+  - tenantId
+  - jobId
+  - scheduleEntryId
+  - startAt
+  - endAt
+- name: JobStarted
+  producer: jobs
+  consumers:
+  - field
+  - customers
+  payload:
+  - tenantId
+  - jobId
+  - occurredAt
+- name: CompletionSubmitted
+  producer: field
+  consumers:
+  - jobs
+  - customers
+  - finance
+  payload:
+  - tenantId
+  - jobId
+  - fieldRunId
+  - evidenceIds
+  - occurredAt
+- name: JobCompleted
+  producer: jobs
+  consumers:
+  - finance
+  - reviews_referrals
+  - customers
+  payload:
+  - tenantId
+  - jobId
+  - customerId
+  - occurredAt
+- name: InvoicePaid
+  producer: finance
+  consumers:
+  - jobs
+  - customers
+  - reviews_referrals
+  payload:
+  - tenantId
+  - invoiceId
+  - jobId
+  - amountPaid
+  - occurredAt
+- name: ReviewCompleted
+  producer: reviews_referrals
+  consumers:
+  - sales
+  - automation_knowledge
+  payload:
+  - tenantId
+  - reviewRequestId
+  - customerId
+  - rating
+  - occurredAt
+deliverySemantics:
+  idempotency: consumer must tolerate duplicate delivery
+  ordering: per aggregate where required; never assume global ordering
+  audit: record material transition evidence

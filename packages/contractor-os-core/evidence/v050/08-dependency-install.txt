@@ -1,0 +1,1 @@
+npm install --no-audit --no-fund was attempted in this upgrade session and timed out after the sandbox execution limit; dependencies/codegen were not installed.

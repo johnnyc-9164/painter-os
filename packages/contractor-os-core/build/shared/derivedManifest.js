@@ -1,0 +1,439 @@
+// Source formulas and explicit component path policies; never eval these strings.
+export const DERIVED_MANIFEST = {
+    "version": "0.4.0",
+    "source": "user_schema_transcription_2026_09_22",
+    "mirrors": {
+        "co_change_order": {
+            "client_name": "job.client.$title",
+            "job_number": "job.job_number",
+            "contract_number": "contract.contract_number"
+        },
+        "co_proposal": {
+            "client_name": "client.$title",
+            "contact_email": "contact.email",
+            "lead_priority": "lead.priority",
+            "lead_stage": "lead.stage",
+            "scope_estimated_hours": "scope.estimated_hours",
+            "scope_trade_type": "scope.trade_type"
+        },
+        "co_scope": {
+            "client_name": "lead.client.$title",
+            "lead_estimated_value": "lead.estimated_value",
+            "lead_stage": "lead.stage"
+        },
+        "co_contract": {
+            "bid_amount": "bid.amount",
+            "bid_type": "bid.bid_type",
+            "client_name": "client.$title",
+            "contact_email": "contact.email",
+            "proposal_amount": "bid.proposal.amount"
+        },
+        "co_site_visit": {
+            "client_name": "client.$title",
+            "contact_email": "contact.email",
+            "lead_estimated_value": "lead.estimated_value",
+            "lead_stage": "lead.stage"
+        },
+        "co_job": {
+            "bid_amount": "bid.amount",
+            "client_name": "client.$title",
+            "contract_signed_at": "contract.signed_at",
+            "contract_status": "contract.status",
+            "contract_type": "contract.contract_type"
+        },
+        "co_trade_spec": {
+            "scope_client": "scope.lead.client.$title",
+            "scope_lead": "scope.lead.$title",
+            "scope_trade_type": "scope.trade_type"
+        },
+        "co_document": {
+            "campaign_name": "campaign.$title",
+            "contract_number": "contract.contract_number",
+            "job_number": "job.job_number",
+            "job_status": "job.status"
+        },
+        "co_payment": {
+            "client_name": "client.$title",
+            "invoice_amount": "invoice.amount",
+            "invoice_number": "invoice.invoice_number",
+            "invoice_status": "invoice.status"
+        },
+        "co_outreach": {
+            "campaign_name": "campaign.$title",
+            "client_name": "client.$title",
+            "contact_email": "contact.email",
+            "contact_first_name": "contact.first_name",
+            "contact_last_name": "contact.last_name"
+        },
+        "co_automation_rule": {
+            "campaign_name": "campaign.$title",
+            "campaign_status": "campaign.status",
+            "campaign_type": "campaign.campaign_type"
+        },
+        "co_lead": {
+            "campaign_name": "campaign.$title",
+            "client_name": "client.$title",
+            "client_status": "client.status",
+            "client_type": "client.client_type",
+            "contact_email": "contact.email",
+            "contact_first_name": "contact.first_name",
+            "contact_last_name": "contact.last_name"
+        },
+        "co_contact": {
+            "client_name": "client.$title",
+            "client_status": "client.status",
+            "client_type": "client.client_type"
+        },
+        "co_invoice": {
+            "client_name": "client.$title",
+            "contract_amount": "contract.amount",
+            "contract_number": "contract.contract_number",
+            "job_number": "job.job_number",
+            "job_status": "job.status"
+        },
+        "co_bid": {
+            "client_name": "client.$title",
+            "lead_estimated_value": "lead.estimated_value",
+            "lead_stage": "lead.stage",
+            "proposal_amount": "proposal.amount",
+            "proposal_status": "proposal.status"
+        },
+        "co_daily_report": {
+            "client_name": "job.client.$title",
+            "job_number": "job.job_number",
+            "job_status": "job.status"
+        }
+    },
+    "calculations": {
+        "co_change_order": {
+            "total_change": "(.properties.labor_change // 0) + (.properties.materials_change // 0)"
+        },
+        "co_scope": {
+            "total_estimated_cost": "(.properties.estimated_labor_cost // 0) + (.properties.estimated_materials_cost // 0)"
+        },
+        "co_contract": {
+            "contract_duration_days": "if (.properties.start_date and .properties.end_date) then ((.properties.end_date | strptime(\"%Y-%m-%dT%H:%M:%SZ\") | mktime) - (.properties.start_date | strptime(\"%Y-%m-%dT%H:%M:%SZ\") | mktime)) / 86400 | floor else null end",
+            "retainage_amount": "(.properties.amount // 0) * ((.properties.retainage_percent // 0) / 100)"
+        },
+        "co_job": {
+            "billing_variance": "(.properties.billed_to_date // 0) - ((.properties.contract_amount // 0) * ((.properties.percent_complete // 0) / 100))",
+            "outstanding_balance": "(.properties.contract_amount // 0) - (.properties.collected_to_date // 0)"
+        },
+        "co_trade_spec": {
+            "estimated_gallons": "if .properties.trade == \"painting\" then ((.properties.measurement_value // 0) / 350 * (.properties.number_of_coats // 1) | ceil) else null end",
+            "estimated_squares": "if .properties.trade == \"roofing\" then ((.properties.measurement_value // 0) / 100 | ceil) else null end"
+        },
+        "co_pricing_rule": {
+            "effective_rate": "(.properties.base_rate // 0) * (1 + ((.properties.overhead_percent // 0) / 100)) * (1 + ((.properties.profit_margin_percent // 0) / 100))",
+            "material_multiplier": "1 + ((.properties.material_markup_percent // 0) / 100)"
+        },
+        "co_contact": {
+            "full_name": ".properties.first_name + \" \" + .properties.last_name"
+        },
+        "co_subcontractor": {
+            "compliance_status": "if (.properties.insurance_expiry == null or .properties.license_expiry == null) then \"unknown\" elif ((.properties.insurance_expiry | strptime(\"%Y-%m-%dT%H:%M:%SZ\") | mktime) < now) then \"expired\" elif ((.properties.license_expiry | strptime(\"%Y-%m-%dT%H:%M:%SZ\") | mktime) < now) then \"expired\" elif ((.properties.insurance_expiry | strptime(\"%Y-%m-%dT%H:%M:%SZ\") | mktime) - now) < 2592000 then \"expiring_soon\" elif ((.properties.license_expiry | strptime(\"%Y-%m-%dT%H:%M:%SZ\") | mktime) - now) < 2592000 then \"expiring_soon\" else \"compliant\" end",
+            "insurance_days_remaining": "if .properties.insurance_expiry then (((.properties.insurance_expiry | strptime(\"%Y-%m-%dT%H:%M:%SZ\") | mktime) - now) / 86400 | floor) else null end",
+            "license_days_remaining": "if .properties.license_expiry then (((.properties.license_expiry | strptime(\"%Y-%m-%dT%H:%M:%SZ\") | mktime) - now) / 86400 | floor) else null end"
+        },
+        "co_invoice": {
+            "balance_due": ".properties.amount - (.properties.amount_paid // 0)"
+        },
+        "co_bid": {
+            "days_until_deadline": "if .properties.submission_deadline then (((.properties.submission_deadline | strptime(\"%Y-%m-%dT%H:%M:%SZ\") | mktime) - now) / 86400 | floor) else null end"
+        }
+    },
+    "aggregates": {
+        "co_proposal": {
+            "total_bids": {
+                "target": "co_bid",
+                "func": "count",
+                "property": null,
+                "filter": null,
+                "sourcePathFilter": null,
+                "pathPolicy": {
+                    "kind": "incoming_single",
+                    "relation": "proposal"
+                },
+                "semantics": "component_explicit_paths_v1"
+            }
+        },
+        "co_contract": {
+            "change_order_count": {
+                "target": "co_change_order",
+                "func": "count",
+                "property": null,
+                "filter": null,
+                "sourcePathFilter": null,
+                "pathPolicy": {
+                    "kind": "incoming_single",
+                    "relation": "contract"
+                },
+                "semantics": "component_explicit_paths_v1"
+            },
+            "invoice_count": {
+                "target": "co_invoice",
+                "func": "count",
+                "property": null,
+                "filter": null,
+                "sourcePathFilter": null,
+                "pathPolicy": {
+                    "kind": "incoming_single",
+                    "relation": "contract"
+                },
+                "semantics": "component_explicit_paths_v1"
+            },
+            "total_invoiced_agg": {
+                "target": "co_invoice",
+                "func": "sum",
+                "property": "amount",
+                "filter": null,
+                "sourcePathFilter": null,
+                "pathPolicy": {
+                    "kind": "incoming_single",
+                    "relation": "contract"
+                },
+                "semantics": "component_explicit_paths_v1"
+            }
+        },
+        "co_job": {
+            "total_invoiced": {
+                "target": "co_invoice",
+                "func": "sum",
+                "property": "amount",
+                "filter": null,
+                "sourcePathFilter": null,
+                "pathPolicy": {
+                    "kind": "incoming_single",
+                    "relation": "job"
+                },
+                "semantics": "component_explicit_paths_v1"
+            },
+            "total_invoices": {
+                "target": "co_invoice",
+                "func": "count",
+                "property": null,
+                "filter": null,
+                "sourcePathFilter": null,
+                "pathPolicy": {
+                    "kind": "incoming_single",
+                    "relation": "job"
+                },
+                "semantics": "component_explicit_paths_v1"
+            },
+            "daily_reports_count": {
+                "target": "co_daily_report",
+                "func": "count",
+                "property": null,
+                "filter": null,
+                "sourcePathFilter": null,
+                "pathPolicy": {
+                    "kind": "incoming_single",
+                    "relation": "job"
+                },
+                "semantics": "component_explicit_paths_v1"
+            },
+            "total_change_orders": {
+                "target": "co_change_order",
+                "func": "count",
+                "property": null,
+                "filter": null,
+                "sourcePathFilter": null,
+                "pathPolicy": {
+                    "kind": "incoming_single",
+                    "relation": "job"
+                },
+                "semantics": "component_explicit_paths_v1"
+            },
+            "total_co_amount": {
+                "target": "co_change_order",
+                "func": "sum",
+                "property": "amount",
+                "filter": null,
+                "sourcePathFilter": null,
+                "pathPolicy": {
+                    "kind": "incoming_single",
+                    "relation": "job"
+                },
+                "semantics": "component_explicit_paths_v1"
+            }
+        },
+        "co_client": {
+            "active_jobs": {
+                "target": "co_job",
+                "func": "count",
+                "property": null,
+                "filter": {
+                    "property": "status",
+                    "equals": "active"
+                },
+                "sourcePathFilter": null,
+                "pathPolicy": {
+                    "kind": "incoming_single",
+                    "relation": "client"
+                },
+                "semantics": "component_explicit_paths_v1"
+            },
+            "total_contracts": {
+                "target": "co_contract",
+                "func": "count",
+                "property": null,
+                "filter": null,
+                "sourcePathFilter": null,
+                "pathPolicy": {
+                    "kind": "incoming_single",
+                    "relation": "client"
+                },
+                "semantics": "component_explicit_paths_v1"
+            },
+            "total_jobs": {
+                "target": "co_job",
+                "func": "count",
+                "property": null,
+                "filter": null,
+                "sourcePathFilter": null,
+                "pathPolicy": {
+                    "kind": "incoming_single",
+                    "relation": "client"
+                },
+                "semantics": "component_explicit_paths_v1"
+            },
+            "total_leads": {
+                "target": "co_lead",
+                "func": "count",
+                "property": null,
+                "filter": null,
+                "sourcePathFilter": null,
+                "pathPolicy": {
+                    "kind": "incoming_single",
+                    "relation": "client"
+                },
+                "semantics": "component_explicit_paths_v1"
+            },
+            "total_payments_received": {
+                "target": "co_payment",
+                "func": "sum",
+                "property": "amount",
+                "filter": null,
+                "sourcePathFilter": null,
+                "pathPolicy": {
+                    "kind": "incoming_single",
+                    "relation": "client"
+                },
+                "semantics": "component_explicit_paths_v1"
+            }
+        },
+        "co_campaign": {
+            "total_leads_generated": {
+                "target": "co_lead",
+                "func": "count",
+                "property": null,
+                "filter": null,
+                "sourcePathFilter": null,
+                "pathPolicy": {
+                    "kind": "incoming_single",
+                    "relation": "campaign"
+                },
+                "semantics": "component_explicit_paths_v1"
+            },
+            "total_outreach_sent": {
+                "target": "co_outreach",
+                "func": "count",
+                "property": null,
+                "filter": null,
+                "sourcePathFilter": null,
+                "pathPolicy": {
+                    "kind": "incoming_single",
+                    "relation": "campaign"
+                },
+                "semantics": "component_explicit_paths_v1"
+            }
+        },
+        "co_lead": {
+            "total_proposals": {
+                "target": "co_proposal",
+                "func": "count",
+                "property": null,
+                "filter": null,
+                "sourcePathFilter": null,
+                "pathPolicy": {
+                    "kind": "incoming_single",
+                    "relation": "lead"
+                },
+                "semantics": "component_explicit_paths_v1"
+            },
+            "total_site_visits": {
+                "target": "co_site_visit",
+                "func": "count",
+                "property": null,
+                "filter": null,
+                "sourcePathFilter": null,
+                "pathPolicy": {
+                    "kind": "incoming_single",
+                    "relation": "lead"
+                },
+                "semantics": "component_explicit_paths_v1"
+            }
+        },
+        "co_subcontractor": {
+            "total_jobs": {
+                "target": "co_job",
+                "func": "count",
+                "property": null,
+                "filter": null,
+                "sourcePathFilter": null,
+                "pathPolicy": {
+                    "kind": "outgoing_many",
+                    "relation": "jobs"
+                },
+                "semantics": "component_explicit_paths_v1"
+            }
+        }
+    },
+    "scorecards": {
+        "co_client": [
+            "client_health"
+        ],
+        "co_lead": [
+            "lead_quality"
+        ],
+        "co_trade_spec": [
+            "painting_scope_quality",
+            "drywall_scope_quality",
+            "hvac_scope_quality",
+            "electrical_scope_quality",
+            "roofing_scope_quality",
+            "garage_door_scope_quality",
+            "plumbing_scope_quality",
+            "concrete_scope_quality",
+            "landscaping_scope_quality"
+        ],
+        "co_proposal": [
+            "proposal_readiness"
+        ],
+        "co_bid": [
+            "bid_readiness"
+        ],
+        "co_contract": [
+            "contract_completeness"
+        ],
+        "co_job": [
+            "job_health"
+        ],
+        "co_subcontractor": [
+            "sub_compliance",
+            "painter_sub_compliance"
+        ],
+        "co_invoice": [
+            "invoice_health"
+        ]
+    },
+    "remaining_source_gaps": [
+        "Contractor required property lists and defaults not explicitly shown",
+        "Array element schemas for tags and certifications",
+        "Ten named contractor scorecards have no supplied predicates in either source",
+        "Port aggregation pathFilters are absent; component uses documented explicit paths, not Port all-path parity",
+        "Some _team formulas are prose summaries and reference properties absent from its supplied property table",
+        "Full workflow node configuration and executable automation conditions not supplied by this schema message",
+        "Some enum-color maps and display metadata are not enumerated; not part of operational validators"
+    ]
+};

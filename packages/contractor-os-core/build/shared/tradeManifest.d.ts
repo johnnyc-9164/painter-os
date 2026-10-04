@@ -1,0 +1,12 @@
+export declare const TRADE_FIELDS: {
+    readonly painting: readonly ["trade", "measurement_value", "measurement_unit", "permit_required", "permit_number", "materials_spec", "special_requirements", "paint_finish", "paint_grade", "paint_surface_type", "number_of_coats", "color_count", "primer_required", "pressure_wash_required", "prep_work", "masking_complexity", "lead_hazard_present", "ceiling_height_ft", "surface_condition"];
+    readonly plumbing: readonly ["trade", "measurement_value", "measurement_unit", "permit_required", "permit_number", "materials_spec", "special_requirements", "pipe_material", "pipe_diameter", "fixture_count", "drain_cleaning", "water_heater_involved"];
+    readonly roofing: readonly ["trade", "measurement_value", "measurement_unit", "permit_required", "permit_number", "materials_spec", "special_requirements", "roof_type", "roof_pitch", "layers_to_remove", "decking_replacement", "gutter_work", "skylight_count"];
+    readonly garage_door: readonly ["trade", "measurement_value", "measurement_unit", "permit_required", "permit_number", "materials_spec", "special_requirements", "door_type", "door_material", "door_count", "spring_type", "opener_included"];
+    readonly electrical: readonly ["trade", "measurement_value", "measurement_unit", "permit_required", "permit_number", "materials_spec", "special_requirements", "electrical_service_type", "circuit_count", "panel_amps", "panel_upgrade", "fixture_count"];
+    readonly hvac: readonly ["trade", "measurement_value", "measurement_unit", "permit_required", "permit_number", "materials_spec", "special_requirements", "hvac_system_type", "tonnage", "ductwork_included"];
+    readonly concrete: readonly ["trade", "measurement_value", "measurement_unit", "permit_required", "permit_number", "materials_spec", "special_requirements", "concrete_type", "concrete_finish", "reinforcement", "thickness_inches"];
+    readonly landscaping: readonly ["trade", "measurement_value", "measurement_unit", "permit_required", "permit_number", "materials_spec", "special_requirements", "landscape_service_type", "irrigation_zones", "sod_or_seed"];
+    readonly drywall_framing: readonly ["trade", "measurement_value", "measurement_unit", "permit_required", "permit_number", "materials_spec", "special_requirements", "drywall_type", "framing_type", "finishing_level", "ceiling_height_ft"];
+};
+export type Trade = keyof typeof TRADE_FIELDS;

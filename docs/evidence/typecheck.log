@@ -1,0 +1,12 @@
+
+> check-types
+> npm run check-types --workspace web && npm run check-types --workspace @painter-os-bts/domain && tsc --noEmit -p packages/backend/convex/tsconfig.json
+
+
+> web@0.1.0 check-types
+> tsc --noEmit
+
+
+> @painter-os-bts/domain@1.0.0 check-types
+> tsc --noEmit
+

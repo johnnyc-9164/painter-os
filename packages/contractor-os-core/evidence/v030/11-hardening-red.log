@@ -1,0 +1,113 @@
+TAP version 13
+# Subtest: all eleven exported business workflows execute in a synthetic end-to-end lifecycle
+ok 1 - all eleven exported business workflows execute in a synthetic end-to-end lifecycle
+  ---
+  duration_ms: 15.513761
+  type: 'test'
+  ...
+# Subtest: a second job cannot multiply the same contract budget
+ok 2 - a second job cannot multiply the same contract budget
+  ---
+  duration_ms: 7.867999
+  type: 'test'
+  ...
+# Subtest: invoice issuance rejects contract overbilling and preserves drafts
+ok 3 - invoice issuance rejects contract overbilling and preserves drafts
+  ---
+  duration_ms: 9.51496
+  type: 'test'
+  ...
+# Subtest: draft jobs and payments cannot bypass the specialized creation paths
+ok 4 - draft jobs and payments cannot bypass the specialized creation paths
+  ---
+  duration_ms: 0.386749
+  type: 'test'
+  ...
+# Subtest: subcontract assignment maintains both relation directions and requires both revisions
+ok 5 - subcontract assignment maintains both relation directions and requires both revisions
+  ---
+  duration_ms: 8.984009
+  type: 'test'
+  ...
+# Subtest: field reports require active job, valid crew size and non-future report date
+ok 6 - field reports require active job, valid crew size and non-future report date
+  ---
+  duration_ms: 10.518886
+  type: 'test'
+  ...
+# Subtest: change orders cannot adjust a closed job
+ok 7 - change orders cannot adjust a closed job
+  ---
+  duration_ms: 8.706761
+  type: 'test'
+  ...
+# Subtest: rules written in markdown are not executed as automations
+ok 8 - rules written in markdown are not executed as automations
+  ---
+  duration_ms: 0.668663
+  type: 'test'
+  ...
+# Subtest: maintenance cannot reparent an existing contact away from its client
+not ok 9 - maintenance cannot reparent an existing contact away from its client
+  ---
+  duration_ms: 0.821788
+  type: 'test'
+  location: '/mnt/data/backend_work/contractor-os-core/tests/business-lifecycle.test.mjs:71:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/business-lifecycle.test.mjs:72:9)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: workflow rejects a legacy lead whose contact belongs to a different client
+not ok 10 - workflow rejects a legacy lead whose contact belongs to a different client
+  ---
+  duration_ms: 0.797973
+  type: 'test'
+  location: '/mnt/data/backend_work/contractor-os-core/tests/business-lifecycle.test.mjs:74:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected rejection.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/business-lifecycle.test.mjs:77:2)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: payment must not turn an inconsistent historical job into overcollected state
+not ok 11 - payment must not turn an inconsistent historical job into overcollected state
+  ---
+  duration_ms: 7.929199
+  type: 'test'
+  location: '/mnt/data/backend_work/contractor-os-core/tests/business-lifecycle.test.mjs:79:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected rejection.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/business-lifecycle.test.mjs:82:2)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..11
+# tests 11
+# suites 0
+# pass 8
+# fail 3
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 144.957734

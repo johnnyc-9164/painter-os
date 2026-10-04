@@ -1,0 +1,3 @@
+import type { NextConfig } from 'next';
+const nextConfig:NextConfig={transpilePackages:['@painter-os-bts/ui','@painter-os-bts/domain'],serverExternalPackages:['node:sqlite'],devIndicators:false,webpack(config){config.resolve.extensionAlias={...config.resolve.extensionAlias,'.js':['.ts','.tsx','.js'],'.mjs':['.mts','.mjs']};return config;},async headers(){return [{source:'/:path*',headers:[{key:'X-Content-Type-Options',value:'nosniff'},{key:'Referrer-Policy',value:'no-referrer'},{key:'X-Frame-Options',value:'DENY'},{key:'Permissions-Policy',value:'camera=(), microphone=(), geolocation=()'}]}];}};
+export default nextConfig;

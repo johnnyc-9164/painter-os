@@ -1,0 +1,17 @@
+{
+  "name": "@painter-os-bts/domain",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    "./contracts": "./src/contracts.ts",
+    "./engine": "./src/engine.ts",
+    "./seed": "./src/seed.ts"
+  },
+  "scripts": {
+    "check-types": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3"
+  }
+}

@@ -1,0 +1,6 @@
+
+> @johnny/contractor-os-core@0.3.0 test:integration
+> vitest run
+
+sh: 1: vitest: not found
+sdk_tests_exit=127

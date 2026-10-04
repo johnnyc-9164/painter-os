@@ -1,0 +1,109 @@
+{
+  "version": "0.4.0",
+  "checked_at": "2026-09-22T20:58:33.866018+00:00",
+  "scope": "project_contractor_os_extraction",
+  "status": "locally_verified_source_not_sdk_or_deployment_verified",
+  "input_artifact": {
+    "file": "contractor_os_backend_v0.3.0.zip",
+    "sha256": "bb6cdc148c5a02215364fd8fa58c7dc62abe9cfc9c164d8cbbf669b855b4aba6"
+  },
+  "source_kind": "user_schema_markdown_transcription_with_prior_export_predicates_not_raw_api_json",
+  "implemented": {
+    "contractor_tables": 20,
+    "total_component_tables": 28,
+    "typed_properties": 244,
+    "trade_spec_properties": 52,
+    "enum_fields": 64,
+    "relations": {
+      "total": 45,
+      "single": 43,
+      "many": 2,
+      "required": 0
+    },
+    "mirrors": 68,
+    "calculations": 16,
+    "aggregates": 19,
+    "aggregate_semantics": "component_explicit_paths_v1_not_port_all_paths",
+    "aggregate_limits": {
+      "related_per_path": 50,
+      "documents_per_projection": 64
+    },
+    "scorecard_declarations": 18,
+    "scorecards_with_predicates": 8,
+    "scorecards_without_predicates": 10,
+    "source_rules": 22,
+    "existing_business_commands_retained": 14,
+    "new_component_queries": [
+      "projections.get"
+    ],
+    "new_host_queries": [
+      "backend.inspectRecord"
+    ],
+    "excluded_agent_platform_blueprints": [
+      "_ai_agent",
+      "_ai_conversation",
+      "_ai_invocations",
+      "_ai_plan",
+      "agentTraceEvent",
+      "_scorecard",
+      "_rule",
+      "_rule_result",
+      "_mcp_server",
+      "_workflow",
+      "_team",
+      "_user"
+    ]
+  },
+  "verification": {
+    "local_tests": {
+      "passed": 405,
+      "failed": 0,
+      "includes_explicit_db_and_function_doubles": true
+    },
+    "actual_jq_differential_cases": 31,
+    "distinct_contractor_formulas_covered": 16,
+    "all_supplied_mirror_paths_tested": 68,
+    "all_component_aggregate_paths_tested": 19,
+    "strict_core_typescript": "passed",
+    "generated_model_drift": "passed",
+    "syntax": {
+      "typescriptFiles": 66,
+      "syntaxErrors": [],
+      "sdkSemanticTypecheck": false
+    },
+    "sdk_typecheck": "blocked_missing_real_sdk_and_generated_files",
+    "official_convex_test": {
+      "authored": 25,
+      "executed": 0
+    },
+    "dependency_install": "failed_EAI_AGAIN_registry.npmjs.org",
+    "codegen": "blocked_convex_CLI_missing",
+    "dependency_security_audit": "not_run",
+    "real_runtime": "not_run",
+    "concurrency": "not_verified",
+    "live_migration": "not_run",
+    "versions": {
+      "node": "v22.16.0",
+      "typescript": "Version 5.8.3",
+      "jq": "jq-1.7"
+    }
+  },
+  "remaining_source_gaps": [
+    "Contractor required property lists and defaults not explicitly shown",
+    "Array element schemas for tags and certifications",
+    "Ten named contractor scorecards have no supplied predicates in either source",
+    "Port aggregation pathFilters are absent; component uses documented explicit paths, not Port all-path parity",
+    "Some _team formulas are prose summaries and reference properties absent from its supplied property table",
+    "Full workflow node configuration and executable automation conditions not supplied by this schema message",
+    "Some enum-color maps and display metadata are not enumerated; not part of operational validators"
+  ],
+  "side_effects": {
+    "cloud_project_created": false,
+    "production_deployment": false,
+    "live_import": false,
+    "private_records_in_package": false,
+    "founder_os_state_changed": false,
+    "ontology_changed": false
+  },
+  "evidence_dir": "evidence/v040"
+}

@@ -1,0 +1,88 @@
+TAP version 13
+# Subtest: executable backend exports real command engine and money policy
+ok 1 - executable backend exports real command engine and money policy
+  ---
+  duration_ms: 0.888606
+  type: 'test'
+  ...
+# Subtest: monetary policy rejects fractions of cents and unsafe values
+ok 2 - monetary policy rejects fractions of cents and unsafe values
+  ---
+  duration_ms: 0.230479
+  type: 'test'
+  ...
+# Subtest: createLead validates client and contact lineage and saves an event
+ok 3 - createLead validates client and contact lineage and saves an event
+  ---
+  duration_ms: 2.393729
+  type: 'test'
+  ...
+# Subtest: source workflow does not allow new lead to pretend it was won
+ok 4 - source workflow does not allow new lead to pretend it was won
+  ---
+  duration_ms: 0.540324
+  type: 'test'
+  ...
+# Subtest: scheduled visit and lead advancement are one transaction
+ok 5 - scheduled visit and lead advancement are one transaction
+  ---
+  duration_ms: 1.519573
+  type: 'test'
+  ...
+# Subtest: every changed existing record needs an explicit revision precondition
+ok 6 - every changed existing record needs an explicit revision precondition
+  ---
+  duration_ms: 0.408761
+  type: 'test'
+  ...
+# Subtest: replay returns original result; changed input under same key is refused
+ok 7 - replay returns original result; changed input under same key is refused
+  ---
+  duration_ms: 1.21087
+  type: 'test'
+  ...
+# Subtest: cross-tenant and cross-client links are rejected
+ok 8 - cross-tenant and cross-client links are rejected
+  ---
+  duration_ms: 0.800547
+  type: 'test'
+  ...
+# Subtest: payment records payment + invoice balance + job collection atomically
+ok 9 - payment records payment + invoice balance + job collection atomically
+  ---
+  duration_ms: 1.730053
+  type: 'test'
+  ...
+# Subtest: overpayment, non-attestor and duplicate payment evidence refused
+ok 10 - overpayment, non-attestor and duplicate payment evidence refused
+  ---
+  duration_ms: 2.204191
+  type: 'test'
+  ...
+# Subtest: a storage failure rolls back payment and all associated materializations
+ok 11 - a storage failure rolls back payment and all associated materializations
+  ---
+  duration_ms: 0.957097
+  type: 'test'
+  ...
+# Subtest: job creation refuses an unsigned contract
+ok 12 - job creation refuses an unsigned contract
+  ---
+  duration_ms: 0.40152
+  type: 'test'
+  ...
+# Subtest: generic maintenance cannot forge an outcome or edit financial totals
+ok 13 - generic maintenance cannot forge an outcome or edit financial totals
+  ---
+  duration_ms: 0.33986
+  type: 'test'
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 79.512218

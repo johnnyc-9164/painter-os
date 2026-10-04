@@ -1,0 +1,362 @@
+TAP version 13
+# Subtest: executable backend exports real command engine and money policy
+not ok 1 - executable backend exports real command engine and money policy
+  ---
+  duration_ms: 2.335563
+  type: 'test'
+  location: '/mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:4:1'
+  failureType: 'testCodeFailure'
+  error: 'Business command module has not been implemented'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: ~
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:5:9)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: monetary policy rejects fractions of cents and unsafe values
+not ok 2 - monetary policy rejects fractions of cents and unsafe values
+  ---
+  duration_ms: 0.174116
+  type: 'test'
+  location: '/mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:10:1'
+  failureType: 'testCodeFailure'
+  error: 'Business command module has not been implemented'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: ~
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:11:9)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: createLead validates client and contact lineage and saves an event
+not ok 3 - createLead validates client and contact lineage and saves an event
+  ---
+  duration_ms: 0.750163
+  type: 'test'
+  location: '/mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:19:1'
+  failureType: 'testCodeFailure'
+  error: 'Business command module has not been implemented'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: ~
+  operator: '=='
+  stack: |-
+    run (file:///mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:17:35)
+    TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:21:21)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: source workflow does not allow new lead to pretend it was won
+not ok 4 - source workflow does not allow new lead to pretend it was won
+  ---
+  duration_ms: 1.032447
+  type: 'test'
+  location: '/mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:26:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /INITIAL_STATE/. Input:
+    
+    'AssertionError [ERR_ASSERTION]: Business command module has not been implemented'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+  error: 'Business command module has not been implemented'
+  stack: |-
+    run (file:///mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:17:35)
+    TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:28:23)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:28:2)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: scheduled visit and lead advancement are one transaction
+not ok 5 - scheduled visit and lead advancement are one transaction
+  ---
+  duration_ms: 0.310607
+  type: 'test'
+  location: '/mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:31:1'
+  failureType: 'testCodeFailure'
+  error: 'Business command module has not been implemented'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: ~
+  operator: '=='
+  stack: |-
+    run (file:///mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:17:35)
+    TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:33:16)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: every changed existing record needs an explicit revision precondition
+not ok 6 - every changed existing record needs an explicit revision precondition
+  ---
+  duration_ms: 0.328212
+  type: 'test'
+  location: '/mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:37:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /PRECONDITION_REQUIRED/. Input:
+    
+    'AssertionError [ERR_ASSERTION]: Business command module has not been implemented'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+  error: 'Business command module has not been implemented'
+  stack: |-
+    run (file:///mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:17:35)
+    TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:39:23)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:39:2)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: replay returns original result; changed input under same key is refused
+not ok 7 - replay returns original result; changed input under same key is refused
+  ---
+  duration_ms: 0.453337
+  type: 'test'
+  location: '/mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:41:1'
+  failureType: 'testCodeFailure'
+  error: 'Business command module has not been implemented'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: ~
+  operator: '=='
+  stack: |-
+    run (file:///mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:17:35)
+    TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:43:16)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: cross-tenant and cross-client links are rejected
+not ok 8 - cross-tenant and cross-client links are rejected
+  ---
+  duration_ms: 0.378286
+  type: 'test'
+  location: '/mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:46:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /ENTITY_NOT_FOUND/. Input:
+    
+    'AssertionError [ERR_ASSERTION]: Business command module has not been implemented'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+  error: 'Business command module has not been implemented'
+  stack: |-
+    run (file:///mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:17:35)
+    TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:48:23)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:48:2)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: payment records payment + invoice balance + job collection atomically
+not ok 9 - payment records payment + invoice balance + job collection atomically
+  ---
+  duration_ms: 0.672999
+  type: 'test'
+  location: '/mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:53:1'
+  failureType: 'testCodeFailure'
+  error: 'Business command module has not been implemented'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: ~
+  operator: '=='
+  stack: |-
+    run (file:///mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:17:35)
+    TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:55:16)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: overpayment, non-attestor and duplicate payment evidence refused
+not ok 10 - overpayment, non-attestor and duplicate payment evidence refused
+  ---
+  duration_ms: 0.572081
+  type: 'test'
+  location: '/mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:59:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /OVERPAYMENT/. Input:
+    
+    'AssertionError [ERR_ASSERTION]: Business command module has not been implemented'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+  error: 'Business command module has not been implemented'
+  stack: |-
+    run (file:///mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:17:35)
+    TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:61:23)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:61:2)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: a storage failure rolls back payment and all associated materializations
+not ok 11 - a storage failure rolls back payment and all associated materializations
+  ---
+  duration_ms: 0.449961
+  type: 'test'
+  location: '/mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:66:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /INJECTED_STORAGE_FAILURE/. Input:
+    
+    'AssertionError [ERR_ASSERTION]: Business command module has not been implemented'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+  error: 'Business command module has not been implemented'
+  stack: |-
+    run (file:///mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:17:35)
+    TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:68:23)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:68:2)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: job creation refuses an unsigned contract
+not ok 12 - job creation refuses an unsigned contract
+  ---
+  duration_ms: 0.352228
+  type: 'test'
+  location: '/mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:71:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /SIGNED_CONTRACT_REQUIRED/. Input:
+    
+    'AssertionError [ERR_ASSERTION]: Business command module has not been implemented'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+  error: 'Business command module has not been implemented'
+  stack: |-
+    run (file:///mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:17:35)
+    TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:73:23)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:73:2)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: generic maintenance cannot forge an outcome or edit financial totals
+not ok 13 - generic maintenance cannot forge an outcome or edit financial totals
+  ---
+  duration_ms: 7.12825
+  type: 'test'
+  location: '/mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:75:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert.ok(core)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: ~
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/business.test.mjs:76:9)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 0
+# fail 13
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 84.561974

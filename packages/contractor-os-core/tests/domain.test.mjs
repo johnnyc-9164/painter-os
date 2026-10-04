@@ -1,0 +1,31 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { BLUEPRINTS } from '../build/shared/model.js';
+let domain = {};
+try { domain = await import('../build/shared/domain.js'); } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e; }
+const ready = () => assert.equal(typeof domain.validateProperties, 'function', 'typed domain validation must exist');
+
+test('domain: twenty contractor types are supported, not the summary total of eighteen', () => assert.equal(BLUEPRINTS.length, 20));
+test('domain: contact properties and enums validate', () => { ready(); assert.deepEqual(domain.validateProperties('co_contact', {first_name:'Test',role:'decision_maker'}), {first_name:'Test',role:'decision_maker'}); });
+test('domain: unknown fields are rejected instead of silently dropped', () => { ready(); assert.throws(() => domain.validateProperties('co_job',{rogue:1}), /UNKNOWN_PROPERTY/); });
+test('domain: supplied status enum is enforced', () => { ready(); assert.throws(() => domain.validateProperties('co_job',{status:'paid'}), /INVALID_ENUM/); });
+test('domain: summary does not invent required business fields', () => { ready(); assert.deepEqual(domain.validateProperties('co_job',{}), {}); });
+test('domain: null values are rejected by write API, not silently made optional', () => { ready(); assert.throws(() => domain.validateProperties('co_client',{email:null}), /INVALID_PROPERTY/); });
+test('domain: valid leap datetime accepted; impossible date rejected', () => { ready(); domain.validateProperties('co_job',{start_date:'2024-02-29T08:00:00Z'}); assert.throws(() => domain.validateProperties('co_job',{start_date:'2025-02-29T08:00:00Z'}), /INVALID_DATETIME/); });
+test('domain: email and HTTP URL constraints applied', () => { ready(); assert.throws(() => domain.validateProperties('co_client',{email:'bad'}), /INVALID_EMAIL/); assert.throws(() => domain.validateProperties('co_client',{website:'javascript:alert(1)'}), /INVALID_URL/); });
+test('domain: numeric fields reject non-finite and unsafe precision', () => { ready(); for(const amount of [NaN, Infinity, Number.MAX_SAFE_INTEGER+1]) assert.throws(() => domain.validateProperties('co_invoice',{amount}), /INVALID_JSON/); });
+test('domain: negative change orders are not silently disallowed', () => { ready(); assert.equal(domain.validateProperties('co_change_order',{amount:-50}).amount,-50); });
+test('domain: unspecified array items remain JSON, not guessed string-only', () => { ready(); assert.deepEqual(domain.validateProperties('co_client',{tags:['test',{key:1}]}).tags,['test',{key:1}]); });
+test('domain: supplied painting field is now typed', () => { ready(); assert.equal(domain.validateProperties('co_trade_spec',{number_of_coats:2}).number_of_coats,2); });
+test('domain: pricing trade enum inherits the explicit nine-trade reference', () => { ready(); domain.validateProperties('co_pricing_rule',{trade:'painting'}); assert.throws(()=>domain.validateProperties('co_pricing_rule',{trade:'general'}), /INVALID_ENUM/); });
+test('domain: newly supplied single relation cardinality is enforced', () => { ready(); domain.validateRelations('co_contact',{client:'c1'}); assert.throws(()=>domain.validateRelations('co_contact',{client:['c1','c2']}),/INVALID_CARDINALITY/); });
+test('domain: explicitly many relations require arrays', () => { ready(); assert.throws(()=>domain.validateRelations('co_job',{subcontractors:'s1'}), /INVALID_CARDINALITY/); });
+test('domain: duplicate target IDs are rejected', () => { ready(); assert.throws(()=>domain.validateRelations('co_job',{subcontractors:['s1','s1']}), /DUPLICATE_RELATION/); });
+test('domain: unknown relation names are rejected', () => { ready(); assert.throws(()=>domain.validateRelations('co_job',{agent:'x'}), /UNKNOWN_RELATION/); });
+test('domain: patch and explicit unset preserve other fields', () => { ready(); assert.deepEqual(domain.applyPropertyPatch('co_client',{city:'A',notes:'keep'},{city:'B'},['notes']), {city:'B'}); });
+test('domain: ambiguous set-and-unset is rejected', () => { ready(); assert.throws(()=>domain.applyPropertyPatch('co_client',{}, {city:'A'}, ['city']), /AMBIGUOUS_PATCH/); });
+test('domain: full_name and newly supplied pricing formula execute', () => { ready(); assert.deepEqual(domain.computeKnown('co_contact','full_name',{first_name:'Test',last_name:'Person'}),{status:'computed',value:'Test Person'}); assert.deepEqual(domain.computeKnown('co_pricing_rule','effective_rate',{base_rate:100}),{status:'computed',value:100}); });
+test('domain: original import retains null/derived/unresolved data outside typed properties', () => { ready(); const raw={blueprint:'co_client',identifier:'x',properties:{city:'A',email:null,total_jobs:4},relations:{}}; const projected=domain.projectSnapshot(raw); assert.deepEqual(projected.properties,{city:'A'}); assert.deepEqual(projected.omittedNulls,['email']); assert.equal(projected.deferredProperties.total_jobs,4); assert.equal(JSON.parse(projected.sourceSnapshotJson).properties.total_jobs,4); });
+test('domain: invalid known import values cause rejection', () => { ready(); assert.throws(()=>domain.projectSnapshot({blueprint:'co_job',identifier:'x',properties:{status:'garbage'},relations:{}}), /INVALID_ENUM/); });
+test('domain: deferred prototype-named source fields are preserved without pollution',()=>{ready(); const raw=JSON.parse('{"blueprint":"co_client","identifier":"proto","properties":{"__proto__":{"x":1}},"relations":{}}'); const p=domain.projectSnapshot(raw); assert.equal(Object.hasOwn(p.deferredProperties,'__proto__'),true);assert.equal(p.deferredProperties.__proto__.x,1);assert.equal({}.x,undefined);});
+for(const [bp,def] of Object.entries(domain.DOMAIN_MANIFEST??{}))for(const [key,field] of Object.entries(def.properties))if(field.enum)test(`domain: every supplied enum member accepted at ${bp}.${key}`,()=>{for(const value of field.enum)domain.validateProperties(bp,{[key]:value});assert.throws(()=>domain.validateProperties(bp,{[key]:'__not_in_supplied_enum__'}),/INVALID_ENUM/);});

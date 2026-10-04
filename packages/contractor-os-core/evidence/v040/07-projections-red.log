@@ -1,0 +1,281 @@
+TAP version 13
+# Subtest: v040: multi-hop mirrors follow declared relations
+not ok 1 - v040: multi-hop mirrors follow declared relations
+  ---
+  duration_ms: 1.666609
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/projections-v040.test.mjs:10:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    read projection must exist
+    + actual - expected
+    
+    + 'undefined'
+    - 'function'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'function'
+  actual: 'undefined'
+  operator: 'strictEqual'
+  stack: |-
+    run (file:///mnt/data/contractor_v040/contractor-os-core/tests/projections-v040.test.mjs:9:41)
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/projections-v040.test.mjs:13:16)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: v040: foreign tenant mirror and missing target have the same safe result
+not ok 2 - v040: foreign tenant mirror and missing target have the same safe result
+  ---
+  duration_ms: 0.281574
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/projections-v040.test.mjs:15:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    read projection must exist
+    + actual - expected
+    
+    + 'undefined'
+    - 'function'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'function'
+  actual: 'undefined'
+  operator: 'strictEqual'
+  stack: |-
+    run (file:///mnt/data/contractor_v040/contractor-os-core/tests/projections-v040.test.mjs:9:41)
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/projections-v040.test.mjs:17:22)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: v040: aggregates deduplicate by ID and keep explicit relationship scope
+not ok 3 - v040: aggregates deduplicate by ID and keep explicit relationship scope
+  ---
+  duration_ms: 0.357949
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/projections-v040.test.mjs:20:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    read projection must exist
+    + actual - expected
+    
+    + 'undefined'
+    - 'function'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'function'
+  actual: 'undefined'
+  operator: 'strictEqual'
+  stack: |-
+    run (file:///mnt/data/contractor_v040/contractor-os-core/tests/projections-v040.test.mjs:9:41)
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/projections-v040.test.mjs:22:16)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: unfiltered source totals retain draft and voided invoice amounts
+not ok 4 - v040: unfiltered source totals retain draft and voided invoice amounts
+  ---
+  duration_ms: 0.21256
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/projections-v040.test.mjs:26:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    read projection must exist
+    + actual - expected
+    
+    + 'undefined'
+    - 'function'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'function'
+  actual: 'undefined'
+  operator: 'strictEqual'
+  stack: |-
+    run (file:///mnt/data/contractor_v040/contractor-os-core/tests/projections-v040.test.mjs:9:41)
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/projections-v040.test.mjs:28:16)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: a capped aggregate returns null, never a partial authoritative total
+not ok 5 - v040: a capped aggregate returns null, never a partial authoritative total
+  ---
+  duration_ms: 0.293121
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/projections-v040.test.mjs:31:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    read projection must exist
+    + actual - expected
+    
+    + 'undefined'
+    - 'function'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'function'
+  actual: 'undefined'
+  operator: 'strictEqual'
+  stack: |-
+    run (file:///mnt/data/contractor_v040/contractor-os-core/tests/projections-v040.test.mjs:9:41)
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/projections-v040.test.mjs:33:16)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: many-side aggregate uses explicit supplied jobs and reports missing targets
+not ok 6 - v040: many-side aggregate uses explicit supplied jobs and reports missing targets
+  ---
+  duration_ms: 0.262125
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/projections-v040.test.mjs:35:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    read projection must exist
+    + actual - expected
+    
+    + 'undefined'
+    - 'function'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'function'
+  actual: 'undefined'
+  operator: 'strictEqual'
+  stack: |-
+    run (file:///mnt/data/contractor_v040/contractor-os-core/tests/projections-v040.test.mjs:9:41)
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/projections-v040.test.mjs:37:16)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: legacy arrays in single relations cannot be silently picked or flattened
+not ok 7 - v040: legacy arrays in single relations cannot be silently picked or flattened
+  ---
+  duration_ms: 0.653754
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/projections-v040.test.mjs:39:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /INVALID_CARDINALITY/. Input:
+    
+    'AssertionError [ERR_ASSERTION]: read projection must exist\n' +
+      '+ actual - expected\n' +
+      '\n' +
+      "+ 'undefined'\n" +
+      "- 'function'\n"
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+  error: |-
+    read projection must exist
+    + actual - expected
+    
+    + 'undefined'
+    - 'function'
+    
+  stack: |-
+    run (file:///mnt/data/contractor_v040/contractor-os-core/tests/projections-v040.test.mjs:9:41)
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/projections-v040.test.mjs:41:23)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/projections-v040.test.mjs:41:2)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: inconsistent incoming links cannot contaminate aggregate values
+not ok 8 - v040: inconsistent incoming links cannot contaminate aggregate values
+  ---
+  duration_ms: 0.319912
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/projections-v040.test.mjs:43:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'undefined'
+    - 'function'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'function'
+  actual: 'undefined'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/projections-v040.test.mjs:44:9)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: no silent conversion between sq_ft and roofing squares
+not ok 9 - v040: no silent conversion between sq_ft and roofing squares
+  ---
+  duration_ms: 0.416747
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/projections-v040.test.mjs:48:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    read projection must exist
+    + actual - expected
+    
+    + 'undefined'
+    - 'function'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'function'
+  actual: 'undefined'
+  operator: 'strictEqual'
+  stack: |-
+    run (file:///mnt/data/contractor_v040/contractor-os-core/tests/projections-v040.test.mjs:9:41)
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/projections-v040.test.mjs:50:16)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 0
+# fail 9
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 68.771842

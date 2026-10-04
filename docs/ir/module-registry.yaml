@@ -1,0 +1,241 @@
+modules:
+- id: identity_tenancy
+  group: Core
+  status: existing
+  runtimeOwners:
+  - core
+  dependsOn: []
+  capabilities:
+  - workspace membership
+  - roles
+  - permissions
+  - tenant boundary
+  rules:
+    crossModuleWrites: forbidden
+    tenantScoped: true
+- id: contacts
+  group: Core
+  status: existing
+  runtimeOwners:
+  - core
+  dependsOn:
+  - identity_tenancy
+  capabilities:
+  - customers
+  - contacts
+  - addresses
+  rules:
+    crossModuleWrites: forbidden
+    tenantScoped: true
+- id: activity_evidence
+  group: Core
+  status: existing
+  runtimeOwners:
+  - core
+  dependsOn:
+  - identity_tenancy
+  capabilities:
+  - audit timeline
+  - evidence links
+  - history
+  rules:
+    crossModuleWrites: forbidden
+    tenantScoped: true
+- id: overview
+  group: Experience
+  status: partial
+  runtimeOwners:
+  - core
+  dependsOn:
+  - sales
+  - jobs
+  - finance
+  capabilities:
+  - operational summary
+  - do-this-next
+  - alerts
+  rules:
+    crossModuleWrites: forbidden
+    tenantScoped: true
+- id: sales
+  group: Revenue
+  status: partial
+  runtimeOwners:
+  - core
+  dependsOn:
+  - contacts
+  capabilities:
+  - leads
+  - qualification
+  - opportunities
+  - follow-up
+  rules:
+    crossModuleWrites: forbidden
+    tenantScoped: true
+- id: estimating
+  group: Revenue
+  status: partial
+  runtimeOwners:
+  - core
+  - painting
+  dependsOn:
+  - sales
+  - contacts
+  capabilities:
+  - painting scope
+  - line items
+  - estimate
+  - proposal
+  rules:
+    crossModuleWrites: forbidden
+    tenantScoped: true
+- id: customers
+  group: Experience
+  status: partial
+  runtimeOwners:
+  - core
+  dependsOn:
+  - contacts
+  - estimating
+  - finance
+  capabilities:
+  - customer portal
+  - approvals
+  - change requests
+  - messages
+  rules:
+    crossModuleWrites: forbidden
+    tenantScoped: true
+- id: jobs
+  group: Delivery
+  status: partial
+  runtimeOwners:
+  - core
+  - painting
+  dependsOn:
+  - estimating
+  - contacts
+  capabilities:
+  - project/job lifecycle
+  - crew assignment
+  - tasks
+  rules:
+    crossModuleWrites: forbidden
+    tenantScoped: true
+- id: scheduling
+  group: Delivery
+  status: planned
+  runtimeOwners:
+  - core
+  dependsOn:
+  - jobs
+  capabilities:
+  - calendar
+  - appointments
+  - job schedule
+  - crew schedule
+  rules:
+    crossModuleWrites: forbidden
+    tenantScoped: true
+- id: field
+  group: Delivery
+  status: planned
+  runtimeOwners:
+  - core
+  - painting
+  dependsOn:
+  - jobs
+  - scheduling
+  capabilities:
+  - checklists
+  - daily log
+  - photos
+  - material usage
+  - completion
+  rules:
+    crossModuleWrites: forbidden
+    tenantScoped: true
+- id: finance
+  group: Money
+  status: partial
+  runtimeOwners:
+  - core
+  dependsOn:
+  - estimating
+  - jobs
+  - contacts
+  capabilities:
+  - deposit
+  - invoice
+  - payment
+  - expenses
+  - job costing
+  - profitability
+  rules:
+    crossModuleWrites: forbidden
+    tenantScoped: true
+- id: reviews_referrals
+  group: Growth
+  status: planned
+  runtimeOwners:
+  - core
+  dependsOn:
+  - contacts
+  - jobs
+  - finance
+  capabilities:
+  - review request
+  - review status
+  - referrals
+  rules:
+    crossModuleWrites: forbidden
+    tenantScoped: true
+- id: integrations
+  group: Platform
+  status: partial
+  runtimeOwners:
+  - host
+  dependsOn:
+  - identity_tenancy
+  capabilities:
+  - provider connections
+  - integration status
+  rules:
+    crossModuleWrites: forbidden
+    tenantScoped: true
+- id: automation_knowledge
+  group: Automation
+  status: partial
+  runtimeOwners:
+  - host
+  - core
+  dependsOn:
+  - identity_tenancy
+  - activity_evidence
+  capabilities:
+  - knowledge
+  - agents
+  - workflows
+  - approvals
+  - verification
+  rules:
+    crossModuleWrites: forbidden
+    tenantScoped: true
+- id: commercial_procurement
+  group: Growth
+  status: planned
+  runtimeOwners:
+  - core
+  dependsOn:
+  - contacts
+  - files
+  - tasks
+  capabilities:
+  - bid finder
+  - bid tracker
+  - vendor registrations
+  - GC partners
+  - certifications
+  rules:
+    crossModuleWrites: forbidden
+    tenantScoped: true

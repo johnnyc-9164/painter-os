@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "status": "proposed_not_committed",
+  "scope": {
+    "entity_id": "project_contractor_os_extraction",
+    "parent_id": "product_line_painting_contractor_os",
+    "company_id": null
+  },
+  "timestamp": "2026-09-22T19:21:44.649118+00:00",
+  "proposed_events": [
+    {
+      "event_id": "evt_co_model_inbound_e8a807748d9b",
+      "type": "agent.message.inbound",
+      "status": "proposed",
+      "payload": {
+        "summary": "User supplied blueprint summary to continue the Convex component build.",
+        "source_file_id": "file_00000000ba7881f584eb918ae5e76e11",
+        "sha256": "b15dbfc917844bc0f400221382f1a83286c2592cf6f5eedf076ac50be21c1485"
+      }
+    },
+    {
+      "event_id": "evt_co_model_material_82c106337faf",
+      "type": "artifact.source_candidate.created",
+      "status": "proposed",
+      "payload": {
+        "version": "0.2.0",
+        "tables": 20,
+        "offline_tests_passed": 155,
+        "sdk_verified": false,
+        "deployed": false,
+        "verification_path": "docs/verification.json"
+      }
+    },
+    {
+      "event_id": "evt_co_model_outbound_892becd41082",
+      "type": "agent.message.outbound",
+      "status": "proposed",
+      "payload": {
+        "summary": "Deliver source candidate, explicit missing definitions, verification evidence and separate private conversion review; no live deployment/import."
+      }
+    }
+  ],
+  "proposed_state_effects": [
+    {
+      "entity_id": "project_contractor_os_extraction",
+      "candidate_artifact": "contractor_os_convex_component_v0.2.0.zip",
+      "status": "source_candidate_offline_verified",
+      "reuse_approved": false,
+      "requires_accepted_events_before_materialization": true
+    }
+  ],
+  "ontology_mutations": [],
+  "external_side_effects": []
+}

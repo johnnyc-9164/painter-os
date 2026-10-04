@@ -1,0 +1,14 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> @johnny/contractor-os-core@0.6.0 test:integration
+> vitest run
+
+
+ RUN  v4.1.10 /workspace/scratch/d24983fe3ee1/trade-component-refactor/backend/contractor-os-core
+
+
+ Test Files  5 passed (5)
+      Tests  40 passed (40)
+   Start at  07:38:34
+   Duration  946ms (transform 1.64s, setup 0ms, import 1.29s, tests 1.32s, environment 198ms)
+

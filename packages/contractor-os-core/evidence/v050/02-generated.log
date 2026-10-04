@@ -1,0 +1,5 @@
+
+> @johnny/contractor-os-core@0.5.0 check:generated
+> python3 tools/generate_domain.py --check
+
+Generated-file check passed.

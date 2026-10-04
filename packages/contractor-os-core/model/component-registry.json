@@ -1,0 +1,346 @@
+{
+  "registryVersion": 1,
+  "package": "@johnny/contractor-os-core",
+  "version": "0.6.0",
+  "foundation": {
+    "package": "create-better-t-stack",
+    "version": "3.44.2",
+    "command": "create-json",
+    "profile": {
+      "frontend": [
+        "next"
+      ],
+      "backend": "convex",
+      "runtime": "none",
+      "database": "none",
+      "orm": "none",
+      "api": "none",
+      "auth": "none",
+      "payments": "none",
+      "addons": [],
+      "examples": [],
+      "dbSetup": "none",
+      "webDeploy": "none",
+      "serverDeploy": "none",
+      "packageManager": "npm",
+      "git": false,
+      "install": false,
+      "yes": true,
+      "directoryConflict": "error",
+      "disableAnalytics": true,
+      "dryRun": true
+    },
+    "nodeEngine": ">=22.12.0",
+    "sources": [
+      "https://registry.npmjs.org/create-better-t-stack/3.44.2",
+      "https://www.better-t-stack.dev/docs/cli/compatibility",
+      "https://www.better-t-stack.dev/docs/cli/agent-workflows"
+    ]
+  },
+  "components": {
+    "core": {
+      "kind": "convex_component",
+      "version": "0.6.0",
+      "source": "src/component",
+      "componentName": "contractorOs",
+      "configExport": "./convex.config",
+      "clientExport": "./backend",
+      "clientClass": "ContractorBackend",
+      "configKind": "core_env",
+      "requiredPacks": [
+        "schema",
+        "workflows",
+        "business_policy",
+        "projections",
+        "scorecards"
+      ],
+      "operations": [
+        "componentInfo",
+        "execute",
+        "history",
+        "jobFinancials",
+        "invoiceBalance",
+        "listJobs",
+        "listLeads",
+        "inspectRecord"
+      ]
+    },
+    "painting": {
+      "kind": "convex_component",
+      "version": "0.6.0",
+      "source": "src/trades/painting/component",
+      "componentName": "contractorPainting",
+      "configExport": "./trades/painting/convex.config",
+      "clientExport": "./trades/painting/client",
+      "clientClass": "PaintingClient",
+      "configKind": "none",
+      "requiredPacks": [
+        "trade_partition"
+      ],
+      "operations": [
+        "get",
+        "list",
+        "create",
+        "update",
+        "calculations"
+      ]
+    },
+    "plumbing": {
+      "kind": "convex_component",
+      "version": "0.6.0",
+      "source": "src/trades/plumbing/component",
+      "componentName": "contractorPlumbing",
+      "configExport": "./trades/plumbing/convex.config",
+      "clientExport": "./trades/plumbing/client",
+      "clientClass": "PlumbingClient",
+      "configKind": "none",
+      "requiredPacks": [
+        "trade_partition"
+      ],
+      "operations": [
+        "get",
+        "list",
+        "create",
+        "update",
+        "calculations"
+      ]
+    },
+    "roofing": {
+      "kind": "convex_component",
+      "version": "0.6.0",
+      "source": "src/trades/roofing/component",
+      "componentName": "contractorRoofing",
+      "configExport": "./trades/roofing/convex.config",
+      "clientExport": "./trades/roofing/client",
+      "clientClass": "RoofingClient",
+      "configKind": "none",
+      "requiredPacks": [
+        "trade_partition"
+      ],
+      "operations": [
+        "get",
+        "list",
+        "create",
+        "update",
+        "calculations"
+      ]
+    },
+    "garage_door": {
+      "kind": "convex_component",
+      "version": "0.6.0",
+      "source": "src/trades/garage_door/component",
+      "componentName": "contractorGarageDoor",
+      "configExport": "./trades/garage_door/convex.config",
+      "clientExport": "./trades/garage_door/client",
+      "clientClass": "GarageDoorClient",
+      "configKind": "none",
+      "requiredPacks": [
+        "trade_partition"
+      ],
+      "operations": [
+        "get",
+        "list",
+        "create",
+        "update",
+        "calculations"
+      ]
+    },
+    "electrical": {
+      "kind": "convex_component",
+      "version": "0.6.0",
+      "source": "src/trades/electrical/component",
+      "componentName": "contractorElectrical",
+      "configExport": "./trades/electrical/convex.config",
+      "clientExport": "./trades/electrical/client",
+      "clientClass": "ElectricalClient",
+      "configKind": "none",
+      "requiredPacks": [
+        "trade_partition"
+      ],
+      "operations": [
+        "get",
+        "list",
+        "create",
+        "update",
+        "calculations"
+      ]
+    },
+    "hvac": {
+      "kind": "convex_component",
+      "version": "0.6.0",
+      "source": "src/trades/hvac/component",
+      "componentName": "contractorHvac",
+      "configExport": "./trades/hvac/convex.config",
+      "clientExport": "./trades/hvac/client",
+      "clientClass": "HvacClient",
+      "configKind": "none",
+      "requiredPacks": [
+        "trade_partition"
+      ],
+      "operations": [
+        "get",
+        "list",
+        "create",
+        "update",
+        "calculations"
+      ]
+    },
+    "concrete": {
+      "kind": "convex_component",
+      "version": "0.6.0",
+      "source": "src/trades/concrete/component",
+      "componentName": "contractorConcrete",
+      "configExport": "./trades/concrete/convex.config",
+      "clientExport": "./trades/concrete/client",
+      "clientClass": "ConcreteClient",
+      "configKind": "none",
+      "requiredPacks": [
+        "trade_partition"
+      ],
+      "operations": [
+        "get",
+        "list",
+        "create",
+        "update",
+        "calculations"
+      ]
+    },
+    "landscaping": {
+      "kind": "convex_component",
+      "version": "0.6.0",
+      "source": "src/trades/landscaping/component",
+      "componentName": "contractorLandscaping",
+      "configExport": "./trades/landscaping/convex.config",
+      "clientExport": "./trades/landscaping/client",
+      "clientClass": "LandscapingClient",
+      "configKind": "none",
+      "requiredPacks": [
+        "trade_partition"
+      ],
+      "operations": [
+        "get",
+        "list",
+        "create",
+        "update",
+        "calculations"
+      ]
+    },
+    "drywall_framing": {
+      "kind": "convex_component",
+      "version": "0.6.0",
+      "source": "src/trades/drywall_framing/component",
+      "componentName": "contractorDrywallFraming",
+      "configExport": "./trades/drywall_framing/convex.config",
+      "clientExport": "./trades/drywall_framing/client",
+      "clientClass": "DrywallFramingClient",
+      "configKind": "none",
+      "requiredPacks": [
+        "trade_partition"
+      ],
+      "operations": [
+        "get",
+        "list",
+        "create",
+        "update",
+        "calculations"
+      ]
+    }
+  },
+  "configPacks": {
+    "schema": {
+      "mode": "source_aligned",
+      "appliesTo": [
+        "core"
+      ],
+      "sources": [
+        "model/blueprints.summary.json",
+        "model/schema-supplement.json",
+        "src/shared/domainManifest.ts"
+      ],
+      "kind": "config_pack",
+      "version": "0.6.0"
+    },
+    "workflows": {
+      "mode": "builtin_commands",
+      "appliesTo": [
+        "core"
+      ],
+      "sources": [
+        "docs/workflow-definitions.json",
+        "src/component/workflows.ts"
+      ],
+      "kind": "config_pack",
+      "version": "0.6.0"
+    },
+    "business_policy": {
+      "mode": "contractor_operations_v1",
+      "appliesTo": [
+        "core"
+      ],
+      "sources": [
+        "src/shared/businessPolicy.ts"
+      ],
+      "kind": "config_pack",
+      "version": "0.6.0"
+    },
+    "projections": {
+      "mode": "component_explicit_paths_v1",
+      "appliesTo": [
+        "core"
+      ],
+      "sources": [
+        "src/shared/derivedManifest.ts",
+        "src/shared/projections.ts"
+      ],
+      "kind": "config_pack",
+      "version": "0.6.0"
+    },
+    "scorecards": {
+      "mode": "advisory_supplied_predicates",
+      "appliesTo": [
+        "core"
+      ],
+      "sources": [
+        "docs/scorecard-definitions.json",
+        "src/shared/scorecardManifest.ts",
+        "src/shared/scorecards.ts"
+      ],
+      "kind": "config_pack",
+      "version": "0.6.0"
+    },
+    "trade_partition": {
+      "mode": "explicit_trade_fields_v1",
+      "appliesTo": [
+        "painting",
+        "plumbing",
+        "roofing",
+        "garage_door",
+        "electrical",
+        "hvac",
+        "concrete",
+        "landscaping",
+        "drywall_framing"
+      ],
+      "sources": [
+        "model/trades.ir.json",
+        "src/shared/tradeManifest.ts"
+      ],
+      "kind": "config_pack",
+      "version": "0.6.0"
+    }
+  },
+  "ui": {
+    "library": "shadcn/ui",
+    "registry": "https://ui.shadcn.com/r/styles/base-lyra/{name}.json",
+    "items": [
+      "button",
+      "card",
+      "input",
+      "table"
+    ],
+    "style": "base-lyra",
+    "packageDirectory": "packages/ui",
+    "componentDirectory": "packages/ui/src/components",
+    "tokensFile": "packages/ui/src/styles/globals.css"
+  }
+}

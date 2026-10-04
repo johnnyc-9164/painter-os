@@ -1,0 +1,109 @@
+{
+  "commands": [
+    {
+      "name": "environment",
+      "command": [
+        "bash",
+        "-c",
+        "node --version; npm --version; command -v tsc; tsc --version; node -p \"require.resolve('typescript/package.json')\"; node -p \"require('typescript/package.json').version\""
+      ],
+      "exit": 0,
+      "seconds": 0.417
+    },
+    {
+      "name": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "exit": 0,
+      "seconds": 7.368
+    },
+    {
+      "name": "check-generated",
+      "command": [
+        "npm",
+        "run",
+        "check:generated"
+      ],
+      "exit": 0,
+      "seconds": 0.268
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exit": 0,
+      "seconds": 10.338
+    },
+    {
+      "name": "test-integration",
+      "command": [
+        "npm",
+        "run",
+        "test:integration"
+      ],
+      "exit": 0,
+      "seconds": 4.359
+    },
+    {
+      "name": "check-syntax",
+      "command": [
+        "npm",
+        "run",
+        "check:syntax"
+      ],
+      "exit": 0,
+      "seconds": 1.848
+    },
+    {
+      "name": "check-packaged-component",
+      "command": [
+        "npm",
+        "run",
+        "check:packaged-component"
+      ],
+      "exit": 0,
+      "seconds": 0.266
+    },
+    {
+      "name": "check-composition",
+      "command": [
+        "npm",
+        "run",
+        "check:composition"
+      ],
+      "exit": 0,
+      "seconds": 1.068
+    }
+  ],
+  "sourceFileCount": 358,
+  "suppliedFileCount": 358,
+  "sourceAggregateSHA256": "7fa9467511ea1588abebbee7aa089fd07489ac886d0e2eee125d6c5e6985f423",
+  "suppliedAggregateSHA256": "7fa9467511ea1588abebbee7aa089fd07489ac886d0e2eee125d6c5e6985f423",
+  "sourceVsSupplied": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "sourceBeforeVsAfter": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "buildBeforeVsAfter": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  },
+  "buildBeforeCount": 38,
+  "buildAfterCount": 38,
+  "excludedDirectories": [
+    "node_modules",
+    "build"
+  ],
+  "aggregateAlgorithm": "SHA256 of sorted relative-path + NUL + file-SHA256 + newline"
+}

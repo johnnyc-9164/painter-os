@@ -1,0 +1,64 @@
+TAP version 13
+# Subtest: Convex adapter registers the unified command endpoint and fourteen named commands
+ok 1 - Convex adapter registers the unified command endpoint and fourteen named commands
+  ---
+  duration_ms: 1.193605
+  type: 'test'
+  ...
+# Subtest: Convex adapter creates records and immutable command evidence through actual adapter methods
+ok 2 - Convex adapter creates records and immutable command evidence through actual adapter methods
+  ---
+  duration_ms: 3.46213
+  type: 'test'
+  ...
+# Subtest: Convex adapter looks up request receipts in tenant scope
+ok 3 - Convex adapter looks up request receipts in tenant scope
+  ---
+  duration_ms: 1.1091
+  type: 'test'
+  ...
+# Subtest: Convex adapter refuses a foreign tenant source record
+ok 4 - Convex adapter refuses a foreign tenant source record
+  ---
+  duration_ms: 0.558141
+  type: 'test'
+  ...
+# Subtest: Convex adapter updates linked records and rejects a stale revision
+ok 5 - Convex adapter updates linked records and rejects a stale revision
+  ---
+  duration_ms: 2.621434
+  type: 'test'
+  ...
+# Subtest: read API is tenant scoped and rejects oversized pages
+ok 6 - read API is tenant scoped and rejects oversized pages
+  ---
+  duration_ms: 0.431134
+  type: 'test'
+  ...
+# Subtest: backend client strips browser tenant, actor, and attestor spoofing
+ok 7 - backend client strips browser tenant, actor, and attestor spoofing
+  ---
+  duration_ms: 0.430794
+  type: 'test'
+  ...
+# Subtest: backend client refuses unauthenticated users and read-only writers
+ok 8 - backend client refuses unauthenticated users and read-only writers
+  ---
+  duration_ms: 0.562567
+  type: 'test'
+  ...
+# Subtest: backend client only derives attestor permission from verified membership
+ok 9 - backend client only derives attestor permission from verified membership
+  ---
+  duration_ms: 0.308073
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 572.615798

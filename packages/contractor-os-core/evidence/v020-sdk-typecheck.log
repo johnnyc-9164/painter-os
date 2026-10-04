@@ -1,0 +1,368 @@
+
+> @johnny/contractor-os-core@0.2.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+src/client.ts(1,95): error TS2307: Cannot find module 'convex/server' or its corresponding type declarations.
+src/client.ts(2,35): error TS2307: Cannot find module 'convex/server' or its corresponding type declarations.
+src/client.ts(3,35): error TS2307: Cannot find module './component/_generated/component.js' or its corresponding type declarations.
+src/component/convex.config.ts(1,33): error TS2307: Cannot find module 'convex/server' or its corresponding type declarations.
+src/component/domainRuntime.ts(1,44): error TS2307: Cannot find module './_generated/server.js' or its corresponding type declarations.
+src/component/domainRuntime.ts(2,29): error TS2307: Cannot find module 'convex/values' or its corresponding type declarations.
+src/component/domainRuntime.ts(29,83): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/domainTables.ts(1,29): error TS2307: Cannot find module 'convex/server' or its corresponding type declarations.
+src/component/domainTables.ts(2,19): error TS2307: Cannot find module 'convex/values' or its corresponding type declarations.
+src/component/domainValidators.ts(1,19): error TS2307: Cannot find module 'convex/values' or its corresponding type declarations.
+src/component/entities.ts(1,41): error TS2307: Cannot find module 'convex/server' or its corresponding type declarations.
+src/component/entities.ts(2,27): error TS2307: Cannot find module 'convex-helpers/server/pagination' or its corresponding type declarations.
+src/component/entities.ts(4,32): error TS2307: Cannot find module 'convex/values' or its corresponding type declarations.
+src/component/entities.ts(5,33): error TS2307: Cannot find module './_generated/server.js' or its corresponding type declarations.
+src/component/entities.ts(6,26): error TS2307: Cannot find module './_generated/dataModel.js' or its corresponding type declarations.
+src/component/entities.ts(22,19): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/entities.ts(22,24): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/entities.ts(31,39): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/entities.ts(38,96): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/entities.ts(70,19): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/entities.ts(70,24): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/entities.ts(72,90): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/entities.ts(80,19): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/entities.ts(80,24): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/entities.ts(82,101): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/entities.ts(90,19): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/entities.ts(90,24): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/entities.ts(92,77): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/entities.ts(99,91): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/entities.ts(104,130): error TS2339: Property 'title' does not exist on type '{ tenantId: string; blueprint: string; identifier: string; }'.
+src/component/entities.ts(118,19): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/entities.ts(118,24): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/entities.ts(120,89): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/entities.ts(122,27): error TS7006: Parameter 'r' implicitly has an 'any' type.
+src/component/records/co_automation_rule.ts(2,32): error TS2307: Cannot find module 'convex/values' or its corresponding type declarations.
+src/component/records/co_automation_rule.ts(3,41): error TS2307: Cannot find module 'convex/server' or its corresponding type declarations.
+src/component/records/co_automation_rule.ts(4,27): error TS2307: Cannot find module 'convex-helpers/server/pagination' or its corresponding type declarations.
+src/component/records/co_automation_rule.ts(5,33): error TS2307: Cannot find module '../_generated/server.js' or its corresponding type declarations.
+src/component/records/co_automation_rule.ts(17,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_automation_rule.ts(17,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_automation_rule.ts(18,78): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_automation_rule.ts(22,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_automation_rule.ts(22,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_automation_rule.ts(23,95): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_automation_rule.ts(29,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_automation_rule.ts(29,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_automation_rule.ts(36,92): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_automation_rule.ts(48,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_automation_rule.ts(48,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_automation_rule.ts(54,92): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_bid.ts(2,32): error TS2307: Cannot find module 'convex/values' or its corresponding type declarations.
+src/component/records/co_bid.ts(3,41): error TS2307: Cannot find module 'convex/server' or its corresponding type declarations.
+src/component/records/co_bid.ts(4,27): error TS2307: Cannot find module 'convex-helpers/server/pagination' or its corresponding type declarations.
+src/component/records/co_bid.ts(5,33): error TS2307: Cannot find module '../_generated/server.js' or its corresponding type declarations.
+src/component/records/co_bid.ts(17,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_bid.ts(17,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_bid.ts(18,66): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_bid.ts(22,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_bid.ts(22,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_bid.ts(23,83): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_bid.ts(29,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_bid.ts(29,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_bid.ts(36,80): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_bid.ts(48,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_bid.ts(48,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_bid.ts(54,80): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_campaign.ts(2,32): error TS2307: Cannot find module 'convex/values' or its corresponding type declarations.
+src/component/records/co_campaign.ts(3,41): error TS2307: Cannot find module 'convex/server' or its corresponding type declarations.
+src/component/records/co_campaign.ts(4,27): error TS2307: Cannot find module 'convex-helpers/server/pagination' or its corresponding type declarations.
+src/component/records/co_campaign.ts(5,33): error TS2307: Cannot find module '../_generated/server.js' or its corresponding type declarations.
+src/component/records/co_campaign.ts(17,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_campaign.ts(17,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_campaign.ts(18,71): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_campaign.ts(22,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_campaign.ts(22,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_campaign.ts(23,88): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_campaign.ts(29,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_campaign.ts(29,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_campaign.ts(36,85): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_campaign.ts(48,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_campaign.ts(48,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_campaign.ts(54,85): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_change_order.ts(2,32): error TS2307: Cannot find module 'convex/values' or its corresponding type declarations.
+src/component/records/co_change_order.ts(3,41): error TS2307: Cannot find module 'convex/server' or its corresponding type declarations.
+src/component/records/co_change_order.ts(4,27): error TS2307: Cannot find module 'convex-helpers/server/pagination' or its corresponding type declarations.
+src/component/records/co_change_order.ts(5,33): error TS2307: Cannot find module '../_generated/server.js' or its corresponding type declarations.
+src/component/records/co_change_order.ts(17,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_change_order.ts(17,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_change_order.ts(18,75): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_change_order.ts(22,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_change_order.ts(22,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_change_order.ts(23,92): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_change_order.ts(29,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_change_order.ts(29,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_change_order.ts(36,89): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_change_order.ts(48,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_change_order.ts(48,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_change_order.ts(54,89): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_client.ts(2,32): error TS2307: Cannot find module 'convex/values' or its corresponding type declarations.
+src/component/records/co_client.ts(3,41): error TS2307: Cannot find module 'convex/server' or its corresponding type declarations.
+src/component/records/co_client.ts(4,27): error TS2307: Cannot find module 'convex-helpers/server/pagination' or its corresponding type declarations.
+src/component/records/co_client.ts(5,33): error TS2307: Cannot find module '../_generated/server.js' or its corresponding type declarations.
+src/component/records/co_client.ts(17,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_client.ts(17,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_client.ts(18,69): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_client.ts(22,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_client.ts(22,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_client.ts(23,86): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_client.ts(29,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_client.ts(29,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_client.ts(36,83): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_client.ts(48,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_client.ts(48,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_client.ts(54,83): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_contact.ts(2,32): error TS2307: Cannot find module 'convex/values' or its corresponding type declarations.
+src/component/records/co_contact.ts(3,41): error TS2307: Cannot find module 'convex/server' or its corresponding type declarations.
+src/component/records/co_contact.ts(4,27): error TS2307: Cannot find module 'convex-helpers/server/pagination' or its corresponding type declarations.
+src/component/records/co_contact.ts(5,33): error TS2307: Cannot find module '../_generated/server.js' or its corresponding type declarations.
+src/component/records/co_contact.ts(17,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_contact.ts(17,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_contact.ts(18,70): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_contact.ts(22,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_contact.ts(22,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_contact.ts(23,87): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_contact.ts(29,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_contact.ts(29,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_contact.ts(36,84): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_contact.ts(48,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_contact.ts(48,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_contact.ts(54,84): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_contract.ts(2,32): error TS2307: Cannot find module 'convex/values' or its corresponding type declarations.
+src/component/records/co_contract.ts(3,41): error TS2307: Cannot find module 'convex/server' or its corresponding type declarations.
+src/component/records/co_contract.ts(4,27): error TS2307: Cannot find module 'convex-helpers/server/pagination' or its corresponding type declarations.
+src/component/records/co_contract.ts(5,33): error TS2307: Cannot find module '../_generated/server.js' or its corresponding type declarations.
+src/component/records/co_contract.ts(17,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_contract.ts(17,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_contract.ts(18,71): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_contract.ts(22,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_contract.ts(22,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_contract.ts(23,88): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_contract.ts(29,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_contract.ts(29,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_contract.ts(36,85): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_contract.ts(48,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_contract.ts(48,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_contract.ts(54,85): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_daily_report.ts(2,32): error TS2307: Cannot find module 'convex/values' or its corresponding type declarations.
+src/component/records/co_daily_report.ts(3,41): error TS2307: Cannot find module 'convex/server' or its corresponding type declarations.
+src/component/records/co_daily_report.ts(4,27): error TS2307: Cannot find module 'convex-helpers/server/pagination' or its corresponding type declarations.
+src/component/records/co_daily_report.ts(5,33): error TS2307: Cannot find module '../_generated/server.js' or its corresponding type declarations.
+src/component/records/co_daily_report.ts(17,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_daily_report.ts(17,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_daily_report.ts(18,75): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_daily_report.ts(22,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_daily_report.ts(22,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_daily_report.ts(23,92): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_daily_report.ts(29,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_daily_report.ts(29,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_daily_report.ts(36,89): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_daily_report.ts(48,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_daily_report.ts(48,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_daily_report.ts(54,89): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_document.ts(2,32): error TS2307: Cannot find module 'convex/values' or its corresponding type declarations.
+src/component/records/co_document.ts(3,41): error TS2307: Cannot find module 'convex/server' or its corresponding type declarations.
+src/component/records/co_document.ts(4,27): error TS2307: Cannot find module 'convex-helpers/server/pagination' or its corresponding type declarations.
+src/component/records/co_document.ts(5,33): error TS2307: Cannot find module '../_generated/server.js' or its corresponding type declarations.
+src/component/records/co_document.ts(17,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_document.ts(17,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_document.ts(18,71): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_document.ts(22,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_document.ts(22,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_document.ts(23,88): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_document.ts(29,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_document.ts(29,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_document.ts(36,85): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_document.ts(48,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_document.ts(48,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_document.ts(54,85): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_invoice.ts(2,32): error TS2307: Cannot find module 'convex/values' or its corresponding type declarations.
+src/component/records/co_invoice.ts(3,41): error TS2307: Cannot find module 'convex/server' or its corresponding type declarations.
+src/component/records/co_invoice.ts(4,27): error TS2307: Cannot find module 'convex-helpers/server/pagination' or its corresponding type declarations.
+src/component/records/co_invoice.ts(5,33): error TS2307: Cannot find module '../_generated/server.js' or its corresponding type declarations.
+src/component/records/co_invoice.ts(17,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_invoice.ts(17,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_invoice.ts(18,70): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_invoice.ts(22,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_invoice.ts(22,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_invoice.ts(23,87): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_invoice.ts(29,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_invoice.ts(29,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_invoice.ts(36,84): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_invoice.ts(48,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_invoice.ts(48,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_invoice.ts(54,84): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_job.ts(2,32): error TS2307: Cannot find module 'convex/values' or its corresponding type declarations.
+src/component/records/co_job.ts(3,41): error TS2307: Cannot find module 'convex/server' or its corresponding type declarations.
+src/component/records/co_job.ts(4,27): error TS2307: Cannot find module 'convex-helpers/server/pagination' or its corresponding type declarations.
+src/component/records/co_job.ts(5,33): error TS2307: Cannot find module '../_generated/server.js' or its corresponding type declarations.
+src/component/records/co_job.ts(17,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_job.ts(17,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_job.ts(18,66): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_job.ts(22,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_job.ts(22,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_job.ts(23,83): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_job.ts(29,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_job.ts(29,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_job.ts(36,80): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_job.ts(48,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_job.ts(48,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_job.ts(54,80): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_lead.ts(2,32): error TS2307: Cannot find module 'convex/values' or its corresponding type declarations.
+src/component/records/co_lead.ts(3,41): error TS2307: Cannot find module 'convex/server' or its corresponding type declarations.
+src/component/records/co_lead.ts(4,27): error TS2307: Cannot find module 'convex-helpers/server/pagination' or its corresponding type declarations.
+src/component/records/co_lead.ts(5,33): error TS2307: Cannot find module '../_generated/server.js' or its corresponding type declarations.
+src/component/records/co_lead.ts(17,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_lead.ts(17,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_lead.ts(18,67): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_lead.ts(22,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_lead.ts(22,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_lead.ts(23,84): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_lead.ts(29,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_lead.ts(29,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_lead.ts(36,81): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_lead.ts(48,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_lead.ts(48,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_lead.ts(54,81): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_outreach.ts(2,32): error TS2307: Cannot find module 'convex/values' or its corresponding type declarations.
+src/component/records/co_outreach.ts(3,41): error TS2307: Cannot find module 'convex/server' or its corresponding type declarations.
+src/component/records/co_outreach.ts(4,27): error TS2307: Cannot find module 'convex-helpers/server/pagination' or its corresponding type declarations.
+src/component/records/co_outreach.ts(5,33): error TS2307: Cannot find module '../_generated/server.js' or its corresponding type declarations.
+src/component/records/co_outreach.ts(17,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_outreach.ts(17,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_outreach.ts(18,71): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_outreach.ts(22,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_outreach.ts(22,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_outreach.ts(23,88): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_outreach.ts(29,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_outreach.ts(29,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_outreach.ts(36,85): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_outreach.ts(48,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_outreach.ts(48,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_outreach.ts(54,85): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_payment.ts(2,32): error TS2307: Cannot find module 'convex/values' or its corresponding type declarations.
+src/component/records/co_payment.ts(3,41): error TS2307: Cannot find module 'convex/server' or its corresponding type declarations.
+src/component/records/co_payment.ts(4,27): error TS2307: Cannot find module 'convex-helpers/server/pagination' or its corresponding type declarations.
+src/component/records/co_payment.ts(5,33): error TS2307: Cannot find module '../_generated/server.js' or its corresponding type declarations.
+src/component/records/co_payment.ts(17,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_payment.ts(17,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_payment.ts(18,70): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_payment.ts(22,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_payment.ts(22,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_payment.ts(23,87): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_payment.ts(29,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_payment.ts(29,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_payment.ts(36,84): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_payment.ts(48,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_payment.ts(48,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_payment.ts(54,84): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_pricing_rule.ts(2,32): error TS2307: Cannot find module 'convex/values' or its corresponding type declarations.
+src/component/records/co_pricing_rule.ts(3,41): error TS2307: Cannot find module 'convex/server' or its corresponding type declarations.
+src/component/records/co_pricing_rule.ts(4,27): error TS2307: Cannot find module 'convex-helpers/server/pagination' or its corresponding type declarations.
+src/component/records/co_pricing_rule.ts(5,33): error TS2307: Cannot find module '../_generated/server.js' or its corresponding type declarations.
+src/component/records/co_pricing_rule.ts(17,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_pricing_rule.ts(17,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_pricing_rule.ts(18,75): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_pricing_rule.ts(22,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_pricing_rule.ts(22,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_pricing_rule.ts(23,92): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_pricing_rule.ts(29,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_pricing_rule.ts(29,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_pricing_rule.ts(36,89): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_pricing_rule.ts(48,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_pricing_rule.ts(48,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_pricing_rule.ts(54,89): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_proposal.ts(2,32): error TS2307: Cannot find module 'convex/values' or its corresponding type declarations.
+src/component/records/co_proposal.ts(3,41): error TS2307: Cannot find module 'convex/server' or its corresponding type declarations.
+src/component/records/co_proposal.ts(4,27): error TS2307: Cannot find module 'convex-helpers/server/pagination' or its corresponding type declarations.
+src/component/records/co_proposal.ts(5,33): error TS2307: Cannot find module '../_generated/server.js' or its corresponding type declarations.
+src/component/records/co_proposal.ts(17,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_proposal.ts(17,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_proposal.ts(18,71): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_proposal.ts(22,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_proposal.ts(22,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_proposal.ts(23,88): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_proposal.ts(29,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_proposal.ts(29,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_proposal.ts(36,85): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_proposal.ts(48,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_proposal.ts(48,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_proposal.ts(54,85): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_scope.ts(2,32): error TS2307: Cannot find module 'convex/values' or its corresponding type declarations.
+src/component/records/co_scope.ts(3,41): error TS2307: Cannot find module 'convex/server' or its corresponding type declarations.
+src/component/records/co_scope.ts(4,27): error TS2307: Cannot find module 'convex-helpers/server/pagination' or its corresponding type declarations.
+src/component/records/co_scope.ts(5,33): error TS2307: Cannot find module '../_generated/server.js' or its corresponding type declarations.
+src/component/records/co_scope.ts(17,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_scope.ts(17,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_scope.ts(18,68): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_scope.ts(22,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_scope.ts(22,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_scope.ts(23,85): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_scope.ts(29,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_scope.ts(29,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_scope.ts(36,82): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_scope.ts(48,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_scope.ts(48,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_scope.ts(54,82): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_site_visit.ts(2,32): error TS2307: Cannot find module 'convex/values' or its corresponding type declarations.
+src/component/records/co_site_visit.ts(3,41): error TS2307: Cannot find module 'convex/server' or its corresponding type declarations.
+src/component/records/co_site_visit.ts(4,27): error TS2307: Cannot find module 'convex-helpers/server/pagination' or its corresponding type declarations.
+src/component/records/co_site_visit.ts(5,33): error TS2307: Cannot find module '../_generated/server.js' or its corresponding type declarations.
+src/component/records/co_site_visit.ts(17,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_site_visit.ts(17,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_site_visit.ts(18,73): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_site_visit.ts(22,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_site_visit.ts(22,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_site_visit.ts(23,90): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_site_visit.ts(29,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_site_visit.ts(29,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_site_visit.ts(36,87): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_site_visit.ts(48,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_site_visit.ts(48,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_site_visit.ts(54,87): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_subcontractor.ts(2,32): error TS2307: Cannot find module 'convex/values' or its corresponding type declarations.
+src/component/records/co_subcontractor.ts(3,41): error TS2307: Cannot find module 'convex/server' or its corresponding type declarations.
+src/component/records/co_subcontractor.ts(4,27): error TS2307: Cannot find module 'convex-helpers/server/pagination' or its corresponding type declarations.
+src/component/records/co_subcontractor.ts(5,33): error TS2307: Cannot find module '../_generated/server.js' or its corresponding type declarations.
+src/component/records/co_subcontractor.ts(17,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_subcontractor.ts(17,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_subcontractor.ts(18,76): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_subcontractor.ts(22,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_subcontractor.ts(22,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_subcontractor.ts(23,93): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_subcontractor.ts(29,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_subcontractor.ts(29,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_subcontractor.ts(36,90): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_subcontractor.ts(48,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_subcontractor.ts(48,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_subcontractor.ts(54,90): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_trade_spec.ts(2,32): error TS2307: Cannot find module 'convex/values' or its corresponding type declarations.
+src/component/records/co_trade_spec.ts(3,41): error TS2307: Cannot find module 'convex/server' or its corresponding type declarations.
+src/component/records/co_trade_spec.ts(4,27): error TS2307: Cannot find module 'convex-helpers/server/pagination' or its corresponding type declarations.
+src/component/records/co_trade_spec.ts(5,33): error TS2307: Cannot find module '../_generated/server.js' or its corresponding type declarations.
+src/component/records/co_trade_spec.ts(17,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_trade_spec.ts(17,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_trade_spec.ts(18,73): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_trade_spec.ts(22,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_trade_spec.ts(22,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_trade_spec.ts(23,90): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_trade_spec.ts(29,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_trade_spec.ts(29,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_trade_spec.ts(36,87): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/records/co_trade_spec.ts(48,16): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+src/component/records/co_trade_spec.ts(48,20): error TS7006: Parameter 'args' implicitly has an 'any' type.
+src/component/records/co_trade_spec.ts(54,87): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/component/schema.ts(1,43): error TS2307: Cannot find module 'convex/server' or its corresponding type declarations.
+src/component/schema.ts(2,19): error TS2307: Cannot find module 'convex/values' or its corresponding type declarations.
+src/component/validators.ts(1,19): error TS2307: Cannot find module 'convex/values' or its corresponding type declarations.
+src/component/workflowInputs.ts(1,19): error TS2307: Cannot find module 'convex/values' or its corresponding type declarations.
+src/domainClient.ts(1,95): error TS2307: Cannot find module 'convex/server' or its corresponding type declarations.
+src/domainClient.ts(2,35): error TS2307: Cannot find module './component/_generated/component.js' or its corresponding type declarations.
+src/test.ts(1,23): error TS2688: Cannot find type definition file for 'vite/client'.
+src/test.ts(2,31): error TS2307: Cannot find module 'convex-test' or its corresponding type declarations.
+src/test.ts(3,51): error TS2307: Cannot find module 'convex/server' or its corresponding type declarations.
+src/test.ts(5,27): error TS2339: Property 'glob' does not exist on type 'ImportMeta'.

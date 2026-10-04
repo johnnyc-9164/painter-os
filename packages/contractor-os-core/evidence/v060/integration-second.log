@@ -1,0 +1,31 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> @johnny/contractor-os-core@0.6.0 test:integration
+> vitest run
+
+
+ RUN  v4.1.10 /workspace/scratch/d24983fe3ee1/trade-component-refactor/backend/contractor-os-core
+
+ ❯ tests/trades.integration.test.ts (15 tests | 1 failed) 240ms
+   × SDK mounted components and same-trade instances isolate tenant, identifier and request keys 8ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/trades.integration.test.ts > SDK mounted components and same-trade instances isolate tenant, identifier and request keys
+AssertionError: expected '000000000000000000000010000specs' not to be '000000000000000000000010000specs' // Object.is equality
+ ❯ tests/trades.integration.test.ts:37:23
+     35|  const first=await t.mutation(components.contractorPainting.records.cr…
+     36|  const next=await t.mutation(second.records.create,{...packet('key'),p…
+     37|  expect(first.id).not.toBe(next.id);
+       |                       ^
+     38|  expect((await t.query(components.contractorPainting.records.get,{tena…
+     39|  expect((await t.query(second.records.get,{tenantId:'a',identifier:'sa…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 4 passed (5)
+      Tests  1 failed | 39 passed (40)
+   Start at  07:37:39
+   Duration  1.01s (transform 1.88s, setup 0ms, import 1.45s, tests 1.39s, environment 228ms)
+

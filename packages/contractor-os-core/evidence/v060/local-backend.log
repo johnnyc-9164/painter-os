@@ -1,0 +1,928 @@
+2026-10-02T12:35:07.475751Z  INFO convex_local_backend: Starting a Convex backend
+2026-10-02T12:35:07.476089Z  INFO convex_local_backend: Sentry is not enabled.
+2026-10-02T12:35:07.477976Z  INFO db_connection: Connected to SQLite at /tmp/contractor-validation-runtime/db.sqlite3
+2026-10-02T12:35:07.478215Z  INFO search::searcher::searcher: Searchlight starting, local_storage_path: /tmp/.tmpYelWwz max_size: 500.0 MiB
+2026-10-02T12:35:07.478917Z  INFO database::database: Initializing database with system tables...
+2026-10-02T12:35:07.480750Z  INFO database::database: Bootstrapping indexes...
+2026-10-02T12:35:07.481394Z  INFO indexing::in_memory_indexes: Loading 10 tables with 26 indexes...
+2026-10-02T12:35:07.481764Z  INFO database::database: Bootstrapping table metadata...
+2026-10-02T12:35:07.482664Z  INFO database::retention: No tablets left to delete
+2026-10-02T12:35:07.482701Z  INFO database::subscription: Starting subscriptions worker
+2026-10-02T12:35:07.482936Z  INFO database::transaction: Created system table: _db
+2026-10-02T12:35:07.483046Z  INFO database::transaction: Created system table: _deployment_audit_log
+2026-10-02T12:35:07.483130Z  INFO database::transaction: Created system table: _environment_variables
+2026-10-02T12:35:07.483232Z  INFO database::transaction: Created system table: _auth
+2026-10-02T12:35:07.483285Z  INFO database::transaction: Created system table: _external_deps_packages
+2026-10-02T12:35:07.483333Z  INFO database::transaction: Created system table: _session_requests
+2026-10-02T12:35:07.483415Z  INFO database::transaction: Created system table: _backend_state
+2026-10-02T12:35:07.483489Z  INFO database::transaction: Created system table: _exports
+2026-10-02T12:35:07.483580Z  INFO database::transaction: Created system table: _snapshot_imports
+2026-10-02T12:35:07.483692Z  INFO database::transaction: Created system table: _function_handles
+2026-10-02T12:35:07.483776Z  INFO database::transaction: Created system table: _canonical_urls
+2026-10-02T12:35:07.483832Z  INFO database::transaction: Created system table: _log_sinks
+2026-10-02T12:35:07.483876Z  INFO database::transaction: Created system table: _audit_log_config
+2026-10-02T12:35:07.483925Z  INFO database::transaction: Created system table: _aws_lambda_versions
+2026-10-02T12:35:07.483969Z  INFO database::transaction: Created system table: _backend_info
+2026-10-02T12:35:07.484014Z  INFO database::transaction: Created system table: _usage_limits
+2026-10-02T12:35:07.484088Z  INFO database::transaction: Created system table: _data_sync_progress
+2026-10-02T12:35:07.484171Z  INFO database::transaction: Created system table: _file_storage
+2026-10-02T12:35:07.484237Z  INFO database::transaction: Created system table: _scheduled_jobs
+2026-10-02T12:35:07.484343Z  INFO database::transaction: Created system table: _scheduled_job_args
+2026-10-02T12:35:07.484392Z  INFO database::transaction: Created system table: _cron_jobs
+2026-10-02T12:35:07.484454Z  INFO database::transaction: Created system table: _cron_job_logs
+2026-10-02T12:35:07.484518Z  INFO database::transaction: Created system table: _cron_next_run
+2026-10-02T12:35:07.484597Z  INFO database::transaction: Created system table: _modules
+2026-10-02T12:35:07.484693Z  INFO database::transaction: Created system table: _udf_config
+2026-10-02T12:35:07.484749Z  INFO database::transaction: Created system table: _source_packages
+2026-10-02T12:35:07.492357Z  INFO indexing::in_memory_indexes: Loading 14 tables with 34 indexes...
+2026-10-02T12:35:07.493003Z  INFO database::committer: Loaded indexes into memory
+2026-10-02T12:35:07.493765Z  INFO application: files storage path: "/tmp/contractor-validation-runtime/storage/files"
+2026-10-02T12:35:07.493816Z  INFO application: modules storage path: "/tmp/contractor-validation-runtime/storage/modules"
+2026-10-02T12:35:07.493822Z  INFO application: search storage path: "/tmp/contractor-validation-runtime/storage/search"
+2026-10-02T12:35:07.493828Z  INFO application: exports storage path: "/tmp/contractor-validation-runtime/storage/exports"
+2026-10-02T12:35:07.493833Z  INFO application: snapshot_imports storage path: "/tmp/contractor-validation-runtime/storage/snapshot_imports"
+2026-10-02T12:35:07.493844Z  INFO database::database: Set search storage to LocalDirStorage { dir: "/tmp/contractor-validation-runtime/storage/search" }
+2026-10-02T12:35:07.493853Z  INFO application: Local { dir: "/tmp/contractor-validation-runtime/storage" } storage is configured.
+2026-10-02T12:35:07.493863Z  WARN local_backend: Running without a proxy in release mode -- UDF `fetch` requests are unrestricted!
+2026-10-02T12:35:07.534310Z  INFO database::database_index_workers: Starting IndexWorker
+2026-10-02T12:35:07.534401Z  INFO search_index_workers::retriable_worker: Starting FastForwardWorker
+2026-10-02T12:35:07.534427Z  INFO search_index_workers::retriable_worker: Starting VectorBackfillFlusher
+2026-10-02T12:35:07.534435Z  INFO search_index_workers::retriable_worker: Starting VectorLiveFlusher
+2026-10-02T12:35:07.534459Z  INFO search_index_workers::retriable_worker: Starting TextLiveFlusher
+2026-10-02T12:35:07.534467Z  INFO search_index_workers::retriable_worker: Starting TextBackfillFlusher
+2026-10-02T12:35:07.534468Z  INFO search_index_workers::retriable_worker: Starting VectorCompactor
+2026-10-02T12:35:07.534471Z  INFO search_index_workers::retriable_worker: Starting TextCompactor
+2026-10-02T12:35:07.534479Z  INFO application::table_summary_worker: Starting background table summary worker
+2026-10-02T12:35:07.534521Z  INFO application::schema_worker: Starting SchemaWorker
+2026-10-02T12:35:07.534567Z  INFO application::system_table_cleanup: Starting SystemTableCleanupWorker
+2026-10-02T12:35:07.534591Z  INFO database::search_index_bootstrap: Starting search index bootstrap at 1790944507493338383 with upper bound 1790944507493338383
+2026-10-02T12:35:07.534599Z  INFO application::system_table_cleanup: Deleted tablet channel closed, exiting cleanup_deleted_tablets
+2026-10-02T12:35:07.534606Z  INFO database::search_index_bootstrap: Loaded 0 revisions (0 bytes) in 105.777µs.
+2026-10-02T12:35:07.534612Z  INFO log_streaming: Starting LogManager
+2026-10-02T12:35:07.534615Z  INFO log_streaming: Starting listening for logs
+2026-10-02T12:35:07.534670Z  INFO database::committer: Committed backfilled vector indexes
+2026-10-02T12:35:07.534685Z  INFO database::search_index_bootstrap: SearchIndexBoostrapWorker finished!
+2026-10-02T12:35:07.535518Z  INFO log_streaming: Found 0 sink(s) in `Tombstoned` state
+2026-10-02T12:35:07.535531Z  INFO log_streaming: Found 0 sink(s) in Pending state.
+2026-10-02T12:35:07.535534Z  INFO log_streaming: Found 0 inactive sink(s).
+2026-10-02T12:35:07.535750Z  INFO application::cron_jobs: Starting cron job executor
+2026-10-02T12:35:07.535762Z  INFO usage_limits::worker: Starting UsageLimitWorker
+2026-10-02T12:35:07.535733Z  INFO application::scheduled_jobs: Starting scheduled job executor
+2026-10-02T12:35:07.535914Z  INFO model::migrations: Attempting migration
+2026-10-02T12:35:07.536007Z  INFO model::migrations: db metadata version up to date at 133
+2026-10-02T12:35:07.536015Z  INFO model::migrations: Migration complete
+2026-10-02T12:35:07.536022Z  INFO usage_gauges_tracking_worker: Starting UsageGaugesTrackingWorker
+2026-10-02T12:35:07.536290Z  INFO application::exports::worker: No exports requested or in progress.
+2026-10-02T12:35:07.540932Z  INFO database::table_summary: Writing table summary checkpoint at ts 1790944507493338383
+2026-10-02T12:35:07.541158Z  INFO application::table_summary_worker: Finishing table summary bootstrap
+2026-10-02T12:35:07.541669Z  INFO common::http: backend listening on 127.0.0.1:3210
+2026-10-02T12:35:07.541720Z  INFO local_backend::proxy: Starting dev site proxy at 127.0.0.1:3211...
+2026-10-02T12:35:07.541804Z  INFO common::http: backend_http_proxy listening on 127.0.0.1:3211
+2026-10-02T12:35:07.542133Z  INFO database::committer: Bootstrapped table summaries at ts 1790944507493338383
+2026-10-02T12:35:07.542181Z  INFO application::table_summary_worker: Table summary bootstrap finished
+2026-10-02T12:35:11.194086Z  INFO keybroker::broker: Admin key accepted from MemberId(0) at Some(2026-10-02T12:35:07Z) for contractor-validation
+2026-10-02T12:35:11.194370Z  INFO convex-cloud-http: [] 127.0.0.1:54512 "GET /api/v1/get_canonical_urls HTTP/1.1" 200 "-" "node" application/json - 0.450ms
+2026-10-02T12:35:11.223512Z  INFO keybroker::broker: Admin key accepted from MemberId(0) at Some(2026-10-02T12:35:07Z) for contractor-validation
+2026-10-02T12:35:12.324639Z  INFO keybroker::broker: Admin key accepted from MemberId(0) at Some(2026-10-02T12:35:07Z) for contractor-validation
+2026-10-02T12:35:12.324882Z  INFO convex-cloud-http: [] 127.0.0.1:54512 "POST /api/get_config_hashes HTTP/1.1" 200 "-" "node" application/json - 0.381ms
+2026-10-02T12:35:12.421211Z  INFO keybroker::broker: Admin key accepted from MemberId(0) at Some(2026-10-02T12:35:07Z) for contractor-validation
+2026-10-02T12:35:12.421870Z  INFO application: Uploading package with 57 modules to Storage
+2026-10-02T12:35:12.422002Z  INFO application: Uploading package with 5 modules to Storage
+2026-10-02T12:35:12.422185Z  INFO application: Uploading package with 5 modules to Storage
+2026-10-02T12:35:12.422338Z  INFO application: Uploading package with 5 modules to Storage
+2026-10-02T12:35:12.433547Z  INFO application: Upload of ObjectKey("049206c9-1ba6-4bc5-88a4-618e9183ba3e") successful
+2026-10-02T12:35:12.433565Z  INFO application: Source package size: (Zipped: 139819, Unzipped, 622921)
+2026-10-02T12:35:12.433635Z  INFO application: Uploading package with 5 modules to Storage
+2026-10-02T12:35:12.437336Z  INFO application: Upload of ObjectKey("d517a506-fb44-4dcc-bd33-88a153e645a9") successful
+2026-10-02T12:35:12.437377Z  INFO application: Source package size: (Zipped: 140456, Unzipped, 626283)
+2026-10-02T12:35:12.437336Z  INFO application: Upload of ObjectKey("ec7f433f-dc66-4fb4-87a7-ce6e0ea94e90") successful
+2026-10-02T12:35:12.437392Z  INFO application: Source package size: (Zipped: 139918, Unzipped, 623420)
+2026-10-02T12:35:12.437419Z  INFO application: Uploading package with 5 modules to Storage
+2026-10-02T12:35:12.437611Z  INFO application: Uploading package with 10 modules to Storage
+2026-10-02T12:35:12.443194Z  INFO application: Upload of ObjectKey("0e012685-4582-481b-9875-acc018fd8abb") successful
+2026-10-02T12:35:12.443216Z  INFO application: Source package size: (Zipped: 302339, Unzipped, 1261715)
+2026-10-02T12:35:12.443270Z  INFO application: Uploading package with 5 modules to Storage
+2026-10-02T12:35:12.444116Z  INFO application: Upload of ObjectKey("559b6211-348c-4d57-aa5a-37436bd87f0e") successful
+2026-10-02T12:35:12.444130Z  INFO application: Source package size: (Zipped: 139881, Unzipped, 623306)
+2026-10-02T12:35:12.444170Z  INFO application: Uploading package with 5 modules to Storage
+2026-10-02T12:35:12.451552Z  INFO application: Upload of ObjectKey("cf45191c-bd97-481a-af32-2a15c6c4fa5f") successful
+2026-10-02T12:35:12.451573Z  INFO application: Source package size: (Zipped: 139739, Unzipped, 622561)
+2026-10-02T12:35:12.451599Z  INFO application: Upload of ObjectKey("f2270107-39bb-4b20-a855-512b9ae9fc47") successful
+2026-10-02T12:35:12.451608Z  INFO application: Source package size: (Zipped: 137986, Unzipped, 620215)
+2026-10-02T12:35:12.451625Z  INFO application: Uploading package with 5 modules to Storage
+2026-10-02T12:35:12.451637Z  INFO application: Uploading package with 5 modules to Storage
+2026-10-02T12:35:12.453306Z  INFO application: Upload of ObjectKey("18dc13ea-cff8-423f-b853-47f010ce85be") successful
+2026-10-02T12:35:12.453322Z  INFO application: Source package size: (Zipped: 139729, Unzipped, 622452)
+2026-10-02T12:35:12.454265Z  INFO application: Upload of ObjectKey("6d8d40c5-bcec-46d7-8e66-f693fb4c20ba") successful
+2026-10-02T12:35:12.454279Z  INFO application: Source package size: (Zipped: 139882, Unzipped, 623370)
+2026-10-02T12:35:12.462279Z  INFO application: Upload of ObjectKey("38afc053-c4b9-42e4-99dc-6cd9192db025") successful
+2026-10-02T12:35:12.462295Z  INFO application: Source package size: (Zipped: 139845, Unzipped, 622917)
+2026-10-02T12:35:12.462329Z  INFO application: Upload of ObjectKey("8ccce321-f6b9-4fa1-b25f-f342039576ed") successful
+2026-10-02T12:35:12.462349Z  INFO application: Source package size: (Zipped: 139895, Unzipped, 623242)
+2026-10-02T12:35:12.463031Z  INFO isolate::client: Created funrun isolate worker 0
+2026-10-02T12:35:12.463135Z  INFO isolate::client: Created funrun isolate worker 1
+2026-10-02T12:35:12.463181Z  INFO isolate::client: Created funrun isolate worker 2
+2026-10-02T12:35:12.463251Z  INFO isolate::client: Created funrun isolate worker 3
+2026-10-02T12:35:12.474206Z  INFO isolate::client: Created funrun isolate worker 4
+2026-10-02T12:35:12.501186Z  INFO isolate::client: Created funrun isolate worker 5
+2026-10-02T12:35:12.539369Z  INFO isolate::client: Created funrun isolate worker 6
+2026-10-02T12:35:12.777922Z  INFO model::components::config: No-op initializing component tables in global namespace, because they already exist.
+2026-10-02T12:35:12.777980Z  INFO database::bootstrap_model::index: Preparing new and mutated indexes. Adding 1. Dropping 0.
+2026-10-02T12:35:12.778447Z  INFO database::transaction: Created system table: _schemas
+2026-10-02T12:35:12.778540Z  INFO database::transaction: Created system table: _schema_validation_progress
+2026-10-02T12:35:12.778613Z  INFO database::transaction: Created system table: _schema_validations
+2026-10-02T12:35:12.778726Z  INFO database::transaction: Created system table: _file_storage
+2026-10-02T12:35:12.778802Z  INFO database::transaction: Created system table: _scheduled_jobs
+2026-10-02T12:35:12.778911Z  INFO database::transaction: Created system table: _scheduled_job_args
+2026-10-02T12:35:12.778961Z  INFO database::transaction: Created system table: _cron_jobs
+2026-10-02T12:35:12.779027Z  INFO database::transaction: Created system table: _cron_job_logs
+2026-10-02T12:35:12.779095Z  INFO database::transaction: Created system table: _cron_next_run
+2026-10-02T12:35:12.779181Z  INFO database::transaction: Created system table: _modules
+2026-10-02T12:35:12.779247Z  INFO database::transaction: Created system table: _udf_config
+2026-10-02T12:35:12.779295Z  INFO database::transaction: Created system table: _source_packages
+2026-10-02T12:35:12.779327Z  INFO database::bootstrap_model::index: Preparing new and mutated indexes. Adding 4. Dropping 0.
+2026-10-02T12:35:12.779989Z  INFO database::transaction: Created system table: _schemas
+2026-10-02T12:35:12.780072Z  INFO database::transaction: Created system table: _schema_validation_progress
+2026-10-02T12:35:12.780148Z  INFO database::transaction: Created system table: _schema_validations
+2026-10-02T12:35:12.780220Z  INFO database::transaction: Created system table: _file_storage
+2026-10-02T12:35:12.780286Z  INFO database::transaction: Created system table: _scheduled_jobs
+2026-10-02T12:35:12.780390Z  INFO database::transaction: Created system table: _scheduled_job_args
+2026-10-02T12:35:12.780438Z  INFO database::transaction: Created system table: _cron_jobs
+2026-10-02T12:35:12.780503Z  INFO database::transaction: Created system table: _cron_job_logs
+2026-10-02T12:35:12.780572Z  INFO database::transaction: Created system table: _cron_next_run
+2026-10-02T12:35:12.780687Z  INFO database::transaction: Created system table: _modules
+2026-10-02T12:35:12.780763Z  INFO database::transaction: Created system table: _udf_config
+2026-10-02T12:35:12.780813Z  INFO database::transaction: Created system table: _source_packages
+2026-10-02T12:35:12.780850Z  INFO database::bootstrap_model::index: Preparing new and mutated indexes. Adding 4. Dropping 0.
+2026-10-02T12:35:12.781564Z  INFO database::transaction: Created system table: _schemas
+2026-10-02T12:35:12.781676Z  INFO database::transaction: Created system table: _schema_validation_progress
+2026-10-02T12:35:12.781765Z  INFO database::transaction: Created system table: _schema_validations
+2026-10-02T12:35:12.781844Z  INFO database::transaction: Created system table: _file_storage
+2026-10-02T12:35:12.781913Z  INFO database::transaction: Created system table: _scheduled_jobs
+2026-10-02T12:35:12.782020Z  INFO database::transaction: Created system table: _scheduled_job_args
+2026-10-02T12:35:12.782122Z  INFO database::transaction: Created system table: _cron_jobs
+2026-10-02T12:35:12.782201Z  INFO database::transaction: Created system table: _cron_job_logs
+2026-10-02T12:35:12.782277Z  INFO database::transaction: Created system table: _cron_next_run
+2026-10-02T12:35:12.782369Z  INFO database::transaction: Created system table: _modules
+2026-10-02T12:35:12.782439Z  INFO database::transaction: Created system table: _udf_config
+2026-10-02T12:35:12.782490Z  INFO database::transaction: Created system table: _source_packages
+2026-10-02T12:35:12.782535Z  INFO database::bootstrap_model::index: Preparing new and mutated indexes. Adding 4. Dropping 0.
+2026-10-02T12:35:12.783355Z  INFO database::transaction: Created system table: _schemas
+2026-10-02T12:35:12.783440Z  INFO database::transaction: Created system table: _schema_validation_progress
+2026-10-02T12:35:12.783514Z  INFO database::transaction: Created system table: _schema_validations
+2026-10-02T12:35:12.783589Z  INFO database::transaction: Created system table: _file_storage
+2026-10-02T12:35:12.783693Z  INFO database::transaction: Created system table: _scheduled_jobs
+2026-10-02T12:35:12.783808Z  INFO database::transaction: Created system table: _scheduled_job_args
+2026-10-02T12:35:12.783862Z  INFO database::transaction: Created system table: _cron_jobs
+2026-10-02T12:35:12.783936Z  INFO database::transaction: Created system table: _cron_job_logs
+2026-10-02T12:35:12.784007Z  INFO database::transaction: Created system table: _cron_next_run
+2026-10-02T12:35:12.784094Z  INFO database::transaction: Created system table: _modules
+2026-10-02T12:35:12.784163Z  INFO database::transaction: Created system table: _udf_config
+2026-10-02T12:35:12.784213Z  INFO database::transaction: Created system table: _source_packages
+2026-10-02T12:35:12.784554Z  INFO database::bootstrap_model::index: Preparing new and mutated indexes. Adding 111. Dropping 0.
+2026-10-02T12:35:12.801903Z  INFO database::transaction: Created system table: _schemas
+2026-10-02T12:35:12.802007Z  INFO database::transaction: Created system table: _schema_validation_progress
+2026-10-02T12:35:12.802361Z  INFO database::transaction: Created system table: _schema_validations
+2026-10-02T12:35:12.802462Z  INFO database::transaction: Created system table: _file_storage
+2026-10-02T12:35:12.802543Z  INFO database::transaction: Created system table: _scheduled_jobs
+2026-10-02T12:35:12.802700Z  INFO database::transaction: Created system table: _scheduled_job_args
+2026-10-02T12:35:12.802761Z  INFO database::transaction: Created system table: _cron_jobs
+2026-10-02T12:35:12.802833Z  INFO database::transaction: Created system table: _cron_job_logs
+2026-10-02T12:35:12.802908Z  INFO database::transaction: Created system table: _cron_next_run
+2026-10-02T12:35:12.803003Z  INFO database::transaction: Created system table: _modules
+2026-10-02T12:35:12.803078Z  INFO database::transaction: Created system table: _udf_config
+2026-10-02T12:35:12.803131Z  INFO database::transaction: Created system table: _source_packages
+2026-10-02T12:35:12.803222Z  INFO database::bootstrap_model::index: Preparing new and mutated indexes. Adding 4. Dropping 0.
+2026-10-02T12:35:12.804531Z  INFO database::transaction: Created system table: _schemas
+2026-10-02T12:35:12.804630Z  INFO database::transaction: Created system table: _schema_validation_progress
+2026-10-02T12:35:12.804756Z  INFO database::transaction: Created system table: _schema_validations
+2026-10-02T12:35:12.804843Z  INFO database::transaction: Created system table: _file_storage
+2026-10-02T12:35:12.804919Z  INFO database::transaction: Created system table: _scheduled_jobs
+2026-10-02T12:35:12.805052Z  INFO database::transaction: Created system table: _scheduled_job_args
+2026-10-02T12:35:12.805112Z  INFO database::transaction: Created system table: _cron_jobs
+2026-10-02T12:35:12.805190Z  INFO database::transaction: Created system table: _cron_job_logs
+2026-10-02T12:35:12.805270Z  INFO database::transaction: Created system table: _cron_next_run
+2026-10-02T12:35:12.805366Z  INFO database::transaction: Created system table: _modules
+2026-10-02T12:35:12.805452Z  INFO database::transaction: Created system table: _udf_config
+2026-10-02T12:35:12.805512Z  INFO database::transaction: Created system table: _source_packages
+2026-10-02T12:35:12.805606Z  INFO database::bootstrap_model::index: Preparing new and mutated indexes. Adding 4. Dropping 0.
+2026-10-02T12:35:12.807167Z  INFO database::transaction: Created system table: _schemas
+2026-10-02T12:35:12.807267Z  INFO database::transaction: Created system table: _schema_validation_progress
+2026-10-02T12:35:12.807353Z  INFO database::transaction: Created system table: _schema_validations
+2026-10-02T12:35:12.807445Z  INFO database::transaction: Created system table: _file_storage
+2026-10-02T12:35:12.807523Z  INFO database::transaction: Created system table: _scheduled_jobs
+2026-10-02T12:35:12.807734Z  INFO database::transaction: Created system table: _scheduled_job_args
+2026-10-02T12:35:12.807819Z  INFO database::transaction: Created system table: _cron_jobs
+2026-10-02T12:35:12.808011Z  INFO database::transaction: Created system table: _cron_job_logs
+2026-10-02T12:35:12.808159Z  INFO database::transaction: Created system table: _cron_next_run
+2026-10-02T12:35:12.808327Z  INFO database::transaction: Created system table: _modules
+2026-10-02T12:35:12.808477Z  INFO database::transaction: Created system table: _udf_config
+2026-10-02T12:35:12.808603Z  INFO database::transaction: Created system table: _source_packages
+2026-10-02T12:35:12.809082Z  INFO database::bootstrap_model::index: Preparing new and mutated indexes. Adding 4. Dropping 0.
+2026-10-02T12:35:12.811345Z  INFO database::transaction: Created system table: _schemas
+2026-10-02T12:35:12.811501Z  INFO database::transaction: Created system table: _schema_validation_progress
+2026-10-02T12:35:12.811673Z  INFO database::transaction: Created system table: _schema_validations
+2026-10-02T12:35:12.811832Z  INFO database::transaction: Created system table: _file_storage
+2026-10-02T12:35:12.811967Z  INFO database::transaction: Created system table: _scheduled_jobs
+2026-10-02T12:35:12.812208Z  INFO database::transaction: Created system table: _scheduled_job_args
+2026-10-02T12:35:12.812351Z  INFO database::transaction: Created system table: _cron_jobs
+2026-10-02T12:35:12.812469Z  INFO database::transaction: Created system table: _cron_job_logs
+2026-10-02T12:35:12.812735Z  INFO database::transaction: Created system table: _cron_next_run
+2026-10-02T12:35:12.813391Z  INFO database::transaction: Created system table: _modules
+2026-10-02T12:35:12.813505Z  INFO database::transaction: Created system table: _udf_config
+2026-10-02T12:35:12.813576Z  INFO database::transaction: Created system table: _source_packages
+2026-10-02T12:35:12.813732Z  INFO database::bootstrap_model::index: Preparing new and mutated indexes. Adding 4. Dropping 0.
+2026-10-02T12:35:12.815799Z  INFO database::transaction: Created system table: _schemas
+2026-10-02T12:35:12.816164Z  INFO database::transaction: Created system table: _schema_validation_progress
+2026-10-02T12:35:12.816328Z  INFO database::transaction: Created system table: _schema_validations
+2026-10-02T12:35:12.816485Z  INFO database::transaction: Created system table: _file_storage
+2026-10-02T12:35:12.816640Z  INFO database::transaction: Created system table: _scheduled_jobs
+2026-10-02T12:35:12.816881Z  INFO database::transaction: Created system table: _scheduled_job_args
+2026-10-02T12:35:12.816992Z  INFO database::transaction: Created system table: _cron_jobs
+2026-10-02T12:35:12.817139Z  INFO database::transaction: Created system table: _cron_job_logs
+2026-10-02T12:35:12.817273Z  INFO database::transaction: Created system table: _cron_next_run
+2026-10-02T12:35:12.817457Z  INFO database::transaction: Created system table: _modules
+2026-10-02T12:35:12.817611Z  INFO database::transaction: Created system table: _udf_config
+2026-10-02T12:35:12.817737Z  INFO database::transaction: Created system table: _source_packages
+2026-10-02T12:35:12.817861Z  INFO database::bootstrap_model::index: Preparing new and mutated indexes. Adding 4. Dropping 0.
+2026-10-02T12:35:12.820376Z  INFO database::transaction: Created system table: _schemas
+2026-10-02T12:35:12.820517Z  INFO database::transaction: Created system table: _schema_validation_progress
+2026-10-02T12:35:12.820699Z  INFO database::transaction: Created system table: _schema_validations
+2026-10-02T12:35:12.820856Z  INFO database::transaction: Created system table: _file_storage
+2026-10-02T12:35:12.821006Z  INFO database::transaction: Created system table: _scheduled_jobs
+2026-10-02T12:35:12.821228Z  INFO database::transaction: Created system table: _scheduled_job_args
+2026-10-02T12:35:12.821341Z  INFO database::transaction: Created system table: _cron_jobs
+2026-10-02T12:35:12.821471Z  INFO database::transaction: Created system table: _cron_job_logs
+2026-10-02T12:35:12.821606Z  INFO database::transaction: Created system table: _cron_next_run
+2026-10-02T12:35:12.821782Z  INFO database::transaction: Created system table: _modules
+2026-10-02T12:35:12.821872Z  INFO database::transaction: Created system table: _udf_config
+2026-10-02T12:35:12.821933Z  INFO database::transaction: Created system table: _source_packages
+2026-10-02T12:35:12.822094Z  INFO database::bootstrap_model::index: Preparing new and mutated indexes. Adding 4. Dropping 0.
+2026-10-02T12:35:12.885226Z  INFO indexing::in_memory_indexes: Loading 11 tables with 33 indexes...
+2026-10-02T12:35:12.886152Z  INFO log_streaming: Found 0 sink(s) in `Tombstoned` state
+2026-10-02T12:35:12.886169Z  INFO log_streaming: Found 0 sink(s) in Pending state.
+2026-10-02T12:35:12.886172Z  INFO log_streaming: Found 0 inactive sink(s).
+2026-10-02T12:35:12.887149Z  INFO application::exports::worker: No exports requested or in progress.
+2026-10-02T12:35:12.888923Z  INFO database::database: Catching up table shapes from published ts 1790944507493338383 to 1790944512859837768
+2026-10-02T12:35:12.889279Z  INFO database::database_index_workers: Queuing index backfill for index ID AXvEwLob9It71eLmFLdQ-A and tablet ID FHZB0cOoEPaMSTMUTVBQ-A
+2026-10-02T12:35:12.889329Z  INFO database::database_index_workers: Queuing index backfill for index ID A5Bk7qxmCljYEq2VXmZQ-A and tablet ID 8xyWLHP7ByQJk5o6u_lQ-A
+2026-10-02T12:35:12.889340Z  INFO database::database_index_workers: Queuing index backfill for index ID BC69STjeSBnIGpSjD3RQ-A and tablet ID c0xHpmLnFBM7kmpK-KZQ-A
+2026-10-02T12:35:12.889346Z  INFO database::database_index_workers: Queuing index backfill for index ID CCXefnowNcwVXsl88MxQ-A and tablet ID Y-16x1hAgpSLc3OJLOhQ-A
+2026-10-02T12:35:12.889355Z  INFO database::database_index_workers: Queuing index backfill for index ID CTnaXaYRO7CZTPmOHEhQ-A and tablet ID 7AdKVWDo7pfUTrljVTBQ-A
+2026-10-02T12:35:12.889362Z  INFO database::database_index_workers: Queuing index backfill for index ID CjJtgiOwxSUGFF9A_7pQ-A and tablet ID DK1caWBVhKONvUcjb_RQ-A
+2026-10-02T12:35:12.889369Z  INFO database::database_index_workers: Queuing index backfill for index ID DBvTFseTioQkLaHDaoZQ-A and tablet ID bWE3OZq0yC1kr52BXvFQ-A
+2026-10-02T12:35:12.889376Z  INFO database::database_index_workers: Queuing index backfill for index ID EFSsCfK1n7-lDXlG9nVQ-A and tablet ID Skvs8SJB5QL6aZZEV9NQ-A
+2026-10-02T12:35:12.889565Z  INFO database::database_index_workers: Starting backfill of 6 indexes for co_invoice: {IndexId(InternalId(AXvEwLob9It71eLmFLdQ-A)): FHZB0cOoEPaMSTMUTVBQ-A.by_tenant_status, IndexId(InternalId(K_cSEVmQr3sNUrHsslhQ-A)): FHZB0cOoEPaMSTMUTVBQ-A.by_tenant, IndexId(InternalId(MHby3uF0MIkME-cavexQ-A)): FHZB0cOoEPaMSTMUTVBQ-A.by_tenant_contract, IndexId(InternalId(OaUjmEdYVLW9K9n4UXhQ-A)): FHZB0cOoEPaMSTMUTVBQ-A.by_tenant_client, IndexId(InternalId(8DuuOpdoxUM5EPVm0CNQ-A)): FHZB0cOoEPaMSTMUTVBQ-A.by_tenant_job, IndexId(InternalId(8p-xGPg_3hHgG4lOBWRQ-A)): FHZB0cOoEPaMSTMUTVBQ-A.by_tenant_identifier}
+2026-10-02T12:35:12.889582Z  INFO database::database_index_workers: Starting backfill of 7 indexes for co_job: {IndexId(InternalId(CCXefnowNcwVXsl88MxQ-A)): Y-16x1hAgpSLc3OJLOhQ-A.by_tenant_identifier, IndexId(InternalId(DIrFohNaUVEGJGg4Pw1Q-A)): Y-16x1hAgpSLc3OJLOhQ-A.by_tenant_contract, IndexId(InternalId(TFXDO6dgwgyHwaZyRZxQ-A)): Y-16x1hAgpSLc3OJLOhQ-A.by_tenant_status, IndexId(InternalId(lCSAhCWzShRbV4cLjzpQ-A)): Y-16x1hAgpSLc3OJLOhQ-A.by_tenant, IndexId(InternalId(lvBxB3QUmomB7DBdM-NQ-A)): Y-16x1hAgpSLc3OJLOhQ-A.by_tenant_client, IndexId(InternalId(nITyInyY_nWS8752lJ5Q-A)): Y-16x1hAgpSLc3OJLOhQ-A.by_tenant_bid, IndexId(InternalId(xp_87_6ZTdpffBZ2U9NQ-A)): Y-16x1hAgpSLc3OJLOhQ-A.by_tenant_contact}
+2026-10-02T12:35:12.889597Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g8202yy4r2x1qx4bffay5sgmpx8fg1fk
+2026-10-02T12:35:12.889606Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g820g9eyfsx30dec2nfcjz7gsh8fgxnv
+2026-10-02T12:35:12.889613Z  INFO database::database_index_workers: Starting backfill of 6 indexes for co_bid: {IndexId(InternalId(A5Bk7qxmCljYEq2VXmZQ-A)): 8xyWLHP7ByQJk5o6u_lQ-A.by_tenant_client, IndexId(InternalId(NSM55iuDsREWa87_HgtQ-A)): 8xyWLHP7ByQJk5o6u_lQ-A.by_tenant_lead, IndexId(InternalId(f7Mi3yo3sX7Gl3kT2LZQ-A)): 8xyWLHP7ByQJk5o6u_lQ-A.by_tenant_proposal, IndexId(InternalId(h5wPewD4QCNC2uq3MYBQ-A)): 8xyWLHP7ByQJk5o6u_lQ-A.by_tenant, IndexId(InternalId(oMcbvOWCTUScPYcEbfJQ-A)): 8xyWLHP7ByQJk5o6u_lQ-A.by_tenant_status, IndexId(InternalId(5cO3FpxohK6mHrSzRc5Q-A)): 8xyWLHP7ByQJk5o6u_lQ-A.by_tenant_identifier}
+2026-10-02T12:35:12.889673Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g822qxrj25cs1bvv1n9b3v5jb18fgb5z
+2026-10-02T12:35:12.889674Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g8207434xtp6c2jrv09av5aycs8fg5zv
+2026-10-02T12:35:12.889682Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g820s2p5m89nmmah0rj6ge1z1n8fhw3j
+2026-10-02T12:35:12.889707Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g8230xqjvvgq8c491g9ye6nxxh8fg6se
+2026-10-02T12:35:12.889715Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g824rne37ekp1ggcgz0tcwj5kh8fh0yx
+2026-10-02T12:35:12.889727Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g823k993k13ngn5nqmnxky2hf18fh4ad
+2026-10-02T12:35:12.889736Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g8298940ggjv6jgmbdbre2wf798fhkcs
+2026-10-02T12:35:12.889746Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82f0exe7abphha3748faspg4d8fgzs1
+2026-10-02T12:35:12.889748Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g823a8sswrnr7c8h2snwxzry1d8fgb2p
+2026-10-02T12:35:12.889757Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g829dw3h0xt196m9g7p30q9kwd8fh1zw
+2026-10-02T12:35:12.889764Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82f57xh33w3zqghw0drjkg5ch8fh2da
+2026-10-02T12:35:12.889765Z  INFO database::database_index_workers: Starting backfill of 1 indexes for events: {IndexId(InternalId(BC69STjeSBnIGpSjD3RQ-A)): c0xHpmLnFBM7kmpK-KZQ-A.by_tenant_identifier}
+2026-10-02T12:35:12.889778Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g829s17j49y9hzknjbsvwxmmks8fgx7m
+2026-10-02T12:35:12.889790Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g8208bnx94wdwj0ss0d998rfeh8fg68d
+2026-10-02T12:35:12.889792Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g827zcs2vwn3fcbyrtbqj4yrps8fg22h
+2026-10-02T12:35:12.889801Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82cd7zwxzz9jketbxy1cxjktd8fgtdp
+2026-10-02T12:35:12.889828Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g828f70ffc0fgg138bdendshg18fgh31
+2026-10-02T12:35:12.889864Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82a1hrvqkjr4ka4kgyre13dy98fhhxt
+2026-10-02T12:35:12.889889Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82ebgxq2te6h15emrfb9ct5ss8fhds2
+2026-10-02T12:35:12.890264Z  INFO database::database_index_workers: Starting backfill of 2 indexes for domainEvents: {IndexId(InternalId(DBvTFseTioQkLaHDaoZQ-A)): bWE3OZq0yC1kr52BXvFQ-A.by_tenant_entity, IndexId(InternalId(TG5SbirnrBhQC4U1QKtQ-A)): bWE3OZq0yC1kr52BXvFQ-A.by_tenant}
+2026-10-02T12:35:12.890288Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g820r6yk2v3s72m44gpt3gvags8fhtym
+2026-10-02T12:35:12.890332Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g824rvjjdrnefb0ra05rada0nd8fg7de
+2026-10-02T12:35:12.890476Z  INFO database::database_index_workers: Starting backfill of 6 indexes for co_site_visit: {IndexId(InternalId(EFSsCfK1n7-lDXlG9nVQ-A)): Skvs8SJB5QL6aZZEV9NQ-A.by_tenant_contact, IndexId(InternalId(EN_hvquKwmwjlG81elBQ-A)): Skvs8SJB5QL6aZZEV9NQ-A.by_tenant_client, IndexId(InternalId(VC6Dr-77GWxHAee9phpQ-A)): Skvs8SJB5QL6aZZEV9NQ-A.by_tenant_status, IndexId(InternalId(V25e1PtWJPtGGM8J54ZQ-A)): Skvs8SJB5QL6aZZEV9NQ-A.by_tenant_lead, IndexId(InternalId(dk1LZh9K6CAbs1wm7YZQ-A)): Skvs8SJB5QL6aZZEV9NQ-A.by_tenant_identifier, IndexId(InternalId(_KLGWXb2wt2XRAA3hphQ-A)): Skvs8SJB5QL6aZZEV9NQ-A.by_tenant}
+2026-10-02T12:35:12.890497Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g8210n5c17sbb7xzmm6qjhqpen8fhj63
+2026-10-02T12:35:12.890540Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g8211qz1qtnrngkc4ea6ydbta18fhs7p
+2026-10-02T12:35:12.890563Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g8258bm3nzqfp6bc8w0yffd6398fh77p
+2026-10-02T12:35:12.890582Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g825evjytkxnc97v8rccy2f7gs8fhp48
+2026-10-02T12:35:12.890599Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g827ckabcrfmnt103esnr9qdgs8fgxq6
+2026-10-02T12:35:12.890617Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82fs8p6b5vfdgpxjx200dw6k18fhhmh
+2026-10-02T12:35:12.890820Z  INFO database::database_index_workers: Starting backfill of 4 indexes for co_automation_rule: {IndexId(InternalId(CTnaXaYRO7CZTPmOHEhQ-A)): 7AdKVWDo7pfUTrljVTBQ-A.by_tenant_campaign, IndexId(InternalId(QzYyG3kVUpvAOLwWN9VQ-A)): 7AdKVWDo7pfUTrljVTBQ-A.by_tenant, IndexId(InternalId(bnE_9noRofCS36L9ljdQ-A)): 7AdKVWDo7pfUTrljVTBQ-A.by_tenant_status, IndexId(InternalId(7sbH05MXBgRfrycyAg9Q-A)): 7AdKVWDo7pfUTrljVTBQ-A.by_tenant_identifier}
+2026-10-02T12:35:12.890844Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g820jeetbpk12exgk56fk3gw918fhead
+2026-10-02T12:35:12.890892Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g8246dhj3dwhammvr0wbr5hqtn8fhsb8
+2026-10-02T12:35:12.890941Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g826ww9zysx138fgjbft5zcp6x8fhpzz
+2026-10-02T12:35:12.890967Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82exhp7te9he1g4byqjecg21x8fgj1e
+2026-10-02T12:35:12.891050Z  INFO database::database_index_workers: Starting backfill of 3 indexes for co_contact: {IndexId(InternalId(CjJtgiOwxSUGFF9A_7pQ-A)): DK1caWBVhKONvUcjb_RQ-A.by_tenant, IndexId(InternalId(HNPhyFo17N3GYXZM8KBQ-A)): DK1caWBVhKONvUcjb_RQ-A.by_tenant_client, IndexId(InternalId(9JCZ67zayau9a5r3Ph1Q-A)): DK1caWBVhKONvUcjb_RQ-A.by_tenant_identifier}
+2026-10-02T12:35:12.891075Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g820mckdg8hv1h950ra5yg7zq98fga5h
+2026-10-02T12:35:12.891119Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g821smz1s1d3bv6xrsgqck7gm18fgdy6
+2026-10-02T12:35:12.891146Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82f944sxeydnjdbqnnsnxsy3n8fhx4v
+2026-10-02T12:35:12.891423Z  INFO database::committer: Loaded indexes into memory
+2026-10-02T12:35:12.896604Z  INFO convex-cloud-http: [] 127.0.0.1:54512 "POST /api/deploy2/start_push HTTP/1.1" 200 "-" "node" application/json - 500.600ms
+2026-10-02T12:35:12.896676Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(8xyWLHP7ByQJk5o6u_lQ-A.by_tenant_client, 8xyWLHP7ByQJk5o6u_lQ-A.by_tenant_lead, 8xyWLHP7ByQJk5o6u_lQ-A.by_tenant_proposal, 8xyWLHP7ByQJk5o6u_lQ-A.by_tenant, 8xyWLHP7ByQJk5o6u_lQ-A.by_tenant_status, 8xyWLHP7ByQJk5o6u_lQ-A.by_tenant_identifier) for table 8xyWLHP7ByQJk5o6u_lQ-A at snapshot 1790944512859837768
+2026-10-02T12:35:12.896752Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(FHZB0cOoEPaMSTMUTVBQ-A.by_tenant_status, FHZB0cOoEPaMSTMUTVBQ-A.by_tenant, FHZB0cOoEPaMSTMUTVBQ-A.by_tenant_contract, FHZB0cOoEPaMSTMUTVBQ-A.by_tenant_client, FHZB0cOoEPaMSTMUTVBQ-A.by_tenant_job, FHZB0cOoEPaMSTMUTVBQ-A.by_tenant_identifier) for table FHZB0cOoEPaMSTMUTVBQ-A at snapshot 1790944512859837768
+2026-10-02T12:35:12.897207Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(bWE3OZq0yC1kr52BXvFQ-A.by_tenant_entity, bWE3OZq0yC1kr52BXvFQ-A.by_tenant) for table bWE3OZq0yC1kr52BXvFQ-A at snapshot 1790944512859837768
+2026-10-02T12:35:12.897448Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(Skvs8SJB5QL6aZZEV9NQ-A.by_tenant_contact, Skvs8SJB5QL6aZZEV9NQ-A.by_tenant_client, Skvs8SJB5QL6aZZEV9NQ-A.by_tenant_status, Skvs8SJB5QL6aZZEV9NQ-A.by_tenant_lead, Skvs8SJB5QL6aZZEV9NQ-A.by_tenant_identifier, Skvs8SJB5QL6aZZEV9NQ-A.by_tenant) for table Skvs8SJB5QL6aZZEV9NQ-A at snapshot 1790944512859837768
+2026-10-02T12:35:12.897700Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(7AdKVWDo7pfUTrljVTBQ-A.by_tenant_campaign, 7AdKVWDo7pfUTrljVTBQ-A.by_tenant, 7AdKVWDo7pfUTrljVTBQ-A.by_tenant_status, 7AdKVWDo7pfUTrljVTBQ-A.by_tenant_identifier) for table 7AdKVWDo7pfUTrljVTBQ-A at snapshot 1790944512859837768
+2026-10-02T12:35:12.897784Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(Y-16x1hAgpSLc3OJLOhQ-A.by_tenant_identifier, Y-16x1hAgpSLc3OJLOhQ-A.by_tenant_contract, Y-16x1hAgpSLc3OJLOhQ-A.by_tenant_status, Y-16x1hAgpSLc3OJLOhQ-A.by_tenant, Y-16x1hAgpSLc3OJLOhQ-A.by_tenant_client, Y-16x1hAgpSLc3OJLOhQ-A.by_tenant_bid, Y-16x1hAgpSLc3OJLOhQ-A.by_tenant_contact) for table Y-16x1hAgpSLc3OJLOhQ-A at snapshot 1790944512859837768
+2026-10-02T12:35:12.902303Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(DK1caWBVhKONvUcjb_RQ-A.by_tenant, DK1caWBVhKONvUcjb_RQ-A.by_tenant_client, DK1caWBVhKONvUcjb_RQ-A.by_tenant_identifier) for table DK1caWBVhKONvUcjb_RQ-A at snapshot 1790944512859837768
+2026-10-02T12:35:12.902391Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(c0xHpmLnFBM7kmpK-KZQ-A.by_tenant_identifier) for table c0xHpmLnFBM7kmpK-KZQ-A at snapshot 1790944512859837768
+2026-10-02T12:35:12.903185Z  INFO database::database_index_workers: Started running retention for 6 indexes
+2026-10-02T12:35:12.904752Z  INFO database::database_index_workers: Started running retention for 6 indexes
+2026-10-02T12:35:12.906314Z  INFO database::database_index_workers: Started running retention for 2 indexes
+2026-10-02T12:35:12.908060Z  INFO database::database_index_workers: Started running retention for 6 indexes
+2026-10-02T12:35:12.909623Z  INFO application::schema_worker: SchemaWorker: table validation outcomes for ByComponent(m0254rz6bb16m6p4qg6mkyqs3x8fg3yh): [("events", SupersetOfShape), ("requests", SupersetOfShape), ("specs", SupersetOfShape)]
+2026-10-02T12:35:12.909774Z  INFO database::database_index_workers: Started running retention for 4 indexes
+2026-10-02T12:35:12.909904Z  INFO database::bootstrap_model::schema: Marked pending schema as validated
+2026-10-02T12:35:12.910941Z  INFO application::schema_worker: Schema is valid
+2026-10-02T12:35:12.911084Z  INFO application::schema_worker: SchemaWorker: table validation outcomes for ByComponent(m02a1rz8hrpj5wmt4hz905yfzn8fhnaq): [("businessEvidence", SupersetOfShape), ("businessRequests", SupersetOfShape), ("co_automation_rule", SupersetOfShape), ("co_bid", SupersetOfShape), ("co_campaign", SupersetOfShape), ("co_change_order", SupersetOfShape), ("co_client", SupersetOfShape), ("co_contact", SupersetOfShape), ("co_contract", SupersetOfShape), ("co_daily_report", SupersetOfShape), ("co_document", SupersetOfShape), ("co_invoice", SupersetOfShape), ("co_job", SupersetOfShape), ("co_lead", SupersetOfShape), ("co_outreach", SupersetOfShape), ("co_payment", SupersetOfShape), ("co_pricing_rule", SupersetOfShape), ("co_proposal", SupersetOfShape), ("co_scope", SupersetOfShape), ("co_site_visit", SupersetOfShape), ("co_subcontractor", SupersetOfShape), ("co_trade_spec", SupersetOfShape), ("domainEvents", SupersetOfShape), ("domainRequests", SupersetOfShape), ("entities", SupersetOfShape), ("events", SupersetOfShape), ("imports", SupersetOfShape), ("links", SupersetOfShape)]
+2026-10-02T12:35:12.911344Z  INFO database::database_index_workers: Started running retention for 7 indexes
+2026-10-02T12:35:12.911492Z  INFO database::bootstrap_model::schema: Marked pending schema as validated
+2026-10-02T12:35:12.912289Z  INFO application::schema_worker: Schema is valid
+2026-10-02T12:35:12.912335Z  INFO application::schema_worker: SchemaWorker: table validation outcomes for ByComponent(m02ch5ew9x76brgr2arwb0c84n8fhns6): [("events", SupersetOfShape), ("requests", SupersetOfShape), ("specs", SupersetOfShape)]
+2026-10-02T12:35:12.912997Z  INFO database::bootstrap_model::schema: Marked pending schema as validated
+2026-10-02T12:35:12.913400Z  INFO database::database_index_workers: Started running retention for 3 indexes
+2026-10-02T12:35:12.913735Z  INFO application::schema_worker: Schema is valid
+2026-10-02T12:35:12.913767Z  INFO application::schema_worker: SchemaWorker: table validation outcomes for ByComponent(m026qetq3tafqdmwxxyaaks6ts8fhgxs): [("events", SupersetOfShape), ("requests", SupersetOfShape), ("specs", SupersetOfShape)]
+2026-10-02T12:35:12.914094Z  INFO database::bootstrap_model::schema: Marked pending schema as validated
+2026-10-02T12:35:12.914110Z  INFO database::database_index_workers: Started running retention for 1 indexes
+2026-10-02T12:35:12.914333Z  INFO database::database_index_workers: Finished backfill of index 8xyWLHP7ByQJk5o6u_lQ-A.by_tenant_client
+2026-10-02T12:35:12.914467Z  INFO database::database_index_workers: Finished backfill of index 8xyWLHP7ByQJk5o6u_lQ-A.by_tenant_lead
+2026-10-02T12:35:12.914576Z  INFO database::database_index_workers: Finished backfill of index 8xyWLHP7ByQJk5o6u_lQ-A.by_tenant_proposal
+2026-10-02T12:35:12.914596Z  INFO application::schema_worker: Schema is valid
+2026-10-02T12:35:12.914633Z  INFO application::schema_worker: SchemaWorker: table validation outcomes for ByComponent(m029h3d4cfpdwaccm4pavc8n5d8fg0mj): [("events", SupersetOfShape), ("requests", SupersetOfShape), ("specs", SupersetOfShape)]
+2026-10-02T12:35:12.914730Z  INFO database::database_index_workers: Finished backfill of index 8xyWLHP7ByQJk5o6u_lQ-A.by_tenant
+2026-10-02T12:35:12.914802Z  INFO database::bootstrap_model::schema: Marked pending schema as validated
+2026-10-02T12:35:12.914809Z  INFO database::database_index_workers: Finished backfill of index 8xyWLHP7ByQJk5o6u_lQ-A.by_tenant_status
+2026-10-02T12:35:12.914879Z  INFO database::database_index_workers: Finished backfill of index 8xyWLHP7ByQJk5o6u_lQ-A.by_tenant_identifier
+2026-10-02T12:35:12.915771Z  INFO application::schema_worker: Schema is valid
+2026-10-02T12:35:12.915809Z  INFO application::schema_worker: SchemaWorker: table validation outcomes for ByComponent(m024n2k7xsaw7bkvzek1xb4mas8fhaya): [("events", SupersetOfShape), ("requests", SupersetOfShape), ("specs", SupersetOfShape)]
+2026-10-02T12:35:12.915956Z  INFO database::bootstrap_model::schema: Marked pending schema as validated
+2026-10-02T12:35:12.916341Z  INFO database::database_index_workers: Finished backfill of index FHZB0cOoEPaMSTMUTVBQ-A.by_tenant_status
+2026-10-02T12:35:12.916423Z  INFO database::database_index_workers: Finished backfill of index FHZB0cOoEPaMSTMUTVBQ-A.by_tenant
+2026-10-02T12:35:12.916560Z  INFO database::database_index_workers: Finished backfill of index FHZB0cOoEPaMSTMUTVBQ-A.by_tenant_contract
+2026-10-02T12:35:12.916706Z  INFO database::database_index_workers: Finished backfill of index FHZB0cOoEPaMSTMUTVBQ-A.by_tenant_client
+2026-10-02T12:35:12.916812Z  INFO database::database_index_workers: Finished backfill of index FHZB0cOoEPaMSTMUTVBQ-A.by_tenant_job
+2026-10-02T12:35:12.916907Z  INFO database::database_index_workers: Finished backfill of index FHZB0cOoEPaMSTMUTVBQ-A.by_tenant_identifier
+2026-10-02T12:35:12.917189Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(A5Bk7qxmCljYEq2VXmZQ-A)), IndexId(InternalId(h5wPewD4QCNC2uq3MYBQ-A)), IndexId(InternalId(oMcbvOWCTUScPYcEbfJQ-A)), IndexId(InternalId(f7Mi3yo3sX7Gl3kT2LZQ-A)), IndexId(InternalId(NSM55iuDsREWa87_HgtQ-A)), IndexId(InternalId(5cO3FpxohK6mHrSzRc5Q-A))]
+2026-10-02T12:35:12.918716Z  INFO application::schema_worker: Schema is valid
+2026-10-02T12:35:12.918743Z  INFO application::schema_worker: SchemaWorker: table validation outcomes for Global: [("contractorOsMemberships", SupersetOfShape)]
+2026-10-02T12:35:12.918857Z  INFO database::bootstrap_model::schema: Marked pending schema as validated
+2026-10-02T12:35:12.919350Z  INFO application::schema_worker: Schema is valid
+2026-10-02T12:35:12.919382Z  INFO application::schema_worker: SchemaWorker: table validation outcomes for ByComponent(m024fhkc9t3rs8p1d9a3ks3zs18fgjsk): [("events", SupersetOfShape), ("requests", SupersetOfShape), ("specs", SupersetOfShape)]
+2026-10-02T12:35:12.919382Z  INFO database::database_index_workers: Queuing index backfill for index ID ExlOMqwrmNGdtbXh2FVQ-A and tablet ID 6bEdiT11FRFWCtp4qEJQ-A
+2026-10-02T12:35:12.919568Z  INFO database::database_index_workers: Starting backfill of 1 indexes for links: {IndexId(InternalId(ExlOMqwrmNGdtbXh2FVQ-A)): 6bEdiT11FRFWCtp4qEJQ-A.by_tenant_source}
+2026-10-02T12:35:12.919592Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82166ae6ap2q66hkptvbreran8fhkw4
+2026-10-02T12:35:12.919623Z  INFO database::bootstrap_model::schema: Marked pending schema as validated
+2026-10-02T12:35:12.919681Z  INFO database::database_index_workers: Finished backfill of index bWE3OZq0yC1kr52BXvFQ-A.by_tenant_entity
+2026-10-02T12:35:12.919774Z  INFO database::database_index_workers: Finished backfill of index bWE3OZq0yC1kr52BXvFQ-A.by_tenant
+2026-10-02T12:35:12.920747Z  INFO application::schema_worker: Schema is valid
+2026-10-02T12:35:12.920787Z  INFO application::schema_worker: SchemaWorker: table validation outcomes for ByComponent(m021vaemzjnbm7vvkn8fpk3t8n8fgwz3): [("events", SupersetOfShape), ("requests", SupersetOfShape), ("specs", SupersetOfShape)]
+2026-10-02T12:35:12.920921Z  INFO database::bootstrap_model::schema: Marked pending schema as validated
+2026-10-02T12:35:12.921015Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(6bEdiT11FRFWCtp4qEJQ-A.by_tenant_source) for table 6bEdiT11FRFWCtp4qEJQ-A at snapshot 1790944512918921965
+2026-10-02T12:35:12.921774Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(AXvEwLob9It71eLmFLdQ-A)), IndexId(InternalId(K_cSEVmQr3sNUrHsslhQ-A)), IndexId(InternalId(8p-xGPg_3hHgG4lOBWRQ-A)), IndexId(InternalId(OaUjmEdYVLW9K9n4UXhQ-A)), IndexId(InternalId(8DuuOpdoxUM5EPVm0CNQ-A)), IndexId(InternalId(MHby3uF0MIkME-cavexQ-A))]
+2026-10-02T12:35:12.922587Z  INFO database::database_index_workers: Queuing index backfill for index ID E0LNA4Pa6DC3cOXCyGFQ-A and tablet ID OZlhi02LjWVB-6eiFotQ-A
+2026-10-02T12:35:12.922906Z  INFO database::database_index_workers: Starting backfill of 7 indexes for co_document: {IndexId(InternalId(E0LNA4Pa6DC3cOXCyGFQ-A)): OZlhi02LjWVB-6eiFotQ-A.by_tenant_lead, IndexId(InternalId(HddFC8gF3fFJb3KtFLdQ-A)): OZlhi02LjWVB-6eiFotQ-A.by_tenant, IndexId(InternalId(OfzGIeAGo08h-Ua_4_tQ-A)): OZlhi02LjWVB-6eiFotQ-A.by_tenant_campaign, IndexId(InternalId(SCbhe30gMf0EFgDfpcJQ-A)): OZlhi02LjWVB-6eiFotQ-A.by_tenant_contract, IndexId(InternalId(cH6_bai8F5YhyLbS8mRQ-A)): OZlhi02LjWVB-6eiFotQ-A.by_tenant_identifier, IndexId(InternalId(hV8LZcbuw07_jxnhDSFQ-A)): OZlhi02LjWVB-6eiFotQ-A.by_tenant_job, IndexId(InternalId(60ORBYC-0z73RKaDpBVQ-A)): OZlhi02LjWVB-6eiFotQ-A.by_tenant_status}
+2026-10-02T12:35:12.922935Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g8216gpd0e1xnt1gpxrebgp8c58fgqz0
+2026-10-02T12:35:12.922984Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g821vnt51f40bqfh95qq5b8mpx8fgkt3
+2026-10-02T12:35:12.923009Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g823kz6647g0d8tf47wmdfz3zd8fhfvf
+2026-10-02T12:35:12.923029Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g824g9q1fdyj0cfx0gb01qx5r98fhgt1
+2026-10-02T12:35:12.923048Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g8270znzdpmbr5wp474bdmqjch8fhg2f
+2026-10-02T12:35:12.923065Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g828aqrbcq3exgtezy7hkr8d458fh7fd
+2026-10-02T12:35:12.923083Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82epgwh0p0bxmsyyx2ad0x42n8fhzhr
+2026-10-02T12:35:12.924379Z  INFO application::schema_worker: Schema is valid
+2026-10-02T12:35:12.924427Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(DBvTFseTioQkLaHDaoZQ-A)), IndexId(InternalId(TG5SbirnrBhQC4U1QKtQ-A))]
+2026-10-02T12:35:12.924452Z  INFO application::schema_worker: SchemaWorker: table validation outcomes for ByComponent(m02bce9hm7earhje9jn3vfcy0x8fgqme): [("events", SupersetOfShape), ("requests", SupersetOfShape), ("specs", SupersetOfShape)]
+2026-10-02T12:35:12.924598Z  INFO database::database_index_workers: Finished backfill of index Skvs8SJB5QL6aZZEV9NQ-A.by_tenant_contact
+2026-10-02T12:35:12.924694Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(OZlhi02LjWVB-6eiFotQ-A.by_tenant_lead, OZlhi02LjWVB-6eiFotQ-A.by_tenant, OZlhi02LjWVB-6eiFotQ-A.by_tenant_campaign, OZlhi02LjWVB-6eiFotQ-A.by_tenant_contract, OZlhi02LjWVB-6eiFotQ-A.by_tenant_identifier, OZlhi02LjWVB-6eiFotQ-A.by_tenant_job, OZlhi02LjWVB-6eiFotQ-A.by_tenant_status) for table OZlhi02LjWVB-6eiFotQ-A at snapshot 1790944512919865241
+2026-10-02T12:35:12.924773Z  INFO database::database_index_workers: Finished backfill of index Skvs8SJB5QL6aZZEV9NQ-A.by_tenant_client
+2026-10-02T12:35:12.924848Z  INFO database::database_index_workers: Finished backfill of index Skvs8SJB5QL6aZZEV9NQ-A.by_tenant_status
+2026-10-02T12:35:12.924912Z  INFO database::database_index_workers: Finished backfill of index Skvs8SJB5QL6aZZEV9NQ-A.by_tenant_lead
+2026-10-02T12:35:12.924972Z  INFO database::database_index_workers: Finished backfill of index Skvs8SJB5QL6aZZEV9NQ-A.by_tenant_identifier
+2026-10-02T12:35:12.925044Z  INFO database::database_index_workers: Finished backfill of index Skvs8SJB5QL6aZZEV9NQ-A.by_tenant
+2026-10-02T12:35:12.925464Z  INFO database::database_index_workers: Queuing index backfill for index ID Gekgwi9QP-DECrnpd3hQ-A and tablet ID BjlCkkMI1EdpAYc4-RJQ-A
+2026-10-02T12:35:12.926327Z  INFO database::database_index_workers: Starting backfill of 4 indexes for co_trade_spec: {IndexId(InternalId(Gekgwi9QP-DECrnpd3hQ-A)): BjlCkkMI1EdpAYc4-RJQ-A.by_tenant_pricing_rule, IndexId(InternalId(Wvzk4rSZcm4ubua9qJZQ-A)): BjlCkkMI1EdpAYc4-RJQ-A.by_tenant_scope, IndexId(InternalId(lNeSwjy1ammf8VFQw8RQ-A)): BjlCkkMI1EdpAYc4-RJQ-A.by_tenant_identifier, IndexId(InternalId(zCobW-1bNOd5KLxdejpQ-A)): BjlCkkMI1EdpAYc4-RJQ-A.by_tenant}
+2026-10-02T12:35:12.926361Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g821kt90r8qn0fz0rg5bktbqf18fhbtr
+2026-10-02T12:35:12.926422Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g825nz74wat9jwke5sqedfd8js8fh54m
+2026-10-02T12:35:12.926463Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g8299nwjr8ybatk9kzrn2m63rh8fg2br
+2026-10-02T12:35:12.926497Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82cragvbfpnpd77f4mbrqbt798fg2sa
+2026-10-02T12:35:12.926971Z  INFO database::bootstrap_model::schema: Marked pending schema as validated
+2026-10-02T12:35:12.927800Z  INFO database::database_index_workers: Finished backfill of index 7AdKVWDo7pfUTrljVTBQ-A.by_tenant_campaign
+2026-10-02T12:35:12.927871Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(EFSsCfK1n7-lDXlG9nVQ-A)), IndexId(InternalId(_KLGWXb2wt2XRAA3hphQ-A)), IndexId(InternalId(VC6Dr-77GWxHAee9phpQ-A)), IndexId(InternalId(V25e1PtWJPtGGM8J54ZQ-A)), IndexId(InternalId(dk1LZh9K6CAbs1wm7YZQ-A)), IndexId(InternalId(EN_hvquKwmwjlG81elBQ-A))]
+2026-10-02T12:35:12.927886Z  INFO database::database_index_workers: Finished backfill of index 7AdKVWDo7pfUTrljVTBQ-A.by_tenant
+2026-10-02T12:35:12.927991Z  INFO database::database_index_workers: Finished backfill of index 7AdKVWDo7pfUTrljVTBQ-A.by_tenant_status
+2026-10-02T12:35:12.928060Z  INFO database::database_index_workers: Finished backfill of index 7AdKVWDo7pfUTrljVTBQ-A.by_tenant_identifier
+2026-10-02T12:35:12.929228Z  INFO application::schema_worker: Schema is valid
+2026-10-02T12:35:12.929276Z  INFO application::schema_worker: SchemaWorker: table validation outcomes for ByComponent(m026y1e5yw57y8ns6h8049w8658fhsnw): [("events", SupersetOfShape), ("requests", SupersetOfShape), ("specs", SupersetOfShape)]
+2026-10-02T12:35:12.929535Z  INFO database::bootstrap_model::schema: Marked pending schema as validated
+2026-10-02T12:35:12.929547Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(BjlCkkMI1EdpAYc4-RJQ-A.by_tenant_pricing_rule, BjlCkkMI1EdpAYc4-RJQ-A.by_tenant_scope, BjlCkkMI1EdpAYc4-RJQ-A.by_tenant_identifier, BjlCkkMI1EdpAYc4-RJQ-A.by_tenant) for table BjlCkkMI1EdpAYc4-RJQ-A at snapshot 1790944512923276829
+2026-10-02T12:35:12.929914Z  INFO database::database_index_workers: Queuing index backfill for index ID Hl7ImXZNUfxQ-8pXPftQ-A and tablet ID 3-O6TqrcxQOilJSHwKNQ-A
+2026-10-02T12:35:12.930249Z  INFO database::database_index_workers: Starting backfill of 6 indexes for co_scope: {IndexId(InternalId(Hl7ImXZNUfxQ-8pXPftQ-A)): 3-O6TqrcxQOilJSHwKNQ-A.by_tenant_trade_spec, IndexId(InternalId(Qn_U41Z8okdXxv_4DsNQ-A)): 3-O6TqrcxQOilJSHwKNQ-A.by_tenant_proposal, IndexId(InternalId(YCyMYi60TX-XauqVSqdQ-A)): 3-O6TqrcxQOilJSHwKNQ-A.by_tenant_lead, IndexId(InternalId(a8u2XiR9MKIucZBOBr1Q-A)): 3-O6TqrcxQOilJSHwKNQ-A.by_tenant_status, IndexId(InternalId(lVhFhYsFPJTCX9FJ6rlQ-A)): 3-O6TqrcxQOilJSHwKNQ-A.by_tenant, IndexId(InternalId(pzslbjBr_s1O_rYD781Q-A)): 3-O6TqrcxQOilJSHwKNQ-A.by_tenant_identifier}
+2026-10-02T12:35:12.930278Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g821wqp8k5v4tmfwa3xwmnsxzd8fgqx5
+2026-10-02T12:35:12.930322Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g8244zymwdb7s8j7az3fzy0erd8fhsjm
+2026-10-02T12:35:12.930347Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g8260b4cc8qb8kbzjxnen5aamx8fgsxk
+2026-10-02T12:35:12.930377Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g826qjxpbrj7tc525srs0kg6qn8fhjxc
+2026-10-02T12:35:12.930397Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g829ap25gp5gaf4mr9fx2jfaq58fhgrn
+2026-10-02T12:35:12.930419Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82aees5drr6qzpd9vzbc0zfsn8fgtjk
+2026-10-02T12:35:12.932068Z  INFO application::schema_worker: Schema is valid
+2026-10-02T12:35:12.932141Z  INFO application::schema_worker: SchemaWorker validated 11 pending schema(s), walking 0 table(s)
+2026-10-02T12:35:12.932267Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(CTnaXaYRO7CZTPmOHEhQ-A)), IndexId(InternalId(bnE_9noRofCS36L9ljdQ-A)), IndexId(InternalId(7sbH05MXBgRfrycyAg9Q-A)), IndexId(InternalId(QzYyG3kVUpvAOLwWN9VQ-A))]
+2026-10-02T12:35:12.932414Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(3-O6TqrcxQOilJSHwKNQ-A.by_tenant_trade_spec, 3-O6TqrcxQOilJSHwKNQ-A.by_tenant_proposal, 3-O6TqrcxQOilJSHwKNQ-A.by_tenant_lead, 3-O6TqrcxQOilJSHwKNQ-A.by_tenant_status, 3-O6TqrcxQOilJSHwKNQ-A.by_tenant, 3-O6TqrcxQOilJSHwKNQ-A.by_tenant_identifier) for table 3-O6TqrcxQOilJSHwKNQ-A at snapshot 1790944512927431517
+2026-10-02T12:35:12.932450Z  INFO database::database_index_workers: Finished backfill of index Y-16x1hAgpSLc3OJLOhQ-A.by_tenant_identifier
+2026-10-02T12:35:12.932596Z  INFO database::database_index_workers: Finished backfill of index Y-16x1hAgpSLc3OJLOhQ-A.by_tenant_contract
+2026-10-02T12:35:12.932717Z  INFO database::database_index_workers: Finished backfill of index Y-16x1hAgpSLc3OJLOhQ-A.by_tenant_status
+2026-10-02T12:35:12.932812Z  INFO database::database_index_workers: Finished backfill of index Y-16x1hAgpSLc3OJLOhQ-A.by_tenant
+2026-10-02T12:35:12.932909Z  INFO database::database_index_workers: Finished backfill of index Y-16x1hAgpSLc3OJLOhQ-A.by_tenant_client
+2026-10-02T12:35:12.932981Z  INFO database::database_index_workers: Finished backfill of index Y-16x1hAgpSLc3OJLOhQ-A.by_tenant_bid
+2026-10-02T12:35:12.933021Z  INFO database::database_index_workers: Queuing index backfill for index ID HtajMPOMnMvYlLIdVidQ-A and tablet ID NHp_Jh8xnz_Vww-OjeVQ-A
+2026-10-02T12:35:12.933046Z  INFO database::database_index_workers: Finished backfill of index Y-16x1hAgpSLc3OJLOhQ-A.by_tenant_contact
+2026-10-02T12:35:12.933141Z  INFO database::database_index_workers: Starting backfill of 2 indexes for co_pricing_rule: {IndexId(InternalId(HtajMPOMnMvYlLIdVidQ-A)): NHp_Jh8xnz_Vww-OjeVQ-A.by_tenant, IndexId(InternalId(ZdA651A7mFl4e18ttulQ-A)): NHp_Jh8xnz_Vww-OjeVQ-A.by_tenant_identifier}
+2026-10-02T12:35:12.933155Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g821xnn363srs76bv2ab47ap4x8fgcxx
+2026-10-02T12:35:12.933234Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g826bm1twx83q62sf1xnybdpx58fhfmc
+2026-10-02T12:35:12.934758Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(CCXefnowNcwVXsl88MxQ-A)), IndexId(InternalId(nITyInyY_nWS8752lJ5Q-A)), IndexId(InternalId(xp_87_6ZTdpffBZ2U9NQ-A)), IndexId(InternalId(TFXDO6dgwgyHwaZyRZxQ-A)), IndexId(InternalId(lCSAhCWzShRbV4cLjzpQ-A)), IndexId(InternalId(lvBxB3QUmomB7DBdM-NQ-A)), IndexId(InternalId(DIrFohNaUVEGJGg4Pw1Q-A))]
+2026-10-02T12:35:12.935018Z  INFO database::database_index_workers: Finished backfill of index DK1caWBVhKONvUcjb_RQ-A.by_tenant
+2026-10-02T12:35:12.935158Z  INFO database::database_index_workers: Finished backfill of index DK1caWBVhKONvUcjb_RQ-A.by_tenant_client
+2026-10-02T12:35:12.935279Z  INFO database::database_index_workers: Finished backfill of index DK1caWBVhKONvUcjb_RQ-A.by_tenant_identifier
+2026-10-02T12:35:12.935455Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(NHp_Jh8xnz_Vww-OjeVQ-A.by_tenant, NHp_Jh8xnz_Vww-OjeVQ-A.by_tenant_identifier) for table NHp_Jh8xnz_Vww-OjeVQ-A at snapshot 1790944512930633851
+2026-10-02T12:35:12.935752Z  INFO database::database_index_workers: Queuing index backfill for index ID HtyutpaE9I10s96jVaRQ-A and tablet ID OCc84ZOm44B0tZl-2oNQ-A
+2026-10-02T12:35:12.935868Z  INFO database::database_index_workers: Starting backfill of 1 indexes for imports: {IndexId(InternalId(HtyutpaE9I10s96jVaRQ-A)): OCc84ZOm44B0tZl-2oNQ-A.by_tenant_request}
+2026-10-02T12:35:12.935893Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g821xq5eptb89x4dejsxx8tnmh8fgt6z
+2026-10-02T12:35:12.938559Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(CjJtgiOwxSUGFF9A_7pQ-A)), IndexId(InternalId(9JCZ67zayau9a5r3Ph1Q-A)), IndexId(InternalId(HNPhyFo17N3GYXZM8KBQ-A))]
+2026-10-02T12:35:12.938731Z  INFO database::database_index_workers: Finished backfill of index c0xHpmLnFBM7kmpK-KZQ-A.by_tenant_identifier
+2026-10-02T12:35:12.939200Z  INFO database::database_index_workers: Queuing index backfill for index ID Ist33wROP_s-taT296ZQ-A and tablet ID 1NzoYpBTHd6Ua6htaMdQ-A
+2026-10-02T12:35:12.939373Z  INFO database::database_index_workers: Starting backfill of 4 indexes for co_daily_report: {IndexId(InternalId(Ist33wROP_s-taT296ZQ-A)): 1NzoYpBTHd6Ua6htaMdQ-A.by_tenant_status, IndexId(InternalId(J5ZVAyt7WIAw_GGVXQlQ-A)): 1NzoYpBTHd6Ua6htaMdQ-A.by_tenant_job, IndexId(InternalId(ilSPWZRWTh9do589No1Q-A)): 1NzoYpBTHd6Ua6htaMdQ-A.by_tenant, IndexId(InternalId(4f4b97rrOkyE4oLckgZQ-A)): 1NzoYpBTHd6Ua6htaMdQ-A.by_tenant_identifier}
+2026-10-02T12:35:12.939393Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g8225jvqvw24wfzv7ttt9xqqms8fhhr4
+2026-10-02T12:35:12.939440Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g822f5jn0cnqpp4063y635ax158fhtb6
+2026-10-02T12:35:12.939465Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g828mn4fb6a5ckgzbphsyf9phn8fh2kf
+2026-10-02T12:35:12.939487Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82e3zgvyyxepejcgkh85q4j0s8fghnr
+2026-10-02T12:35:12.942441Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(OCc84ZOm44B0tZl-2oNQ-A.by_tenant_request) for table OCc84ZOm44B0tZl-2oNQ-A at snapshot 1790944512934240540
+2026-10-02T12:35:12.943193Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(BC69STjeSBnIGpSjD3RQ-A))]
+2026-10-02T12:35:12.943707Z  INFO database::database_index_workers: Queuing index backfill for index ID JBNtAsP0sdGl93k9mZ1Q-A and tablet ID cgeZeXpFCafUE_CIznFQ-A
+2026-10-02T12:35:12.943786Z  INFO database::database_index_workers: Started running retention for 1 indexes
+2026-10-02T12:35:12.943867Z  INFO database::database_index_workers: Starting backfill of 2 indexes for specs: {IndexId(InternalId(JBNtAsP0sdGl93k9mZ1Q-A)): cgeZeXpFCafUE_CIznFQ-A.by_tenant_identifier, IndexId(InternalId(j0hAdRocuNlKpZbFmMZQ-A)): cgeZeXpFCafUE_CIznFQ-A.by_tenant}
+2026-10-02T12:35:12.943875Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(1NzoYpBTHd6Ua6htaMdQ-A.by_tenant_status, 1NzoYpBTHd6Ua6htaMdQ-A.by_tenant_job, 1NzoYpBTHd6Ua6htaMdQ-A.by_tenant, 1NzoYpBTHd6Ua6htaMdQ-A.by_tenant_identifier) for table 1NzoYpBTHd6Ua6htaMdQ-A at snapshot 1790944512935474738
+2026-10-02T12:35:12.943888Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82284vd0b1z9cehmqvqjfcskn8fgdbv
+2026-10-02T12:35:12.943966Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g828yj20emd1se6s9ajsdhcrrs8fhjdr
+2026-10-02T12:35:12.946553Z  INFO database::database_index_workers: Started running retention for 7 indexes
+2026-10-02T12:35:12.947534Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(cgeZeXpFCafUE_CIznFQ-A.by_tenant_identifier, cgeZeXpFCafUE_CIznFQ-A.by_tenant) for table cgeZeXpFCafUE_CIznFQ-A at snapshot 1790944512943264905
+2026-10-02T12:35:12.950968Z  INFO database::database_index_workers: Started running retention for 4 indexes
+2026-10-02T12:35:12.952981Z  INFO database::database_index_workers: Started running retention for 6 indexes
+2026-10-02T12:35:12.954259Z  INFO database::database_index_workers: Started running retention for 2 indexes
+2026-10-02T12:35:12.955455Z  INFO database::database_index_workers: Started running retention for 1 indexes
+2026-10-02T12:35:12.955711Z  INFO database::database_index_workers: Finished backfill of index 6bEdiT11FRFWCtp4qEJQ-A.by_tenant_source
+2026-10-02T12:35:12.956682Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(ExlOMqwrmNGdtbXh2FVQ-A))]
+2026-10-02T12:35:12.957448Z  INFO database::database_index_workers: Queuing index backfill for index ID JITaEGPZxwWQcjP_lh9Q-A and tablet ID 1ZMK47KyRoMMm5nJKEJQ-A
+2026-10-02T12:35:12.957777Z  INFO database::database_index_workers: Starting backfill of 6 indexes for co_contract: {IndexId(InternalId(JITaEGPZxwWQcjP_lh9Q-A)): 1ZMK47KyRoMMm5nJKEJQ-A.by_tenant_status, IndexId(InternalId(mt2xO9uZV2e8YMg10qxQ-A)): 1ZMK47KyRoMMm5nJKEJQ-A.by_tenant, IndexId(InternalId(xISAHx9rc1Wjemaav2dQ-A)): 1ZMK47KyRoMMm5nJKEJQ-A.by_tenant_client, IndexId(InternalId(47tS7Bbi1pCXGNH9Kl9Q-A)): 1ZMK47KyRoMMm5nJKEJQ-A.by_tenant_contact, IndexId(InternalId(_HtoI2kFp0IhIc1A2VhQ-A)): 1ZMK47KyRoMMm5nJKEJQ-A.by_tenant_bid, IndexId(InternalId(_9Zx90m2lUZ5_ewyQb5Q-A)): 1ZMK47KyRoMMm5nJKEJQ-A.by_tenant_identifier}
+2026-10-02T12:35:12.957806Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g822916t21hxkhr5j1s37zwp3x8fgm92
+2026-10-02T12:35:12.957858Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g829nqdh7fdsjnv7qhgcgdejnh8fhyn1
+2026-10-02T12:35:12.957885Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82c91403wfppwtnmdx6d6nzcx8fgjgw
+2026-10-02T12:35:12.957916Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82e7etjxgbe5nmgjwcd3z9abx8fg3p3
+2026-10-02T12:35:12.957951Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82fryv84dmgb9t244gwtg6sb18fh9yg
+2026-10-02T12:35:12.957964Z  INFO database::database_index_workers: Started running retention for 4 indexes
+2026-10-02T12:35:12.957978Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82fznkhyx4vd5a6f7yyrcj1qs8fgy1c
+2026-10-02T12:35:12.958231Z  INFO database::database_index_workers: Finished backfill of index OZlhi02LjWVB-6eiFotQ-A.by_tenant_lead
+2026-10-02T12:35:12.958410Z  INFO database::database_index_workers: Finished backfill of index OZlhi02LjWVB-6eiFotQ-A.by_tenant
+2026-10-02T12:35:12.958537Z  INFO database::database_index_workers: Finished backfill of index OZlhi02LjWVB-6eiFotQ-A.by_tenant_campaign
+2026-10-02T12:35:12.958631Z  INFO database::database_index_workers: Finished backfill of index OZlhi02LjWVB-6eiFotQ-A.by_tenant_contract
+2026-10-02T12:35:12.958764Z  INFO database::database_index_workers: Finished backfill of index OZlhi02LjWVB-6eiFotQ-A.by_tenant_identifier
+2026-10-02T12:35:12.958854Z  INFO database::database_index_workers: Finished backfill of index OZlhi02LjWVB-6eiFotQ-A.by_tenant_job
+2026-10-02T12:35:12.958954Z  INFO database::database_index_workers: Finished backfill of index OZlhi02LjWVB-6eiFotQ-A.by_tenant_status
+2026-10-02T12:35:12.959148Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(1ZMK47KyRoMMm5nJKEJQ-A.by_tenant_status, 1ZMK47KyRoMMm5nJKEJQ-A.by_tenant, 1ZMK47KyRoMMm5nJKEJQ-A.by_tenant_client, 1ZMK47KyRoMMm5nJKEJQ-A.by_tenant_contact, 1ZMK47KyRoMMm5nJKEJQ-A.by_tenant_bid, 1ZMK47KyRoMMm5nJKEJQ-A.by_tenant_identifier) for table 1ZMK47KyRoMMm5nJKEJQ-A at snapshot 1790944512955839966
+2026-10-02T12:35:12.960605Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(E0LNA4Pa6DC3cOXCyGFQ-A)), IndexId(InternalId(OfzGIeAGo08h-Ua_4_tQ-A)), IndexId(InternalId(SCbhe30gMf0EFgDfpcJQ-A)), IndexId(InternalId(HddFC8gF3fFJb3KtFLdQ-A)), IndexId(InternalId(60ORBYC-0z73RKaDpBVQ-A)), IndexId(InternalId(cH6_bai8F5YhyLbS8mRQ-A)), IndexId(InternalId(hV8LZcbuw07_jxnhDSFQ-A))]
+2026-10-02T12:35:12.960860Z  INFO database::database_index_workers: Started running retention for 2 indexes
+2026-10-02T12:35:12.961074Z  INFO database::database_index_workers: Finished backfill of index BjlCkkMI1EdpAYc4-RJQ-A.by_tenant_pricing_rule
+2026-10-02T12:35:12.961277Z  INFO database::database_index_workers: Finished backfill of index BjlCkkMI1EdpAYc4-RJQ-A.by_tenant_scope
+2026-10-02T12:35:12.961353Z  INFO database::database_index_workers: Finished backfill of index BjlCkkMI1EdpAYc4-RJQ-A.by_tenant_identifier
+2026-10-02T12:35:12.961416Z  INFO database::database_index_workers: Finished backfill of index BjlCkkMI1EdpAYc4-RJQ-A.by_tenant
+2026-10-02T12:35:12.961668Z  INFO database::database_index_workers: Queuing index backfill for index ID JOgy5OHBP_QHPgpAqTFQ-A and tablet ID PZQklKLpfpUsuKeMrX9Q-A
+2026-10-02T12:35:12.961918Z  INFO database::database_index_workers: Starting backfill of 3 indexes for entities: {IndexId(InternalId(JOgy5OHBP_QHPgpAqTFQ-A)): PZQklKLpfpUsuKeMrX9Q-A.by_tenant_blueprint_identifier, IndexId(InternalId(eAnQsomAqg9qYBF6_aVQ-A)): PZQklKLpfpUsuKeMrX9Q-A.by_tenant_blueprint, IndexId(InternalId(j0axjwFNw9nwyRzULX9Q-A)): PZQklKLpfpUsuKeMrX9Q-A.by_tenant_identifier}
+2026-10-02T12:35:12.961971Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g8229t1jwkgw2fzm0wz0mg59658fgbn6
+2026-10-02T12:35:12.962341Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g827g2egpa4r1agfd9g12yqxmn8fh2h3
+2026-10-02T12:35:12.962458Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g828yhnhhw0mvgysy34hsn1dfx8fg8mh
+2026-10-02T12:35:12.963130Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(Gekgwi9QP-DECrnpd3hQ-A)), IndexId(InternalId(lNeSwjy1ammf8VFQw8RQ-A)), IndexId(InternalId(zCobW-1bNOd5KLxdejpQ-A)), IndexId(InternalId(Wvzk4rSZcm4ubua9qJZQ-A))]
+2026-10-02T12:35:12.963310Z  INFO database::database_index_workers: Finished backfill of index 3-O6TqrcxQOilJSHwKNQ-A.by_tenant_trade_spec
+2026-10-02T12:35:12.963481Z  INFO database::database_index_workers: Finished backfill of index 3-O6TqrcxQOilJSHwKNQ-A.by_tenant_proposal
+2026-10-02T12:35:12.963569Z  INFO database::database_index_workers: Finished backfill of index 3-O6TqrcxQOilJSHwKNQ-A.by_tenant_lead
+2026-10-02T12:35:12.963673Z  INFO database::database_index_workers: Finished backfill of index 3-O6TqrcxQOilJSHwKNQ-A.by_tenant_status
+2026-10-02T12:35:12.963756Z  INFO database::database_index_workers: Finished backfill of index 3-O6TqrcxQOilJSHwKNQ-A.by_tenant
+2026-10-02T12:35:12.963851Z  INFO database::database_index_workers: Finished backfill of index 3-O6TqrcxQOilJSHwKNQ-A.by_tenant_identifier
+2026-10-02T12:35:12.963924Z  INFO database::database_index_workers: Queuing index backfill for index ID Kyf6S7popbvpQ6a2ggpQ-A and tablet ID px-AA8UmUVuOxa1mM4BQ-A
+2026-10-02T12:35:12.964184Z  INFO database::database_index_workers: Starting backfill of 6 indexes for co_lead: {IndexId(InternalId(Kyf6S7popbvpQ6a2ggpQ-A)): px-AA8UmUVuOxa1mM4BQ-A.by_tenant_client, IndexId(InternalId(X_yAwFFd_PtnQZ1lH2tQ-A)): px-AA8UmUVuOxa1mM4BQ-A.by_tenant_campaign, IndexId(InternalId(YQIICVVtaXcOVs7jW05Q-A)): px-AA8UmUVuOxa1mM4BQ-A.by_tenant_contact, IndexId(InternalId(gdTF1qn_jXHxQZpp6BFQ-A)): px-AA8UmUVuOxa1mM4BQ-A.by_tenant_stage, IndexId(InternalId(3c7hrKvNRlRUQCIxp-JQ-A)): px-AA8UmUVuOxa1mM4BQ-A.by_tenant_identifier, IndexId(InternalId(8c4VtK62P8d9-Om89DJQ-A)): px-AA8UmUVuOxa1mM4BQ-A.by_tenant}
+2026-10-02T12:35:12.964223Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g822p9zt9ex6h9dvx51tddm2198fhyty
+2026-10-02T12:35:12.964283Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g825zz40r18nvz7vcx0sts8zdd8fggjd
+2026-10-02T12:35:12.964322Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82620g815apttbq1sbcxrtv9s8fh8ka
+2026-10-02T12:35:12.964351Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g8283n65ttmzz3bhy50smtf8258fh4j7
+2026-10-02T12:35:12.964381Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82dvkq1njnwthjmah024cd7w98fh26j
+2026-10-02T12:35:12.964411Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82f3kgnpjqbcfy7fqwekf7m698fg00k
+2026-10-02T12:35:12.965183Z  INFO database::database_index_workers: Finished backfill of index NHp_Jh8xnz_Vww-OjeVQ-A.by_tenant
+2026-10-02T12:35:12.965437Z  INFO database::database_index_workers: Finished backfill of index NHp_Jh8xnz_Vww-OjeVQ-A.by_tenant_identifier
+2026-10-02T12:35:12.965486Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(PZQklKLpfpUsuKeMrX9Q-A.by_tenant_blueprint_identifier, PZQklKLpfpUsuKeMrX9Q-A.by_tenant_blueprint, PZQklKLpfpUsuKeMrX9Q-A.by_tenant_identifier) for table PZQklKLpfpUsuKeMrX9Q-A at snapshot 1790944512960314609
+2026-10-02T12:35:12.966086Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(Hl7ImXZNUfxQ-8pXPftQ-A)), IndexId(InternalId(lVhFhYsFPJTCX9FJ6rlQ-A)), IndexId(InternalId(Qn_U41Z8okdXxv_4DsNQ-A)), IndexId(InternalId(pzslbjBr_s1O_rYD781Q-A)), IndexId(InternalId(a8u2XiR9MKIucZBOBr1Q-A)), IndexId(InternalId(YCyMYi60TX-XauqVSqdQ-A))]
+2026-10-02T12:35:12.966577Z  INFO database::database_index_workers: Queuing index backfill for index ID K_KYISmpVdpTe58XnzBQ-A and tablet ID iHBDNN-sfNvUc3jynMFQ-A
+2026-10-02T12:35:12.966779Z  INFO database::database_index_workers: Starting backfill of 7 indexes for co_proposal: {IndexId(InternalId(K_KYISmpVdpTe58XnzBQ-A)): iHBDNN-sfNvUc3jynMFQ-A.by_tenant_status, IndexId(InternalId(M8UdbMP0ukhNMRobec5Q-A)): iHBDNN-sfNvUc3jynMFQ-A.by_tenant_client, IndexId(InternalId(hWP_Kw891Y_cZWvXArZQ-A)): iHBDNN-sfNvUc3jynMFQ-A.by_tenant, IndexId(InternalId(uX2ni3-oHOtW8PVQgIdQ-A)): iHBDNN-sfNvUc3jynMFQ-A.by_tenant_lead, IndexId(InternalId(4ZtBkIQTCleWnc7DkT5Q-A)): iHBDNN-sfNvUc3jynMFQ-A.by_tenant_contact, IndexId(InternalId(6PL5HAWUNcTtd80n-opQ-A)): iHBDNN-sfNvUc3jynMFQ-A.by_tenant_identifier, IndexId(InternalId(__8nZqgYr_M6RtOL61VQ-A)): iHBDNN-sfNvUc3jynMFQ-A.by_tenant_scope}
+2026-10-02T12:35:12.966797Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g822qwmr44mtjnetadxsy5wz618fhy1m
+2026-10-02T12:35:12.966842Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g8237h8xdk1z9ej89mrhm6vsss8fg0k9
+2026-10-02T12:35:12.966865Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g828arzz5c7kvncfvhjpqnr2ps8fhjvc
+2026-10-02T12:35:12.966884Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82bjzd7hdztg77bavrfam40gx8fhxny
+2026-10-02T12:35:12.966902Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82e36t1j22162jqjtewxgwh7s8fh9gk
+2026-10-02T12:35:12.966919Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82ehwqs3g2s8de4xnvwt9zth98fgar6
+2026-10-02T12:35:12.966936Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82fzzs7ctm1hbzk793d72zban8fhpc8
+2026-10-02T12:35:12.967224Z  INFO database::database_index_workers: Finished backfill of index OCc84ZOm44B0tZl-2oNQ-A.by_tenant_request
+2026-10-02T12:35:12.967603Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(px-AA8UmUVuOxa1mM4BQ-A.by_tenant_client, px-AA8UmUVuOxa1mM4BQ-A.by_tenant_campaign, px-AA8UmUVuOxa1mM4BQ-A.by_tenant_contact, px-AA8UmUVuOxa1mM4BQ-A.by_tenant_stage, px-AA8UmUVuOxa1mM4BQ-A.by_tenant_identifier, px-AA8UmUVuOxa1mM4BQ-A.by_tenant) for table px-AA8UmUVuOxa1mM4BQ-A at snapshot 1790944512961858076
+2026-10-02T12:35:12.968120Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(HtajMPOMnMvYlLIdVidQ-A)), IndexId(InternalId(ZdA651A7mFl4e18ttulQ-A))]
+2026-10-02T12:35:12.968488Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(iHBDNN-sfNvUc3jynMFQ-A.by_tenant_status, iHBDNN-sfNvUc3jynMFQ-A.by_tenant_client, iHBDNN-sfNvUc3jynMFQ-A.by_tenant, iHBDNN-sfNvUc3jynMFQ-A.by_tenant_lead, iHBDNN-sfNvUc3jynMFQ-A.by_tenant_contact, iHBDNN-sfNvUc3jynMFQ-A.by_tenant_identifier, iHBDNN-sfNvUc3jynMFQ-A.by_tenant_scope) for table iHBDNN-sfNvUc3jynMFQ-A at snapshot 1790944512964519794
+2026-10-02T12:35:12.968564Z  INFO database::database_index_workers: Queuing index backfill for index ID LFUUZS0TA7EaPW8rMhNQ-A and tablet ID E84gLgkMpuW7Kg5alMZQ-A
+2026-10-02T12:35:12.968589Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(HtyutpaE9I10s96jVaRQ-A))]
+2026-10-02T12:35:12.968737Z  INFO database::database_index_workers: Finished backfill of index 1NzoYpBTHd6Ua6htaMdQ-A.by_tenant_status
+2026-10-02T12:35:12.968844Z  INFO database::database_index_workers: Finished backfill of index 1NzoYpBTHd6Ua6htaMdQ-A.by_tenant_job
+2026-10-02T12:35:12.968915Z  INFO database::database_index_workers: Finished backfill of index 1NzoYpBTHd6Ua6htaMdQ-A.by_tenant
+2026-10-02T12:35:12.968983Z  INFO database::database_index_workers: Finished backfill of index 1NzoYpBTHd6Ua6htaMdQ-A.by_tenant_identifier
+2026-10-02T12:35:12.969342Z  INFO database::database_index_workers: Starting backfill of 6 indexes for co_outreach: {IndexId(InternalId(LFUUZS0TA7EaPW8rMhNQ-A)): E84gLgkMpuW7Kg5alMZQ-A.by_tenant_client, IndexId(InternalId(bSp_8X3KtAOWSoQAO65Q-A)): E84gLgkMpuW7Kg5alMZQ-A.by_tenant, IndexId(InternalId(cPEkCxpeMvkRyPsxZgpQ-A)): E84gLgkMpuW7Kg5alMZQ-A.by_tenant_campaign, IndexId(InternalId(drH6MevA6iIgDmStTblQ-A)): E84gLgkMpuW7Kg5alMZQ-A.by_tenant_contact, IndexId(InternalId(kGfjpOQfDtiZnQT4BmlQ-A)): E84gLgkMpuW7Kg5alMZQ-A.by_tenant_status, IndexId(InternalId(8cUZqMisYfkpEA0k3ERQ-A)): E84gLgkMpuW7Kg5alMZQ-A.by_tenant_identifier}
+2026-10-02T12:35:12.969387Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g822rn8mcmph60xh38ypyasj2d8fhwh5
+2026-10-02T12:35:12.969440Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g826takzy5ywnd03js58801vns8fg876
+2026-10-02T12:35:12.969469Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g8271w941cd5wcqs274fpcb6198fgxha
+2026-10-02T12:35:12.969489Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g827dcft67nw1th240769badq58fg77w
+2026-10-02T12:35:12.969509Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g8290sz3mkj1y3prk6eg9y06d58fhnj6
+2026-10-02T12:35:12.969530Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82f3h8sn34arrfs5480t96w8h8fh7e6
+2026-10-02T12:35:12.969741Z  INFO database::database_index_workers: Queuing index backfill for index ID LZpWAfGTFk-dsnvHyNFQ-A and tablet ID TO7779fe7xLbecVbT3xQ-A
+2026-10-02T12:35:12.969841Z  INFO database::database_index_workers: Starting backfill of 1 indexes for requests: {IndexId(InternalId(LZpWAfGTFk-dsnvHyNFQ-A)): TO7779fe7xLbecVbT3xQ-A.by_tenant_request}
+2026-10-02T12:35:12.969855Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g822v6jp07rs65jfkps7qhy8t58fhzzn
+2026-10-02T12:35:12.971167Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(E84gLgkMpuW7Kg5alMZQ-A.by_tenant_client, E84gLgkMpuW7Kg5alMZQ-A.by_tenant, E84gLgkMpuW7Kg5alMZQ-A.by_tenant_campaign, E84gLgkMpuW7Kg5alMZQ-A.by_tenant_contact, E84gLgkMpuW7Kg5alMZQ-A.by_tenant_status, E84gLgkMpuW7Kg5alMZQ-A.by_tenant_identifier) for table E84gLgkMpuW7Kg5alMZQ-A at snapshot 1790944512967780123
+2026-10-02T12:35:12.971792Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(Ist33wROP_s-taT296ZQ-A)), IndexId(InternalId(ilSPWZRWTh9do589No1Q-A)), IndexId(InternalId(J5ZVAyt7WIAw_GGVXQlQ-A)), IndexId(InternalId(4f4b97rrOkyE4oLckgZQ-A))]
+2026-10-02T12:35:12.972695Z  INFO database::database_index_workers: Queuing index backfill for index ID NQ56LP3cpOdKA9lq3bBQ-A and tablet ID gs28dPA5uUvS2HKEBllQ-A
+2026-10-02T12:35:12.972827Z  INFO database::database_index_workers: Starting backfill of 1 indexes for requests: {IndexId(InternalId(NQ56LP3cpOdKA9lq3bBQ-A)): gs28dPA5uUvS2HKEBllQ-A.by_tenant_request}
+2026-10-02T12:35:12.972844Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g823a3kt5kyxs977981xjtpxp18fge7j
+2026-10-02T12:35:12.972877Z  INFO database::database_index_workers: Started running retention for 6 indexes
+2026-10-02T12:35:12.973052Z  INFO database::database_index_workers: Finished backfill of index cgeZeXpFCafUE_CIznFQ-A.by_tenant_identifier
+2026-10-02T12:35:12.973175Z  INFO database::database_index_workers: Finished backfill of index cgeZeXpFCafUE_CIznFQ-A.by_tenant
+2026-10-02T12:35:12.974371Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(TO7779fe7xLbecVbT3xQ-A.by_tenant_request) for table TO7779fe7xLbecVbT3xQ-A at snapshot 1790944512967780123
+2026-10-02T12:35:12.974616Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(JBNtAsP0sdGl93k9mZ1Q-A)), IndexId(InternalId(j0hAdRocuNlKpZbFmMZQ-A))]
+2026-10-02T12:35:12.974769Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(gs28dPA5uUvS2HKEBllQ-A.by_tenant_request) for table gs28dPA5uUvS2HKEBllQ-A at snapshot 1790944512970231972
+2026-10-02T12:35:12.975383Z  INFO database::database_index_workers: Queuing index backfill for index ID OhvaB4Z7wctr4cLU2utQ-A and tablet ID zlbhLElJ28QtccfLsdtQ-A
+2026-10-02T12:35:12.975518Z  INFO database::database_index_workers: Starting backfill of 1 indexes for events: {IndexId(InternalId(OhvaB4Z7wctr4cLU2utQ-A)): zlbhLElJ28QtccfLsdtQ-A.by_tenant_identifier}
+2026-10-02T12:35:12.975541Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g823m6yt0y37qgebdfgw5n6txd8fge0j
+2026-10-02T12:35:12.978524Z  INFO database::database_index_workers: Started running retention for 3 indexes
+2026-10-02T12:35:12.978812Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(zlbhLElJ28QtccfLsdtQ-A.by_tenant_identifier) for table zlbhLElJ28QtccfLsdtQ-A at snapshot 1790944512973358926
+2026-10-02T12:35:12.980043Z  INFO database::database_index_workers: Started running retention for 6 indexes
+2026-10-02T12:35:12.981764Z  INFO database::database_index_workers: Started running retention for 7 indexes
+2026-10-02T12:35:12.984759Z  INFO database::database_index_workers: Started running retention for 6 indexes
+2026-10-02T12:35:12.985026Z  INFO database::database_index_workers: Finished backfill of index 1ZMK47KyRoMMm5nJKEJQ-A.by_tenant_status
+2026-10-02T12:35:12.985168Z  INFO database::database_index_workers: Finished backfill of index 1ZMK47KyRoMMm5nJKEJQ-A.by_tenant
+2026-10-02T12:35:12.985252Z  INFO database::database_index_workers: Finished backfill of index 1ZMK47KyRoMMm5nJKEJQ-A.by_tenant_client
+2026-10-02T12:35:12.985331Z  INFO database::database_index_workers: Finished backfill of index 1ZMK47KyRoMMm5nJKEJQ-A.by_tenant_contact
+2026-10-02T12:35:12.985439Z  INFO database::database_index_workers: Finished backfill of index 1ZMK47KyRoMMm5nJKEJQ-A.by_tenant_bid
+2026-10-02T12:35:12.985516Z  INFO database::database_index_workers: Finished backfill of index 1ZMK47KyRoMMm5nJKEJQ-A.by_tenant_identifier
+2026-10-02T12:35:12.987346Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(JITaEGPZxwWQcjP_lh9Q-A)), IndexId(InternalId(47tS7Bbi1pCXGNH9Kl9Q-A)), IndexId(InternalId(_9Zx90m2lUZ5_ewyQb5Q-A)), IndexId(InternalId(_HtoI2kFp0IhIc1A2VhQ-A)), IndexId(InternalId(mt2xO9uZV2e8YMg10qxQ-A)), IndexId(InternalId(xISAHx9rc1Wjemaav2dQ-A))]
+2026-10-02T12:35:12.988032Z  INFO database::database_index_workers: Started running retention for 1 indexes
+2026-10-02T12:35:12.988527Z  INFO database::database_index_workers: Queuing index backfill for index ID P-jU4vhqdviBrqxyhrtQ-A and tablet ID maxZNEU8ETDgLHY6OIJQ-A
+2026-10-02T12:35:12.988773Z  INFO database::database_index_workers: Starting backfill of 4 indexes for co_payment: {IndexId(InternalId(P-jU4vhqdviBrqxyhrtQ-A)): maxZNEU8ETDgLHY6OIJQ-A.by_tenant_identifier, IndexId(InternalId(XHzsVHwbJGCwCxQkIa1Q-A)): maxZNEU8ETDgLHY6OIJQ-A.by_tenant_invoice, IndexId(InternalId(fH93Z3_fLNoCk1qgR2FQ-A)): maxZNEU8ETDgLHY6OIJQ-A.by_tenant, IndexId(InternalId(z215q_WX6_MWxSPzWotQ-A)): maxZNEU8ETDgLHY6OIJQ-A.by_tenant_client}
+2026-10-02T12:35:12.988806Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g823zt6mwbw6mxqrg6qarwm6qd8fg2bh
+2026-10-02T12:35:12.988870Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g825rz7cahy1p930p05h8911nn8fhgkn
+2026-10-02T12:35:12.988908Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g827rzvqcxzxyb6t0a9nn827c58fggk9
+2026-10-02T12:35:12.988938Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82cyvbsnftsftzk2v2j7wtthd8fgvqz
+2026-10-02T12:35:12.989165Z  INFO database::database_index_workers: Started running retention for 1 indexes
+2026-10-02T12:35:12.989352Z  INFO database::database_index_workers: Finished backfill of index PZQklKLpfpUsuKeMrX9Q-A.by_tenant_blueprint_identifier
+2026-10-02T12:35:12.989470Z  INFO database::database_index_workers: Finished backfill of index PZQklKLpfpUsuKeMrX9Q-A.by_tenant_blueprint
+2026-10-02T12:35:12.989575Z  INFO database::database_index_workers: Finished backfill of index PZQklKLpfpUsuKeMrX9Q-A.by_tenant_identifier
+2026-10-02T12:35:12.991019Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(maxZNEU8ETDgLHY6OIJQ-A.by_tenant_identifier, maxZNEU8ETDgLHY6OIJQ-A.by_tenant_invoice, maxZNEU8ETDgLHY6OIJQ-A.by_tenant, maxZNEU8ETDgLHY6OIJQ-A.by_tenant_client) for table maxZNEU8ETDgLHY6OIJQ-A at snapshot 1790944512987570773
+2026-10-02T12:35:12.991557Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(JOgy5OHBP_QHPgpAqTFQ-A)), IndexId(InternalId(eAnQsomAqg9qYBF6_aVQ-A)), IndexId(InternalId(j0axjwFNw9nwyRzULX9Q-A))]
+2026-10-02T12:35:12.992388Z  INFO database::database_index_workers: Queuing index backfill for index ID QPfgaD3qbqY6Uo2z1xJQ-A and tablet ID HU5QqwSENygwokNFfe9Q-A
+2026-10-02T12:35:12.992426Z  INFO database::database_index_workers: Started running retention for 1 indexes
+2026-10-02T12:35:12.992567Z  INFO database::database_index_workers: Starting backfill of 5 indexes for co_change_order: {IndexId(InternalId(QPfgaD3qbqY6Uo2z1xJQ-A)): HU5QqwSENygwokNFfe9Q-A.by_tenant_status, IndexId(InternalId(YzIomdsGqZCh7R132yZQ-A)): HU5QqwSENygwokNFfe9Q-A.by_tenant_job, IndexId(InternalId(evFcPdxr7Bs1EVQyWQRQ-A)): HU5QqwSENygwokNFfe9Q-A.by_tenant, IndexId(InternalId(qWHoUbB_g4-gQUxc7qtQ-A)): HU5QqwSENygwokNFfe9Q-A.by_tenant_identifier, IndexId(InternalId(_62Lgq4YJJiQdpqM9fdQ-A)): HU5QqwSENygwokNFfe9Q-A.by_tenant_contract}
+2026-10-02T12:35:12.992592Z  INFO database::database_index_workers: Finished backfill of index px-AA8UmUVuOxa1mM4BQ-A.by_tenant_client
+2026-10-02T12:35:12.992596Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g8241xz0d0yymvn67998vcyq298fgfbt
+2026-10-02T12:35:12.992696Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g8266ch8k7dgdacgm7phtxyv4s8fgrd5
+2026-10-02T12:35:12.992729Z  INFO database::database_index_workers: Finished backfill of index px-AA8UmUVuOxa1mM4BQ-A.by_tenant_campaign
+2026-10-02T12:35:12.992731Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g827nwaw7qe6qv0v6m8n8cjs0h8fgjbn
+2026-10-02T12:35:12.992794Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82ajrf8a6r7z0wfm10mrq7end8fgx7t
+2026-10-02T12:35:12.992824Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82fzbcbgaq1g94rj1v9n37nyx8fg882
+2026-10-02T12:35:12.992827Z  INFO database::database_index_workers: Finished backfill of index px-AA8UmUVuOxa1mM4BQ-A.by_tenant_contact
+2026-10-02T12:35:12.992895Z  INFO database::database_index_workers: Finished backfill of index px-AA8UmUVuOxa1mM4BQ-A.by_tenant_stage
+2026-10-02T12:35:12.992957Z  INFO database::database_index_workers: Finished backfill of index px-AA8UmUVuOxa1mM4BQ-A.by_tenant_identifier
+2026-10-02T12:35:12.993020Z  INFO database::database_index_workers: Finished backfill of index px-AA8UmUVuOxa1mM4BQ-A.by_tenant
+2026-10-02T12:35:12.994442Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(HU5QqwSENygwokNFfe9Q-A.by_tenant_status, HU5QqwSENygwokNFfe9Q-A.by_tenant_job, HU5QqwSENygwokNFfe9Q-A.by_tenant, HU5QqwSENygwokNFfe9Q-A.by_tenant_identifier, HU5QqwSENygwokNFfe9Q-A.by_tenant_contract) for table HU5QqwSENygwokNFfe9Q-A at snapshot 1790944512991974620
+2026-10-02T12:35:12.995869Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(Kyf6S7popbvpQ6a2ggpQ-A)), IndexId(InternalId(gdTF1qn_jXHxQZpp6BFQ-A)), IndexId(InternalId(3c7hrKvNRlRUQCIxp-JQ-A)), IndexId(InternalId(8c4VtK62P8d9-Om89DJQ-A)), IndexId(InternalId(X_yAwFFd_PtnQZ1lH2tQ-A)), IndexId(InternalId(YQIICVVtaXcOVs7jW05Q-A))]
+2026-10-02T12:35:12.996063Z  INFO database::database_index_workers: Finished backfill of index iHBDNN-sfNvUc3jynMFQ-A.by_tenant_status
+2026-10-02T12:35:12.996166Z  INFO database::database_index_workers: Finished backfill of index iHBDNN-sfNvUc3jynMFQ-A.by_tenant_client
+2026-10-02T12:35:12.996242Z  INFO database::database_index_workers: Finished backfill of index iHBDNN-sfNvUc3jynMFQ-A.by_tenant
+2026-10-02T12:35:12.996307Z  INFO database::database_index_workers: Finished backfill of index iHBDNN-sfNvUc3jynMFQ-A.by_tenant_lead
+2026-10-02T12:35:12.996379Z  INFO database::database_index_workers: Finished backfill of index iHBDNN-sfNvUc3jynMFQ-A.by_tenant_contact
+2026-10-02T12:35:12.996443Z  INFO database::database_index_workers: Finished backfill of index iHBDNN-sfNvUc3jynMFQ-A.by_tenant_identifier
+2026-10-02T12:35:12.996506Z  INFO database::database_index_workers: Finished backfill of index iHBDNN-sfNvUc3jynMFQ-A.by_tenant_scope
+2026-10-02T12:35:12.997015Z  INFO database::database_index_workers: Queuing index backfill for index ID QcoCLg0FOM0iuT7vHV5Q-A and tablet ID H9xcLNHJKJkqHFwDBrxQ-A
+2026-10-02T12:35:12.997170Z  INFO database::database_index_workers: Starting backfill of 1 indexes for requests: {IndexId(InternalId(QcoCLg0FOM0iuT7vHV5Q-A)): H9xcLNHJKJkqHFwDBrxQ-A.by_tenant_request}
+2026-10-02T12:35:12.997184Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g8243jg25r6gae6d4awkxvrxbs8fh8tw
+2026-10-02T12:35:12.997940Z  INFO database::database_index_workers: Finished backfill of index E84gLgkMpuW7Kg5alMZQ-A.by_tenant_client
+2026-10-02T12:35:12.998023Z  INFO database::database_index_workers: Finished backfill of index E84gLgkMpuW7Kg5alMZQ-A.by_tenant
+2026-10-02T12:35:12.998144Z  INFO database::database_index_workers: Finished backfill of index E84gLgkMpuW7Kg5alMZQ-A.by_tenant_campaign
+2026-10-02T12:35:12.998238Z  INFO database::database_index_workers: Finished backfill of index E84gLgkMpuW7Kg5alMZQ-A.by_tenant_contact
+2026-10-02T12:35:12.998336Z  INFO database::database_index_workers: Finished backfill of index E84gLgkMpuW7Kg5alMZQ-A.by_tenant_status
+2026-10-02T12:35:12.998405Z  INFO database::database_index_workers: Finished backfill of index E84gLgkMpuW7Kg5alMZQ-A.by_tenant_identifier
+2026-10-02T12:35:12.998454Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(K_KYISmpVdpTe58XnzBQ-A)), IndexId(InternalId(M8UdbMP0ukhNMRobec5Q-A)), IndexId(InternalId(hWP_Kw891Y_cZWvXArZQ-A)), IndexId(InternalId(uX2ni3-oHOtW8PVQgIdQ-A)), IndexId(InternalId(6PL5HAWUNcTtd80n-opQ-A)), IndexId(InternalId(4ZtBkIQTCleWnc7DkT5Q-A)), IndexId(InternalId(__8nZqgYr_M6RtOL61VQ-A))]
+2026-10-02T12:35:12.998936Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(H9xcLNHJKJkqHFwDBrxQ-A.by_tenant_request) for table H9xcLNHJKJkqHFwDBrxQ-A at snapshot 1790944512994224125
+2026-10-02T12:35:12.999588Z  INFO database::database_index_workers: Queuing index backfill for index ID Rjaw6gp0GnMxalHitpRQ-A and tablet ID aixrwhJeKXp2AaWOSphQ-A
+2026-10-02T12:35:13.001899Z  INFO database::database_index_workers: Starting backfill of 3 indexes for co_client: {IndexId(InternalId(Rjaw6gp0GnMxalHitpRQ-A)): aixrwhJeKXp2AaWOSphQ-A.by_tenant_identifier, IndexId(InternalId(ZDGh_il8Dgibl8kTqaNQ-A)): aixrwhJeKXp2AaWOSphQ-A.by_tenant, IndexId(InternalId(Z7T2tLCdPHmsHCuDjwpQ-A)): aixrwhJeKXp2AaWOSphQ-A.by_tenant_status}
+2026-10-02T12:35:13.001932Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g824cdngx85786kk65n53rnpjh8fg1z1
+2026-10-02T12:35:13.001995Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g8268cd1zrmqr3g8kebwj4x9md8fg5w2
+2026-10-02T12:35:13.002034Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g826fd7ppjr9tf3snge2q0wf198fh91v
+2026-10-02T12:35:13.005767Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(aixrwhJeKXp2AaWOSphQ-A.by_tenant_identifier, aixrwhJeKXp2AaWOSphQ-A.by_tenant, aixrwhJeKXp2AaWOSphQ-A.by_tenant_status) for table aixrwhJeKXp2AaWOSphQ-A at snapshot 1790944512997388282
+2026-10-02T12:35:13.005909Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(LFUUZS0TA7EaPW8rMhNQ-A)), IndexId(InternalId(cPEkCxpeMvkRyPsxZgpQ-A)), IndexId(InternalId(drH6MevA6iIgDmStTblQ-A)), IndexId(InternalId(8cUZqMisYfkpEA0k3ERQ-A)), IndexId(InternalId(bSp_8X3KtAOWSoQAO65Q-A)), IndexId(InternalId(kGfjpOQfDtiZnQT4BmlQ-A))]
+2026-10-02T12:35:13.006094Z  INFO database::database_index_workers: Finished backfill of index gs28dPA5uUvS2HKEBllQ-A.by_tenant_request
+2026-10-02T12:35:13.006967Z  INFO database::database_index_workers: Queuing index backfill for index ID RubdyqQ6fos94-xKDEVQ-A and tablet ID t1fSAX9_3FziWe5ZQlJQ-A
+2026-10-02T12:35:13.007193Z  INFO database::database_index_workers: Starting backfill of 2 indexes for specs: {IndexId(InternalId(RubdyqQ6fos94-xKDEVQ-A)): t1fSAX9_3FziWe5ZQlJQ-A.by_tenant, IndexId(InternalId(xiS05c6CQ-_gqBwVgUpQ-A)): t1fSAX9_3FziWe5ZQlJQ-A.by_tenant_identifier}
+2026-10-02T12:35:13.007217Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g824dspxsaj3mzmb7qhyrjgc8n8fgbt5
+2026-10-02T12:35:13.007278Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82cc95mwq784gzfw2m1r5c1998fgny3
+2026-10-02T12:35:13.007741Z  INFO database::database_index_workers: Finished backfill of index TO7779fe7xLbecVbT3xQ-A.by_tenant_request
+2026-10-02T12:35:13.007781Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(NQ56LP3cpOdKA9lq3bBQ-A))]
+2026-10-02T12:35:13.008951Z  INFO database::database_index_workers: Queuing index backfill for index ID R9gjMfoaxG_lFf_UGStQ-A and tablet ID jccl_IJKrskWzRVQG_pQ-A
+2026-10-02T12:35:13.008998Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(LZpWAfGTFk-dsnvHyNFQ-A))]
+2026-10-02T12:35:13.009083Z  INFO database::database_index_workers: Starting backfill of 1 indexes for requests: {IndexId(InternalId(R9gjMfoaxG_lFf_UGStQ-A)): jccl_IJKrskWzRVQG_pQ-A.by_tenant_request}
+2026-10-02T12:35:13.009105Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g824fp1367x1nh3fwmazzn0s5d8fh6d2
+2026-10-02T12:35:13.009630Z  INFO database::database_index_workers: Queuing index backfill for index ID TBbsQcPnw2BiqzJxgeRQ-A and tablet ID tNI-WHtISQTLTQFjRKJQ-A
+2026-10-02T12:35:13.009778Z  INFO database::database_index_workers: Starting backfill of 2 indexes for specs: {IndexId(InternalId(TBbsQcPnw2BiqzJxgeRQ-A)): tNI-WHtISQTLTQFjRKJQ-A.by_tenant, IndexId(InternalId(2D43e1bb9mS0lFgg4cRQ-A)): tNI-WHtISQTLTQFjRKJQ-A.by_tenant_identifier}
+2026-10-02T12:35:13.009793Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g824r5qc871yfgv0cank4wc1wh8fgfrw
+2026-10-02T12:35:13.009824Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(t1fSAX9_3FziWe5ZQlJQ-A.by_tenant, t1fSAX9_3FziWe5ZQlJQ-A.by_tenant_identifier) for table t1fSAX9_3FziWe5ZQlJQ-A at snapshot 1790944513006200915
+2026-10-02T12:35:13.009842Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82dgfhqfdbdqxk4pja5g871rh8fh1h0
+2026-10-02T12:35:13.010242Z  INFO database::database_index_workers: Started running retention for 4 indexes
+2026-10-02T12:35:13.010495Z  INFO database::database_index_workers: Finished backfill of index zlbhLElJ28QtccfLsdtQ-A.by_tenant_identifier
+2026-10-02T12:35:13.011178Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(jccl_IJKrskWzRVQG_pQ-A.by_tenant_request) for table jccl_IJKrskWzRVQG_pQ-A at snapshot 1790944513008398201
+2026-10-02T12:35:13.011736Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(tNI-WHtISQTLTQFjRKJQ-A.by_tenant, tNI-WHtISQTLTQFjRKJQ-A.by_tenant_identifier) for table tNI-WHtISQTLTQFjRKJQ-A at snapshot 1790944513008398201
+2026-10-02T12:35:13.012725Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(OhvaB4Z7wctr4cLU2utQ-A))]
+2026-10-02T12:35:13.013456Z  INFO database::database_index_workers: Started running retention for 5 indexes
+2026-10-02T12:35:13.014811Z  INFO database::database_index_workers: Queuing index backfill for index ID TLTo0y30p87IB4NMGn1Q-A and tablet ID JwUUv7ku4wmrHsiGFgBQ-A
+2026-10-02T12:35:13.014957Z  INFO database::database_index_workers: Starting backfill of 1 indexes for domainRequests: {IndexId(InternalId(TLTo0y30p87IB4NMGn1Q-A)): JwUUv7ku4wmrHsiGFgBQ-A.by_tenant_request}
+2026-10-02T12:35:13.014988Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g824sd78tcpz99yes03r6k0tfn8fgn7d
+2026-10-02T12:35:13.016479Z  INFO database::database_index_workers: Started running retention for 1 indexes
+2026-10-02T12:35:13.018027Z  INFO database::database_index_workers: Started running retention for 3 indexes
+2026-10-02T12:35:13.018602Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(JwUUv7ku4wmrHsiGFgBQ-A.by_tenant_request) for table JwUUv7ku4wmrHsiGFgBQ-A at snapshot 1790944513012216875
+2026-10-02T12:35:13.019142Z  INFO database::database_index_workers: Started running retention for 2 indexes
+2026-10-02T12:35:13.019315Z  INFO database::database_index_workers: Finished backfill of index maxZNEU8ETDgLHY6OIJQ-A.by_tenant_identifier
+2026-10-02T12:35:13.019404Z  INFO database::database_index_workers: Finished backfill of index maxZNEU8ETDgLHY6OIJQ-A.by_tenant_invoice
+2026-10-02T12:35:13.019467Z  INFO database::database_index_workers: Finished backfill of index maxZNEU8ETDgLHY6OIJQ-A.by_tenant
+2026-10-02T12:35:13.019529Z  INFO database::database_index_workers: Finished backfill of index maxZNEU8ETDgLHY6OIJQ-A.by_tenant_client
+2026-10-02T12:35:13.020817Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(P-jU4vhqdviBrqxyhrtQ-A)), IndexId(InternalId(XHzsVHwbJGCwCxQkIa1Q-A)), IndexId(InternalId(fH93Z3_fLNoCk1qgR2FQ-A)), IndexId(InternalId(z215q_WX6_MWxSPzWotQ-A))]
+2026-10-02T12:35:13.021247Z  INFO database::database_index_workers: Queuing index backfill for index ID UmH5WU0Kv9JLCULOl-FQ-A and tablet ID F-ZdqfLZkycf-0BdVsJQ-A
+2026-10-02T12:35:13.021359Z  INFO database::database_index_workers: Starting backfill of 2 indexes for specs: {IndexId(InternalId(UmH5WU0Kv9JLCULOl-FQ-A)): F-ZdqfLZkycf-0BdVsJQ-A.by_tenant_identifier, IndexId(InternalId(q3A_5GTHW_2_Rpy65sNQ-A)): F-ZdqfLZkycf-0BdVsJQ-A.by_tenant}
+2026-10-02T12:35:13.021372Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g8254rfsb56gnfyj9c4m5kmqw58fh5zw
+2026-10-02T12:35:13.021416Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82apw1zwhjcepzxqx39seq6rd8fh4r3
+2026-10-02T12:35:13.022357Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(F-ZdqfLZkycf-0BdVsJQ-A.by_tenant_identifier, F-ZdqfLZkycf-0BdVsJQ-A.by_tenant) for table F-ZdqfLZkycf-0BdVsJQ-A at snapshot 1790944513019787069
+2026-10-02T12:35:13.022961Z  INFO database::database_index_workers: Started running retention for 2 indexes
+2026-10-02T12:35:13.023131Z  INFO database::database_index_workers: Finished backfill of index HU5QqwSENygwokNFfe9Q-A.by_tenant_status
+2026-10-02T12:35:13.023243Z  INFO database::database_index_workers: Finished backfill of index HU5QqwSENygwokNFfe9Q-A.by_tenant_job
+2026-10-02T12:35:13.023340Z  INFO database::database_index_workers: Finished backfill of index HU5QqwSENygwokNFfe9Q-A.by_tenant
+2026-10-02T12:35:13.023434Z  INFO database::database_index_workers: Finished backfill of index HU5QqwSENygwokNFfe9Q-A.by_tenant_identifier
+2026-10-02T12:35:13.023525Z  INFO database::database_index_workers: Finished backfill of index HU5QqwSENygwokNFfe9Q-A.by_tenant_contract
+2026-10-02T12:35:13.022922Z  INFO database::database_index_workers: Started running retention for 1 indexes
+2026-10-02T12:35:13.027286Z  INFO database::database_index_workers: Finished backfill of index H9xcLNHJKJkqHFwDBrxQ-A.by_tenant_request
+2026-10-02T12:35:13.027377Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(QPfgaD3qbqY6Uo2z1xJQ-A)), IndexId(InternalId(YzIomdsGqZCh7R132yZQ-A)), IndexId(InternalId(_62Lgq4YJJiQdpqM9fdQ-A)), IndexId(InternalId(evFcPdxr7Bs1EVQyWQRQ-A)), IndexId(InternalId(qWHoUbB_g4-gQUxc7qtQ-A))]
+2026-10-02T12:35:13.027901Z  INFO database::database_index_workers: Queuing index backfill for index ID VYxgs8m3TRezunpjTGRQ-A and tablet ID GKWPKIBJeJZvgw7PzbVQ-A
+2026-10-02T12:35:13.028019Z  INFO database::database_index_workers: Starting backfill of 2 indexes for specs: {IndexId(InternalId(VYxgs8m3TRezunpjTGRQ-A)): GKWPKIBJeJZvgw7PzbVQ-A.by_tenant, IndexId(InternalId(evliRe7xq51fPCgnm4NQ-A)): GKWPKIBJeJZvgw7PzbVQ-A.by_tenant_identifier}
+2026-10-02T12:35:13.028035Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g825b330pf4vek8qpex7mrtcch8fh86a
+2026-10-02T12:35:13.028201Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(QcoCLg0FOM0iuT7vHV5Q-A))]
+2026-10-02T12:35:13.028279Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g827nyb28qqf3awxbwy2g9wvgd8fg5re
+2026-10-02T12:35:13.028345Z  INFO database::database_index_workers: Finished backfill of index aixrwhJeKXp2AaWOSphQ-A.by_tenant_identifier
+2026-10-02T12:35:13.028438Z  INFO database::database_index_workers: Finished backfill of index aixrwhJeKXp2AaWOSphQ-A.by_tenant
+2026-10-02T12:35:13.028534Z  INFO database::database_index_workers: Finished backfill of index aixrwhJeKXp2AaWOSphQ-A.by_tenant_status
+2026-10-02T12:35:13.029419Z  INFO database::database_index_workers: Queuing index backfill for index ID WNiE8leK3oQsyPkn0LJQ-A and tablet ID hWsvbByQqChNFWOEhlpQ-A
+2026-10-02T12:35:13.030253Z  INFO database::database_index_workers: Starting backfill of 2 indexes for specs: {IndexId(InternalId(WNiE8leK3oQsyPkn0LJQ-A)): hWsvbByQqChNFWOEhlpQ-A.by_tenant_identifier, IndexId(InternalId(l_ai9IlHNBWWfSm280pQ-A)): hWsvbByQqChNFWOEhlpQ-A.by_tenant}
+2026-10-02T12:35:13.030282Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g825hp44y9brnqm45k4fj9ygp98fgke3
+2026-10-02T12:35:13.030340Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g829fxn2yj4med0njsyjkdqk998fged1
+2026-10-02T12:35:13.031165Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(GKWPKIBJeJZvgw7PzbVQ-A.by_tenant, GKWPKIBJeJZvgw7PzbVQ-A.by_tenant_identifier) for table GKWPKIBJeJZvgw7PzbVQ-A at snapshot 1790944513026331346
+2026-10-02T12:35:13.031253Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(Rjaw6gp0GnMxalHitpRQ-A)), IndexId(InternalId(ZDGh_il8Dgibl8kTqaNQ-A)), IndexId(InternalId(Z7T2tLCdPHmsHCuDjwpQ-A))]
+2026-10-02T12:35:13.031686Z  INFO database::database_index_workers: Queuing index backfill for index ID Wt1TuVqIBLVIcFcOLoBQ-A and tablet ID DwMbizaPalZeBl3upk1Q-A
+2026-10-02T12:35:13.031824Z  INFO database::database_index_workers: Starting backfill of 2 indexes for specs: {IndexId(InternalId(Wt1TuVqIBLVIcFcOLoBQ-A)): DwMbizaPalZeBl3upk1Q-A.by_tenant_identifier, IndexId(InternalId(yUms3SX9hRo_AouppW1Q-A)): DwMbizaPalZeBl3upk1Q-A.by_tenant}
+2026-10-02T12:35:13.031847Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g825nqakq5d8g15n91r5e3heg18fgxzf
+2026-10-02T12:35:13.031896Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82cjjdcvmjzv18t7w18qad5dn8fhccz
+2026-10-02T12:35:13.034542Z  INFO database::database_index_workers: Started running retention for 1 indexes
+2026-10-02T12:35:13.034594Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(hWsvbByQqChNFWOEhlpQ-A.by_tenant_identifier, hWsvbByQqChNFWOEhlpQ-A.by_tenant) for table hWsvbByQqChNFWOEhlpQ-A at snapshot 1790944513028671926
+2026-10-02T12:35:13.034871Z  INFO database::database_index_workers: Finished backfill of index t1fSAX9_3FziWe5ZQlJQ-A.by_tenant
+2026-10-02T12:35:13.034909Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(DwMbizaPalZeBl3upk1Q-A.by_tenant_identifier, DwMbizaPalZeBl3upk1Q-A.by_tenant) for table DwMbizaPalZeBl3upk1Q-A at snapshot 1790944513028961382
+2026-10-02T12:35:13.034964Z  INFO database::database_index_workers: Finished backfill of index t1fSAX9_3FziWe5ZQlJQ-A.by_tenant_identifier
+2026-10-02T12:35:13.035776Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(RubdyqQ6fos94-xKDEVQ-A)), IndexId(InternalId(xiS05c6CQ-_gqBwVgUpQ-A))]
+2026-10-02T12:35:13.036287Z  INFO database::database_index_workers: Started running retention for 2 indexes
+2026-10-02T12:35:13.036548Z  INFO database::database_index_workers: Finished backfill of index tNI-WHtISQTLTQFjRKJQ-A.by_tenant
+2026-10-02T12:35:13.036514Z  INFO database::database_index_workers: Queuing index backfill for index ID XWGAhY4egnf2s-ev6gNQ-A and tablet ID UFfhgVtmtpxAtpyhYqxQ-A
+2026-10-02T12:35:13.036692Z  INFO database::database_index_workers: Finished backfill of index tNI-WHtISQTLTQFjRKJQ-A.by_tenant_identifier
+2026-10-02T12:35:13.036760Z  INFO database::database_index_workers: Starting backfill of 1 indexes for requests: {IndexId(InternalId(XWGAhY4egnf2s-ev6gNQ-A)): UFfhgVtmtpxAtpyhYqxQ-A.by_tenant_request}
+2026-10-02T12:35:13.036784Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g825trc0gp71x0kqytsyfbza0d8fgrmg
+2026-10-02T12:35:13.038164Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(TBbsQcPnw2BiqzJxgeRQ-A)), IndexId(InternalId(2D43e1bb9mS0lFgg4cRQ-A))]
+2026-10-02T12:35:13.038376Z  INFO database::database_index_workers: Finished backfill of index jccl_IJKrskWzRVQG_pQ-A.by_tenant_request
+2026-10-02T12:35:13.038844Z  INFO database::database_index_workers: Queuing index backfill for index ID X6BRL7Tv4H1EoCWS-MVQ-A and tablet ID BwO-46zKPId2wfNuPyxQ-A
+2026-10-02T12:35:13.039000Z  INFO database::database_index_workers: Starting backfill of 1 indexes for events: {IndexId(InternalId(X6BRL7Tv4H1EoCWS-MVQ-A)): BwO-46zKPId2wfNuPyxQ-A.by_tenant_identifier}
+2026-10-02T12:35:13.039020Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g825z82h5ytezr3x8jg2b4qrrn8fh9b2
+2026-10-02T12:35:13.039725Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(UFfhgVtmtpxAtpyhYqxQ-A.by_tenant_request) for table UFfhgVtmtpxAtpyhYqxQ-A at snapshot 1790944513035902560
+2026-10-02T12:35:13.040301Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(BwO-46zKPId2wfNuPyxQ-A.by_tenant_identifier) for table BwO-46zKPId2wfNuPyxQ-A at snapshot 1790944513036797140
+2026-10-02T12:35:13.041449Z  INFO database::database_index_workers: Started running retention for 2 indexes
+2026-10-02T12:35:13.041484Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(R9gjMfoaxG_lFf_UGStQ-A))]
+2026-10-02T12:35:13.041623Z  INFO database::database_index_workers: Finished backfill of index JwUUv7ku4wmrHsiGFgBQ-A.by_tenant_request
+2026-10-02T12:35:13.042229Z  INFO database::database_index_workers: Queuing index backfill for index ID YH-tE_tfTIrUlzDySuFQ-A and tablet ID ATDO8ZVOelIJQnrJDRpQ-A
+2026-10-02T12:35:13.042352Z  INFO database::database_index_workers: Starting backfill of 1 indexes for events: {IndexId(InternalId(YH-tE_tfTIrUlzDySuFQ-A)): ATDO8ZVOelIJQnrJDRpQ-A.by_tenant_identifier}
+2026-10-02T12:35:13.042370Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g8260zxd2fxnyk4atjbk1wjaw58fgnff
+2026-10-02T12:35:13.043631Z  INFO database::database_index_workers: Started running retention for 2 indexes
+2026-10-02T12:35:13.043634Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(TLTo0y30p87IB4NMGn1Q-A))]
+2026-10-02T12:35:13.044016Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(ATDO8ZVOelIJQnrJDRpQ-A.by_tenant_identifier) for table ATDO8ZVOelIJQnrJDRpQ-A at snapshot 1790944513041818683
+2026-10-02T12:35:13.044290Z  INFO database::database_index_workers: Queuing index backfill for index ID YXgXjkbP7yBuSDinWBNQ-A and tablet ID 16xZH3tlK66mG4Q2IJFQ-A
+2026-10-02T12:35:13.044462Z  INFO database::database_index_workers: Starting backfill of 1 indexes for requests: {IndexId(InternalId(YXgXjkbP7yBuSDinWBNQ-A)): 16xZH3tlK66mG4Q2IJFQ-A.by_tenant_request}
+2026-10-02T12:35:13.044494Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g8262y0qhs3czvs0ds43h9tr2d8fgw67
+2026-10-02T12:35:13.045415Z  INFO database::database_index_workers: Finished backfill of index F-ZdqfLZkycf-0BdVsJQ-A.by_tenant_identifier
+2026-10-02T12:35:13.045535Z  INFO database::database_index_workers: Finished backfill of index F-ZdqfLZkycf-0BdVsJQ-A.by_tenant
+2026-10-02T12:35:13.045757Z  INFO database::database_index_workers: Started running retention for 2 indexes
+2026-10-02T12:35:13.046779Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(16xZH3tlK66mG4Q2IJFQ-A.by_tenant_request) for table 16xZH3tlK66mG4Q2IJFQ-A at snapshot 1790944513043012685
+2026-10-02T12:35:13.046958Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(UmH5WU0Kv9JLCULOl-FQ-A)), IndexId(InternalId(q3A_5GTHW_2_Rpy65sNQ-A))]
+2026-10-02T12:35:13.047365Z  INFO database::database_index_workers: Started running retention for 1 indexes
+2026-10-02T12:35:13.047868Z  INFO database::database_index_workers: Queuing index backfill for index ID ZjxAr-h-xoBeYtnfaU1Q-A and tablet ID yifOhMO5S8mg6ozcHPxQ-A
+2026-10-02T12:35:13.048028Z  INFO database::database_index_workers: Starting backfill of 4 indexes for co_subcontractor: {IndexId(InternalId(ZjxAr-h-xoBeYtnfaU1Q-A)): yifOhMO5S8mg6ozcHPxQ-A.by_tenant_client, IndexId(InternalId(ggkkieiNPU6o2vsB4LxQ-A)): yifOhMO5S8mg6ozcHPxQ-A.by_tenant_status, IndexId(InternalId(utXyyGOXwfWrMqcGC4BQ-A)): yifOhMO5S8mg6ozcHPxQ-A.by_tenant_identifier, IndexId(InternalId(vTag5U4OP9Dikgm94AlQ-A)): yifOhMO5S8mg6ozcHPxQ-A.by_tenant}
+2026-10-02T12:35:13.048060Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g826cf20nzm7xhm0bshdkqv99n8fgeb7
+2026-10-02T12:35:13.048148Z  INFO database::database_index_workers: Started running retention for 1 indexes
+2026-10-02T12:35:13.048301Z  INFO database::database_index_workers: Finished backfill of index GKWPKIBJeJZvgw7PzbVQ-A.by_tenant
+2026-10-02T12:35:13.048413Z  INFO database::database_index_workers: Finished backfill of index GKWPKIBJeJZvgw7PzbVQ-A.by_tenant_identifier
+2026-10-02T12:35:13.049262Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g8284294h7m8tfaen3dfp0f0qh8fg83m
+2026-10-02T12:35:13.049318Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82bnnfjs1hsfgfnncsae1gbg18fhq1h
+2026-10-02T12:35:13.049341Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82btdn0wn70wfygwa90kff0158fhn7k
+2026-10-02T12:35:13.049594Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(VYxgs8m3TRezunpjTGRQ-A)), IndexId(InternalId(evliRe7xq51fPCgnm4NQ-A))]
+2026-10-02T12:35:13.049797Z  INFO database::database_index_workers: Finished backfill of index DwMbizaPalZeBl3upk1Q-A.by_tenant_identifier
+2026-10-02T12:35:13.049916Z  INFO database::database_index_workers: Finished backfill of index DwMbizaPalZeBl3upk1Q-A.by_tenant
+2026-10-02T12:35:13.050226Z  INFO database::database_index_workers: Queuing index backfill for index ID aQGuBonTpx1hvhNh4XlQ-A and tablet ID 1af2WzslKWfp4IpI2xFQ-A
+2026-10-02T12:35:13.050383Z  INFO database::database_index_workers: Starting backfill of 1 indexes for contractorOsMemberships: {IndexId(InternalId(aQGuBonTpx1hvhNh4XlQ-A)): 1af2WzslKWfp4IpI2xFQ-A.by_identity}
+2026-10-02T12:35:13.050413Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g826j0de0t4x79rxc6z16rf1f58fhyfs
+2026-10-02T12:35:13.051775Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(Wt1TuVqIBLVIcFcOLoBQ-A)), IndexId(InternalId(yUms3SX9hRo_AouppW1Q-A))]
+2026-10-02T12:35:13.052171Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(1af2WzslKWfp4IpI2xFQ-A.by_identity) for table 1af2WzslKWfp4IpI2xFQ-A at snapshot 1790944513048553543
+2026-10-02T12:35:13.052369Z  INFO database::database_index_workers: Started running retention for 1 indexes
+2026-10-02T12:35:13.052433Z  INFO database::database_index_workers: Queuing index backfill for index ID bdJMEsJ4eG5sRQPft3hQ-A and tablet ID M8XbLRvNRAdidGlocu5Q-A
+2026-10-02T12:35:13.052579Z  INFO database::database_index_workers: Finished backfill of index hWsvbByQqChNFWOEhlpQ-A.by_tenant_identifier
+2026-10-02T12:35:13.052695Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(yifOhMO5S8mg6ozcHPxQ-A.by_tenant_client, yifOhMO5S8mg6ozcHPxQ-A.by_tenant_status, yifOhMO5S8mg6ozcHPxQ-A.by_tenant_identifier, yifOhMO5S8mg6ozcHPxQ-A.by_tenant) for table yifOhMO5S8mg6ozcHPxQ-A at snapshot 1790944513046945159
+2026-10-02T12:35:13.052723Z  INFO database::database_index_workers: Finished backfill of index hWsvbByQqChNFWOEhlpQ-A.by_tenant
+2026-10-02T12:35:13.052872Z  INFO database::database_index_workers: Starting backfill of 1 indexes for events: {IndexId(InternalId(bdJMEsJ4eG5sRQPft3hQ-A)): M8XbLRvNRAdidGlocu5Q-A.by_tenant_identifier}
+2026-10-02T12:35:13.052890Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g826vmjc2b17gy3edh2g7qxqf18fgkfj
+2026-10-02T12:35:13.055566Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(WNiE8leK3oQsyPkn0LJQ-A)), IndexId(InternalId(l_ai9IlHNBWWfSm280pQ-A))]
+2026-10-02T12:35:13.055799Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(M8XbLRvNRAdidGlocu5Q-A.by_tenant_identifier) for table M8XbLRvNRAdidGlocu5Q-A at snapshot 1790944513051475269
+2026-10-02T12:35:13.056204Z  INFO database::database_index_workers: Queuing index backfill for index ID e9WE5h4c7OMw3_FLy41Q-A and tablet ID XEk6jm7AGNZq-0P2KxZQ-A
+2026-10-02T12:35:13.056317Z  INFO database::database_index_workers: Starting backfill of 3 indexes for co_campaign: {IndexId(InternalId(e9WE5h4c7OMw3_FLy41Q-A)): XEk6jm7AGNZq-0P2KxZQ-A.by_tenant_identifier, IndexId(InternalId(pM8nwB7O5Alnkiwb4JJQ-A)): XEk6jm7AGNZq-0P2KxZQ-A.by_tenant, IndexId(InternalId(39JF-wWXcnf5_dEsmQVQ-A)): XEk6jm7AGNZq-0P2KxZQ-A.by_tenant_status}
+2026-10-02T12:35:13.056330Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g827qnc4wrf1sv7363fz2jybhn8fgd39
+2026-10-02T12:35:13.056371Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82a9ks7r0fcxs09cy92r6z0j98fhcxs
+2026-10-02T12:35:13.056395Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82dzmj5zc2sewkqz7yx2b4s0n8fhn87
+2026-10-02T12:35:13.057572Z  INFO database::database_index_workers: Started running retention for 1 indexes
+2026-10-02T12:35:13.057867Z  INFO database::database_index_workers: Finished backfill of index UFfhgVtmtpxAtpyhYqxQ-A.by_tenant_request
+2026-10-02T12:35:13.058196Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(XEk6jm7AGNZq-0P2KxZQ-A.by_tenant_identifier, XEk6jm7AGNZq-0P2KxZQ-A.by_tenant, XEk6jm7AGNZq-0P2KxZQ-A.by_tenant_status) for table XEk6jm7AGNZq-0P2KxZQ-A at snapshot 1790944513053102967
+2026-10-02T12:35:13.058745Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(XWGAhY4egnf2s-ev6gNQ-A))]
+2026-10-02T12:35:13.058863Z  INFO database::database_index_workers: Finished backfill of index BwO-46zKPId2wfNuPyxQ-A.by_tenant_identifier
+2026-10-02T12:35:13.059566Z  INFO database::database_index_workers: Queuing index backfill for index ID gIf3llMNjvDNz8SOs8lQ-A and tablet ID tZJTgkYmT4Q66dAT3cFQ-A
+2026-10-02T12:35:13.059715Z  INFO database::database_index_workers: Starting backfill of 2 indexes for specs: {IndexId(InternalId(gIf3llMNjvDNz8SOs8lQ-A)): tZJTgkYmT4Q66dAT3cFQ-A.by_tenant_identifier, IndexId(InternalId(_w5dgP1AKs01ym53tEpQ-A)): tZJTgkYmT4Q66dAT3cFQ-A.by_tenant}
+2026-10-02T12:35:13.059732Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82811zqjs9gv3qgsq7w93nks58fhage
+2026-10-02T12:35:13.059777Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82fy3jxg3ym0apd6q56wxxm998fhkmg
+2026-10-02T12:35:13.060188Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(X6BRL7Tv4H1EoCWS-MVQ-A))]
+2026-10-02T12:35:13.060747Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(tZJTgkYmT4Q66dAT3cFQ-A.by_tenant_identifier, tZJTgkYmT4Q66dAT3cFQ-A.by_tenant) for table tZJTgkYmT4Q66dAT3cFQ-A at snapshot 1790944513058284509
+2026-10-02T12:35:13.061058Z  INFO database::database_index_workers: Queuing index backfill for index ID ryAGhIPhMWJai0UNUdBQ-A and tablet ID lKiRiYM0fylF0nS86PdQ-A
+2026-10-02T12:35:13.061245Z  INFO database::database_index_workers: Starting backfill of 1 indexes for requests: {IndexId(InternalId(ryAGhIPhMWJai0UNUdBQ-A)): lKiRiYM0fylF0nS86PdQ-A.by_tenant_request}
+2026-10-02T12:35:13.061260Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82ay806gj1y2cb2ba5ma3aht18fgxhk
+2026-10-02T12:35:13.061604Z  INFO database::database_index_workers: Started running retention for 1 indexes
+2026-10-02T12:35:13.061975Z  INFO database::database_index_workers: Finished backfill of index ATDO8ZVOelIJQnrJDRpQ-A.by_tenant_identifier
+2026-10-02T12:35:13.063331Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(lKiRiYM0fylF0nS86PdQ-A.by_tenant_request) for table lKiRiYM0fylF0nS86PdQ-A at snapshot 1790944513060799791
+2026-10-02T12:35:13.063520Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(YH-tE_tfTIrUlzDySuFQ-A))]
+2026-10-02T12:35:13.064005Z  INFO database::database_index_workers: Queuing index backfill for index ID udI7sj-E6zDjYMVHV-ZQ-A and tablet ID 07jWsLr4YPbTX5CYg8pQ-A
+2026-10-02T12:35:13.064096Z  INFO database::database_index_workers: Starting backfill of 1 indexes for events: {IndexId(InternalId(udI7sj-E6zDjYMVHV-ZQ-A)): 07jWsLr4YPbTX5CYg8pQ-A.by_tenant_identifier}
+2026-10-02T12:35:13.064116Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82bkmhvp8zr9tsgwdgcahtqws8fhc37
+2026-10-02T12:35:13.066962Z  INFO database::database_index_workers: Started running retention for 4 indexes
+2026-10-02T12:35:13.067147Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(07jWsLr4YPbTX5CYg8pQ-A.by_tenant_identifier) for table 07jWsLr4YPbTX5CYg8pQ-A at snapshot 1790944513062435120
+2026-10-02T12:35:13.068590Z  INFO database::database_index_workers: Started running retention for 1 indexes
+2026-10-02T12:35:13.068824Z  INFO database::database_index_workers: Finished backfill of index 16xZH3tlK66mG4Q2IJFQ-A.by_tenant_request
+2026-10-02T12:35:13.070525Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(YXgXjkbP7yBuSDinWBNQ-A))]
+2026-10-02T12:35:13.070964Z  INFO database::database_index_workers: Started running retention for 3 indexes
+2026-10-02T12:35:13.070992Z  INFO database::database_index_workers: Queuing index backfill for index ID vdvlMM9rPBInbcid7O1Q-A and tablet ID 66-yONajTdx-aM53pQVQ-A
+2026-10-02T12:35:13.071178Z  INFO database::database_index_workers: Starting backfill of 1 indexes for businessRequests: {IndexId(InternalId(vdvlMM9rPBInbcid7O1Q-A)): 66-yONajTdx-aM53pQVQ-A.by_tenant_request}
+2026-10-02T12:35:13.071201Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82bvpz5637ppf0j4xpwh7fcxn8fhnad
+2026-10-02T12:35:13.074660Z  INFO database::database_index_workers: Started running retention for 2 indexes
+2026-10-02T12:35:13.074821Z  INFO database::database_index_workers: Finished backfill of index 1af2WzslKWfp4IpI2xFQ-A.by_identity
+2026-10-02T12:35:13.074884Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(66-yONajTdx-aM53pQVQ-A.by_tenant_request) for table 66-yONajTdx-aM53pQVQ-A at snapshot 1790944513070266005
+2026-10-02T12:35:13.077450Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(aQGuBonTpx1hvhNh4XlQ-A))]
+2026-10-02T12:35:13.078030Z  INFO database::database_index_workers: Queuing index backfill for index ID x5iZYkuGlZAYMUdtoaRQ-A and tablet ID dkft7VcOLAhspeTvBk9Q-A
+2026-10-02T12:35:13.078192Z  INFO database::database_index_workers: Starting backfill of 2 indexes for events: {IndexId(InternalId(x5iZYkuGlZAYMUdtoaRQ-A)): dkft7VcOLAhspeTvBk9Q-A.by_tenant, IndexId(InternalId(-V6IITeI3dpeZBQhIjFQ-A)): dkft7VcOLAhspeTvBk9Q-A.by_tenant_blueprint_identifier}
+2026-10-02T12:35:13.078217Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82cf64sc95rd5cg30rmevd1mh8fgr1a
+2026-10-02T12:35:13.078264Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82fjqm844vrhqetbsj18892658fh3pb
+2026-10-02T12:35:13.078343Z  INFO database::database_index_workers: Started running retention for 1 indexes
+2026-10-02T12:35:13.078570Z  INFO database::database_index_workers: Finished backfill of index yifOhMO5S8mg6ozcHPxQ-A.by_tenant_client
+2026-10-02T12:35:13.078722Z  INFO database::database_index_workers: Finished backfill of index yifOhMO5S8mg6ozcHPxQ-A.by_tenant_status
+2026-10-02T12:35:13.078803Z  INFO database::database_index_workers: Finished backfill of index yifOhMO5S8mg6ozcHPxQ-A.by_tenant_identifier
+2026-10-02T12:35:13.078867Z  INFO database::database_index_workers: Finished backfill of index yifOhMO5S8mg6ozcHPxQ-A.by_tenant
+2026-10-02T12:35:13.080201Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(dkft7VcOLAhspeTvBk9Q-A.by_tenant, dkft7VcOLAhspeTvBk9Q-A.by_tenant_blueprint_identifier) for table dkft7VcOLAhspeTvBk9Q-A at snapshot 1790944513074983533
+2026-10-02T12:35:13.080255Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(ZjxAr-h-xoBeYtnfaU1Q-A)), IndexId(InternalId(vTag5U4OP9Dikgm94AlQ-A)), IndexId(InternalId(utXyyGOXwfWrMqcGC4BQ-A)), IndexId(InternalId(ggkkieiNPU6o2vsB4LxQ-A))]
+2026-10-02T12:35:13.080716Z  INFO database::database_index_workers: Queuing index backfill for index ID zxu_RJTYiug0knalRmtQ-A and tablet ID e0rLfMDXpt5l3PZiIMBQ-A
+2026-10-02T12:35:13.080821Z  INFO database::database_index_workers: Started running retention for 1 indexes
+2026-10-02T12:35:13.080881Z  INFO database::database_index_workers: Starting backfill of 2 indexes for specs: {IndexId(InternalId(zxu_RJTYiug0knalRmtQ-A)): e0rLfMDXpt5l3PZiIMBQ-A.by_tenant_identifier, IndexId(InternalId(8lZgmaJ7IlUUv9XcO3lQ-A)): e0rLfMDXpt5l3PZiIMBQ-A.by_tenant}
+2026-10-02T12:35:13.080904Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82cy6xz8jadh2q86j97d9a6dd8fgas3
+2026-10-02T12:35:13.081022Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82f4nk0k6h7p8jn2jzxbq1vf58fhpyv
+2026-10-02T12:35:13.081026Z  INFO database::database_index_workers: Finished backfill of index M8XbLRvNRAdidGlocu5Q-A.by_tenant_identifier
+2026-10-02T12:35:13.081820Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(bdJMEsJ4eG5sRQPft3hQ-A))]
+2026-10-02T12:35:13.081954Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(e0rLfMDXpt5l3PZiIMBQ-A.by_tenant_identifier, e0rLfMDXpt5l3PZiIMBQ-A.by_tenant) for table e0rLfMDXpt5l3PZiIMBQ-A at snapshot 1790944513080422512
+2026-10-02T12:35:13.082146Z  INFO database::database_index_workers: Finished backfill of index XEk6jm7AGNZq-0P2KxZQ-A.by_tenant_identifier
+2026-10-02T12:35:13.082239Z  INFO database::database_index_workers: Finished backfill of index XEk6jm7AGNZq-0P2KxZQ-A.by_tenant
+2026-10-02T12:35:13.082308Z  INFO database::database_index_workers: Finished backfill of index XEk6jm7AGNZq-0P2KxZQ-A.by_tenant_status
+2026-10-02T12:35:13.082407Z  INFO database::database_index_workers: Queuing index backfill for index ID 19pDNDyx3sc5aNMThPZQ-A and tablet ID FLnWS2f2U5ywPOYS2KpQ-A
+2026-10-02T12:35:13.082505Z  INFO database::database_index_workers: Starting backfill of 1 indexes for requests: {IndexId(InternalId(19pDNDyx3sc5aNMThPZQ-A)): FLnWS2f2U5ywPOYS2KpQ-A.by_tenant_request}
+2026-10-02T12:35:13.082527Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82dfpj36gyb3qp775md64w4ys8fh2bx
+2026-10-02T12:35:13.085218Z  INFO database::database_index_workers: Finished backfill of index tZJTgkYmT4Q66dAT3cFQ-A.by_tenant_identifier
+2026-10-02T12:35:13.085298Z  INFO database::database_index_workers: Finished backfill of index tZJTgkYmT4Q66dAT3cFQ-A.by_tenant
+2026-10-02T12:35:13.085350Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(e9WE5h4c7OMw3_FLy41Q-A)), IndexId(InternalId(pM8nwB7O5Alnkiwb4JJQ-A)), IndexId(InternalId(39JF-wWXcnf5_dEsmQVQ-A))]
+2026-10-02T12:35:13.085695Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(FLnWS2f2U5ywPOYS2KpQ-A.by_tenant_request) for table FLnWS2f2U5ywPOYS2KpQ-A at snapshot 1790944513081480766
+2026-10-02T12:35:13.086263Z  INFO database::database_index_workers: Queuing index backfill for index ID 3AvzIq0Ds_TJtKR-2VJQ-A and tablet ID 764V1VBHy1oQtxm8zuFQ-A
+2026-10-02T12:35:13.086402Z  INFO database::database_index_workers: Starting backfill of 1 indexes for events: {IndexId(InternalId(3AvzIq0Ds_TJtKR-2VJQ-A)): 764V1VBHy1oQtxm8zuFQ-A.by_tenant_identifier}
+2026-10-02T12:35:13.086425Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82dr2zk4apg7czms6ta8zpsa98fhtrm
+2026-10-02T12:35:13.086684Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(gIf3llMNjvDNz8SOs8lQ-A)), IndexId(InternalId(_w5dgP1AKs01ym53tEpQ-A))]
+2026-10-02T12:35:13.087124Z  INFO database::database_index_workers: Queuing index backfill for index ID 4ntJg8ysqvabEVMMkutQ-A and tablet ID 0ZJs4vMTtlnpMqG4FjlQ-A
+2026-10-02T12:35:13.087260Z  INFO database::database_index_workers: Starting backfill of 1 indexes for businessEvidence: {IndexId(InternalId(4ntJg8ysqvabEVMMkutQ-A)): 0ZJs4vMTtlnpMqG4FjlQ-A.by_tenant_kind_reference}
+2026-10-02T12:35:13.087281Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82e4yt9gf6asaqpkc8n634jxd8fh5xy
+2026-10-02T12:35:13.087326Z  INFO database::database_index_workers: Started running retention for 1 indexes
+2026-10-02T12:35:13.087476Z  INFO database::database_index_workers: Finished backfill of index lKiRiYM0fylF0nS86PdQ-A.by_tenant_request
+2026-10-02T12:35:13.087557Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(764V1VBHy1oQtxm8zuFQ-A.by_tenant_identifier) for table 764V1VBHy1oQtxm8zuFQ-A at snapshot 1790944513082747906
+2026-10-02T12:35:13.088177Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(ryAGhIPhMWJai0UNUdBQ-A))]
+2026-10-02T12:35:13.088548Z  INFO database::database_index_workers: Queuing index backfill for index ID 70XfVIXoQEmi0tuyyBhQ-A and tablet ID KYSCBweCwqRPqwYtpUxQ-A
+2026-10-02T12:35:13.088665Z  INFO database::database_index_workers: Starting backfill of 1 indexes for events: {IndexId(InternalId(70XfVIXoQEmi0tuyyBhQ-A)): KYSCBweCwqRPqwYtpUxQ-A.by_tenant_identifier}
+2026-10-02T12:35:13.088679Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82eyhezaj2ygg29mb9dqcp8318fg348
+2026-10-02T12:35:13.089398Z  INFO database::database_index_workers: Started running retention for 2 indexes
+2026-10-02T12:35:13.089754Z  INFO database::database_index_workers: Finished backfill of index 07jWsLr4YPbTX5CYg8pQ-A.by_tenant_identifier
+2026-10-02T12:35:13.090372Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(0ZJs4vMTtlnpMqG4FjlQ-A.by_tenant_kind_reference) for table 0ZJs4vMTtlnpMqG4FjlQ-A at snapshot 1790944513086761406
+2026-10-02T12:35:13.092905Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(KYSCBweCwqRPqwYtpUxQ-A.by_tenant_identifier) for table KYSCBweCwqRPqwYtpUxQ-A at snapshot 1790944513087568066
+2026-10-02T12:35:13.093175Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(udI7sj-E6zDjYMVHV-ZQ-A))]
+2026-10-02T12:35:13.093618Z  INFO database::database_index_workers: Queuing index backfill for index ID -Chj6EPUWFaDGHt8wQpQ-A and tablet ID bCF6EJ5ueqzBAjtIDKZQ-A
+2026-10-02T12:35:13.093695Z  INFO database::database_index_workers: Started running retention for 2 indexes
+2026-10-02T12:35:13.093813Z  INFO database::database_index_workers: Starting backfill of 1 indexes for requests: {IndexId(InternalId(-Chj6EPUWFaDGHt8wQpQ-A)): bCF6EJ5ueqzBAjtIDKZQ-A.by_tenant_request}
+2026-10-02T12:35:13.093835Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82fga33x11x8p2pgcc7pz61198fgpzg
+2026-10-02T12:35:13.096474Z  INFO database::database_index_workers: Started running retention for 1 indexes
+2026-10-02T12:35:13.096563Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(bCF6EJ5ueqzBAjtIDKZQ-A.by_tenant_request) for table bCF6EJ5ueqzBAjtIDKZQ-A at snapshot 1790944513093080966
+2026-10-02T12:35:13.096754Z  INFO database::database_index_workers: Finished backfill of index 66-yONajTdx-aM53pQVQ-A.by_tenant_request
+2026-10-02T12:35:13.097459Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(vdvlMM9rPBInbcid7O1Q-A))]
+2026-10-02T12:35:13.098192Z  INFO database::database_index_workers: Queuing index backfill for index ID _563I9jgR_3z3ApEtKFQ-A and tablet ID sJy4M_npxg3h8OTBciNQ-A
+2026-10-02T12:35:13.098331Z  INFO database::database_index_workers: Starting backfill of 1 indexes for events: {IndexId(InternalId(_563I9jgR_3z3ApEtKFQ-A)): sJy4M_npxg3h8OTBciNQ-A.by_tenant_identifier}
+2026-10-02T12:35:13.098361Z  INFO database::bootstrap_model::index_backfills: Initializing index backfill for index developer id g82fz7nq4fce0hzxyfe0mh5mm58fhct5
+2026-10-02T12:35:13.098539Z  INFO database::database_index_workers: Started running retention for 1 indexes
+2026-10-02T12:35:13.098838Z  INFO database::database_index_workers: Finished backfill of index dkft7VcOLAhspeTvBk9Q-A.by_tenant
+2026-10-02T12:35:13.098972Z  INFO database::database_index_workers: Finished backfill of index dkft7VcOLAhspeTvBk9Q-A.by_tenant_blueprint_identifier
+2026-10-02T12:35:13.099751Z  INFO database::database_index_workers::index_writer: Done backfilling 0 docs into indexes: ManyIndexes(sJy4M_npxg3h8OTBciNQ-A.by_tenant_identifier) for table sJy4M_npxg3h8OTBciNQ-A at snapshot 1790944513096844643
+2026-10-02T12:35:13.099964Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(x5iZYkuGlZAYMUdtoaRQ-A)), IndexId(InternalId(-V6IITeI3dpeZBQhIjFQ-A))]
+2026-10-02T12:35:13.100354Z  INFO database::database_index_workers: Started running retention for 1 indexes
+2026-10-02T12:35:13.101050Z  INFO database::database_index_workers: Started running retention for 1 indexes
+2026-10-02T12:35:13.101236Z  INFO database::database_index_workers: Finished backfill of index e0rLfMDXpt5l3PZiIMBQ-A.by_tenant_identifier
+2026-10-02T12:35:13.101345Z  INFO database::database_index_workers: Finished backfill of index e0rLfMDXpt5l3PZiIMBQ-A.by_tenant
+2026-10-02T12:35:13.102177Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(zxu_RJTYiug0knalRmtQ-A)), IndexId(InternalId(8lZgmaJ7IlUUv9XcO3lQ-A))]
+2026-10-02T12:35:13.102321Z  INFO database::database_index_workers: Finished backfill of index FLnWS2f2U5ywPOYS2KpQ-A.by_tenant_request
+2026-10-02T12:35:13.103207Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(19pDNDyx3sc5aNMThPZQ-A))]
+2026-10-02T12:35:13.103806Z  INFO database::database_index_workers: Started running retention for 1 indexes
+2026-10-02T12:35:13.103994Z  INFO database::database_index_workers: Finished backfill of index 764V1VBHy1oQtxm8zuFQ-A.by_tenant_identifier
+2026-10-02T12:35:13.105099Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(3AvzIq0Ds_TJtKR-2VJQ-A))]
+2026-10-02T12:35:13.105347Z  INFO database::database_index_workers: Started running retention for 1 indexes
+2026-10-02T12:35:13.105565Z  INFO database::database_index_workers: Finished backfill of index 0ZJs4vMTtlnpMqG4FjlQ-A.by_tenant_kind_reference
+2026-10-02T12:35:13.106323Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(4ntJg8ysqvabEVMMkutQ-A))]
+2026-10-02T12:35:13.106693Z  INFO database::database_index_workers: Finished backfill of index KYSCBweCwqRPqwYtpUxQ-A.by_tenant_identifier
+2026-10-02T12:35:13.110629Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(70XfVIXoQEmi0tuyyBhQ-A))]
+2026-10-02T12:35:13.110789Z  INFO database::database_index_workers: Finished backfill of index bCF6EJ5ueqzBAjtIDKZQ-A.by_tenant_request
+2026-10-02T12:35:13.114667Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(-Chj6EPUWFaDGHt8wQpQ-A))]
+2026-10-02T12:35:13.114864Z  INFO database::database_index_workers: Finished backfill of index sJy4M_npxg3h8OTBciNQ-A.by_tenant_identifier
+2026-10-02T12:35:13.115409Z  INFO database::database_index_workers: Finished backfilling [IndexId(InternalId(_563I9jgR_3z3ApEtKFQ-A))]
+2026-10-02T12:35:13.354608Z  INFO keybroker::broker: Admin key accepted from MemberId(0) at Some(2026-10-02T12:35:07Z) for contractor-validation
+2026-10-02T12:35:13.356288Z  INFO convex-cloud-http: [] 127.0.0.1:37616 "POST /api/deploy2/wait_for_schema HTTP/1.1" 200 "-" "node" application/json - 2.076ms
+2026-10-02T12:35:13.372237Z  INFO keybroker::broker: Admin key accepted from MemberId(0) at Some(2026-10-02T12:35:07Z) for contractor-validation
+2026-10-02T12:35:13.394223Z  WARN model::components::config: Module not in functions: convex.config.js
+2026-10-02T12:35:13.394402Z  WARN model::components::config: Module not in functions: schema.js
+2026-10-02T12:35:13.394616Z  WARN model::components::config: Module not in functions: convex.config.js
+2026-10-02T12:35:13.394775Z  WARN model::components::config: Module not in functions: schema.js
+2026-10-02T12:35:13.394904Z  WARN model::components::config: Module not in functions: convex.config.js
+2026-10-02T12:35:13.395045Z  WARN model::components::config: Module not in functions: schema.js
+2026-10-02T12:35:13.395103Z  WARN model::components::config: Module not in functions: convex.config.js
+2026-10-02T12:35:13.395249Z  WARN model::components::config: Module not in functions: schema.js
+2026-10-02T12:35:13.395301Z  WARN model::components::config: Module not in functions: convex.config.js
+2026-10-02T12:35:13.395446Z  WARN model::components::config: Module not in functions: schema.js
+2026-10-02T12:35:13.395496Z  WARN model::components::config: Module not in functions: convex.config.js
+2026-10-02T12:35:13.395640Z  WARN model::components::config: Module not in functions: schema.js
+2026-10-02T12:35:13.395735Z  WARN model::components::config: Module not in functions: convex.config.js
+2026-10-02T12:35:13.395879Z  WARN model::components::config: Module not in functions: schema.js
+2026-10-02T12:35:13.395928Z  WARN model::components::config: Module not in functions: convex.config.js
+2026-10-02T12:35:13.396073Z  WARN model::components::config: Module not in functions: schema.js
+2026-10-02T12:35:13.396122Z  WARN model::components::config: Module not in functions: convex.config.js
+2026-10-02T12:35:13.396265Z  WARN model::components::config: Module not in functions: schema.js
+2026-10-02T12:35:13.396314Z  WARN model::components::config: Module not in functions: convex.config.js
+2026-10-02T12:35:13.396460Z  WARN model::components::config: Module not in functions: schema.js
+2026-10-02T12:35:13.396509Z  WARN model::components::config: Module not in functions: convex.config.js
+2026-10-02T12:35:13.396684Z  WARN model::components::config: Module not in functions: schema.js
+2026-10-02T12:35:13.398327Z  INFO model::cron_jobs: Crons Added: [], Updated: [], Deleted: []
+2026-10-02T12:35:13.400020Z  INFO database::bootstrap_model::index: Committed indexes for Global: (added 0. dropped 0)
+2026-10-02T12:35:13.401804Z  INFO model::cron_jobs: Crons Added: [], Updated: [], Deleted: []
+2026-10-02T12:35:13.403246Z  INFO database::bootstrap_model::index: Committed indexes for ByComponent(m02ch5ew9x76brgr2arwb0c84n8fhns6): (added 0. dropped 0)
+2026-10-02T12:35:13.404909Z  INFO model::cron_jobs: Crons Added: [], Updated: [], Deleted: []
+2026-10-02T12:35:13.406470Z  INFO database::bootstrap_model::index: Committed indexes for ByComponent(m026y1e5yw57y8ns6h8049w8658fhsnw): (added 0. dropped 0)
+2026-10-02T12:35:13.408443Z  INFO model::cron_jobs: Crons Added: [], Updated: [], Deleted: []
+2026-10-02T12:35:13.409870Z  INFO database::bootstrap_model::index: Committed indexes for ByComponent(m0254rz6bb16m6p4qg6mkyqs3x8fg3yh): (added 0. dropped 0)
+2026-10-02T12:35:13.414811Z  INFO model::cron_jobs: Crons Added: [], Updated: [], Deleted: []
+2026-10-02T12:35:13.426338Z  INFO database::bootstrap_model::index: Committed indexes for ByComponent(m02a1rz8hrpj5wmt4hz905yfzn8fhnaq): (added 0. dropped 0)
+2026-10-02T12:35:13.428188Z  INFO model::cron_jobs: Crons Added: [], Updated: [], Deleted: []
+2026-10-02T12:35:13.429531Z  INFO database::bootstrap_model::index: Committed indexes for ByComponent(m026qetq3tafqdmwxxyaaks6ts8fhgxs): (added 0. dropped 0)
+2026-10-02T12:35:13.431259Z  INFO model::cron_jobs: Crons Added: [], Updated: [], Deleted: []
+2026-10-02T12:35:13.432755Z  INFO database::bootstrap_model::index: Committed indexes for ByComponent(m02bce9hm7earhje9jn3vfcy0x8fgqme): (added 0. dropped 0)
+2026-10-02T12:35:13.434457Z  INFO model::cron_jobs: Crons Added: [], Updated: [], Deleted: []
+2026-10-02T12:35:13.435913Z  INFO database::bootstrap_model::index: Committed indexes for ByComponent(m024fhkc9t3rs8p1d9a3ks3zs18fgjsk): (added 0. dropped 0)
+2026-10-02T12:35:13.437607Z  INFO model::cron_jobs: Crons Added: [], Updated: [], Deleted: []
+2026-10-02T12:35:13.439200Z  INFO database::bootstrap_model::index: Committed indexes for ByComponent(m024n2k7xsaw7bkvzek1xb4mas8fhaya): (added 0. dropped 0)
+2026-10-02T12:35:13.441024Z  INFO model::cron_jobs: Crons Added: [], Updated: [], Deleted: []
+2026-10-02T12:35:13.442512Z  INFO database::bootstrap_model::index: Committed indexes for ByComponent(m021vaemzjnbm7vvkn8fpk3t8n8fgwz3): (added 0. dropped 0)
+2026-10-02T12:35:13.444170Z  INFO model::cron_jobs: Crons Added: [], Updated: [], Deleted: []
+2026-10-02T12:35:13.445482Z  INFO database::bootstrap_model::index: Committed indexes for ByComponent(m029h3d4cfpdwaccm4pavc8n5d8fg0mj): (added 0. dropped 0)
+2026-10-02T12:35:13.478277Z  INFO convex-cloud-http: [] 127.0.0.1:54512 "POST /api/deploy2/finish_push HTTP/1.1" 200 "-" "node" application/json - 111.532ms
+2026-10-02T12:35:13.486147Z  INFO keybroker::broker: Admin key accepted from MemberId(0) at Some(2026-10-02T12:35:07Z) for contractor-validation
+2026-10-02T12:35:13.486222Z  INFO convex-cloud-http: [] 127.0.0.1:37616 "POST /api/deploy2/report_push_completed HTTP/1.1" 200 "-" "node" application/json - 0.247ms

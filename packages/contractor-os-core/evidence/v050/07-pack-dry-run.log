@@ -1,0 +1,103 @@
+
+> @johnny/contractor-os-core@0.5.0 pack:dry-run
+> npm pack --dry-run --ignore-scripts
+
+npm notice
+npm notice package: @johnny/contractor-os-core@0.5.0
+npm notice Tarball Contents
+npm notice 11.4kB README.md
+npm notice 4.0kB docs/backend/COMPONENT_ARCHITECTURE_v050.md
+npm notice 2.2kB docs/backend/DESIGN.md
+npm notice 792B docs/backend/IMPLEMENTATION_PLAN.md
+npm notice 1.6kB docs/backend/MIGRATION.md
+npm notice 4.6kB docs/backend/SCHEMA_ALIGNMENT_v040.md
+npm notice 1.8kB docs/history/v0.2.0/COMMIT_PACKET.json
+npm notice 1.5kB docs/history/v0.2.0/DESIGN.md
+npm notice 1.0kB docs/history/v0.2.0/IMPLEMENTATION_PLAN.md
+npm notice 9.7kB docs/history/v0.2.0/README.md
+npm notice 2.8kB docs/history/v0.2.0/SOURCE_GAPS.md
+npm notice 1.9kB docs/history/v0.2.0/verification.json
+npm notice 2.0kB docs/history/v0.2.0/VERIFICATION.md
+npm notice 64.5kB docs/history/v0.3.0/blueprints.summary.json
+npm notice 11.3kB docs/history/v0.3.0/README.md
+npm notice 3.5kB docs/history/v0.3.0/verification.json
+npm notice 2.0kB docs/PORT_EXPORT_REQUEST.md
+npm notice 21.8kB docs/scorecard-definitions.json
+npm notice 16.1kB docs/SOURCE_CONTRACTOR_SUMMARY.md
+npm notice 2.7kB docs/SOURCE_GAPS.md
+npm notice 3.6kB docs/verification.json
+npm notice 1.0kB docs/VERIFICATION.md
+npm notice 50.3kB docs/workflow-definitions.json
+npm notice 89.0kB model/blueprints.summary.json
+npm notice 14.4kB model/schema-supplement.json
+npm notice 3.0kB package.json
+npm notice 3.5kB src/backendClient.ts
+npm notice 3.1kB src/client.ts
+npm notice 27.2kB src/component/businessRecords.ts
+npm notice 2.6kB src/component/businessStore.ts
+npm notice 2.7kB src/component/businessValidators.ts
+npm notice 454B src/component/convex.config.ts
+npm notice 2.8kB src/component/domainRuntime.ts
+npm notice 8.4kB src/component/domainTables.ts
+npm notice 23.2kB src/component/domainValidators.ts
+npm notice 7.5kB src/component/entities.ts
+npm notice 1.0kB src/component/meta.ts
+npm notice 618B src/component/metaValidators.ts
+npm notice 5.0kB src/component/operations.ts
+npm notice 1.5kB src/component/operationValidators.ts
+npm notice 981B src/component/projections.ts
+npm notice 6.4kB src/component/projectionStore.ts
+npm notice 2.0kB src/component/projectionValidators.ts
+npm notice 7.3kB src/component/records/co_automation_rule.ts
+npm notice 7.0kB src/component/records/co_bid.ts
+npm notice 7.2kB src/component/records/co_campaign.ts
+npm notice 7.3kB src/component/records/co_change_order.ts
+npm notice 7.1kB src/component/records/co_client.ts
+npm notice 7.1kB src/component/records/co_contact.ts
+npm notice 7.2kB src/component/records/co_contract.ts
+npm notice 7.3kB src/component/records/co_daily_report.ts
+npm notice 7.2kB src/component/records/co_document.ts
+npm notice 7.1kB src/component/records/co_invoice.ts
+npm notice 7.0kB src/component/records/co_job.ts
+npm notice 7.1kB src/component/records/co_lead.ts
+npm notice 7.2kB src/component/records/co_outreach.ts
+npm notice 7.1kB src/component/records/co_payment.ts
+npm notice 7.3kB src/component/records/co_pricing_rule.ts
+npm notice 7.2kB src/component/records/co_proposal.ts
+npm notice 7.1kB src/component/records/co_scope.ts
+npm notice 7.2kB src/component/records/co_site_visit.ts
+npm notice 7.3kB src/component/records/co_subcontractor.ts
+npm notice 7.2kB src/component/records/co_trade_spec.ts
+npm notice 3.0kB src/component/schema.ts
+npm notice 1.3kB src/component/validators.ts
+npm notice 4.5kB src/component/workflowInputs.ts
+npm notice 4.9kB src/component/workflows.ts
+npm notice 32.0kB src/domainClient.ts
+npm notice 33.5kB src/shared/business.ts
+npm notice 9.0kB src/shared/businessPolicy.ts
+npm notice 3.4kB src/shared/businessTypes.ts
+npm notice 5.9kB src/shared/calculations.ts
+npm notice 14.6kB src/shared/derivedManifest.ts
+npm notice 6.1kB src/shared/domain.ts
+npm notice 80.0kB src/shared/domainManifest.ts
+npm notice 13.3kB src/shared/domainTypes.ts
+npm notice 2.5kB src/shared/migration.ts
+npm notice 15.5kB src/shared/model.ts
+npm notice 9.6kB src/shared/port.ts
+npm notice 7.9kB src/shared/projections.ts
+npm notice 21.9kB src/shared/scorecardManifest.ts
+npm notice 5.1kB src/shared/scorecards.ts
+npm notice 681B src/shared/version.ts
+npm notice 2.9kB src/shared/workflowTypes.ts
+npm notice 435B src/test.ts
+npm notice Tarball Details
+npm notice name: @johnny/contractor-os-core
+npm notice version: 0.5.0
+npm notice filename: johnny-contractor-os-core-0.5.0.tgz
+npm notice package size: 116.0 kB
+npm notice unpacked size: 849.1 kB
+npm notice shasum: 6c31865989782cdb299f72991a70e106a2591727
+npm notice integrity: sha512-ryU8skfQoNXXm[...]n88/sjNXQD2UA==
+npm notice total files: 85
+npm notice
+johnny-contractor-os-core-0.5.0.tgz

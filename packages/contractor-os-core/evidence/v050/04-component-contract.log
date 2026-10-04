@@ -1,0 +1,13 @@
+
+> @johnny/contractor-os-core@0.5.0 check:component
+> node tools/check_component_contract.mjs
+
+{
+  "status": "passed",
+  "checkedComponentFiles": 39,
+  "errors": [],
+  "warnings": [
+    "component generated artifacts absent: src/component/_generated/component.ts, src/component/_generated/server.ts, src/component/_generated/api.ts, src/component/_generated/dataModel.ts; expected for source checkout before Convex codegen"
+  ],
+  "requireGenerated": false
+}

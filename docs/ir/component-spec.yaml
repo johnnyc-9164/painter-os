@@ -1,0 +1,220 @@
+designSystem:
+  name: Artisan Core
+  primitiveLayer: shadcn/ui on Base UI
+  sharedPackage: packages/ui
+primitives:
+- Button
+- Card
+- Input
+- Textarea
+- Select
+- Combobox
+- Checkbox
+- RadioGroup
+- Switch
+- Tabs
+- Table
+- Badge
+- Progress
+- Dialog
+- AlertDialog
+- Sheet
+- Popover
+- Calendar
+- DropdownMenu
+- Command
+- Breadcrumb
+- Sidebar
+- Skeleton
+- Alert
+- Toast
+compositions:
+- name: AppShell
+  scope: global
+  builtFrom:
+  - Sidebar
+  - Breadcrumb
+  - Button
+  - DropdownMenu
+  props:
+  - workspace
+  - user
+  - navItems
+  - children
+- name: AppSidebar
+  scope: global
+  builtFrom:
+  - Sidebar
+  - Badge
+  props:
+  - items
+  - activePath
+  - workspace
+- name: PageHeader
+  scope: global
+  builtFrom:
+  - Breadcrumb
+  - Button
+  - Badge
+  props:
+  - title
+  - description
+  - status
+  - actions
+- name: PageToolbar
+  scope: global
+  builtFrom:
+  - Input
+  - Select
+  - Button
+  - DropdownMenu
+  props:
+  - search
+  - filters
+  - actions
+- name: MetricCard
+  scope: global
+  builtFrom:
+  - Card
+  - Badge
+  - Progress
+  props:
+  - label
+  - value
+  - delta
+  - status
+  - href
+- name: StatusBadge
+  scope: global
+  builtFrom:
+  - Badge
+  props:
+  - status
+  - label
+- name: EntityTable
+  scope: global
+  builtFrom:
+  - Table
+  - Checkbox
+  - DropdownMenu
+  - Skeleton
+  props:
+  - columns
+  - rows
+  - selection
+  - pagination
+- name: ActivityTimeline
+  scope: global
+  builtFrom:
+  - Card
+  - Badge
+  props:
+  - events
+- name: EvidenceLink
+  scope: global
+  builtFrom:
+  - Button
+  props:
+  - evidenceId
+  - label
+  - href
+- name: ApprovalBar
+  scope: customers
+  builtFrom:
+  - Card
+  - Button
+  - AlertDialog
+  props:
+  - state
+  - approve
+  - requestChanges
+  - reject
+- name: CustomerSummary
+  scope: contacts
+  builtFrom:
+  - Card
+  - Badge
+  - Button
+  props:
+  - customer
+  - address
+  - contactMethods
+- name: EstimateSummary
+  scope: estimating
+  builtFrom:
+  - Card
+  - Table
+  - Badge
+  props:
+  - estimate
+  - totals
+  - revision
+  - status
+- name: JobSummary
+  scope: jobs
+  builtFrom:
+  - Card
+  - Badge
+  - Progress
+  props:
+  - job
+  - schedule
+  - crew
+  - progress
+- name: Money
+  scope: global
+  builtFrom: []
+  props:
+  - amount
+  - currency
+- name: EmptyState
+  scope: global
+  builtFrom:
+  - Card
+  - Button
+  props:
+  - title
+  - description
+  - action
+- name: LoadingState
+  scope: global
+  builtFrom:
+  - Skeleton
+  props:
+  - variant
+- name: ScheduleBoard
+  scope: scheduling
+  builtFrom:
+  - Calendar
+  - Popover
+  - Sheet
+  - Badge
+  props:
+  - entries
+  - range
+  - crews
+- name: FieldChecklist
+  scope: field
+  builtFrom:
+  - Checkbox
+  - Progress
+  - Button
+  props:
+  - items
+  - completion
+  - onChange
+- name: InvoiceSummary
+  scope: finance
+  builtFrom:
+  - Card
+  - Table
+  - Badge
+  - Button
+  props:
+  - invoice
+  - balance
+  - payments
+rules:
+- No screen-local duplicate of a global composition.
+- Domain compositions accept typed view models, not raw database documents.
+- Interaction state belongs to composition; authorization remains server-side.

@@ -1,0 +1,24 @@
+test_cli_invalid_ir_has_nonzero_exit_without_traceback (test_composition.CompositionTests.test_cli_invalid_ir_has_nonzero_exit_without_traceback) ... ok
+test_cli_plan_is_json_and_no_write (test_composition.CompositionTests.test_cli_plan_is_json_and_no_write) ... ok
+test_config_and_versions_fail_closed (test_composition.CompositionTests.test_config_and_versions_fail_closed) ... ok
+test_core_and_packs_required (test_composition.CompositionTests.test_core_and_packs_required) ... ok
+test_core_mount_and_ref_can_be_renamed (test_composition.CompositionTests.test_core_mount_and_ref_can_be_renamed) ... ok
+test_core_only_and_single_trade_products (test_composition.CompositionTests.test_core_only_and_single_trade_products) ... ok
+test_duplicate_keys_and_nonfinite_json_rejected (test_composition.CompositionTests.test_duplicate_keys_and_nonfinite_json_rejected) ... ok
+test_duplicate_mounts_refs_and_components_rejected (test_composition.CompositionTests.test_duplicate_mounts_refs_and_components_rejected) ... ok
+test_example_contains_exactly_real_core_and_nine_trades (test_composition.CompositionTests.test_example_contains_exactly_real_core_and_nine_trades) ... ok
+test_host_bindings_and_constructor_order (test_composition.CompositionTests.test_host_bindings_and_constructor_order) ... ok
+test_malformed_objects_fail_as_validation_errors (test_composition.CompositionTests.test_malformed_objects_fail_as_validation_errors) ... ok
+test_order_does_not_change_plan (test_composition.CompositionTests.test_order_does_not_change_plan) ... ok
+test_refs_dependencies_and_binding_targets_rejected (test_composition.CompositionTests.test_refs_dependencies_and_binding_targets_rejected) ... ok
+test_registry_is_checked_against_source (test_composition.CompositionTests.test_registry_is_checked_against_source) ... ok
+test_scaffold_is_pinned_nonexecuting_and_no_provisioning (test_composition.CompositionTests.test_scaffold_is_pinned_nonexecuting_and_no_provisioning) ... ok
+test_token_values_shapes_and_themes (test_composition.CompositionTests.test_token_values_shapes_and_themes) ... ok
+test_ui_registry_items_and_backend_operations (test_composition.CompositionTests.test_ui_registry_items_and_backend_operations) ... ok
+test_unknown_component_and_config_as_component_rejected (test_composition.CompositionTests.test_unknown_component_and_config_as_component_rejected) ... ok
+test_unknown_keys_are_rejected (test_composition.CompositionTests.test_unknown_keys_are_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 0.411s
+
+OK

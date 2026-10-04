@@ -1,0 +1,286 @@
+TAP version 13
+# Subtest: v040: co_contact.client rejects a list because supplied many=false
+ok 1 - v040: co_contact.client rejects a list because supplied many=false
+  ---
+  duration_ms: 1.749184
+  type: 'test'
+  ...
+# Subtest: v040: co_lead.client rejects a list because supplied many=false
+ok 2 - v040: co_lead.client rejects a list because supplied many=false
+  ---
+  duration_ms: 0.210527
+  type: 'test'
+  ...
+# Subtest: v040: co_lead.contact rejects a list because supplied many=false
+ok 3 - v040: co_lead.contact rejects a list because supplied many=false
+  ---
+  duration_ms: 0.09941
+  type: 'test'
+  ...
+# Subtest: v040: co_lead.campaign rejects a list because supplied many=false
+ok 4 - v040: co_lead.campaign rejects a list because supplied many=false
+  ---
+  duration_ms: 0.084558
+  type: 'test'
+  ...
+# Subtest: v040: co_site_visit.contact rejects a list because supplied many=false
+ok 5 - v040: co_site_visit.contact rejects a list because supplied many=false
+  ---
+  duration_ms: 0.197868
+  type: 'test'
+  ...
+# Subtest: v040: co_site_visit.client rejects a list because supplied many=false
+ok 6 - v040: co_site_visit.client rejects a list because supplied many=false
+  ---
+  duration_ms: 0.099099
+  type: 'test'
+  ...
+# Subtest: v040: co_site_visit.lead rejects a list because supplied many=false
+ok 7 - v040: co_site_visit.lead rejects a list because supplied many=false
+  ---
+  duration_ms: 0.126831
+  type: 'test'
+  ...
+# Subtest: v040: co_scope.trade_spec rejects a list because supplied many=false
+ok 8 - v040: co_scope.trade_spec rejects a list because supplied many=false
+  ---
+  duration_ms: 0.097307
+  type: 'test'
+  ...
+# Subtest: v040: co_scope.lead rejects a list because supplied many=false
+ok 9 - v040: co_scope.lead rejects a list because supplied many=false
+  ---
+  duration_ms: 0.299201
+  type: 'test'
+  ...
+# Subtest: v040: co_scope.proposal rejects a list because supplied many=false
+ok 10 - v040: co_scope.proposal rejects a list because supplied many=false
+  ---
+  duration_ms: 0.367914
+  type: 'test'
+  ...
+# Subtest: v040: co_trade_spec.scope rejects a list because supplied many=false
+ok 11 - v040: co_trade_spec.scope rejects a list because supplied many=false
+  ---
+  duration_ms: 0.154402
+  type: 'test'
+  ...
+# Subtest: v040: co_trade_spec.pricing_rule rejects a list because supplied many=false
+ok 12 - v040: co_trade_spec.pricing_rule rejects a list because supplied many=false
+  ---
+  duration_ms: 0.085238
+  type: 'test'
+  ...
+# Subtest: v040: co_proposal.client rejects a list because supplied many=false
+ok 13 - v040: co_proposal.client rejects a list because supplied many=false
+  ---
+  duration_ms: 0.068974
+  type: 'test'
+  ...
+# Subtest: v040: co_proposal.lead rejects a list because supplied many=false
+ok 14 - v040: co_proposal.lead rejects a list because supplied many=false
+  ---
+  duration_ms: 0.070195
+  type: 'test'
+  ...
+# Subtest: v040: co_proposal.contact rejects a list because supplied many=false
+ok 15 - v040: co_proposal.contact rejects a list because supplied many=false
+  ---
+  duration_ms: 0.547475
+  type: 'test'
+  ...
+# Subtest: v040: co_proposal.scope rejects a list because supplied many=false
+ok 16 - v040: co_proposal.scope rejects a list because supplied many=false
+  ---
+  duration_ms: 0.082765
+  type: 'test'
+  ...
+# Subtest: v040: co_bid.proposal rejects a list because supplied many=false
+ok 17 - v040: co_bid.proposal rejects a list because supplied many=false
+  ---
+  duration_ms: 0.060971
+  type: 'test'
+  ...
+# Subtest: v040: co_bid.client rejects a list because supplied many=false
+ok 18 - v040: co_bid.client rejects a list because supplied many=false
+  ---
+  duration_ms: 0.051938
+  type: 'test'
+  ...
+# Subtest: v040: co_bid.lead rejects a list because supplied many=false
+ok 19 - v040: co_bid.lead rejects a list because supplied many=false
+  ---
+  duration_ms: 0.050095
+  type: 'test'
+  ...
+# Subtest: v040: co_contract.contact rejects a list because supplied many=false
+ok 20 - v040: co_contract.contact rejects a list because supplied many=false
+  ---
+  duration_ms: 0.048513
+  type: 'test'
+  ...
+# Subtest: v040: co_contract.client rejects a list because supplied many=false
+ok 21 - v040: co_contract.client rejects a list because supplied many=false
+  ---
+  duration_ms: 0.050215
+  type: 'test'
+  ...
+# Subtest: v040: co_contract.bid rejects a list because supplied many=false
+ok 22 - v040: co_contract.bid rejects a list because supplied many=false
+  ---
+  duration_ms: 0.054492
+  type: 'test'
+  ...
+# Subtest: v040: co_job.contact rejects a list because supplied many=false
+ok 23 - v040: co_job.contact rejects a list because supplied many=false
+  ---
+  duration_ms: 0.049995
+  type: 'test'
+  ...
+# Subtest: v040: co_job.contract rejects a list because supplied many=false
+ok 24 - v040: co_job.contract rejects a list because supplied many=false
+  ---
+  duration_ms: 0.050547
+  type: 'test'
+  ...
+# Subtest: v040: co_job.bid rejects a list because supplied many=false
+ok 25 - v040: co_job.bid rejects a list because supplied many=false
+  ---
+  duration_ms: 0.07315
+  type: 'test'
+  ...
+# Subtest: v040: co_job.client rejects a list because supplied many=false
+ok 26 - v040: co_job.client rejects a list because supplied many=false
+  ---
+  duration_ms: 0.055674
+  type: 'test'
+  ...
+# Subtest: v040: co_subcontractor.client rejects a list because supplied many=false
+ok 27 - v040: co_subcontractor.client rejects a list because supplied many=false
+  ---
+  duration_ms: 0.046781
+  type: 'test'
+  ...
+# Subtest: v040: co_change_order.job rejects a list because supplied many=false
+ok 28 - v040: co_change_order.job rejects a list because supplied many=false
+  ---
+  duration_ms: 0.051968
+  type: 'test'
+  ...
+# Subtest: v040: co_change_order.contract rejects a list because supplied many=false
+ok 29 - v040: co_change_order.contract rejects a list because supplied many=false
+  ---
+  duration_ms: 0.051278
+  type: 'test'
+  ...
+# Subtest: v040: co_invoice.client rejects a list because supplied many=false
+ok 30 - v040: co_invoice.client rejects a list because supplied many=false
+  ---
+  duration_ms: 0.048103
+  type: 'test'
+  ...
+# Subtest: v040: co_invoice.contract rejects a list because supplied many=false
+ok 31 - v040: co_invoice.contract rejects a list because supplied many=false
+  ---
+  duration_ms: 0.050115
+  type: 'test'
+  ...
+# Subtest: v040: co_invoice.job rejects a list because supplied many=false
+ok 32 - v040: co_invoice.job rejects a list because supplied many=false
+  ---
+  duration_ms: 0.048534
+  type: 'test'
+  ...
+# Subtest: v040: co_payment.invoice rejects a list because supplied many=false
+ok 33 - v040: co_payment.invoice rejects a list because supplied many=false
+  ---
+  duration_ms: 0.049906
+  type: 'test'
+  ...
+# Subtest: v040: co_payment.client rejects a list because supplied many=false
+ok 34 - v040: co_payment.client rejects a list because supplied many=false
+  ---
+  duration_ms: 0.045739
+  type: 'test'
+  ...
+# Subtest: v040: co_daily_report.job rejects a list because supplied many=false
+ok 35 - v040: co_daily_report.job rejects a list because supplied many=false
+  ---
+  duration_ms: 0.045758
+  type: 'test'
+  ...
+# Subtest: v040: co_outreach.campaign rejects a list because supplied many=false
+ok 36 - v040: co_outreach.campaign rejects a list because supplied many=false
+  ---
+  duration_ms: 0.047481
+  type: 'test'
+  ...
+# Subtest: v040: co_outreach.contact rejects a list because supplied many=false
+ok 37 - v040: co_outreach.contact rejects a list because supplied many=false
+  ---
+  duration_ms: 0.045608
+  type: 'test'
+  ...
+# Subtest: v040: co_outreach.client rejects a list because supplied many=false
+ok 38 - v040: co_outreach.client rejects a list because supplied many=false
+  ---
+  duration_ms: 0.140611
+  type: 'test'
+  ...
+# Subtest: v040: co_automation_rule.campaign rejects a list because supplied many=false
+ok 39 - v040: co_automation_rule.campaign rejects a list because supplied many=false
+  ---
+  duration_ms: 0.061072
+  type: 'test'
+  ...
+# Subtest: v040: co_document.campaign rejects a list because supplied many=false
+ok 40 - v040: co_document.campaign rejects a list because supplied many=false
+  ---
+  duration_ms: 0.077707
+  type: 'test'
+  ...
+# Subtest: v040: co_document.lead rejects a list because supplied many=false
+ok 41 - v040: co_document.lead rejects a list because supplied many=false
+  ---
+  duration_ms: 0.077376
+  type: 'test'
+  ...
+# Subtest: v040: co_document.job rejects a list because supplied many=false
+ok 42 - v040: co_document.job rejects a list because supplied many=false
+  ---
+  duration_ms: 0.056645
+  type: 'test'
+  ...
+# Subtest: v040: co_document.contract rejects a list because supplied many=false
+ok 43 - v040: co_document.contract rejects a list because supplied many=false
+  ---
+  duration_ms: 0.049735
+  type: 'test'
+  ...
+# Subtest: v040: full painting and shared fields are accepted with explicit types
+ok 44 - v040: full painting and shared fields are accepted with explicit types
+  ---
+  duration_ms: 0.243386
+  type: 'test'
+  ...
+# Subtest: v040: roofing/HVAC/plumbing/electrical/concrete/drywall/door/landscape fields are typed
+ok 45 - v040: roofing/HVAC/plumbing/electrical/concrete/drywall/door/landscape fields are typed
+  ---
+  duration_ms: 0.227453
+  type: 'test'
+  ...
+# Subtest: v040: trade field enum typos and wrong types are rejected
+ok 46 - v040: trade field enum typos and wrong types are rejected
+  ---
+  duration_ms: 0.144398
+  type: 'test'
+  ...
+1..46
+# tests 46
+# suites 0
+# pass 46
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 80.917285

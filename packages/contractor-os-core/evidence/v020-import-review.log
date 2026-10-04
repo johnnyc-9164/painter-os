@@ -1,0 +1,11 @@
+{
+  "kind": "offline_typed_conversion_review_not_live_import",
+  "version": "0.2.0",
+  "inputRecords": 6,
+  "snapshotValuesPreserved": true,
+  "knownPropertyValues": 27,
+  "omittedNullProperties": 20,
+  "deferredPropertyValues": 35,
+  "missingTargetsInSuppliedBatch": 2,
+  "liveTargetState": "not_checked"
+}

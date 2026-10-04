@@ -1,0 +1,11 @@
+COMMAND: npm run check:syntax
+CWD: /agent/workspace/painter-os-bts/packages/contractor-os-core
+
+> @johnny/contractor-os-core@0.6.0 check:syntax
+> node tools/check_syntax.cjs
+
+{
+  "typescriptFiles": 168,
+  "syntaxErrors": [],
+  "sdkSemanticTypecheck": false
+}

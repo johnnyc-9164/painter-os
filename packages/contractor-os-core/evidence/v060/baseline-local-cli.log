@@ -1,0 +1,26 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+CONVEX_AGENT_MODE=anonymous mode is in beta, functionality may change in the future.
+Downloading Convex backend binary
+
+<--- Last few GCs --->
+
+[19:0x2c095000]   148728 ms: Scavenge 2032.5 (2038.5) -> 2030.1 (2047.3) MB, pooled: 0 MB, 1.71 / 0.00 ms  (average mu = 0.336, current mu = 0.310) task; 
+[19:0x2c095000]   150345 ms: Mark-Compact (reduce) 2030.2 (2047.3) -> 2030.0 (2032.0) MB, pooled: 0 MB, 1605.05 / 0.00 ms  (+ 8.1 ms in 5 steps since start of marking, biggest step 5.0 ms, walltime since start of marking 1616 ms) (average mu = 0.254, curr
+FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed - JavaScript heap out of memory
+----- Native stack trace -----
+
+ 1: 0x75356c node::OOMErrorHandler(char const*, v8::OOMDetails const&) [node]
+ 2: 0xc52cd0  [node]
+ 3: 0xc52dbf  [node]
+ 4: 0xef6695  [node]
+ 5: 0xef66c2  [node]
+ 6: 0xef69ba  [node]
+ 7: 0xf076ba  [node]
+ 8: 0xf0ba60  [node]
+ 9: 0x199e0d1  [node]
+Aborted
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

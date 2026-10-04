@@ -1,0 +1,13 @@
+COMMAND: npm run check:packaged-component
+CWD: /agent/workspace/painter-os-bts/packages/contractor-os-core
+
+> @johnny/contractor-os-core@0.6.0 check:packaged-component
+> node tools/check_component_contract.mjs --require-generated
+
+{
+  "status": "passed",
+  "checkedComponentFiles": 75,
+  "errors": [],
+  "warnings": [],
+  "requireGenerated": true
+}

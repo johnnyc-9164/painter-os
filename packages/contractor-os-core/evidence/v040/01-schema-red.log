@@ -1,0 +1,987 @@
+TAP version 13
+# Subtest: v040: co_contact.client rejects a list because supplied many=false
+not ok 1 - v040: co_contact.client rejects a list because supplied many=false
+  ---
+  duration_ms: 2.100793
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: v040: co_lead.client rejects a list because supplied many=false
+not ok 2 - v040: co_lead.client rejects a list because supplied many=false
+  ---
+  duration_ms: 0.175434
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: v040: co_lead.contact rejects a list because supplied many=false
+not ok 3 - v040: co_lead.contact rejects a list because supplied many=false
+  ---
+  duration_ms: 0.210096
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_lead.campaign rejects a list because supplied many=false
+not ok 4 - v040: co_lead.campaign rejects a list because supplied many=false
+  ---
+  duration_ms: 0.103035
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_site_visit.contact rejects a list because supplied many=false
+not ok 5 - v040: co_site_visit.contact rejects a list because supplied many=false
+  ---
+  duration_ms: 0.180943
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_site_visit.client rejects a list because supplied many=false
+not ok 6 - v040: co_site_visit.client rejects a list because supplied many=false
+  ---
+  duration_ms: 0.330327
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_site_visit.lead rejects a list because supplied many=false
+not ok 7 - v040: co_site_visit.lead rejects a list because supplied many=false
+  ---
+  duration_ms: 0.105889
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_scope.trade_spec rejects a list because supplied many=false
+not ok 8 - v040: co_scope.trade_spec rejects a list because supplied many=false
+  ---
+  duration_ms: 0.130116
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_scope.lead rejects a list because supplied many=false
+not ok 9 - v040: co_scope.lead rejects a list because supplied many=false
+  ---
+  duration_ms: 0.436767
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_scope.proposal rejects a list because supplied many=false
+not ok 10 - v040: co_scope.proposal rejects a list because supplied many=false
+  ---
+  duration_ms: 0.302075
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_trade_spec.scope rejects a list because supplied many=false
+not ok 11 - v040: co_trade_spec.scope rejects a list because supplied many=false
+  ---
+  duration_ms: 0.183417
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_trade_spec.pricing_rule rejects a list because supplied many=false
+not ok 12 - v040: co_trade_spec.pricing_rule rejects a list because supplied many=false
+  ---
+  duration_ms: 0.098578
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_proposal.client rejects a list because supplied many=false
+not ok 13 - v040: co_proposal.client rejects a list because supplied many=false
+  ---
+  duration_ms: 0.089965
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_proposal.lead rejects a list because supplied many=false
+not ok 14 - v040: co_proposal.lead rejects a list because supplied many=false
+  ---
+  duration_ms: 0.082454
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_proposal.contact rejects a list because supplied many=false
+not ok 15 - v040: co_proposal.contact rejects a list because supplied many=false
+  ---
+  duration_ms: 0.261193
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_proposal.scope rejects a list because supplied many=false
+not ok 16 - v040: co_proposal.scope rejects a list because supplied many=false
+  ---
+  duration_ms: 0.144728
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_bid.proposal rejects a list because supplied many=false
+not ok 17 - v040: co_bid.proposal rejects a list because supplied many=false
+  ---
+  duration_ms: 0.214193
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_bid.client rejects a list because supplied many=false
+not ok 18 - v040: co_bid.client rejects a list because supplied many=false
+  ---
+  duration_ms: 0.180201
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_bid.lead rejects a list because supplied many=false
+not ok 19 - v040: co_bid.lead rejects a list because supplied many=false
+  ---
+  duration_ms: 0.091708
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_contract.contact rejects a list because supplied many=false
+not ok 20 - v040: co_contract.contact rejects a list because supplied many=false
+  ---
+  duration_ms: 0.077536
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_contract.client rejects a list because supplied many=false
+not ok 21 - v040: co_contract.client rejects a list because supplied many=false
+  ---
+  duration_ms: 0.123245
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_contract.bid rejects a list because supplied many=false
+not ok 22 - v040: co_contract.bid rejects a list because supplied many=false
+  ---
+  duration_ms: 0.087291
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_job.contact rejects a list because supplied many=false
+not ok 23 - v040: co_job.contact rejects a list because supplied many=false
+  ---
+  duration_ms: 0.073831
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_job.contract rejects a list because supplied many=false
+not ok 24 - v040: co_job.contract rejects a list because supplied many=false
+  ---
+  duration_ms: 0.072029
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_job.bid rejects a list because supplied many=false
+not ok 25 - v040: co_job.bid rejects a list because supplied many=false
+  ---
+  duration_ms: 0.065259
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_job.client rejects a list because supplied many=false
+not ok 26 - v040: co_job.client rejects a list because supplied many=false
+  ---
+  duration_ms: 0.064336
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_subcontractor.client rejects a list because supplied many=false
+not ok 27 - v040: co_subcontractor.client rejects a list because supplied many=false
+  ---
+  duration_ms: 0.064437
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_change_order.job rejects a list because supplied many=false
+not ok 28 - v040: co_change_order.job rejects a list because supplied many=false
+  ---
+  duration_ms: 0.107052
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_change_order.contract rejects a list because supplied many=false
+not ok 29 - v040: co_change_order.contract rejects a list because supplied many=false
+  ---
+  duration_ms: 0.069274
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_invoice.client rejects a list because supplied many=false
+not ok 30 - v040: co_invoice.client rejects a list because supplied many=false
+  ---
+  duration_ms: 0.063866
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_invoice.contract rejects a list because supplied many=false
+not ok 31 - v040: co_invoice.contract rejects a list because supplied many=false
+  ---
+  duration_ms: 0.347644
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_invoice.job rejects a list because supplied many=false
+not ok 32 - v040: co_invoice.job rejects a list because supplied many=false
+  ---
+  duration_ms: 0.088583
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_payment.invoice rejects a list because supplied many=false
+not ok 33 - v040: co_payment.invoice rejects a list because supplied many=false
+  ---
+  duration_ms: 0.074863
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_payment.client rejects a list because supplied many=false
+not ok 34 - v040: co_payment.client rejects a list because supplied many=false
+  ---
+  duration_ms: 0.067822
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_daily_report.job rejects a list because supplied many=false
+not ok 35 - v040: co_daily_report.job rejects a list because supplied many=false
+  ---
+  duration_ms: 0.063766
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_outreach.campaign rejects a list because supplied many=false
+not ok 36 - v040: co_outreach.campaign rejects a list because supplied many=false
+  ---
+  duration_ms: 0.108053
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_outreach.contact rejects a list because supplied many=false
+not ok 37 - v040: co_outreach.contact rejects a list because supplied many=false
+  ---
+  duration_ms: 0.076435
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_outreach.client rejects a list because supplied many=false
+not ok 38 - v040: co_outreach.client rejects a list because supplied many=false
+  ---
+  duration_ms: 0.063736
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_automation_rule.campaign rejects a list because supplied many=false
+not ok 39 - v040: co_automation_rule.campaign rejects a list because supplied many=false
+  ---
+  duration_ms: 0.065158
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_document.campaign rejects a list because supplied many=false
+not ok 40 - v040: co_document.campaign rejects a list because supplied many=false
+  ---
+  duration_ms: 0.147312
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_document.lead rejects a list because supplied many=false
+not ok 41 - v040: co_document.lead rejects a list because supplied many=false
+  ---
+  duration_ms: 0.085669
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_document.job rejects a list because supplied many=false
+not ok 42 - v040: co_document.job rejects a list because supplied many=false
+  ---
+  duration_ms: 0.072509
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: co_document.contract rejects a list because supplied many=false
+not ok 43 - v040: co_document.contract rejects a list because supplied many=false
+  ---
+  duration_ms: 0.066099
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:8:5'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:9:14)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: full painting and shared fields are accepted with explicit types
+not ok 44 - v040: full painting and shared fields are accepted with explicit types
+  ---
+  duration_ms: 0.311088
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:14:1'
+  failureType: 'testCodeFailure'
+  error: 'UNKNOWN_PROPERTY: surface_condition'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    validateProperties (file:///mnt/data/contractor_v040/contractor-os-core/build/shared/domain.js:27:19)
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:17:20)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: roofing/HVAC/plumbing/electrical/concrete/drywall/door/landscape fields are typed
+not ok 45 - v040: roofing/HVAC/plumbing/electrical/concrete/drywall/door/landscape fields are typed
+  ---
+  duration_ms: 0.128603
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:19:1'
+  failureType: 'testCodeFailure'
+  error: 'UNRESOLVED_PROPERTY: roof_pitch'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    validateProperties (file:///mnt/data/contractor_v040/contractor-os-core/build/shared/domain.js:27:19)
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:24:22)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: v040: trade field enum typos and wrong types are rejected
+not ok 46 - v040: trade field enum typos and wrong types are rejected
+  ---
+  duration_ms: 0.437499
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:27:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /INVALID_ENUM/. Input:
+    
+    'Error: UNRESOLVED_PROPERTY: paint_finish'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+  error: 'UNRESOLVED_PROPERTY: paint_finish'
+  stack: |-
+    validateProperties (file:///mnt/data/contractor_v040/contractor-os-core/build/shared/domain.js:27:19)
+    file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:28:21
+    getActual (node:assert:531:5)
+    Function.throws (node:assert:677:24)
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:28:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/schema-v040.test.mjs:28:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..46
+# tests 46
+# suites 0
+# pass 0
+# fail 46
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 105.354509

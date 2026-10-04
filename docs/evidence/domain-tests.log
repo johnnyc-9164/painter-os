@@ -1,0 +1,28 @@
+
+> test
+> tsx --test tests/*.test.ts
+
+✔ complete lead → approval → deposit → scheduling → field → final payment → review (27.767992ms)
+✔ immutable approved estimate snapshot and copied job finances (4.967099ms)
+✔ roles and tenant boundaries are enforced server-side (1.515685ms)
+✔ strict monetary input and unknown trusted fields; failures leave state unchanged (2.317759ms)
+✔ idempotent replay is actor-bound and key reuse with altered input conflicts (0.647363ms)
+✔ revision conflicts and unchanged command inputs (1.323991ms)
+✔ crew scheduling conflicts, reschedule conflicts, adjacent slots, invalid date/range (4.248008ms)
+✔ job approval, duplicate creation, completion and field evidence guards (7.767059ms)
+✔ deposit allocations, payment evidence uniqueness, overpayment and invoice immutability (6.913886ms)
+✔ cross-customer lead association cannot change estimate boundary (1.488356ms)
+✔ automation safe internal effects; external writes and integration secrets rejected honestly (1.339803ms)
+✔ published article tenant uniqueness, published immutability and seed realism (7.28758ms)
+✔ site photos require a verified file in the same tenant and job (3.597805ms)
+✔ retrying a payment never increments balances twice (2.306701ms)
+✔ crew field command and replay results never disclose job financial fields (2.777382ms)
+✔ only scoped customers can decide proposals; staff cannot approve, reject, or request changes (0.780313ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 351.853783

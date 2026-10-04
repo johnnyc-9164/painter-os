@@ -1,0 +1,55 @@
+roles:
+- owner
+- office_admin
+- estimator
+- project_manager
+- salesperson
+- crew_lead
+- crew_member
+- accountant
+- customer
+capabilities:
+  sales.read:
+  - owner
+  - office_admin
+  - estimator
+  - salesperson
+  - project_manager
+  sales.write:
+  - owner
+  - office_admin
+  - salesperson
+  estimate.write:
+  - owner
+  - office_admin
+  - estimator
+  estimate.approve.customer:
+  - customer
+  job.manage:
+  - owner
+  - office_admin
+  - project_manager
+  field.update:
+  - owner
+  - project_manager
+  - crew_lead
+  - crew_member
+  finance.read:
+  - owner
+  - office_admin
+  - accountant
+  - project_manager
+  finance.write:
+  - owner
+  - office_admin
+  - accountant
+  settings.integrations:
+  - owner
+  - office_admin
+  automation.manage:
+  - owner
+  - office_admin
+  customer.portal.read:
+  - customer
+rule: These are product-level defaults. Host membership resolver is authoritative;
+  UI visibility is not authorization.

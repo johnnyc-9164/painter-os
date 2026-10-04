@@ -1,0 +1,58 @@
+PASS account and owner workspace creation
+PASS HTTP-only same-site session cookie
+PASS new workspace has no fabricated business records
+PASS lead persisted
+PASS foreign tenant cannot mutate lead
+PASS qualify lead and create linked customer
+PASS server computes tax and deposit in integer cents
+PASS client cannot spoof computed totals
+PASS unapproved estimate cannot become job
+PASS staff cannot forge customer approval
+PASS private scoped portal link issuance
+PASS anonymous customer sees exact proposal
+PASS portal does not leak internal state
+PASS portal cannot execute operator command
+PASS portal cannot target other estimate
+PASS customer approval through real portal API
+PASS customer approval retry is idempotent
+PASS approval locks financial snapshot
+PASS approved estimate is immutable
+PASS approved proposal creates one project
+PASS duplicate project prevented
+PASS customer portal hides unissued draft invoices
+PASS deposit receipt recorded
+PASS payment retry does not double charge balances
+PASS idempotency key cannot change payment
+PASS crew assignment saved
+PASS overlapping crew assignment rejected
+PASS field execution starts
+PASS incomplete field work cannot be submitted
+PASS project photo upload verified and stored
+PASS verified photo attached to field run
+PASS foreign tenant cannot read photo
+PASS checklist and site log permit field submission
+PASS project completes after field submission
+PASS final invoice excludes allocated deposit
+PASS overpayment prevented
+PASS payments reconcile project and invoice balances
+PASS review outcome closes growth loop without fake messaging
+PASS referral attribution saved
+PASS safe automation creates internal task
+PASS provider metadata stored without claiming connection
+PASS credentials rejected in metadata
+PASS published article available without private data
+PASS invitation joins specified workspace with assigned role
+PASS crew cannot perform finance commands
+PASS crew snapshot excludes finance entities
+PASS crew audit payload does not leak pricing
+PASS owner sees actual membership roster
+PASS cross-origin mutation rejected
+PASS stale revision rejected
+PASS logout revokes server-side session
+PASS sign-in reloads durable completed workflow
+{
+  "status": "passed",
+  "checks": 52,
+  "flow": "lead→estimate→customer approval→deposit→job→schedule→field→completion→invoice→payment→review",
+  "runtime": "production Next build with local SQLite acceptance adapter; not live Convex"
+}

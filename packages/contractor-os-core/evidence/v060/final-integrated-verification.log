@@ -1,0 +1,520 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> @johnny/contractor-os-core@0.6.0 verify:all
+> npm run verify && npm run typecheck && npm run test:integration && npm run check:syntax && npm run check:packaged-component && npm run check:composition
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> @johnny/contractor-os-core@0.6.0 verify
+> npm test && npm run check:generated && npm run check:component
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> @johnny/contractor-os-core@0.6.0 test
+> npm run build:core && node --test tests/*.test.mjs
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> @johnny/contractor-os-core@0.6.0 build:core
+> tsc -p tsconfig.core.json
+
+✔ adapter double: imports entity, event, links and receipt (2.831483ms)
+✔ adapter double: repeated request is idempotent (0.509252ms)
+✔ adapter double: idempotency key cannot be reused for changed content (0.838801ms)
+✔ adapter double: new request of unchanged records creates only receipt (0.821452ms)
+✔ adapter double: same external id stays isolated between tenants (0.950141ms)
+✔ adapter double: conflicts are detected before writes in the batch (0.533322ms)
+✔ adapter double: missing target resolves after its later import (0.986789ms)
+✔ adapter double: foreign tenant relation target remains invisible (0.588214ms)
+✔ adapter double: history queries are tenant-scoped (0.976348ms)
+✔ adapter double: list filters blueprint and paginates (0.630149ms)
+✔ adapter double: rejects invalid page size (0.283905ms)
+✔ adapter double: unsupported history cannot be imported as contractor data (0.186035ms)
+✔ client double: unauthenticated requests never reach component (0.342695ms)
+✔ client double: read-only member cannot invoke import (0.159608ms)
+✔ client double: extra browser arguments cannot override trusted scope (0.110081ms)
+✔ client double: read wrapper ignores forged tenant fields (0.093241ms)
+✔ Convex adapter registers the unified command endpoint and fourteen named commands (1.606887ms)
+✔ Convex adapter creates records and immutable command evidence through actual adapter methods (6.197148ms)
+✔ Convex adapter looks up request receipts in tenant scope (2.28143ms)
+✔ Convex adapter refuses a foreign tenant source record (1.029408ms)
+✔ Convex adapter updates linked records and rejects a stale revision (4.333959ms)
+✔ read API is tenant scoped and rejects oversized pages (0.829642ms)
+✔ backend client strips browser tenant, actor, and attestor spoofing (0.743385ms)
+✔ backend client refuses unauthenticated users and read-only writers (1.147076ms)
+✔ backend client only derives attestor permission from verified membership (0.434026ms)
+✔ all eleven exported business workflows execute in a synthetic end-to-end lifecycle (34.442233ms)
+✔ a second job cannot multiply the same contract budget (14.45938ms)
+✔ invoice issuance rejects contract overbilling and preserves drafts (16.01008ms)
+✔ draft jobs and payments cannot bypass the specialized creation paths (0.60126ms)
+✔ subcontract assignment maintains both relation directions and requires both revisions (12.444447ms)
+✔ field reports require active job, valid crew size and non-future report date (13.759102ms)
+✔ change orders cannot adjust a closed job (11.107148ms)
+✔ rules written in markdown are not executed as automations (0.586021ms)
+✔ maintenance cannot reparent an existing contact away from its client (0.447257ms)
+✔ workflow rejects a legacy lead whose contact belongs to a different client (0.934767ms)
+✔ payment must not turn an inconsistent historical job into overcollected state (11.399662ms)
+✔ job closure cannot discard an unbilled contract balance (11.438706ms)
+✔ executable backend exports real command engine and money policy (1.84603ms)
+✔ monetary policy rejects fractions of cents and unsafe values (0.462604ms)
+✔ createLead validates client and contact lineage and saves an event (4.678497ms)
+✔ source workflow does not allow new lead to pretend it was won (1.056289ms)
+✔ scheduled visit and lead advancement are one transaction (3.287211ms)
+✔ every changed existing record needs an explicit revision precondition (2.042779ms)
+✔ replay returns original result; changed input under same key is refused (1.373739ms)
+✔ cross-tenant and cross-client links are rejected (1.294429ms)
+✔ payment records payment + invoice balance + job collection atomically (8.752632ms)
+✔ overpayment, non-attestor and duplicate payment evidence refused (10.774645ms)
+✔ a storage failure rolls back payment and all associated materializations (2.329799ms)
+✔ job creation refuses an unsigned contract (0.725059ms)
+✔ generic maintenance cannot forge an outcome or edit financial totals (0.627776ms)
+✔ v040 formula 0: co_change_order.total_change (9.091676ms)
+✔ v040 formula 1: co_change_order.total_change (8.210775ms)
+✔ v040 formula 2: co_scope.total_estimated_cost (6.028983ms)
+✔ v040 formula 3: co_contract.contract_duration_days (6.671797ms)
+✔ v040 formula 4: co_contract.contract_duration_days (9.451664ms)
+✔ v040 formula 5: co_contract.retainage_amount (6.074784ms)
+✔ v040 formula 6: co_job.billing_variance (11.465409ms)
+✔ v040 formula 7: co_job.outstanding_balance (6.077264ms)
+✔ v040 formula 8: co_trade_spec.estimated_gallons (4.581134ms)
+✔ v040 formula 9: co_trade_spec.estimated_gallons (5.624575ms)
+✔ v040 formula 10: co_trade_spec.estimated_gallons (4.219218ms)
+✔ v040 formula 11: co_trade_spec.estimated_gallons (9.887238ms)
+✔ v040 formula 12: co_trade_spec.estimated_squares (6.664664ms)
+✔ v040 formula 13: co_trade_spec.estimated_squares (8.598077ms)
+✔ v040 formula 14: co_pricing_rule.effective_rate (5.42469ms)
+✔ v040 formula 15: co_pricing_rule.material_multiplier (8.917365ms)
+✔ v040 formula 16: co_contact.full_name (6.231046ms)
+✔ v040 formula 17: co_contact.full_name (6.363591ms)
+✔ v040 formula 18: co_contact.full_name (6.123819ms)
+✔ v040 formula 19: co_subcontractor.compliance_status (5.91621ms)
+✔ v040 formula 20: co_subcontractor.compliance_status (5.052494ms)
+✔ v040 formula 21: co_subcontractor.compliance_status (5.862551ms)
+✔ v040 formula 22: co_subcontractor.compliance_status (7.21328ms)
+✔ v040 formula 23: co_subcontractor.compliance_status (6.627484ms)
+✔ v040 formula 24: co_subcontractor.insurance_days_remaining (7.888807ms)
+✔ v040 formula 25: co_subcontractor.license_days_remaining (6.724572ms)
+✔ v040 formula 26: co_subcontractor.license_days_remaining (6.834573ms)
+✔ v040 formula 27: co_invoice.balance_due (5.681669ms)
+✔ v040 formula 28: co_invoice.balance_due (5.927158ms)
+✔ v040 formula 29: co_bid.days_until_deadline (8.703074ms)
+✔ v040 formula 30: co_bid.days_until_deadline (8.437762ms)
+✔ v040 formulas report a JQ date-format conflict rather than silently normalizing an offset (0.20039ms)
+✔ v040 formulas fail closed on a missing non-defaulted amount (0.094308ms)
+✔ v040 formulas do not execute unknown expression names (1.275081ms)
+✔ v040 formula time requires a finite, valid epoch (0.506313ms)
+✔ preserves source values and metadata (4.620948ms)
+✔ retains explicit nulls and array order (0.519745ms)
+✔ canonical equality ignores object key order but not array order (0.405656ms)
+✔ catalog includes all twenty newly documented contractor entity names (0.234256ms)
+✔ rejects platform/agent history in business importer (0.765011ms)
+✔ rejects a blueprint absent from both source inputs (0.271663ms)
+✔ rejects malformed records and properties (0.337423ms)
+✔ does not infer an enum from one sample record (0.200243ms)
+✔ rejects malformed relations (0.264901ms)
+✔ rejects nonfinite, unsafe-integer and non-JSON values (0.807644ms)
+✔ rejects excessive nesting (0.420538ms)
+✔ does not execute source strings (0.309237ms)
+✔ prototype-named source keys stay inert JSON keys (0.187278ms)
+✔ deduplicates identical rows within a batch (0.552479ms)
+✔ rejects conflicting rows within a batch (0.420823ms)
+✔ accepts empty arrays without inventing records (0.187478ms)
+✔ bounds import batch count and byte length (0.724259ms)
+✔ bounds individual records (0.909986ms)
+✔ idempotent planning does not duplicate existing snapshots (0.327695ms)
+✔ changed existing identity conflicts instead of last-write-wins (0.246021ms)
+✔ identity is blueprint-scoped, with tenant supplied separately by repository (0.180123ms)
+✔ extracts nullable, single and multiple relation shapes (0.585828ms)
+✔ missing relation targets are reported without manufacturing entities (0.274779ms)
+✔ relation resolution cannot see another tenant (0.173013ms)
+✔ ambiguous untyped relation does not choose a target arbitrarily (0.127845ms)
+✔ typed relation resolves only the specified blueprint (0.100214ms)
+✔ eleven workflow input contracts are retained (0.069546ms)
+✔ lead workflow applies its actual source defaults (0.325932ms)
+✔ workflow required fields and enums remain enforced as input contracts (0.208827ms)
+✔ unknown workflow and unexpected fields fail closed (0.149004ms)
+✔ workflow input types do not confuse numbers, booleans, null or strings (0.251715ms)
+✔ workflow date-time input checks reject malformed values (0.699225ms)
+✔ authorization requires verified identity and membership (0.229069ms)
+✔ authorization does not grant import to read-only members (0.20743ms)
+✔ scope derives actor from identity, not membership or client fields (0.266979ms)
+✔ scope rejects empty or control-character tenant ids (0.230406ms)
+✔ domain adapter double: co_client has create/get/list/update (1.46489ms)
+✔ domain adapter double: co_contact has create/get/list/update (0.139552ms)
+✔ domain adapter double: co_lead has create/get/list/update (0.088319ms)
+✔ domain adapter double: co_site_visit has create/get/list/update (0.160729ms)
+✔ domain adapter double: co_scope has create/get/list/update (0.087461ms)
+✔ domain adapter double: co_trade_spec has create/get/list/update (0.074814ms)
+✔ domain adapter double: co_pricing_rule has create/get/list/update (0.148878ms)
+✔ domain adapter double: co_proposal has create/get/list/update (0.09661ms)
+✔ domain adapter double: co_bid has create/get/list/update (0.142023ms)
+✔ domain adapter double: co_contract has create/get/list/update (0.206435ms)
+✔ domain adapter double: co_job has create/get/list/update (0.119377ms)
+✔ domain adapter double: co_subcontractor has create/get/list/update (0.15683ms)
+✔ domain adapter double: co_change_order has create/get/list/update (0.104945ms)
+✔ domain adapter double: co_invoice has create/get/list/update (0.149144ms)
+✔ domain adapter double: co_payment has create/get/list/update (0.057972ms)
+✔ domain adapter double: co_daily_report has create/get/list/update (0.060985ms)
+✔ domain adapter double: co_campaign has create/get/list/update (0.033681ms)
+✔ domain adapter double: co_outreach has create/get/list/update (0.030777ms)
+✔ domain adapter double: co_automation_rule has create/get/list/update (0.034968ms)
+✔ domain adapter double: co_document has create/get/list/update (0.031695ms)
+✔ domain adapter double: event appended before materialized row (1.613268ms)
+✔ domain adapter double: retry returns original receipt without duplicate event (0.48654ms)
+✔ domain adapter double: changed input with reused request key rejected (0.650662ms)
+✔ domain adapter double: duplicate identity rejected under new key (0.500827ms)
+✔ domain adapter double: same external identifier is tenant isolated (0.899478ms)
+✔ domain adapter double: updates require matching revision (0.910139ms)
+✔ domain adapter double: update patches and unsets fields (1.388443ms)
+✔ domain adapter double: update replay does not fail on now-stale expected revision (0.610519ms)
+✔ domain adapter double: missing target rejected before writes (0.605724ms)
+✔ domain adapter double: foreign tenant target rejected before writes (0.398591ms)
+✔ domain adapter double: target table enforced even with same tenant (0.507377ms)
+✔ domain adapter double: valid target linked and list tenant-filtered (0.508367ms)
+✔ domain adapter double: query page sizes are bounded (0.483512ms)
+✔ domain adapter double: invalid fields never create event (0.321348ms)
+✔ typed client double: viewer cannot write records (0.441586ms)
+✔ typed client double: unauthenticated caller cannot read (0.15981ms)
+✔ typed client double: spoofed browser tenant and actor never reach component (0.236654ms)
+✔ typed client double: import permission does not imply domain write permission (0.125442ms)
+✔ domain: twenty contractor types are supported, not the summary total of eighteen (5.565883ms)
+✔ domain: contact properties and enums validate (2.301626ms)
+✔ domain: unknown fields are rejected instead of silently dropped (1.87399ms)
+✔ domain: supplied status enum is enforced (0.307651ms)
+✔ domain: summary does not invent required business fields (0.384301ms)
+✔ domain: null values are rejected by write API, not silently made optional (0.328062ms)
+✔ domain: valid leap datetime accepted; impossible date rejected (0.616867ms)
+✔ domain: email and HTTP URL constraints applied (0.266757ms)
+✔ domain: numeric fields reject non-finite and unsafe precision (0.22401ms)
+✔ domain: negative change orders are not silently disallowed (0.263156ms)
+✔ domain: unspecified array items remain JSON, not guessed string-only (0.449198ms)
+✔ domain: supplied painting field is now typed (0.209781ms)
+✔ domain: pricing trade enum inherits the explicit nine-trade reference (0.220288ms)
+✔ domain: newly supplied single relation cardinality is enforced (0.557335ms)
+✔ domain: explicitly many relations require arrays (3.351967ms)
+✔ domain: duplicate target IDs are rejected (0.330313ms)
+✔ domain: unknown relation names are rejected (0.209102ms)
+✔ domain: patch and explicit unset preserve other fields (0.415175ms)
+✔ domain: ambiguous set-and-unset is rejected (0.265738ms)
+✔ domain: full_name and newly supplied pricing formula execute (0.675662ms)
+✔ domain: original import retains null/derived/unresolved data outside typed properties (1.000172ms)
+✔ domain: invalid known import values cause rejection (0.754844ms)
+✔ domain: deferred prototype-named source fields are preserved without pollution (0.297413ms)
+✔ domain: every supplied enum member accepted at co_client.client_type (0.381713ms)
+✔ domain: every supplied enum member accepted at co_client.status (0.165782ms)
+✔ domain: every supplied enum member accepted at co_client.source (0.199292ms)
+✔ domain: every supplied enum member accepted at co_contact.role (0.209223ms)
+✔ domain: every supplied enum member accepted at co_lead.stage (0.153119ms)
+✔ domain: every supplied enum member accepted at co_lead.priority (0.130464ms)
+✔ domain: every supplied enum member accepted at co_lead.contract_type (0.130677ms)
+✔ domain: every supplied enum member accepted at co_lead.source (0.517814ms)
+✔ domain: every supplied enum member accepted at co_lead.lost_reason (0.26741ms)
+✔ domain: every supplied enum member accepted at co_site_visit.status (1.103078ms)
+✔ domain: every supplied enum member accepted at co_scope.trade_type (0.51105ms)
+✔ domain: every supplied enum member accepted at co_scope.status (1.586555ms)
+✔ domain: every supplied enum member accepted at co_scope.measurement_unit (0.237246ms)
+✔ domain: every supplied enum member accepted at co_trade_spec.trade (0.241419ms)
+✔ domain: every supplied enum member accepted at co_trade_spec.measurement_unit (0.165821ms)
+✔ domain: every supplied enum member accepted at co_trade_spec.surface_condition (0.180445ms)
+✔ domain: every supplied enum member accepted at co_trade_spec.paint_surface_type (0.221974ms)
+✔ domain: every supplied enum member accepted at co_trade_spec.paint_finish (0.124566ms)
+✔ domain: every supplied enum member accepted at co_trade_spec.paint_grade (0.108293ms)
+✔ domain: every supplied enum member accepted at co_trade_spec.prep_work (0.104354ms)
+✔ domain: every supplied enum member accepted at co_trade_spec.masking_complexity (0.109458ms)
+✔ domain: every supplied enum member accepted at co_trade_spec.roof_type (0.190182ms)
+✔ domain: every supplied enum member accepted at co_trade_spec.roof_pitch (0.115986ms)
+✔ domain: every supplied enum member accepted at co_trade_spec.hvac_system_type (0.121916ms)
+✔ domain: every supplied enum member accepted at co_trade_spec.electrical_service_type (0.214919ms)
+✔ domain: every supplied enum member accepted at co_trade_spec.pipe_material (0.12278ms)
+✔ domain: every supplied enum member accepted at co_trade_spec.concrete_type (0.121406ms)
+✔ domain: every supplied enum member accepted at co_trade_spec.concrete_finish (0.174097ms)
+✔ domain: every supplied enum member accepted at co_trade_spec.reinforcement (0.113421ms)
+✔ domain: every supplied enum member accepted at co_trade_spec.drywall_type (0.178155ms)
+✔ domain: every supplied enum member accepted at co_trade_spec.framing_type (0.197866ms)
+✔ domain: every supplied enum member accepted at co_trade_spec.finishing_level (0.118887ms)
+✔ domain: every supplied enum member accepted at co_trade_spec.door_type (0.142825ms)
+✔ domain: every supplied enum member accepted at co_trade_spec.door_material (0.120908ms)
+✔ domain: every supplied enum member accepted at co_trade_spec.spring_type (0.092868ms)
+✔ domain: every supplied enum member accepted at co_trade_spec.landscape_service_type (0.114221ms)
+✔ domain: every supplied enum member accepted at co_trade_spec.sod_or_seed (0.208182ms)
+✔ domain: every supplied enum member accepted at co_pricing_rule.trade (0.156622ms)
+✔ domain: every supplied enum member accepted at co_pricing_rule.pricing_type (0.231203ms)
+✔ domain: every supplied enum member accepted at co_proposal.status (0.142274ms)
+✔ domain: every supplied enum member accepted at co_bid.status (0.586685ms)
+✔ domain: every supplied enum member accepted at co_bid.bid_type (0.227278ms)
+✔ domain: every supplied enum member accepted at co_contract.status (0.207559ms)
+✔ domain: every supplied enum member accepted at co_contract.contract_type (0.180578ms)
+✔ domain: every supplied enum member accepted at co_job.status (0.148393ms)
+✔ domain: every supplied enum member accepted at co_job.job_type (0.369673ms)
+✔ domain: every supplied enum member accepted at co_subcontractor.trade (0.226364ms)
+✔ domain: every supplied enum member accepted at co_subcontractor.status (0.117698ms)
+✔ domain: every supplied enum member accepted at co_change_order.status (0.123067ms)
+✔ domain: every supplied enum member accepted at co_invoice.status (0.172761ms)
+✔ domain: every supplied enum member accepted at co_invoice.invoice_type (0.197828ms)
+✔ domain: every supplied enum member accepted at co_payment.payment_method (0.141101ms)
+✔ domain: every supplied enum member accepted at co_daily_report.status (0.106608ms)
+✔ domain: every supplied enum member accepted at co_daily_report.weather (1.39548ms)
+✔ domain: every supplied enum member accepted at co_campaign.status (0.161122ms)
+✔ domain: every supplied enum member accepted at co_campaign.campaign_type (1.12683ms)
+✔ domain: every supplied enum member accepted at co_campaign.target_market (0.183966ms)
+✔ domain: every supplied enum member accepted at co_outreach.status (0.13244ms)
+✔ domain: every supplied enum member accepted at co_outreach.channel (0.181453ms)
+✔ domain: every supplied enum member accepted at co_automation_rule.trigger (0.159604ms)
+✔ domain: every supplied enum member accepted at co_automation_rule.status (0.109794ms)
+✔ domain: every supplied enum member accepted at co_automation_rule.channel (0.117593ms)
+✔ domain: every supplied enum member accepted at co_document.doc_type (0.162278ms)
+✔ domain: every supplied enum member accepted at co_document.status (0.114775ms)
+✔ v040 migration: single-element arrays yield a proposal without changing source (1.637641ms)
+✔ v040 migration: multi-target single relations require human resolution (0.385926ms)
+✔ v040 migration: ordinary many relations remain intact (0.567581ms)
+✔ v040 migration: unknown table and malformed input reject instead of being skipped (0.770697ms)
+✔ v040 adapter: registered read calculates fields through actual adapter code (2.43552ms)
+✔ v040 adapter: mirrors use local IDs and tenant checks (0.798943ms)
+✔ v040 adapter: reverse aggregation uses component relation index (1.239598ms)
+✔ v040 host: membership fixes tenant on the new read method (1.004086ms)
+✔ v040 host: new read denies anonymous callers (0.590952ms)
+✔ v040: billing read labels receivable separately from remaining contract balance (22.140338ms)
+✔ v040: multi-hop mirrors follow declared relations (6.050961ms)
+✔ v040: foreign tenant mirror and missing target have the same safe result (4.748547ms)
+✔ v040: aggregates deduplicate by ID and keep explicit relationship scope (1.051757ms)
+✔ v040: unfiltered source totals retain draft and voided invoice amounts (0.633718ms)
+✔ v040: a capped aggregate returns null, never a partial authoritative total (0.4218ms)
+✔ v040: many-side aggregate uses explicit supplied jobs and reports missing targets (0.37736ms)
+✔ v040: legacy arrays in single relations cannot be silently picked or flattened (0.575093ms)
+✔ v040: inconsistent incoming links cannot contaminate aggregate values (0.306231ms)
+✔ v040: no silent conversion between sq_ft and roofing squares (0.35094ms)
+✔ v040: supplied mirror co_change_order.client_name -> job.client.$title (0.346468ms)
+✔ v040: supplied mirror co_change_order.job_number -> job.job_number (0.18947ms)
+✔ v040: supplied mirror co_change_order.contract_number -> contract.contract_number (0.145955ms)
+✔ v040: supplied mirror co_proposal.client_name -> client.$title (2.356496ms)
+✔ v040: supplied mirror co_proposal.contact_email -> contact.email (0.152081ms)
+✔ v040: supplied mirror co_proposal.lead_priority -> lead.priority (0.164053ms)
+✔ v040: supplied mirror co_proposal.lead_stage -> lead.stage (0.149353ms)
+✔ v040: supplied mirror co_proposal.scope_estimated_hours -> scope.estimated_hours (0.130519ms)
+✔ v040: supplied mirror co_proposal.scope_trade_type -> scope.trade_type (0.103998ms)
+✔ v040: supplied mirror co_scope.client_name -> lead.client.$title (0.118942ms)
+✔ v040: supplied mirror co_scope.lead_estimated_value -> lead.estimated_value (0.078135ms)
+✔ v040: supplied mirror co_scope.lead_stage -> lead.stage (0.091848ms)
+✔ v040: supplied mirror co_contract.bid_amount -> bid.amount (0.192143ms)
+✔ v040: supplied mirror co_contract.bid_type -> bid.bid_type (0.102382ms)
+✔ v040: supplied mirror co_contract.client_name -> client.$title (0.330544ms)
+✔ v040: supplied mirror co_contract.contact_email -> contact.email (0.127361ms)
+✔ v040: supplied mirror co_contract.proposal_amount -> bid.proposal.amount (0.160103ms)
+✔ v040: supplied mirror co_site_visit.client_name -> client.$title (0.05851ms)
+✔ v040: supplied mirror co_site_visit.contact_email -> contact.email (0.14612ms)
+✔ v040: supplied mirror co_site_visit.lead_estimated_value -> lead.estimated_value (0.059944ms)
+✔ v040: supplied mirror co_site_visit.lead_stage -> lead.stage (0.046485ms)
+✔ v040: supplied mirror co_job.bid_amount -> bid.amount (0.128977ms)
+✔ v040: supplied mirror co_job.client_name -> client.$title (0.174265ms)
+✔ v040: supplied mirror co_job.contract_signed_at -> contract.signed_at (0.169212ms)
+✔ v040: supplied mirror co_job.contract_status -> contract.status (0.111813ms)
+✔ v040: supplied mirror co_job.contract_type -> contract.contract_type (0.164467ms)
+✔ v040: supplied mirror co_trade_spec.scope_client -> scope.lead.client.$title (0.09912ms)
+✔ v040: supplied mirror co_trade_spec.scope_lead -> scope.lead.$title (0.097963ms)
+✔ v040: supplied mirror co_trade_spec.scope_trade_type -> scope.trade_type (0.080533ms)
+✔ v040: supplied mirror co_document.campaign_name -> campaign.$title (0.064794ms)
+✔ v040: supplied mirror co_document.contract_number -> contract.contract_number (0.055174ms)
+✔ v040: supplied mirror co_document.job_number -> job.job_number (0.091689ms)
+✔ v040: supplied mirror co_document.job_status -> job.status (0.055073ms)
+✔ v040: supplied mirror co_payment.client_name -> client.$title (0.059387ms)
+✔ v040: supplied mirror co_payment.invoice_amount -> invoice.amount (0.063824ms)
+✔ v040: supplied mirror co_payment.invoice_number -> invoice.invoice_number (0.0572ms)
+✔ v040: supplied mirror co_payment.invoice_status -> invoice.status (0.088485ms)
+✔ v040: supplied mirror co_outreach.campaign_name -> campaign.$title (0.071059ms)
+✔ v040: supplied mirror co_outreach.client_name -> client.$title (0.091908ms)
+✔ v040: supplied mirror co_outreach.contact_email -> contact.email (0.067353ms)
+✔ v040: supplied mirror co_outreach.contact_first_name -> contact.first_name (0.087639ms)
+✔ v040: supplied mirror co_outreach.contact_last_name -> contact.last_name (0.06436ms)
+✔ v040: supplied mirror co_automation_rule.campaign_name -> campaign.$title (0.063322ms)
+✔ v040: supplied mirror co_automation_rule.campaign_status -> campaign.status (0.097859ms)
+✔ v040: supplied mirror co_automation_rule.campaign_type -> campaign.campaign_type (0.053796ms)
+✔ v040: supplied mirror co_lead.campaign_name -> campaign.$title (0.163569ms)
+✔ v040: supplied mirror co_lead.client_name -> client.$title (0.145403ms)
+✔ v040: supplied mirror co_lead.client_status -> client.status (0.104328ms)
+✔ v040: supplied mirror co_lead.client_type -> client.client_type (0.205657ms)
+✔ v040: supplied mirror co_lead.contact_email -> contact.email (0.118406ms)
+✔ v040: supplied mirror co_lead.contact_first_name -> contact.first_name (0.158797ms)
+✔ v040: supplied mirror co_lead.contact_last_name -> contact.last_name (0.134332ms)
+✔ v040: supplied mirror co_contact.client_name -> client.$title (0.111094ms)
+✔ v040: supplied mirror co_contact.client_status -> client.status (0.063278ms)
+✔ v040: supplied mirror co_contact.client_type -> client.client_type (0.060077ms)
+✔ v040: supplied mirror co_invoice.client_name -> client.$title (0.132166ms)
+✔ v040: supplied mirror co_invoice.contract_amount -> contract.amount (0.108258ms)
+✔ v040: supplied mirror co_invoice.contract_number -> contract.contract_number (0.097953ms)
+✔ v040: supplied mirror co_invoice.job_number -> job.job_number (0.095063ms)
+✔ v040: supplied mirror co_invoice.job_status -> job.status (0.132801ms)
+✔ v040: supplied mirror co_bid.client_name -> client.$title (0.152637ms)
+✔ v040: supplied mirror co_bid.lead_estimated_value -> lead.estimated_value (0.096341ms)
+✔ v040: supplied mirror co_bid.lead_stage -> lead.stage (0.077807ms)
+✔ v040: supplied mirror co_bid.proposal_amount -> proposal.amount (1.131858ms)
+✔ v040: supplied mirror co_bid.proposal_status -> proposal.status (0.117988ms)
+✔ v040: supplied mirror co_daily_report.client_name -> job.client.$title (0.073356ms)
+✔ v040: supplied mirror co_daily_report.job_number -> job.job_number (0.050882ms)
+✔ v040: supplied mirror co_daily_report.job_status -> job.status (0.042915ms)
+✔ v040: declared aggregate path co_proposal.total_bids (0.161646ms)
+✔ v040: declared aggregate path co_contract.change_order_count (0.129466ms)
+✔ v040: declared aggregate path co_contract.invoice_count (0.073357ms)
+✔ v040: declared aggregate path co_contract.total_invoiced_agg (0.066203ms)
+✔ v040: declared aggregate path co_job.total_invoiced (0.093551ms)
+✔ v040: declared aggregate path co_job.total_invoices (0.14248ms)
+✔ v040: declared aggregate path co_job.daily_reports_count (0.107822ms)
+✔ v040: declared aggregate path co_job.total_change_orders (0.068945ms)
+✔ v040: declared aggregate path co_job.total_co_amount (0.117284ms)
+✔ v040: declared aggregate path co_client.active_jobs (0.082764ms)
+✔ v040: declared aggregate path co_client.total_contracts (0.129136ms)
+✔ v040: declared aggregate path co_client.total_jobs (0.08205ms)
+✔ v040: declared aggregate path co_client.total_leads (0.061498ms)
+✔ v040: declared aggregate path co_client.total_payments_received (0.057625ms)
+✔ v040: declared aggregate path co_campaign.total_leads_generated (0.038867ms)
+✔ v040: declared aggregate path co_campaign.total_outreach_sent (0.034994ms)
+✔ v040: declared aggregate path co_lead.total_proposals (0.0678ms)
+✔ v040: declared aggregate path co_lead.total_site_visits (0.062438ms)
+✔ v040: declared aggregate path co_subcontractor.total_jobs (0.09088ms)
+✔ v040: co_contact.client rejects a list because supplied many=false (4.012449ms)
+✔ v040: co_lead.client rejects a list because supplied many=false (4.075017ms)
+✔ v040: co_lead.contact rejects a list because supplied many=false (0.378815ms)
+✔ v040: co_lead.campaign rejects a list because supplied many=false (0.266916ms)
+✔ v040: co_site_visit.contact rejects a list because supplied many=false (0.27345ms)
+✔ v040: co_site_visit.client rejects a list because supplied many=false (0.274097ms)
+✔ v040: co_site_visit.lead rejects a list because supplied many=false (0.270898ms)
+✔ v040: co_scope.trade_spec rejects a list because supplied many=false (0.21666ms)
+✔ v040: co_scope.lead rejects a list because supplied many=false (0.99387ms)
+✔ v040: co_scope.proposal rejects a list because supplied many=false (0.618048ms)
+✔ v040: co_trade_spec.scope rejects a list because supplied many=false (0.335633ms)
+✔ v040: co_trade_spec.pricing_rule rejects a list because supplied many=false (0.259705ms)
+✔ v040: co_proposal.client rejects a list because supplied many=false (0.583916ms)
+✔ v040: co_proposal.lead rejects a list because supplied many=false (0.224536ms)
+✔ v040: co_proposal.contact rejects a list because supplied many=false (0.519858ms)
+✔ v040: co_proposal.scope rejects a list because supplied many=false (0.141336ms)
+✔ v040: co_bid.proposal rejects a list because supplied many=false (0.121267ms)
+✔ v040: co_bid.client rejects a list because supplied many=false (0.141904ms)
+✔ v040: co_bid.lead rejects a list because supplied many=false (0.120677ms)
+✔ v040: co_contract.contact rejects a list because supplied many=false (0.115086ms)
+✔ v040: co_contract.client rejects a list because supplied many=false (0.102228ms)
+✔ v040: co_contract.bid rejects a list because supplied many=false (0.120424ms)
+✔ v040: co_job.contact rejects a list because supplied many=false (0.325933ms)
+✔ v040: co_job.contract rejects a list because supplied many=false (0.146486ms)
+✔ v040: co_job.bid rejects a list because supplied many=false (0.19069ms)
+✔ v040: co_job.client rejects a list because supplied many=false (0.117545ms)
+✔ v040: co_subcontractor.client rejects a list because supplied many=false (0.103364ms)
+✔ v040: co_change_order.job rejects a list because supplied many=false (0.240411ms)
+✔ v040: co_change_order.contract rejects a list because supplied many=false (0.125018ms)
+✔ v040: co_invoice.client rejects a list because supplied many=false (0.12611ms)
+✔ v040: co_invoice.contract rejects a list because supplied many=false (0.219246ms)
+✔ v040: co_invoice.job rejects a list because supplied many=false (0.129979ms)
+✔ v040: co_payment.invoice rejects a list because supplied many=false (0.127164ms)
+✔ v040: co_payment.client rejects a list because supplied many=false (0.146882ms)
+✔ v040: co_daily_report.job rejects a list because supplied many=false (0.127208ms)
+✔ v040: co_outreach.campaign rejects a list because supplied many=false (0.072187ms)
+✔ v040: co_outreach.contact rejects a list because supplied many=false (0.106456ms)
+✔ v040: co_outreach.client rejects a list because supplied many=false (0.094459ms)
+✔ v040: co_automation_rule.campaign rejects a list because supplied many=false (0.089801ms)
+✔ v040: co_document.campaign rejects a list because supplied many=false (0.084659ms)
+✔ v040: co_document.lead rejects a list because supplied many=false (0.081745ms)
+✔ v040: co_document.job rejects a list because supplied many=false (0.136502ms)
+✔ v040: co_document.contract rejects a list because supplied many=false (0.218542ms)
+✔ v040: full painting and shared fields are accepted with explicit types (0.455436ms)
+✔ v040: roofing/HVAC/plumbing/electrical/concrete/drywall/door/landscape fields are typed (0.48073ms)
+✔ v040: trade field enum typos and wrong types are rejected (0.358397ms)
+✔ v040: prior client health predicates are executed without inferring business approval (1.478064ms)
+✔ v040: missing scorecard predicates cannot yield a passing grade (0.189801ms)
+✔ v040: titles do not replace actual predicates (0.277157ms)
+✔ v040: every one of the 22 source rules is retained in the evaluator (1.74425ms)
+✔ v040: unknown query operators fail closed (0.247993ms)
+✔ v040: numbers and booleans are not coerced from strings (0.14206ms)
+✔ v040: zero is present, not an empty monetary value (0.193974ms)
+✔ nine independently installable trade components exist (1.299534ms)
+✔ exact nine source trades and 52 fields accounted for (2.533221ms)
+✔ every trade accepts empty optional shape and rejects foreign fields (2.846723ms)
+✔ shared fixture and height applicability preserved (0.440802ms)
+✔ reference shape rejects caller-added claims and invalid strings (0.759916ms)
+✔ IR rejects unsupported trade, source drift, missing fields and contradictory applicability (51.956899ms)
+ℹ tests 411
+ℹ suites 0
+ℹ pass 411
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1045.407174
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> @johnny/contractor-os-core@0.6.0 check:generated
+> python3 tools/generate_domain.py --check
+
+Trade IR validated; 9 components; 52 source fields; no drift
+Generated-file check passed.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> @johnny/contractor-os-core@0.6.0 check:component
+> node tools/check_component_contract.mjs
+
+{
+  "status": "passed",
+  "checkedComponentFiles": 75,
+  "errors": [],
+  "warnings": [],
+  "requireGenerated": false
+}
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> @johnny/contractor-os-core@0.6.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> @johnny/contractor-os-core@0.6.0 test:integration
+> vitest run
+
+
+ RUN  v4.1.10 /workspace/scratch/d24983fe3ee1/trade-component-refactor/backend/contractor-os-core
+
+
+ Test Files  5 passed (5)
+      Tests  41 passed (41)
+   Start at  07:50:42
+   Duration  949ms (transform 1.60s, setup 0ms, import 1.24s, tests 1.32s, environment 220ms)
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> @johnny/contractor-os-core@0.6.0 check:syntax
+> node tools/check_syntax.cjs
+
+{
+  "typescriptFiles": 168,
+  "syntaxErrors": [],
+  "sdkSemanticTypecheck": false
+}
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> @johnny/contractor-os-core@0.6.0 check:packaged-component
+> node tools/check_component_contract.mjs --require-generated
+
+{
+  "status": "passed",
+  "checkedComponentFiles": 75,
+  "errors": [],
+  "warnings": [],
+  "requireGenerated": true
+}
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> @johnny/contractor-os-core@0.6.0 check:composition
+> python3 tools/validate_composition.py && python3 -m unittest discover -s tests -p test_composition.py
+
+Product composition valid: 10 runtime components; 6 config packs; scaffold/UI/tokens are declarations only
+....................
+----------------------------------------------------------------------
+Ran 20 tests in 0.399s
+
+OK
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

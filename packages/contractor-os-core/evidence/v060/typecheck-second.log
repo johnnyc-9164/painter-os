@@ -1,0 +1,15 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> @johnny/contractor-os-core@0.6.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+src/shared/business.ts(185,118): error TS2345: Argument of type '{ contact?: undefined; client: string; } | { contact: string; client: string; }' is not assignable to parameter of type 'RelationInput | undefined'.
+  Type '{ contact?: undefined; client: string; }' is not assignable to type 'RelationInput'.
+    Property 'contact' is incompatible with index signature.
+      Type 'undefined' is not assignable to type 'string | string[] | null'.
+src/shared/business.ts(274,220): error TS2345: Argument of type '{ contact?: undefined; bid: string; client: string; } | { contact: string; bid: string; client: string; }' is not assignable to parameter of type 'RelationInput | undefined'.
+  Type '{ contact?: undefined; bid: string; client: string; }' is not assignable to type 'RelationInput'.
+    Property 'contact' is incompatible with index signature.
+      Type 'undefined' is not assignable to type 'string | string[] | null'.
+tests/trades.integration.test.ts(34,15): error TS2352: Conversion of type 'AnyComponentReference | undefined' to type 'ComponentApi<"contractorPainting">' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Property 'records' is missing in type 'AnyComponentReference' but required in type 'ComponentApi<"contractorPainting">'.

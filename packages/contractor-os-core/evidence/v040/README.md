@@ -1,0 +1,1 @@
+Evidence v040 includes baseline, intended failing tests before implementation, subsequent passing tests, full regression and actual install/SDK failures. Older version evidence remains historical. Adapter double tests do not prove Convex transactions or SDK schema enforcement.

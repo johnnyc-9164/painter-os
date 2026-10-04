@@ -1,0 +1,372 @@
+{
+  "configPacks": [
+    {
+      "applyTo": [
+        "core"
+      ],
+      "mode": "contractor_operations_v1",
+      "pack": "business_policy",
+      "version": "0.6.0"
+    },
+    {
+      "applyTo": [
+        "core"
+      ],
+      "mode": "component_explicit_paths_v1",
+      "pack": "projections",
+      "version": "0.6.0"
+    },
+    {
+      "applyTo": [
+        "core"
+      ],
+      "mode": "source_aligned",
+      "pack": "schema",
+      "version": "0.6.0"
+    },
+    {
+      "applyTo": [
+        "core"
+      ],
+      "mode": "advisory_supplied_predicates",
+      "pack": "scorecards",
+      "version": "0.6.0"
+    },
+    {
+      "applyTo": [
+        "concrete",
+        "drywall_framing",
+        "electrical",
+        "garage_door",
+        "hvac",
+        "landscaping",
+        "painting",
+        "plumbing",
+        "roofing"
+      ],
+      "mode": "explicit_trade_fields_v1",
+      "pack": "trade_partition",
+      "version": "0.6.0"
+    },
+    {
+      "applyTo": [
+        "core"
+      ],
+      "mode": "builtin_commands",
+      "pack": "workflows",
+      "version": "0.6.0"
+    }
+  ],
+  "host": {
+    "membership": "authenticated_host_resolver"
+  },
+  "mounts": [
+    {
+      "client": {
+        "arguments": [
+          "components.contractorOs",
+          "host.membership"
+        ],
+        "constructor": "ContractorBackend",
+        "import": "@johnny/contractor-os-core/backend"
+      },
+      "component": "core",
+      "import": "@johnny/contractor-os-core/convex.config",
+      "name": "contractorOs",
+      "options": {
+        "env": {
+          "MODE": "development"
+        }
+      },
+      "ref": "core",
+      "source": "src/component",
+      "version": "0.6.0"
+    },
+    {
+      "client": {
+        "arguments": [
+          "components.contractorConcrete",
+          "components.contractorOs",
+          "host.membership"
+        ],
+        "constructor": "ConcreteClient",
+        "import": "@johnny/contractor-os-core/trades/concrete/client"
+      },
+      "component": "concrete",
+      "import": "@johnny/contractor-os-core/trades/concrete/convex.config",
+      "name": "contractorConcrete",
+      "options": {},
+      "ref": "concrete",
+      "source": "src/trades/concrete/component",
+      "version": "0.6.0"
+    },
+    {
+      "client": {
+        "arguments": [
+          "components.contractorDrywallFraming",
+          "components.contractorOs",
+          "host.membership"
+        ],
+        "constructor": "DrywallFramingClient",
+        "import": "@johnny/contractor-os-core/trades/drywall_framing/client"
+      },
+      "component": "drywall_framing",
+      "import": "@johnny/contractor-os-core/trades/drywall_framing/convex.config",
+      "name": "contractorDrywallFraming",
+      "options": {},
+      "ref": "drywall_framing",
+      "source": "src/trades/drywall_framing/component",
+      "version": "0.6.0"
+    },
+    {
+      "client": {
+        "arguments": [
+          "components.contractorElectrical",
+          "components.contractorOs",
+          "host.membership"
+        ],
+        "constructor": "ElectricalClient",
+        "import": "@johnny/contractor-os-core/trades/electrical/client"
+      },
+      "component": "electrical",
+      "import": "@johnny/contractor-os-core/trades/electrical/convex.config",
+      "name": "contractorElectrical",
+      "options": {},
+      "ref": "electrical",
+      "source": "src/trades/electrical/component",
+      "version": "0.6.0"
+    },
+    {
+      "client": {
+        "arguments": [
+          "components.contractorGarageDoor",
+          "components.contractorOs",
+          "host.membership"
+        ],
+        "constructor": "GarageDoorClient",
+        "import": "@johnny/contractor-os-core/trades/garage_door/client"
+      },
+      "component": "garage_door",
+      "import": "@johnny/contractor-os-core/trades/garage_door/convex.config",
+      "name": "contractorGarageDoor",
+      "options": {},
+      "ref": "garage_door",
+      "source": "src/trades/garage_door/component",
+      "version": "0.6.0"
+    },
+    {
+      "client": {
+        "arguments": [
+          "components.contractorHvac",
+          "components.contractorOs",
+          "host.membership"
+        ],
+        "constructor": "HvacClient",
+        "import": "@johnny/contractor-os-core/trades/hvac/client"
+      },
+      "component": "hvac",
+      "import": "@johnny/contractor-os-core/trades/hvac/convex.config",
+      "name": "contractorHvac",
+      "options": {},
+      "ref": "hvac",
+      "source": "src/trades/hvac/component",
+      "version": "0.6.0"
+    },
+    {
+      "client": {
+        "arguments": [
+          "components.contractorLandscaping",
+          "components.contractorOs",
+          "host.membership"
+        ],
+        "constructor": "LandscapingClient",
+        "import": "@johnny/contractor-os-core/trades/landscaping/client"
+      },
+      "component": "landscaping",
+      "import": "@johnny/contractor-os-core/trades/landscaping/convex.config",
+      "name": "contractorLandscaping",
+      "options": {},
+      "ref": "landscaping",
+      "source": "src/trades/landscaping/component",
+      "version": "0.6.0"
+    },
+    {
+      "client": {
+        "arguments": [
+          "components.contractorPainting",
+          "components.contractorOs",
+          "host.membership"
+        ],
+        "constructor": "PaintingClient",
+        "import": "@johnny/contractor-os-core/trades/painting/client"
+      },
+      "component": "painting",
+      "import": "@johnny/contractor-os-core/trades/painting/convex.config",
+      "name": "contractorPainting",
+      "options": {},
+      "ref": "painting",
+      "source": "src/trades/painting/component",
+      "version": "0.6.0"
+    },
+    {
+      "client": {
+        "arguments": [
+          "components.contractorPlumbing",
+          "components.contractorOs",
+          "host.membership"
+        ],
+        "constructor": "PlumbingClient",
+        "import": "@johnny/contractor-os-core/trades/plumbing/client"
+      },
+      "component": "plumbing",
+      "import": "@johnny/contractor-os-core/trades/plumbing/convex.config",
+      "name": "contractorPlumbing",
+      "options": {},
+      "ref": "plumbing",
+      "source": "src/trades/plumbing/component",
+      "version": "0.6.0"
+    },
+    {
+      "client": {
+        "arguments": [
+          "components.contractorRoofing",
+          "components.contractorOs",
+          "host.membership"
+        ],
+        "constructor": "RoofingClient",
+        "import": "@johnny/contractor-os-core/trades/roofing/client"
+      },
+      "component": "roofing",
+      "import": "@johnny/contractor-os-core/trades/roofing/convex.config",
+      "name": "contractorRoofing",
+      "options": {},
+      "ref": "roofing",
+      "source": "src/trades/roofing/component",
+      "version": "0.6.0"
+    }
+  ],
+  "planVersion": 1,
+  "product": {
+    "id": "contractor-os",
+    "name": "Contractor OS",
+    "version": "0.6.0"
+  },
+  "scaffold": {
+    "argv": [
+      "npx",
+      "--yes",
+      "create-better-t-stack@3.44.2",
+      "create-json",
+      "--input",
+      "{\"addons\":[],\"api\":\"none\",\"auth\":\"none\",\"backend\":\"convex\",\"database\":\"none\",\"dbSetup\":\"none\",\"directoryConflict\":\"error\",\"disableAnalytics\":true,\"dryRun\":true,\"examples\":[],\"frontend\":[\"next\"],\"git\":false,\"install\":false,\"orm\":\"none\",\"packageManager\":\"npm\",\"payments\":\"none\",\"projectName\":\"contractor-os\",\"runtime\":\"none\",\"serverDeploy\":\"none\",\"webDeploy\":\"none\",\"yes\":true}"
+    ],
+    "config": {
+      "addons": [],
+      "api": "none",
+      "auth": "none",
+      "backend": "convex",
+      "database": "none",
+      "dbSetup": "none",
+      "directoryConflict": "error",
+      "disableAnalytics": true,
+      "dryRun": true,
+      "examples": [],
+      "frontend": [
+        "next"
+      ],
+      "git": false,
+      "install": false,
+      "orm": "none",
+      "packageManager": "npm",
+      "payments": "none",
+      "projectName": "contractor-os",
+      "runtime": "none",
+      "serverDeploy": "none",
+      "webDeploy": "none",
+      "yes": true
+    },
+    "execute": false
+  },
+  "tokens": {
+    "color": {
+      "dark": {
+        "background": "#0f172a",
+        "foreground": "#f8fafc",
+        "primary": "#60a5fa"
+      },
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#0f172a",
+        "primary": "#2563eb"
+      }
+    },
+    "motion": {
+      "easing": "ease-out",
+      "fastMs": 120,
+      "normalMs": 200,
+      "reducedMotion": "respect-system"
+    },
+    "radii": {
+      "cardPx": 12,
+      "controlPx": 8
+    },
+    "spacing": {
+      "scale": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        8
+      ],
+      "unitPx": 4
+    },
+    "theme": {
+      "default": "system",
+      "supported": [
+        "light",
+        "dark"
+      ]
+    },
+    "type": {
+      "bodyPx": 16,
+      "fontFamily": "system-ui, sans-serif",
+      "headingPx": 32
+    }
+  },
+  "ui": {
+    "bindings": [
+      {
+        "componentRef": "core",
+        "operations": [
+          "inspectRecord",
+          "listJobs"
+        ],
+        "view": "contractorOverview"
+      },
+      {
+        "componentRef": "painting",
+        "operations": [
+          "create",
+          "get",
+          "update"
+        ],
+        "view": "paintingEditor"
+      }
+    ],
+    "componentDirectory": "packages/ui/src/components",
+    "items": [
+      "button",
+      "card",
+      "input",
+      "table"
+    ],
+    "library": "shadcn/ui",
+    "packageDirectory": "packages/ui",
+    "registry": "https://ui.shadcn.com/r/styles/base-lyra/{name}.json",
+    "status": "declaration_only",
+    "style": "base-lyra",
+    "tokensFile": "packages/ui/src/styles/globals.css"
+  }
+}
