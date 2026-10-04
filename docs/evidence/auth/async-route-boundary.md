@@ -13,3 +13,5 @@ No installs. Prior capacity blocker still prevents full local Next checks; CI re
 apps/web/AGENTS.md previously read. Installed Next route docs unavailable; official route guide consulted at https://nextjs.org/docs/app/api-reference/file-conventions/route. Existing Next signatures/response APIs unchanged.
 
 No session, Better Auth, provider, membership, verification, invitation expiry/replay policy, cloud adapter, or configuration changes. Tests mock the cloud seam and do not prove live onboarding or email readiness. Keep broader Issue4 open. Revert the commit to roll back; no data effects. Independent review pending.
+
+CI37243358086 identified a POSIX mock filename defect: encoded slash in virtual file URL rejected by Node CJS hooks. Test-only repair uses collision-free hexadecimal module names without encoded path separators. Main payment PR15 merged normally; no auth overlap. Combined auth/http/UI/contracts suite passes19 locally; fresh CI pending.

@@ -10,14 +10,14 @@ const mocks = new Map([
 ]);
 const hooks = registerHooks({
  resolve(specifier, context, nextResolve) {
-  if(mocks.has(specifier))return {url:new URL(`./mock-${encodeURIComponent(specifier)}.cjs`,import.meta.url).href,shortCircuit:true};
+  if(mocks.has(specifier))return {url:new URL(`./mock-${Buffer.from(specifier).toString('hex')}.cjs`,import.meta.url).href,shortCircuit:true};
   if(specifier==='@/lib/http')return {url:new URL('../apps/web/src/lib/http.ts',import.meta.url).href,shortCircuit:true};
   if(specifier==='./http-error' && context.parentURL?.endsWith('/http.ts'))return {url:new URL('../apps/web/src/lib/http-error.ts',import.meta.url).href,shortCircuit:true};
-  if(specifier==='./local-runtime' && context.parentURL?.endsWith('/http.ts'))return {url:new URL(`./mock-${encodeURIComponent('@/lib/local-runtime')}.cjs`,import.meta.url).href,shortCircuit:true};
+  if(specifier==='./local-runtime' && context.parentURL?.endsWith('/http.ts'))return {url:new URL(`./mock-${Buffer.from('@/lib/local-runtime').toString('hex')}.cjs`,import.meta.url).href,shortCircuit:true};
   return nextResolve(specifier,context);
  },
  load(url,context,nextLoad){
-  for(const [specifier,source] of mocks)if(url===new URL(`./mock-${encodeURIComponent(specifier)}.cjs`,import.meta.url).href)return {format:'commonjs',source,shortCircuit:true};
+  for(const [specifier,source] of mocks)if(url===new URL(`./mock-${Buffer.from(specifier).toString('hex')}.cjs`,import.meta.url).href)return {format:'commonjs',source,shortCircuit:true};
   return nextLoad(url,context);
  }
 });
