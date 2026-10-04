@@ -15,3 +15,5 @@ Dependency installation npm ci --ignore-scripts --no-audit --no-fund stopped wit
 apps/web/AGENTS.md read. Installed Next docs were unavailable (no dependencies and no cached Next package); consulted official https://nextjs.org/docs/app/api-reference/file-conventions/route as fallback. No Next API, route signature, session, membership, provider, config, or authorization checks changed. Only existing http.error delegates pure mapping.
 
 Independent review pending. This scoped fix does not complete Issue 4 or prove cloud verification delivery readiness. Rollback: revert the commit; no data migration.
+
+Independent review found untrusted UNKNOWN_FIELD colon detail could influence status. Repair classifies only the code before colon while preserving detail. Added direct/wrapped regressions for auth/config/conflict-looking field names; final focused suite: 6 passed. Reviewer re-review pending.
