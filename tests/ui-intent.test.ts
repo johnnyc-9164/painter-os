@@ -1,7 +1,11 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { createIntentKeys } from '../apps/web/src/lib/command-intent.ts';
-import { runtimeLabels } from '../apps/web/src/lib/runtime-label.ts';
+import { createRequire } from 'node:module';
+// The web workspace has no type:module; tsx compiles these helpers as CommonJS.
+// require also supports native Node 24 type stripping, so both runners exercise them.
+const require = createRequire(import.meta.url);
+const { createIntentKeys } = require('../apps/web/src/lib/command-intent.ts') as typeof import('../apps/web/src/lib/command-intent.ts');
+const { runtimeLabels } = require('../apps/web/src/lib/runtime-label.ts') as typeof import('../apps/web/src/lib/runtime-label.ts');
 
 test('runtime identifiers win over display text and cloud demo is not labeled local', () => {
   const runtime = { storage: 'Convex transactional database', integrations: 'Metadata only', demo: false };
