@@ -4,21 +4,19 @@ import {createRequire, registerHooks} from 'node:module';
 import {fileURLToPath} from 'node:url';
 
 const mocks = new Map([
- ['next/server', `exports.NextRequest=class {}; exports.NextResponse={json:(value,init)=>Response.json(value,init)};`],
- ['@/lib/local-runtime', `exports.localEnabled=()=>false; exports.localAuth=()=>{throw Error('unexpected local fallback')}; exports.acceptInviteLocal=exports.localAuth; exports.COOKIE='test'; exports.actorFor=()=>{throw Error('unexpected local actor')};`],
- ['@/lib/convex-runtime', `exports.authCloud=(...args)=>globalThis[Symbol.for('painter.auth.route.test')](...args);`],
+ ['next/server', 'next.cjs'],
+ ['@/lib/local-runtime', 'local.cjs'],
+ ['@/lib/convex-runtime', 'cloud.cjs'],
 ]);
+const fixture=(name:string)=>new URL(`./fixtures/auth-routes/${name}`,import.meta.url).href;
 const hooks = registerHooks({
  resolve(specifier, context, nextResolve) {
-  if(mocks.has(specifier))return {url:new URL(`./mock-${Buffer.from(specifier).toString('hex')}.cjs`,import.meta.url).href,shortCircuit:true};
+  const mock=mocks.get(specifier);
+  if(mock)return {url:fixture(mock),shortCircuit:true};
   if(specifier==='@/lib/http')return {url:new URL('../apps/web/src/lib/http.ts',import.meta.url).href,shortCircuit:true};
   if(specifier==='./http-error' && context.parentURL?.endsWith('/http.ts'))return {url:new URL('../apps/web/src/lib/http-error.ts',import.meta.url).href,shortCircuit:true};
-  if(specifier==='./local-runtime' && context.parentURL?.endsWith('/http.ts'))return {url:new URL(`./mock-${Buffer.from('@/lib/local-runtime').toString('hex')}.cjs`,import.meta.url).href,shortCircuit:true};
+  if(specifier==='./local-runtime' && context.parentURL?.endsWith('/http.ts'))return {url:fixture('local.cjs'),shortCircuit:true};
   return nextResolve(specifier,context);
- },
- load(url,context,nextLoad){
-  for(const [specifier,source] of mocks)if(url===new URL(`./mock-${Buffer.from(specifier).toString('hex')}.cjs`,import.meta.url).href)return {format:'commonjs',source,shortCircuit:true};
-  return nextLoad(url,context);
  }
 });
 const require=createRequire(import.meta.url);

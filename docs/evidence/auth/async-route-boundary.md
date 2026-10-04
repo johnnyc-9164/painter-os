@@ -15,3 +15,5 @@ apps/web/AGENTS.md previously read. Installed Next route docs unavailable; offic
 No session, Better Auth, provider, membership, verification, invitation expiry/replay policy, cloud adapter, or configuration changes. Tests mock the cloud seam and do not prove live onboarding or email readiness. Keep broader Issue4 open. Revert the commit to roll back; no data effects. Independent review pending.
 
 CI37243358086 identified a POSIX mock filename defect: encoded slash in virtual file URL rejected by Node CJS hooks. Test-only repair uses collision-free hexadecimal module names without encoded path separators. Main payment PR15 merged normally; no auth overlap. Combined auth/http/UI/contracts suite passes19 locally; fresh CI pending.
+
+CI37243566770 identified tsx CommonJS extension hooks reading virtual module paths directly (ENOENT). Test fixtures are now real CommonJS files; resolver hooks select those fixtures without overriding their source loader. No production code changed;19combined native checks pass. Fresh CI required.
