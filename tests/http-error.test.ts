@@ -24,3 +24,10 @@ test('existing invite and tenant denials remain denied',()=>{
  assert.deepEqual(mapHttpError(wrapped('EMAIL_VERIFICATION_REQUIRED')),{error:'EMAIL_VERIFICATION_REQUIRED',status:400});
  assert.deepEqual(mapHttpError(wrapped('INVALID_OR_EXPIRED_INVITE')),{error:'INVALID_OR_EXPIRED_INVITE',status:404});
 });
+test('untrusted field details do not change the application status',()=>{
+ for(const detail of ['UNAUTHENTICATED','FORBIDDEN','CONVEX_DEPLOYMENT_NOT_CONFIGURED','REVISION_CONFLICT']){
+  const error=`UNKNOWN_FIELD:${detail}`;
+  assert.deepEqual(mapHttpError(new Error(error)),{error,status:400});
+  assert.deepEqual(mapHttpError(wrapped(error)),{error,status:400});
+ }
+});

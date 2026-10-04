@@ -9,11 +9,12 @@ export function mapHttpError(error: unknown): HttpErrorResult {
   const codeLine = message.match(/(?:^|\n)Uncaught Error: ([A-Z][A-Z_]+(?::[^\r\n]*)?)(?:\r?\n|$)/)?.[1]
     ?? message.match(/^(?:Error: )?([A-Z][A-Z_]+(?::[^\r\n]*)?)(?:\r?\n|$)/)?.[1]
     ?? 'INTERNAL_ERROR';
-  const status = /UNAUTHENTICATED|INVALID_CREDENTIALS/.test(codeLine) ? 401
-    : /FORBIDDEN|OWNER_REQUIRED|INVALID_ORIGIN|BOUNDARY|DENIED|LOCAL_ACCEPTANCE/.test(codeLine) ? 403
-    : /NOT_FOUND|INVALID_OR_EXPIRED/.test(codeLine) ? 404
-    : /RATE_LIMITED/.test(codeLine) ? 429
-    : /DEPLOYMENT_NOT_CONFIGURED|AUTH_BACKEND_NOT_CONFIGURED/.test(codeLine) ? 503
-    : /REVISION_CONFLICT|KEY_CONFLICT|DUPLICATE/.test(codeLine) ? 409 : 400;
+  const code = codeLine.split(':', 1)[0];
+  const status = /UNAUTHENTICATED|INVALID_CREDENTIALS/.test(code) ? 401
+    : /FORBIDDEN|OWNER_REQUIRED|INVALID_ORIGIN|BOUNDARY|DENIED|LOCAL_ACCEPTANCE/.test(code) ? 403
+    : /NOT_FOUND|INVALID_OR_EXPIRED/.test(code) ? 404
+    : /RATE_LIMITED/.test(code) ? 429
+    : /DEPLOYMENT_NOT_CONFIGURED|AUTH_BACKEND_NOT_CONFIGURED/.test(code) ? 503
+    : /REVISION_CONFLICT|KEY_CONFLICT|DUPLICATE/.test(code) ? 409 : 400;
   return {error: codeLine, status};
 }
