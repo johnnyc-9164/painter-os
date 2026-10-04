@@ -9,6 +9,8 @@
   "scripts": {
     "dev": "turbo run dev",
     "build": "npm run build --workspace web",
+    "build:marketing": "npm run build --workspace marketing",
+    "test:marketing": "node --test tests/marketing-boundary.test.mjs",
     "check-types": "npm run check-types --workspace web && npm run check-types --workspace @painter-os-bts/domain && tsc --noEmit -p packages/backend/convex/tsconfig.json",
     "dev:web": "turbo run dev -F web --",
     "dev:server": "turbo run dev -F @painter-os-bts/backend --",
