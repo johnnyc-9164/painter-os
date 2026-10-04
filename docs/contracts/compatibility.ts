@@ -34,6 +34,10 @@ export function depositView(requiredCents: number, receivedCents: number): Depos
 }
 /** Current Painter audit shape, not an IR event translated into a new schema. */
 export interface PainterTransitionPayload {
+  /** Additive audit evidence on new payment.record transitions only; legacy history may omit it. */
+  paymentId?: string;
+  invoiceId?: string;
+  amountCents?: number;
   schemaVersion: 1;
   tenantId: string;
   requestKey: string;
