@@ -17,3 +17,5 @@ apps/web/AGENTS.md read. Installed Next docs were unavailable (no dependencies a
 Independent review pending. This scoped fix does not complete Issue 4 or prove cloud verification delivery readiness. Rollback: revert the commit; no data migration.
 
 Independent review found untrusted UNKNOWN_FIELD colon detail could influence status. Repair classifies only the code before colon while preserving detail. Added direct/wrapped regressions for auth/config/conflict-looking field names; final focused suite: 6 passed. Reviewer re-review pending.
+
+CI exposed named ESM import incompatibility with tsx's CommonJS transform of the web package. Test imports now use createRequire, supporting that transform and Node24 native TypeScript. Prior head CI typecheck/lint/convex/build passed; domain tests require rerun on repaired head.

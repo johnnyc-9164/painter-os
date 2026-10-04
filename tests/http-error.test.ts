@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {mapHttpError} from '../apps/web/src/lib/http-error.ts';
+import {createRequire} from 'node:module';
+// The web package is CommonJS for tsx; require supports both its transform and Node24 TS.
+const {mapHttpError}=createRequire(import.meta.url)('../apps/web/src/lib/http-error.ts') as typeof import('../apps/web/src/lib/http-error.ts');
 const wrapped=(code:string)=>new Error(`[CONVEX Q(painter:members)] [Request ID: abc123] Server Error\nUncaught Error: ${code}\n    at handler (painter.ts:20:1)\nCalled by client`);
 test('wrapped authentication and authorization errors retain their status',()=>{
  assert.deepEqual(mapHttpError(wrapped('UNAUTHENTICATED')),{error:'UNAUTHENTICATED',status:401});
