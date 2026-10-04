@@ -1,0 +1,13 @@
+# Issue 2 execution record
+
+Executor: delegated Codex task in selected Windows execution environment, source thread `01a0fe82-19ba-7096-8706-a9d9c907801e`. One implementation owner for this branch. Independent reviewer: parent coordinator assigns a distinct reviewer; acceptance pending, no self-approval or merge.
+
+Status: running → implementation locally validated; draft publication pending at record creation. Checkout/isolated branch worktree: `C:\Users\Johnny Cage\Documents\Codex\2026-10-04\task-3\painter-os`. This is not the parent's cloud machine; published Git commits/PR provide shared visibility.
+
+Remote verified: `https://github.com/johnnyc-9164/painter-os.git`; repository ID `1404513225`. Fresh initial head `61a212e75988586dda126da462e04750c327c659`. Rebased unpublished `contracts/issue-2-component-boundaries` onto verified main `e683b000b8a069397f0099f8a354b01514b46d66` after parent merged PR #1. Issue 2 comments empty when inspected; only PR #1 open at initial inspection. Tracked instructions: only apps/web/AGENTS.md, outside edited scope; no root AGENTS or .agents skills in the checkout. No secret reads/copies or unrelated repository operations.
+
+Owned and changed: docs/contracts/issue-2-freeze.md, docs/contracts/compatibility.ts, docs/contracts/compatibility.test.mjs, this status file. Runtime/IR behavior preserved. Full typed payload narrowing, adapter implementation and migration remain with dependent owners.
+
+Validation performed: Node v24.19.0; global TypeScript compiler accepted the example with strict flags; 4/4 new Node tests passed; existing component validator passed 75 files with zero errors/warnings; existing composition validator passed 10 runtime components/6 config packs; 20/20 existing composition unittests passed using approved normal temp-file access. Initial sandbox child-spawn and temp-file errors were environment failures, not passing checks; Node isolation disabled for the bounded tests. Initial core validator invocation used the wrong working directory, corrected before reported success. Full app suites/build were not run for this documentation-only change. Final tested head/base and draft URL are recorded in the PR to avoid a self-referential commit hash.
+
+Remaining acceptance: independent review, owner choice of deposit warning/require-full/audited-override for future gates, explicit cross-store mapping before cutover. These hold cutover/policy changes, not compatible backend/auth/UI repairs. No cloud deployment verification, live migration or production promotion claimed. Rollback: revert additive docs and any later dependent adoption together.
