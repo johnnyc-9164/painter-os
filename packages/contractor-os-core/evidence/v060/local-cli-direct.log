@@ -1,0 +1,22 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+Saved VITE_CONVEX_URL and VITE_CONVEX_SITE_URL to .env.local
+▌ Developing against deployment:
+▌ └─ http://127.0.0.1:3210
+- Preparing Convex functions...
+
+Temporary directory '/tmp' and project directory '/workspace/scratch/d24983fe3ee1/trade-component-refactor/backend/contractor-os-core/examples/convex/_generated' are on different filesystems.
+  If you're running into errors with other tools watching the project directory, override the temporary directory location with the CONVEX_TMPDIR environment variable.
+  Be sure to pick a temporary directory that's on the same filesystem as your project.
+✔ Added table indexes:
+  [+] contractorOsMemberships.by_identity   tokenIdentifier, _creationTime
+✔ Installed component contractorConcrete.
+✔ Installed component contractorDrywallFraming.
+✔ Installed component contractorElectrical.
+✔ Installed component contractorGarageDoor.
+✔ Installed component contractorHvac.
+✔ Installed component contractorLandscaping.
+✔ Installed component contractorOs.
+✔ Installed component contractorPainting.
+✔ Installed component contractorPlumbing.
+✔ Installed component contractorRoofing.
+✔ 07:35:13 Convex functions ready! (2.28s)

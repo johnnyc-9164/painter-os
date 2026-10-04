@@ -1,0 +1,116 @@
+policy: One phase at a time. Verification must pass before phase is accepted. Existing
+  green backend tests are a regression gate.
+phases:
+- id: P0
+  name: Baseline and source freeze
+  actions:
+  - run existing backend tests
+  - validate product composition IR
+  - record baseline test/evidence outputs
+  - do not modify behavior
+  verify:
+  - existing backend tests green
+  - composition validator green
+- id: P1
+  name: Painter product composition
+  actions:
+  - derive painter-only product composition from core + painting
+  - retain required config packs
+  - define host auth/membership adapter contract
+  - establish monorepo app + shared UI package if absent
+  verify:
+  - composition validator green
+  - no unselected trade binding leaks
+- id: P2
+  name: Design system and shadcn/Base UI
+  actions:
+  - install/confirm base-lyra shadcn items
+  - implement Artisan Core tokens
+  - build shared AppShell and components from component-spec
+  verify:
+  - component tests
+  - keyboard focus
+  - responsive shell
+  - visual token review
+- id: P3
+  name: Existing-reference screens
+  actions:
+  - implement overview
+  - implement leads
+  - implement estimate editor
+  - implement customer portal
+  - implement invoice
+  - implement integrations/billing/knowledge
+  verify:
+  - route tests
+  - screen states
+  - visual comparison to canonical references
+  - no duplicated shell/primitives
+- id: P4
+  name: Lead to approved estimate
+  actions:
+  - wire leads to typed view models
+  - extend estimate aggregate/contracts
+  - customer approval/change request flow
+  - emit EstimateApproved
+  verify:
+  - domain tests
+  - auth tests
+  - idempotency tests
+  - end-to-end lead→approval
+- id: P5
+  name: Job + schedule
+  actions:
+  - create job from approved estimate
+  - implement scheduling module
+  - crew assignment
+  - schedule conflicts/status
+  verify:
+  - state-machine tests
+  - event consumer idempotency
+  - mobile/desktop schedule checks
+- id: P6
+  name: Field execution + completion
+  actions:
+  - daily work surface
+  - checklists
+  - photos/evidence
+  - daily logs
+  - completion submission/acceptance
+  verify:
+  - field state-machine tests
+  - evidence attachment tests
+  - offline/poor-network behavior documented/tested where supported
+- id: P7
+  name: Money lifecycle
+  actions:
+  - deposit requirement/receipt
+  - invoice issuance
+  - payment recording
+  - job costing/profitability projections
+  verify:
+  - money invariant tests
+  - authorization tests
+  - audit/history tests
+  - duplicate payment prevention
+- id: P8
+  name: Review/referral loop
+  actions:
+  - trigger review request from completion/payment policy
+  - track review outcome
+  - create referral attribution
+  verify:
+  - workflow tests
+  - customer communication approval/policy tests
+- id: P9
+  name: Automation layer
+  actions:
+  - bind agents/workflows to typed commands
+  - approval gates for material actions
+  - evidence + verification records
+  - watch queues
+  verify:
+  - agent cannot bypass auth
+  - approval gate tests
+  - replay/idempotency tests
+  - full vertical slice acceptance

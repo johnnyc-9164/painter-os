@@ -1,0 +1,497 @@
+
+> @johnny/contractor-os-core@0.1.0 test
+> npm run build:core && node --test tests/*.test.mjs
+
+
+> @johnny/contractor-os-core@0.1.0 build:core
+> tsc -p tsconfig.core.json
+
+TAP version 13
+# Subtest: adapter double: imports entity, event, links and receipt
+ok 1 - adapter double: imports entity, event, links and receipt
+  ---
+  duration_ms: 2.181417
+  type: 'test'
+  ...
+# Subtest: adapter double: repeated request is idempotent
+ok 2 - adapter double: repeated request is idempotent
+  ---
+  duration_ms: 0.394683
+  type: 'test'
+  ...
+# Subtest: adapter double: idempotency key cannot be reused for changed content
+ok 3 - adapter double: idempotency key cannot be reused for changed content
+  ---
+  duration_ms: 0.588745
+  type: 'test'
+  ...
+# Subtest: adapter double: new request of unchanged records creates only receipt
+ok 4 - adapter double: new request of unchanged records creates only receipt
+  ---
+  duration_ms: 0.51928
+  type: 'test'
+  ...
+# Subtest: adapter double: same external id stays isolated between tenants
+ok 5 - adapter double: same external id stays isolated between tenants
+  ---
+  duration_ms: 0.505159
+  type: 'test'
+  ...
+# Subtest: adapter double: conflicts are detected before writes in the batch
+ok 6 - adapter double: conflicts are detected before writes in the batch
+  ---
+  duration_ms: 0.376696
+  type: 'test'
+  ...
+# Subtest: adapter double: missing target resolves after its later import
+ok 7 - adapter double: missing target resolves after its later import
+  ---
+  duration_ms: 0.643827
+  type: 'test'
+  ...
+# Subtest: adapter double: foreign tenant relation target remains invisible
+ok 8 - adapter double: foreign tenant relation target remains invisible
+  ---
+  duration_ms: 0.352569
+  type: 'test'
+  ...
+# Subtest: adapter double: history queries are tenant-scoped
+ok 9 - adapter double: history queries are tenant-scoped
+  ---
+  duration_ms: 0.554133
+  type: 'test'
+  ...
+# Subtest: adapter double: list filters blueprint and paginates
+ok 10 - adapter double: list filters blueprint and paginates
+  ---
+  duration_ms: 0.616396
+  type: 'test'
+  ...
+# Subtest: adapter double: rejects invalid page size
+ok 11 - adapter double: rejects invalid page size
+  ---
+  duration_ms: 0.220751
+  type: 'test'
+  ...
+# Subtest: adapter double: unsupported history cannot be imported as contractor data
+ok 12 - adapter double: unsupported history cannot be imported as contractor data
+  ---
+  duration_ms: 0.196215
+  type: 'test'
+  ...
+# Subtest: client double: unauthenticated requests never reach component
+ok 13 - client double: unauthenticated requests never reach component
+  ---
+  duration_ms: 0.387292
+  type: 'test'
+  ...
+# Subtest: client double: read-only member cannot invoke import
+ok 14 - client double: read-only member cannot invoke import
+  ---
+  duration_ms: 0.16672
+  type: 'test'
+  ...
+# Subtest: client double: extra browser arguments cannot override trusted scope
+ok 15 - client double: extra browser arguments cannot override trusted scope
+  ---
+  duration_ms: 0.131958
+  type: 'test'
+  ...
+# Subtest: client double: read wrapper ignores forged tenant fields
+ok 16 - client double: read wrapper ignores forged tenant fields
+  ---
+  duration_ms: 0.131637
+  type: 'test'
+  ...
+# Subtest: preserves source values and metadata
+ok 17 - preserves source values and metadata
+  ---
+  duration_ms: 2.664402
+  type: 'test'
+  ...
+# Subtest: retains explicit nulls and array order
+ok 18 - retains explicit nulls and array order
+  ---
+  duration_ms: 0.39258
+  type: 'test'
+  ...
+# Subtest: canonical equality ignores object key order but not array order
+ok 19 - canonical equality ignores object key order but not array order
+  ---
+  duration_ms: 0.307933
+  type: 'test'
+  ...
+# Subtest: catalog preserves exactly fourteen source contractor entity names
+not ok 20 - catalog preserves exactly fourteen source contractor entity names
+  ---
+  duration_ms: 0.962076
+  type: 'test'
+  location: '/mnt/data/convex-upgrade/contractor-os-core/tests/core.test.mjs:30:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    20 !== 14
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 14
+  actual: 20
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/convex-upgrade/contractor-os-core/tests/core.test.mjs:31:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: rejects platform/agent history in business importer
+ok 21 - rejects platform/agent history in business importer
+  ---
+  duration_ms: 0.459971
+  type: 'test'
+  ...
+# Subtest: rejects a referenced but unexported blueprint rather than inventing it
+not ok 22 - rejects a referenced but unexported blueprint rather than inventing it
+  ---
+  duration_ms: 0.302584
+  type: 'test'
+  location: '/mnt/data/convex-upgrade/contractor-os-core/tests/core.test.mjs:38:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/convex-upgrade/contractor-os-core/tests/core.test.mjs:39:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: rejects malformed records and properties
+ok 23 - rejects malformed records and properties
+  ---
+  duration_ms: 0.323776
+  type: 'test'
+  ...
+# Subtest: does not infer an enum from one sample record
+ok 24 - does not infer an enum from one sample record
+  ---
+  duration_ms: 0.214963
+  type: 'test'
+  ...
+# Subtest: rejects malformed relations
+ok 25 - rejects malformed relations
+  ---
+  duration_ms: 0.481253
+  type: 'test'
+  ...
+# Subtest: rejects nonfinite, unsafe-integer and non-JSON values
+ok 26 - rejects nonfinite, unsafe-integer and non-JSON values
+  ---
+  duration_ms: 0.727733
+  type: 'test'
+  ...
+# Subtest: rejects excessive nesting
+ok 27 - rejects excessive nesting
+  ---
+  duration_ms: 0.329715
+  type: 'test'
+  ...
+# Subtest: does not execute source strings
+ok 28 - does not execute source strings
+  ---
+  duration_ms: 0.199429
+  type: 'test'
+  ...
+# Subtest: prototype-named source keys stay inert JSON keys
+ok 29 - prototype-named source keys stay inert JSON keys
+  ---
+  duration_ms: 0.175634
+  type: 'test'
+  ...
+# Subtest: deduplicates identical rows within a batch
+ok 30 - deduplicates identical rows within a batch
+  ---
+  duration_ms: 0.345429
+  type: 'test'
+  ...
+# Subtest: rejects conflicting rows within a batch
+ok 31 - rejects conflicting rows within a batch
+  ---
+  duration_ms: 0.358658
+  type: 'test'
+  ...
+# Subtest: accepts empty arrays without inventing records
+ok 32 - accepts empty arrays without inventing records
+  ---
+  duration_ms: 0.117967
+  type: 'test'
+  ...
+# Subtest: bounds import batch count and byte length
+ok 33 - bounds import batch count and byte length
+  ---
+  duration_ms: 0.637328
+  type: 'test'
+  ...
+# Subtest: bounds individual records
+ok 34 - bounds individual records
+  ---
+  duration_ms: 1.53767
+  type: 'test'
+  ...
+# Subtest: idempotent planning does not duplicate existing snapshots
+ok 35 - idempotent planning does not duplicate existing snapshots
+  ---
+  duration_ms: 0.222595
+  type: 'test'
+  ...
+# Subtest: changed existing identity conflicts instead of last-write-wins
+ok 36 - changed existing identity conflicts instead of last-write-wins
+  ---
+  duration_ms: 0.185469
+  type: 'test'
+  ...
+# Subtest: identity is blueprint-scoped, with tenant supplied separately by repository
+ok 37 - identity is blueprint-scoped, with tenant supplied separately by repository
+  ---
+  duration_ms: 0.114593
+  type: 'test'
+  ...
+# Subtest: extracts nullable, single and multiple relation shapes
+ok 38 - extracts nullable, single and multiple relation shapes
+  ---
+  duration_ms: 0.367793
+  type: 'test'
+  ...
+# Subtest: missing relation targets are reported without manufacturing entities
+ok 39 - missing relation targets are reported without manufacturing entities
+  ---
+  duration_ms: 0.218949
+  type: 'test'
+  ...
+# Subtest: relation resolution cannot see another tenant
+ok 40 - relation resolution cannot see another tenant
+  ---
+  duration_ms: 0.119139
+  type: 'test'
+  ...
+# Subtest: ambiguous untyped relation does not choose a target arbitrarily
+ok 41 - ambiguous untyped relation does not choose a target arbitrarily
+  ---
+  duration_ms: 0.12628
+  type: 'test'
+  ...
+# Subtest: typed relation resolves only the specified blueprint
+ok 42 - typed relation resolves only the specified blueprint
+  ---
+  duration_ms: 0.13299
+  type: 'test'
+  ...
+# Subtest: eleven workflow input contracts are retained
+ok 43 - eleven workflow input contracts are retained
+  ---
+  duration_ms: 0.101893
+  type: 'test'
+  ...
+# Subtest: lead workflow applies its actual source defaults
+ok 44 - lead workflow applies its actual source defaults
+  ---
+  duration_ms: 0.267241
+  type: 'test'
+  ...
+# Subtest: workflow required fields and enums remain enforced as input contracts
+ok 45 - workflow required fields and enums remain enforced as input contracts
+  ---
+  duration_ms: 0.196295
+  type: 'test'
+  ...
+# Subtest: unknown workflow and unexpected fields fail closed
+ok 46 - unknown workflow and unexpected fields fail closed
+  ---
+  duration_ms: 0.283656
+  type: 'test'
+  ...
+# Subtest: workflow input types do not confuse numbers, booleans, null or strings
+ok 47 - workflow input types do not confuse numbers, booleans, null or strings
+  ---
+  duration_ms: 0.358698
+  type: 'test'
+  ...
+# Subtest: workflow date-time input checks reject malformed values
+ok 48 - workflow date-time input checks reject malformed values
+  ---
+  duration_ms: 0.408814
+  type: 'test'
+  ...
+# Subtest: authorization requires verified identity and membership
+ok 49 - authorization requires verified identity and membership
+  ---
+  duration_ms: 0.170135
+  type: 'test'
+  ...
+# Subtest: authorization does not grant import to read-only members
+ok 50 - authorization does not grant import to read-only members
+  ---
+  duration_ms: 0.161663
+  type: 'test'
+  ...
+# Subtest: scope derives actor from identity, not membership or client fields
+ok 51 - scope derives actor from identity, not membership or client fields
+  ---
+  duration_ms: 0.137116
+  type: 'test'
+  ...
+# Subtest: scope rejects empty or control-character tenant ids
+ok 52 - scope rejects empty or control-character tenant ids
+  ---
+  duration_ms: 0.171578
+  type: 'test'
+  ...
+# Subtest: domain: twenty contractor types are supported, not the summary total of eighteen
+ok 53 - domain: twenty contractor types are supported, not the summary total of eighteen
+  ---
+  duration_ms: 1.223268
+  type: 'test'
+  ...
+# Subtest: domain: contact properties and enums validate
+ok 54 - domain: contact properties and enums validate
+  ---
+  duration_ms: 1.276608
+  type: 'test'
+  ...
+# Subtest: domain: unknown fields are rejected instead of silently dropped
+ok 55 - domain: unknown fields are rejected instead of silently dropped
+  ---
+  duration_ms: 2.260255
+  type: 'test'
+  ...
+# Subtest: domain: supplied status enum is enforced
+ok 56 - domain: supplied status enum is enforced
+  ---
+  duration_ms: 0.209966
+  type: 'test'
+  ...
+# Subtest: domain: summary does not invent required business fields
+ok 57 - domain: summary does not invent required business fields
+  ---
+  duration_ms: 0.213961
+  type: 'test'
+  ...
+# Subtest: domain: null values are rejected by write API, not silently made optional
+ok 58 - domain: null values are rejected by write API, not silently made optional
+  ---
+  duration_ms: 0.27314
+  type: 'test'
+  ...
+# Subtest: domain: valid leap datetime accepted; impossible date rejected
+ok 59 - domain: valid leap datetime accepted; impossible date rejected
+  ---
+  duration_ms: 0.547783
+  type: 'test'
+  ...
+# Subtest: domain: email and HTTP URL constraints applied
+ok 60 - domain: email and HTTP URL constraints applied
+  ---
+  duration_ms: 0.368343
+  type: 'test'
+  ...
+# Subtest: domain: numeric fields reject non-finite and unsafe precision
+ok 61 - domain: numeric fields reject non-finite and unsafe precision
+  ---
+  duration_ms: 0.616245
+  type: 'test'
+  ...
+# Subtest: domain: negative change orders are not silently disallowed
+ok 62 - domain: negative change orders are not silently disallowed
+  ---
+  duration_ms: 0.457858
+  type: 'test'
+  ...
+# Subtest: domain: unspecified array items remain JSON, not guessed string-only
+ok 63 - domain: unspecified array items remain JSON, not guessed string-only
+  ---
+  duration_ms: 0.367613
+  type: 'test'
+  ...
+# Subtest: domain: ambiguous painting property is blocked
+ok 64 - domain: ambiguous painting property is blocked
+  ---
+  duration_ms: 0.251267
+  type: 'test'
+  ...
+# Subtest: domain: pricing trade enum inherits the explicit nine-trade reference
+ok 65 - domain: pricing trade enum inherits the explicit nine-trade reference
+  ---
+  duration_ms: 0.19319
+  type: 'test'
+  ...
+# Subtest: domain: relation cardinality is not invented when unspecified
+ok 66 - domain: relation cardinality is not invented when unspecified
+  ---
+  duration_ms: 0.328073
+  type: 'test'
+  ...
+# Subtest: domain: explicitly many relations require arrays
+ok 67 - domain: explicitly many relations require arrays
+  ---
+  duration_ms: 0.191989
+  type: 'test'
+  ...
+# Subtest: domain: duplicate target IDs are rejected
+ok 68 - domain: duplicate target IDs are rejected
+  ---
+  duration_ms: 0.152179
+  type: 'test'
+  ...
+# Subtest: domain: unknown relation names are rejected
+ok 69 - domain: unknown relation names are rejected
+  ---
+  duration_ms: 0.16017
+  type: 'test'
+  ...
+# Subtest: domain: patch and explicit unset preserve other fields
+ok 70 - domain: patch and explicit unset preserve other fields
+  ---
+  duration_ms: 0.275915
+  type: 'test'
+  ...
+# Subtest: domain: ambiguous set-and-unset is rejected
+ok 71 - domain: ambiguous set-and-unset is rejected
+  ---
+  duration_ms: 0.201152
+  type: 'test'
+  ...
+# Subtest: domain: explicit full_name formula only; unknown financial formula fails closed
+ok 72 - domain: explicit full_name formula only; unknown financial formula fails closed
+  ---
+  duration_ms: 0.19978
+  type: 'test'
+  ...
+# Subtest: domain: original import retains null/derived/unresolved data outside typed properties
+ok 73 - domain: original import retains null/derived/unresolved data outside typed properties
+  ---
+  duration_ms: 0.515805
+  type: 'test'
+  ...
+# Subtest: domain: invalid known import values cause rejection
+ok 74 - domain: invalid known import values cause rejection
+  ---
+  duration_ms: 0.24588
+  type: 'test'
+  ...
+1..74
+# tests 74
+# suites 0
+# pass 72
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 408.494464

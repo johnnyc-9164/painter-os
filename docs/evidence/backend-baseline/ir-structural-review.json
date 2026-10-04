@@ -1,0 +1,55 @@
+{
+  "yamlFiles": 9,
+  "modules": 15,
+  "moduleStatuses": {
+    "existing": 3,
+    "partial": 8,
+    "planned": 4
+  },
+  "routes": 15,
+  "screens": 11,
+  "canonicalReferences": 8,
+  "aggregates": 8,
+  "aggregateStatuses": {
+    "existing": 1,
+    "existing/extend": 3,
+    "extend": 1,
+    "planned": 3
+  },
+  "events": 11,
+  "phases": 10,
+  "roles": 9,
+  "capabilities": 11,
+  "undefinedModuleDependencies": [
+    "files",
+    "tasks"
+  ],
+  "systemCoreModulesMissingRegistry": [
+    "tasks",
+    "files",
+    "notifications",
+    "search"
+  ],
+  "routesMissingScreen": [
+    {
+      "path": "/leads/:leadId",
+      "screen": "lead-detail"
+    },
+    {
+      "path": "/estimates/:estimateId",
+      "screen": "estimate-detail"
+    },
+    {
+      "path": "/jobs",
+      "screen": "job-list"
+    },
+    {
+      "path": "/commercial/bids",
+      "screen": "bid-tracker"
+    }
+  ],
+  "aggregateUndeclaredStatuses": [
+    "existing/extend"
+  ],
+  "dependencyCycles": []
+}

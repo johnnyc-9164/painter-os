@@ -1,0 +1,30 @@
+{
+  "version": "0.6.0",
+  "date": "2026-10-02",
+  "node": "24.19.0",
+  "convex_cli": "1.46.0",
+  "local_backend": "precompiled-2026-09-28-5c7cb5b",
+  "core_tests": 411,
+  "sdk_tests": 41,
+  "composition_tests": 20,
+  "typecheck": "passed",
+  "component_codegen": {
+    "count": 10,
+    "status": "passed",
+    "backend": "disposable_local_only"
+  },
+  "local_runtime_smoke": {
+    "trades": 9,
+    "mixed_fields_rejected": true,
+    "foreign_tenant_count": 0
+  },
+  "package_exports": 60,
+  "packed_single_trade_consumer_compile": "passed",
+  "production_deployed": false,
+  "remote_pushed": false,
+  "migration_executed": false,
+  "scaffolder_executed": false,
+  "ui_built": false,
+  "telemetry": "disabled_in_final_run",
+  "report": "docs/VERIFICATION_V060.md"
+}

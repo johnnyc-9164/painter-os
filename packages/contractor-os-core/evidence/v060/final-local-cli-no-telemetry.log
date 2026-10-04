@@ -1,0 +1,299 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+▌ Developing against deployment:
+▌ └─ http://127.0.0.1:3210
+- Preparing Convex functions...
+
+✔ Added table indexes:
+  [+] contractorOsMemberships.by_identity   tokenIdentifier, _creationTime
+✔ Installed component contractorConcrete.
+✔ Installed component contractorDrywallFraming.
+✔ Installed component contractorElectrical.
+✔ Installed component contractorGarageDoor.
+✔ Installed component contractorHvac.
+✔ Installed component contractorLandscaping.
+✔ Installed component contractorOs.
+✔ Installed component contractorPainting.
+✔ Installed component contractorPlumbing.
+✔ Installed component contractorRoofing.
+✔ 07:42:51 Convex functions ready! (25.39s)
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+Finding component definitions...
+Generating server code...
+Bundling component definitions...
+Bundling component schemas and implementations...
+Downloading current deployment state...
+Uploading functions to Convex...
+Generating TypeScript bindings...
+Running TypeScript...
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+Finding component definitions...
+Generating server code...
+Bundling component definitions...
+Bundling component schemas and implementations...
+Downloading current deployment state...
+Uploading functions to Convex...
+Generating TypeScript bindings...
+Running TypeScript...
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+Finding component definitions...
+Generating server code...
+Bundling component definitions...
+Bundling component schemas and implementations...
+Downloading current deployment state...
+Uploading functions to Convex...
+Generating TypeScript bindings...
+Running TypeScript...
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+Finding component definitions...
+Generating server code...
+Bundling component definitions...
+Bundling component schemas and implementations...
+Downloading current deployment state...
+Uploading functions to Convex...
+Generating TypeScript bindings...
+Running TypeScript...
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+Finding component definitions...
+Generating server code...
+Bundling component definitions...
+Bundling component schemas and implementations...
+Downloading current deployment state...
+Uploading functions to Convex...
+Generating TypeScript bindings...
+Running TypeScript...
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+Finding component definitions...
+Generating server code...
+Bundling component definitions...
+Bundling component schemas and implementations...
+Downloading current deployment state...
+Uploading functions to Convex...
+Generating TypeScript bindings...
+Running TypeScript...
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+Finding component definitions...
+Generating server code...
+Bundling component definitions...
+Bundling component schemas and implementations...
+Downloading current deployment state...
+Uploading functions to Convex...
+Generating TypeScript bindings...
+Running TypeScript...
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+Finding component definitions...
+Generating server code...
+Bundling component definitions...
+Bundling component schemas and implementations...
+Downloading current deployment state...
+Uploading functions to Convex...
+Generating TypeScript bindings...
+Running TypeScript...
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+Finding component definitions...
+Generating server code...
+Bundling component definitions...
+Bundling component schemas and implementations...
+Downloading current deployment state...
+Uploading functions to Convex...
+Generating TypeScript bindings...
+Running TypeScript...
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+Finding component definitions...
+Generating server code...
+Bundling component definitions...
+Bundling component schemas and implementations...
+Downloading current deployment state...
+Uploading functions to Convex...
+Generating TypeScript bindings...
+Running TypeScript...
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+▌ Developing against deployment:
+▌ └─ http://127.0.0.1:3210
+- Preparing Convex functions...
+
+✔ 07:43:45 Convex functions ready! (24.57s)
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> @johnny/contractor-os-core@0.6.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+{
+  "id": "jd7bb42nq62h2w3a190hxr0g818fh193",
+  "replayed": false,
+  "revision": 1
+}
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+{
+  "_creationTime": 1790945032777.1277,
+  "_id": "jd7bb42nq62h2w3a190hxr0g818fh193",
+  "coreReferences": {},
+  "createdAt": 1790945032777,
+  "identifier": "smoke",
+  "properties": {},
+  "revision": 1,
+  "tenantId": "synthetic-a",
+  "title": null,
+  "updatedAt": 1790945032777
+}
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+{
+  "id": "jd71y41v02x2ggdp7ggaz23zbh8fhph8",
+  "replayed": false,
+  "revision": 1
+}
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+{
+  "_creationTime": 1790945034187.0764,
+  "_id": "jd71y41v02x2ggdp7ggaz23zbh8fhph8",
+  "coreReferences": {},
+  "createdAt": 1790945034187,
+  "identifier": "smoke",
+  "properties": {},
+  "revision": 1,
+  "tenantId": "synthetic-a",
+  "title": null,
+  "updatedAt": 1790945034187
+}
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+{
+  "id": "jd7bmrxqdneheg5xahvnm3tzf18fhsny",
+  "replayed": false,
+  "revision": 1
+}
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+{
+  "_creationTime": 1790945035604.9912,
+  "_id": "jd7bmrxqdneheg5xahvnm3tzf18fhsny",
+  "coreReferences": {},
+  "createdAt": 1790945035604,
+  "identifier": "smoke",
+  "properties": {},
+  "revision": 1,
+  "tenantId": "synthetic-a",
+  "title": null,
+  "updatedAt": 1790945035604
+}
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+{
+  "id": "jd7ey0bppwb6e6gnr009jgwve98fh6xq",
+  "replayed": false,
+  "revision": 1
+}
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+{
+  "_creationTime": 1790945036990.4346,
+  "_id": "jd7ey0bppwb6e6gnr009jgwve98fh6xq",
+  "coreReferences": {},
+  "createdAt": 1790945036990,
+  "identifier": "smoke",
+  "properties": {},
+  "revision": 1,
+  "tenantId": "synthetic-a",
+  "title": null,
+  "updatedAt": 1790945036990
+}
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+{
+  "id": "jd7dktn7mkqdfyp2qhafcnwh398fhg08",
+  "replayed": false,
+  "revision": 1
+}
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+{
+  "_creationTime": 1790945038403.987,
+  "_id": "jd7dktn7mkqdfyp2qhafcnwh398fhg08",
+  "coreReferences": {},
+  "createdAt": 1790945038403,
+  "identifier": "smoke",
+  "properties": {},
+  "revision": 1,
+  "tenantId": "synthetic-a",
+  "title": null,
+  "updatedAt": 1790945038403
+}
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+{
+  "id": "jd7df7fdjf580ed1bb6qp9xb1h8fhgf7",
+  "replayed": false,
+  "revision": 1
+}
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+{
+  "_creationTime": 1790945039813.5889,
+  "_id": "jd7df7fdjf580ed1bb6qp9xb1h8fhgf7",
+  "coreReferences": {},
+  "createdAt": 1790945039813,
+  "identifier": "smoke",
+  "properties": {},
+  "revision": 1,
+  "tenantId": "synthetic-a",
+  "title": null,
+  "updatedAt": 1790945039813
+}
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+{
+  "id": "jd7c69ev3dvvjpqbmd0hr5yv2n8fh0y3",
+  "replayed": false,
+  "revision": 1
+}
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+{
+  "_creationTime": 1790945041204.9253,
+  "_id": "jd7c69ev3dvvjpqbmd0hr5yv2n8fh0y3",
+  "coreReferences": {},
+  "createdAt": 1790945041204,
+  "identifier": "smoke",
+  "properties": {},
+  "revision": 1,
+  "tenantId": "synthetic-a",
+  "title": null,
+  "updatedAt": 1790945041204
+}
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+{
+  "id": "jd7f12fneh1c1m7m3jh3b4ak1n8fhdad",
+  "replayed": false,
+  "revision": 1
+}
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+{
+  "_creationTime": 1790945042762.9875,
+  "_id": "jd7f12fneh1c1m7m3jh3b4ak1n8fhdad",
+  "coreReferences": {},
+  "createdAt": 1790945042762,
+  "identifier": "smoke",
+  "properties": {},
+  "revision": 1,
+  "tenantId": "synthetic-a",
+  "title": null,
+  "updatedAt": 1790945042762
+}
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+{
+  "id": "jd7c5f4jwt02ktgax2a5jxd06h8fhpqj",
+  "replayed": false,
+  "revision": 1
+}
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+{
+  "_creationTime": 1790945044670.914,
+  "_id": "jd7c5f4jwt02ktgax2a5jxd06h8fhpqj",
+  "coreReferences": {},
+  "createdAt": 1790945044670,
+  "identifier": "smoke",
+  "properties": {},
+  "revision": 1,
+  "tenantId": "synthetic-a",
+  "title": null,
+  "updatedAt": 1790945044670
+}
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+✖ Failed to run function "records:create":
+Error: [Request ID: a53c197768680370] Server Error
+ArgumentValidationError: Object contains extra field `roof_type` that is not in the validator.
+Path: .properties
+Object: {roof_type: "metal"}
+Validator: v.object({ceiling_height_ft: v.optional(v.float64()), color_count: v.optional(v.float64()), lead_hazard_present: v.optional(v.boolean()), masking_complexity: v.optional(v.union(v.literal("simple"), v.literal("moderate"), v.literal("complex"))), materials_spec: v.optional(v.string()), measurement_unit: v.optional(v.union(v.literal("sq_ft"), v.literal("linear_ft"), v.literal("units"), v.literal("squares"), v.literal("tons"), v.literal("cubic_yards"), v.literal("lf"))), measurement_value: v.optional(v.float64()), number_of_coats: v.optional(v.float64()), paint_finish: v.optional(v.union(v.literal("flat"), v.literal("eggshell"), v.literal("satin"), v.literal("semi_gloss"), v.literal("gloss"), v.literal("cabinet_enamel"))), paint_grade: v.optional(v.union(v.literal("economy"), v.literal("standard"), v.literal("premium"), v.literal("luxury"))), paint_surface_type: v.optional(v.union(v.literal("interior_walls"), v.literal("exterior_walls"), v.literal("trim"), v.literal("ceilings"), v.literal("cabinets"), v.literal("deck"), v.literal("fence"), v.literal("concrete_floor"), v.literal("garage_floor"), v.literal("other"))), permit_number: v.optional(v.string()), permit_required: v.optional(v.boolean()), prep_work: v.optional(v.union(v.literal("minimal"), v.literal("moderate"), v.literal("extensive"), v.literal("repair_needed"))), pressure_wash_required: v.optional(v.boolean()), primer_required: v.optional(v.boolean()), special_requirements: v.optional(v.string()), surface_condition: v.optional(v.union(v.literal("new"), v.literal("good"), v.literal("fair"), v.literal("poor"), v.literal("needs_repair"))), trade: v.optional(v.literal("painting"))})
+PASS: mixed-trade properties rejected by real backend
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.

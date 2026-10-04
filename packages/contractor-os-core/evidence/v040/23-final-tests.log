@@ -1,0 +1,2448 @@
+
+> @johnny/contractor-os-core@0.4.0 test
+> npm run build:core && node --test tests/*.test.mjs
+
+
+> @johnny/contractor-os-core@0.4.0 build:core
+> tsc -p tsconfig.core.json
+
+TAP version 13
+# Subtest: adapter double: imports entity, event, links and receipt
+ok 1 - adapter double: imports entity, event, links and receipt
+  ---
+  duration_ms: 3.101277
+  type: 'test'
+  ...
+# Subtest: adapter double: repeated request is idempotent
+ok 2 - adapter double: repeated request is idempotent
+  ---
+  duration_ms: 0.645682
+  type: 'test'
+  ...
+# Subtest: adapter double: idempotency key cannot be reused for changed content
+ok 3 - adapter double: idempotency key cannot be reused for changed content
+  ---
+  duration_ms: 0.909219
+  type: 'test'
+  ...
+# Subtest: adapter double: new request of unchanged records creates only receipt
+ok 4 - adapter double: new request of unchanged records creates only receipt
+  ---
+  duration_ms: 0.814836
+  type: 'test'
+  ...
+# Subtest: adapter double: same external id stays isolated between tenants
+ok 5 - adapter double: same external id stays isolated between tenants
+  ---
+  duration_ms: 0.778071
+  type: 'test'
+  ...
+# Subtest: adapter double: conflicts are detected before writes in the batch
+ok 6 - adapter double: conflicts are detected before writes in the batch
+  ---
+  duration_ms: 0.512371
+  type: 'test'
+  ...
+# Subtest: adapter double: missing target resolves after its later import
+ok 7 - adapter double: missing target resolves after its later import
+  ---
+  duration_ms: 0.820014
+  type: 'test'
+  ...
+# Subtest: adapter double: foreign tenant relation target remains invisible
+ok 8 - adapter double: foreign tenant relation target remains invisible
+  ---
+  duration_ms: 0.445901
+  type: 'test'
+  ...
+# Subtest: adapter double: history queries are tenant-scoped
+ok 9 - adapter double: history queries are tenant-scoped
+  ---
+  duration_ms: 0.783298
+  type: 'test'
+  ...
+# Subtest: adapter double: list filters blueprint and paginates
+ok 10 - adapter double: list filters blueprint and paginates
+  ---
+  duration_ms: 0.902599
+  type: 'test'
+  ...
+# Subtest: adapter double: rejects invalid page size
+ok 11 - adapter double: rejects invalid page size
+  ---
+  duration_ms: 0.366862
+  type: 'test'
+  ...
+# Subtest: adapter double: unsupported history cannot be imported as contractor data
+ok 12 - adapter double: unsupported history cannot be imported as contractor data
+  ---
+  duration_ms: 0.262726
+  type: 'test'
+  ...
+# Subtest: client double: unauthenticated requests never reach component
+ok 13 - client double: unauthenticated requests never reach component
+  ---
+  duration_ms: 0.418831
+  type: 'test'
+  ...
+# Subtest: client double: read-only member cannot invoke import
+ok 14 - client double: read-only member cannot invoke import
+  ---
+  duration_ms: 0.264839
+  type: 'test'
+  ...
+# Subtest: client double: extra browser arguments cannot override trusted scope
+ok 15 - client double: extra browser arguments cannot override trusted scope
+  ---
+  duration_ms: 0.216927
+  type: 'test'
+  ...
+# Subtest: client double: read wrapper ignores forged tenant fields
+ok 16 - client double: read wrapper ignores forged tenant fields
+  ---
+  duration_ms: 0.24572
+  type: 'test'
+  ...
+# Subtest: Convex adapter registers the unified command endpoint and fourteen named commands
+ok 17 - Convex adapter registers the unified command endpoint and fourteen named commands
+  ---
+  duration_ms: 0.852102
+  type: 'test'
+  ...
+# Subtest: Convex adapter creates records and immutable command evidence through actual adapter methods
+ok 18 - Convex adapter creates records and immutable command evidence through actual adapter methods
+  ---
+  duration_ms: 3.667269
+  type: 'test'
+  ...
+# Subtest: Convex adapter looks up request receipts in tenant scope
+ok 19 - Convex adapter looks up request receipts in tenant scope
+  ---
+  duration_ms: 1.099345
+  type: 'test'
+  ...
+# Subtest: Convex adapter refuses a foreign tenant source record
+ok 20 - Convex adapter refuses a foreign tenant source record
+  ---
+  duration_ms: 0.53758
+  type: 'test'
+  ...
+# Subtest: Convex adapter updates linked records and rejects a stale revision
+ok 21 - Convex adapter updates linked records and rejects a stale revision
+  ---
+  duration_ms: 2.436808
+  type: 'test'
+  ...
+# Subtest: read API is tenant scoped and rejects oversized pages
+ok 22 - read API is tenant scoped and rejects oversized pages
+  ---
+  duration_ms: 0.440713
+  type: 'test'
+  ...
+# Subtest: backend client strips browser tenant, actor, and attestor spoofing
+ok 23 - backend client strips browser tenant, actor, and attestor spoofing
+  ---
+  duration_ms: 0.422486
+  type: 'test'
+  ...
+# Subtest: backend client refuses unauthenticated users and read-only writers
+ok 24 - backend client refuses unauthenticated users and read-only writers
+  ---
+  duration_ms: 0.192791
+  type: 'test'
+  ...
+# Subtest: backend client only derives attestor permission from verified membership
+ok 25 - backend client only derives attestor permission from verified membership
+  ---
+  duration_ms: 0.305079
+  type: 'test'
+  ...
+# Subtest: all eleven exported business workflows execute in a synthetic end-to-end lifecycle
+ok 26 - all eleven exported business workflows execute in a synthetic end-to-end lifecycle
+  ---
+  duration_ms: 26.223887
+  type: 'test'
+  ...
+# Subtest: a second job cannot multiply the same contract budget
+ok 27 - a second job cannot multiply the same contract budget
+  ---
+  duration_ms: 11.826539
+  type: 'test'
+  ...
+# Subtest: invoice issuance rejects contract overbilling and preserves drafts
+ok 28 - invoice issuance rejects contract overbilling and preserves drafts
+  ---
+  duration_ms: 14.375115
+  type: 'test'
+  ...
+# Subtest: draft jobs and payments cannot bypass the specialized creation paths
+ok 29 - draft jobs and payments cannot bypass the specialized creation paths
+  ---
+  duration_ms: 0.573764
+  type: 'test'
+  ...
+# Subtest: subcontract assignment maintains both relation directions and requires both revisions
+ok 30 - subcontract assignment maintains both relation directions and requires both revisions
+  ---
+  duration_ms: 12.201644
+  type: 'test'
+  ...
+# Subtest: field reports require active job, valid crew size and non-future report date
+ok 31 - field reports require active job, valid crew size and non-future report date
+  ---
+  duration_ms: 10.612332
+  type: 'test'
+  ...
+# Subtest: change orders cannot adjust a closed job
+ok 32 - change orders cannot adjust a closed job
+  ---
+  duration_ms: 9.332366
+  type: 'test'
+  ...
+# Subtest: rules written in markdown are not executed as automations
+ok 33 - rules written in markdown are not executed as automations
+  ---
+  duration_ms: 0.463628
+  type: 'test'
+  ...
+# Subtest: maintenance cannot reparent an existing contact away from its client
+ok 34 - maintenance cannot reparent an existing contact away from its client
+  ---
+  duration_ms: 0.360563
+  type: 'test'
+  ...
+# Subtest: workflow rejects a legacy lead whose contact belongs to a different client
+ok 35 - workflow rejects a legacy lead whose contact belongs to a different client
+  ---
+  duration_ms: 0.789147
+  type: 'test'
+  ...
+# Subtest: payment must not turn an inconsistent historical job into overcollected state
+ok 36 - payment must not turn an inconsistent historical job into overcollected state
+  ---
+  duration_ms: 12.072609
+  type: 'test'
+  ...
+# Subtest: job closure cannot discard an unbilled contract balance
+ok 37 - job closure cannot discard an unbilled contract balance
+  ---
+  duration_ms: 8.489367
+  type: 'test'
+  ...
+# Subtest: executable backend exports real command engine and money policy
+ok 38 - executable backend exports real command engine and money policy
+  ---
+  duration_ms: 0.88372
+  type: 'test'
+  ...
+# Subtest: monetary policy rejects fractions of cents and unsafe values
+ok 39 - monetary policy rejects fractions of cents and unsafe values
+  ---
+  duration_ms: 0.268434
+  type: 'test'
+  ...
+# Subtest: createLead validates client and contact lineage and saves an event
+ok 40 - createLead validates client and contact lineage and saves an event
+  ---
+  duration_ms: 2.393803
+  type: 'test'
+  ...
+# Subtest: source workflow does not allow new lead to pretend it was won
+ok 41 - source workflow does not allow new lead to pretend it was won
+  ---
+  duration_ms: 0.599632
+  type: 'test'
+  ...
+# Subtest: scheduled visit and lead advancement are one transaction
+ok 42 - scheduled visit and lead advancement are one transaction
+  ---
+  duration_ms: 1.964126
+  type: 'test'
+  ...
+# Subtest: every changed existing record needs an explicit revision precondition
+ok 43 - every changed existing record needs an explicit revision precondition
+  ---
+  duration_ms: 0.378349
+  type: 'test'
+  ...
+# Subtest: replay returns original result; changed input under same key is refused
+ok 44 - replay returns original result; changed input under same key is refused
+  ---
+  duration_ms: 0.59785
+  type: 'test'
+  ...
+# Subtest: cross-tenant and cross-client links are rejected
+ok 45 - cross-tenant and cross-client links are rejected
+  ---
+  duration_ms: 0.85741
+  type: 'test'
+  ...
+# Subtest: payment records payment + invoice balance + job collection atomically
+ok 46 - payment records payment + invoice balance + job collection atomically
+  ---
+  duration_ms: 1.957216
+  type: 'test'
+  ...
+# Subtest: overpayment, non-attestor and duplicate payment evidence refused
+ok 47 - overpayment, non-attestor and duplicate payment evidence refused
+  ---
+  duration_ms: 2.599202
+  type: 'test'
+  ...
+# Subtest: a storage failure rolls back payment and all associated materializations
+ok 48 - a storage failure rolls back payment and all associated materializations
+  ---
+  duration_ms: 1.829353
+  type: 'test'
+  ...
+# Subtest: job creation refuses an unsigned contract
+ok 49 - job creation refuses an unsigned contract
+  ---
+  duration_ms: 0.460263
+  type: 'test'
+  ...
+# Subtest: generic maintenance cannot forge an outcome or edit financial totals
+ok 50 - generic maintenance cannot forge an outcome or edit financial totals
+  ---
+  duration_ms: 0.298158
+  type: 'test'
+  ...
+# Subtest: v040 formula 0: co_change_order.total_change
+ok 51 - v040 formula 0: co_change_order.total_change
+  ---
+  duration_ms: 7.871412
+  type: 'test'
+  ...
+# Subtest: v040 formula 1: co_change_order.total_change
+ok 52 - v040 formula 1: co_change_order.total_change
+  ---
+  duration_ms: 3.344874
+  type: 'test'
+  ...
+# Subtest: v040 formula 2: co_scope.total_estimated_cost
+ok 53 - v040 formula 2: co_scope.total_estimated_cost
+  ---
+  duration_ms: 2.841437
+  type: 'test'
+  ...
+# Subtest: v040 formula 3: co_contract.contract_duration_days
+ok 54 - v040 formula 3: co_contract.contract_duration_days
+  ---
+  duration_ms: 3.427368
+  type: 'test'
+  ...
+# Subtest: v040 formula 4: co_contract.contract_duration_days
+ok 55 - v040 formula 4: co_contract.contract_duration_days
+  ---
+  duration_ms: 2.790565
+  type: 'test'
+  ...
+# Subtest: v040 formula 5: co_contract.retainage_amount
+ok 56 - v040 formula 5: co_contract.retainage_amount
+  ---
+  duration_ms: 3.164583
+  type: 'test'
+  ...
+# Subtest: v040 formula 6: co_job.billing_variance
+ok 57 - v040 formula 6: co_job.billing_variance
+  ---
+  duration_ms: 2.766544
+  type: 'test'
+  ...
+# Subtest: v040 formula 7: co_job.outstanding_balance
+ok 58 - v040 formula 7: co_job.outstanding_balance
+  ---
+  duration_ms: 2.675537
+  type: 'test'
+  ...
+# Subtest: v040 formula 8: co_trade_spec.estimated_gallons
+ok 59 - v040 formula 8: co_trade_spec.estimated_gallons
+  ---
+  duration_ms: 2.901547
+  type: 'test'
+  ...
+# Subtest: v040 formula 9: co_trade_spec.estimated_gallons
+ok 60 - v040 formula 9: co_trade_spec.estimated_gallons
+  ---
+  duration_ms: 3.644094
+  type: 'test'
+  ...
+# Subtest: v040 formula 10: co_trade_spec.estimated_gallons
+ok 61 - v040 formula 10: co_trade_spec.estimated_gallons
+  ---
+  duration_ms: 5.452276
+  type: 'test'
+  ...
+# Subtest: v040 formula 11: co_trade_spec.estimated_gallons
+ok 62 - v040 formula 11: co_trade_spec.estimated_gallons
+  ---
+  duration_ms: 3.677735
+  type: 'test'
+  ...
+# Subtest: v040 formula 12: co_trade_spec.estimated_squares
+ok 63 - v040 formula 12: co_trade_spec.estimated_squares
+  ---
+  duration_ms: 3.34865
+  type: 'test'
+  ...
+# Subtest: v040 formula 13: co_trade_spec.estimated_squares
+ok 64 - v040 formula 13: co_trade_spec.estimated_squares
+  ---
+  duration_ms: 3.366186
+  type: 'test'
+  ...
+# Subtest: v040 formula 14: co_pricing_rule.effective_rate
+ok 65 - v040 formula 14: co_pricing_rule.effective_rate
+  ---
+  duration_ms: 5.883805
+  type: 'test'
+  ...
+# Subtest: v040 formula 15: co_pricing_rule.material_multiplier
+ok 66 - v040 formula 15: co_pricing_rule.material_multiplier
+  ---
+  duration_ms: 6.967086
+  type: 'test'
+  ...
+# Subtest: v040 formula 16: co_contact.full_name
+ok 67 - v040 formula 16: co_contact.full_name
+  ---
+  duration_ms: 3.64141
+  type: 'test'
+  ...
+# Subtest: v040 formula 17: co_contact.full_name
+ok 68 - v040 formula 17: co_contact.full_name
+  ---
+  duration_ms: 3.212465
+  type: 'test'
+  ...
+# Subtest: v040 formula 18: co_contact.full_name
+ok 69 - v040 formula 18: co_contact.full_name
+  ---
+  duration_ms: 4.19271
+  type: 'test'
+  ...
+# Subtest: v040 formula 19: co_subcontractor.compliance_status
+ok 70 - v040 formula 19: co_subcontractor.compliance_status
+  ---
+  duration_ms: 8.923379
+  type: 'test'
+  ...
+# Subtest: v040 formula 20: co_subcontractor.compliance_status
+ok 71 - v040 formula 20: co_subcontractor.compliance_status
+  ---
+  duration_ms: 4.33842
+  type: 'test'
+  ...
+# Subtest: v040 formula 21: co_subcontractor.compliance_status
+ok 72 - v040 formula 21: co_subcontractor.compliance_status
+  ---
+  duration_ms: 5.142058
+  type: 'test'
+  ...
+# Subtest: v040 formula 22: co_subcontractor.compliance_status
+ok 73 - v040 formula 22: co_subcontractor.compliance_status
+  ---
+  duration_ms: 6.350607
+  type: 'test'
+  ...
+# Subtest: v040 formula 23: co_subcontractor.compliance_status
+ok 74 - v040 formula 23: co_subcontractor.compliance_status
+  ---
+  duration_ms: 4.475095
+  type: 'test'
+  ...
+# Subtest: v040 formula 24: co_subcontractor.insurance_days_remaining
+ok 75 - v040 formula 24: co_subcontractor.insurance_days_remaining
+  ---
+  duration_ms: 5.167847
+  type: 'test'
+  ...
+# Subtest: v040 formula 25: co_subcontractor.license_days_remaining
+ok 76 - v040 formula 25: co_subcontractor.license_days_remaining
+  ---
+  duration_ms: 5.12982
+  type: 'test'
+  ...
+# Subtest: v040 formula 26: co_subcontractor.license_days_remaining
+ok 77 - v040 formula 26: co_subcontractor.license_days_remaining
+  ---
+  duration_ms: 7.751516
+  type: 'test'
+  ...
+# Subtest: v040 formula 27: co_invoice.balance_due
+ok 78 - v040 formula 27: co_invoice.balance_due
+  ---
+  duration_ms: 4.221062
+  type: 'test'
+  ...
+# Subtest: v040 formula 28: co_invoice.balance_due
+ok 79 - v040 formula 28: co_invoice.balance_due
+  ---
+  duration_ms: 9.683163
+  type: 'test'
+  ...
+# Subtest: v040 formula 29: co_bid.days_until_deadline
+ok 80 - v040 formula 29: co_bid.days_until_deadline
+  ---
+  duration_ms: 4.340392
+  type: 'test'
+  ...
+# Subtest: v040 formula 30: co_bid.days_until_deadline
+ok 81 - v040 formula 30: co_bid.days_until_deadline
+  ---
+  duration_ms: 7.98669
+  type: 'test'
+  ...
+# Subtest: v040 formulas report a JQ date-format conflict rather than silently normalizing an offset
+ok 82 - v040 formulas report a JQ date-format conflict rather than silently normalizing an offset
+  ---
+  duration_ms: 0.176175
+  type: 'test'
+  ...
+# Subtest: v040 formulas fail closed on a missing non-defaulted amount
+ok 83 - v040 formulas fail closed on a missing non-defaulted amount
+  ---
+  duration_ms: 0.171959
+  type: 'test'
+  ...
+# Subtest: v040 formulas do not execute unknown expression names
+ok 84 - v040 formulas do not execute unknown expression names
+  ---
+  duration_ms: 0.061122
+  type: 'test'
+  ...
+# Subtest: v040 formula time requires a finite, valid epoch
+ok 85 - v040 formula time requires a finite, valid epoch
+  ---
+  duration_ms: 0.362906
+  type: 'test'
+  ...
+# Subtest: preserves source values and metadata
+ok 86 - preserves source values and metadata
+  ---
+  duration_ms: 2.010706
+  type: 'test'
+  ...
+# Subtest: retains explicit nulls and array order
+ok 87 - retains explicit nulls and array order
+  ---
+  duration_ms: 0.244638
+  type: 'test'
+  ...
+# Subtest: canonical equality ignores object key order but not array order
+ok 88 - canonical equality ignores object key order but not array order
+  ---
+  duration_ms: 1.150261
+  type: 'test'
+  ...
+# Subtest: catalog includes all twenty newly documented contractor entity names
+ok 89 - catalog includes all twenty newly documented contractor entity names
+  ---
+  duration_ms: 0.140782
+  type: 'test'
+  ...
+# Subtest: rejects platform/agent history in business importer
+ok 90 - rejects platform/agent history in business importer
+  ---
+  duration_ms: 0.334583
+  type: 'test'
+  ...
+# Subtest: rejects a blueprint absent from both source inputs
+ok 91 - rejects a blueprint absent from both source inputs
+  ---
+  duration_ms: 0.111077
+  type: 'test'
+  ...
+# Subtest: rejects malformed records and properties
+ok 92 - rejects malformed records and properties
+  ---
+  duration_ms: 0.227071
+  type: 'test'
+  ...
+# Subtest: does not infer an enum from one sample record
+ok 93 - does not infer an enum from one sample record
+  ---
+  duration_ms: 0.130055
+  type: 'test'
+  ...
+# Subtest: rejects malformed relations
+ok 94 - rejects malformed relations
+  ---
+  duration_ms: 0.369025
+  type: 'test'
+  ...
+# Subtest: rejects nonfinite, unsafe-integer and non-JSON values
+ok 95 - rejects nonfinite, unsafe-integer and non-JSON values
+  ---
+  duration_ms: 0.484359
+  type: 'test'
+  ...
+# Subtest: rejects excessive nesting
+ok 96 - rejects excessive nesting
+  ---
+  duration_ms: 0.21881
+  type: 'test'
+  ...
+# Subtest: does not execute source strings
+ok 97 - does not execute source strings
+  ---
+  duration_ms: 0.11917
+  type: 'test'
+  ...
+# Subtest: prototype-named source keys stay inert JSON keys
+ok 98 - prototype-named source keys stay inert JSON keys
+  ---
+  duration_ms: 0.107832
+  type: 'test'
+  ...
+# Subtest: deduplicates identical rows within a batch
+ok 99 - deduplicates identical rows within a batch
+  ---
+  duration_ms: 0.255584
+  type: 'test'
+  ...
+# Subtest: rejects conflicting rows within a batch
+ok 100 - rejects conflicting rows within a batch
+  ---
+  duration_ms: 0.316807
+  type: 'test'
+  ...
+# Subtest: accepts empty arrays without inventing records
+ok 101 - accepts empty arrays without inventing records
+  ---
+  duration_ms: 0.075284
+  type: 'test'
+  ...
+# Subtest: bounds import batch count and byte length
+ok 102 - bounds import batch count and byte length
+  ---
+  duration_ms: 0.429626
+  type: 'test'
+  ...
+# Subtest: bounds individual records
+ok 103 - bounds individual records
+  ---
+  duration_ms: 3.387192
+  type: 'test'
+  ...
+# Subtest: idempotent planning does not duplicate existing snapshots
+ok 104 - idempotent planning does not duplicate existing snapshots
+  ---
+  duration_ms: 0.194292
+  type: 'test'
+  ...
+# Subtest: changed existing identity conflicts instead of last-write-wins
+ok 105 - changed existing identity conflicts instead of last-write-wins
+  ---
+  duration_ms: 0.131307
+  type: 'test'
+  ...
+# Subtest: identity is blueprint-scoped, with tenant supplied separately by repository
+ok 106 - identity is blueprint-scoped, with tenant supplied separately by repository
+  ---
+  duration_ms: 0.097476
+  type: 'test'
+  ...
+# Subtest: extracts nullable, single and multiple relation shapes
+ok 107 - extracts nullable, single and multiple relation shapes
+  ---
+  duration_ms: 0.245279
+  type: 'test'
+  ...
+# Subtest: missing relation targets are reported without manufacturing entities
+ok 108 - missing relation targets are reported without manufacturing entities
+  ---
+  duration_ms: 0.156195
+  type: 'test'
+  ...
+# Subtest: relation resolution cannot see another tenant
+ok 109 - relation resolution cannot see another tenant
+  ---
+  duration_ms: 0.085398
+  type: 'test'
+  ...
+# Subtest: ambiguous untyped relation does not choose a target arbitrarily
+ok 110 - ambiguous untyped relation does not choose a target arbitrarily
+  ---
+  duration_ms: 0.072639
+  type: 'test'
+  ...
+# Subtest: typed relation resolves only the specified blueprint
+ok 111 - typed relation resolves only the specified blueprint
+  ---
+  duration_ms: 0.070336
+  type: 'test'
+  ...
+# Subtest: eleven workflow input contracts are retained
+ok 112 - eleven workflow input contracts are retained
+  ---
+  duration_ms: 0.050046
+  type: 'test'
+  ...
+# Subtest: lead workflow applies its actual source defaults
+ok 113 - lead workflow applies its actual source defaults
+  ---
+  duration_ms: 0.193782
+  type: 'test'
+  ...
+# Subtest: workflow required fields and enums remain enforced as input contracts
+ok 114 - workflow required fields and enums remain enforced as input contracts
+  ---
+  duration_ms: 0.133722
+  type: 'test'
+  ...
+# Subtest: unknown workflow and unexpected fields fail closed
+ok 115 - unknown workflow and unexpected fields fail closed
+  ---
+  duration_ms: 0.105378
+  type: 'test'
+  ...
+# Subtest: workflow input types do not confuse numbers, booleans, null or strings
+ok 116 - workflow input types do not confuse numbers, booleans, null or strings
+  ---
+  duration_ms: 0.224899
+  type: 'test'
+  ...
+# Subtest: workflow date-time input checks reject malformed values
+ok 117 - workflow date-time input checks reject malformed values
+  ---
+  duration_ms: 0.318119
+  type: 'test'
+  ...
+# Subtest: authorization requires verified identity and membership
+ok 118 - authorization requires verified identity and membership
+  ---
+  duration_ms: 0.15945
+  type: 'test'
+  ...
+# Subtest: authorization does not grant import to read-only members
+ok 119 - authorization does not grant import to read-only members
+  ---
+  duration_ms: 0.082103
+  type: 'test'
+  ...
+# Subtest: scope derives actor from identity, not membership or client fields
+ok 120 - scope derives actor from identity, not membership or client fields
+  ---
+  duration_ms: 0.075263
+  type: 'test'
+  ...
+# Subtest: scope rejects empty or control-character tenant ids
+ok 121 - scope rejects empty or control-character tenant ids
+  ---
+  duration_ms: 0.095333
+  type: 'test'
+  ...
+# Subtest: domain adapter double: co_client has create/get/list/update
+ok 122 - domain adapter double: co_client has create/get/list/update
+  ---
+  duration_ms: 0.925302
+  type: 'test'
+  ...
+# Subtest: domain adapter double: co_contact has create/get/list/update
+ok 123 - domain adapter double: co_contact has create/get/list/update
+  ---
+  duration_ms: 0.147632
+  type: 'test'
+  ...
+# Subtest: domain adapter double: co_lead has create/get/list/update
+ok 124 - domain adapter double: co_lead has create/get/list/update
+  ---
+  duration_ms: 0.241764
+  type: 'test'
+  ...
+# Subtest: domain adapter double: co_site_visit has create/get/list/update
+ok 125 - domain adapter double: co_site_visit has create/get/list/update
+  ---
+  duration_ms: 0.076445
+  type: 'test'
+  ...
+# Subtest: domain adapter double: co_scope has create/get/list/update
+ok 126 - domain adapter double: co_scope has create/get/list/update
+  ---
+  duration_ms: 0.173411
+  type: 'test'
+  ...
+# Subtest: domain adapter double: co_trade_spec has create/get/list/update
+ok 127 - domain adapter double: co_trade_spec has create/get/list/update
+  ---
+  duration_ms: 0.05968
+  type: 'test'
+  ...
+# Subtest: domain adapter double: co_pricing_rule has create/get/list/update
+ok 128 - domain adapter double: co_pricing_rule has create/get/list/update
+  ---
+  duration_ms: 0.111838
+  type: 'test'
+  ...
+# Subtest: domain adapter double: co_proposal has create/get/list/update
+ok 129 - domain adapter double: co_proposal has create/get/list/update
+  ---
+  duration_ms: 0.051698
+  type: 'test'
+  ...
+# Subtest: domain adapter double: co_bid has create/get/list/update
+ok 130 - domain adapter double: co_bid has create/get/list/update
+  ---
+  duration_ms: 0.198538
+  type: 'test'
+  ...
+# Subtest: domain adapter double: co_contract has create/get/list/update
+ok 131 - domain adapter double: co_contract has create/get/list/update
+  ---
+  duration_ms: 0.2927
+  type: 'test'
+  ...
+# Subtest: domain adapter double: co_job has create/get/list/update
+ok 132 - domain adapter double: co_job has create/get/list/update
+  ---
+  duration_ms: 0.10669
+  type: 'test'
+  ...
+# Subtest: domain adapter double: co_subcontractor has create/get/list/update
+ok 133 - domain adapter double: co_subcontractor has create/get/list/update
+  ---
+  duration_ms: 0.049364
+  type: 'test'
+  ...
+# Subtest: domain adapter double: co_change_order has create/get/list/update
+ok 134 - domain adapter double: co_change_order has create/get/list/update
+  ---
+  duration_ms: 0.036315
+  type: 'test'
+  ...
+# Subtest: domain adapter double: co_invoice has create/get/list/update
+ok 135 - domain adapter double: co_invoice has create/get/list/update
+  ---
+  duration_ms: 0.0328
+  type: 'test'
+  ...
+# Subtest: domain adapter double: co_payment has create/get/list/update
+ok 136 - domain adapter double: co_payment has create/get/list/update
+  ---
+  duration_ms: 0.029435
+  type: 'test'
+  ...
+# Subtest: domain adapter double: co_daily_report has create/get/list/update
+ok 137 - domain adapter double: co_daily_report has create/get/list/update
+  ---
+  duration_ms: 0.037706
+  type: 'test'
+  ...
+# Subtest: domain adapter double: co_campaign has create/get/list/update
+ok 138 - domain adapter double: co_campaign has create/get/list/update
+  ---
+  duration_ms: 0.029975
+  type: 'test'
+  ...
+# Subtest: domain adapter double: co_outreach has create/get/list/update
+ok 139 - domain adapter double: co_outreach has create/get/list/update
+  ---
+  duration_ms: 0.031588
+  type: 'test'
+  ...
+# Subtest: domain adapter double: co_automation_rule has create/get/list/update
+ok 140 - domain adapter double: co_automation_rule has create/get/list/update
+  ---
+  duration_ms: 0.028613
+  type: 'test'
+  ...
+# Subtest: domain adapter double: co_document has create/get/list/update
+ok 141 - domain adapter double: co_document has create/get/list/update
+  ---
+  duration_ms: 0.028844
+  type: 'test'
+  ...
+# Subtest: domain adapter double: event appended before materialized row
+ok 142 - domain adapter double: event appended before materialized row
+  ---
+  duration_ms: 1.511195
+  type: 'test'
+  ...
+# Subtest: domain adapter double: retry returns original receipt without duplicate event
+ok 143 - domain adapter double: retry returns original receipt without duplicate event
+  ---
+  duration_ms: 0.351018
+  type: 'test'
+  ...
+# Subtest: domain adapter double: changed input with reused request key rejected
+ok 144 - domain adapter double: changed input with reused request key rejected
+  ---
+  duration_ms: 0.712603
+  type: 'test'
+  ...
+# Subtest: domain adapter double: duplicate identity rejected under new key
+ok 145 - domain adapter double: duplicate identity rejected under new key
+  ---
+  duration_ms: 0.377688
+  type: 'test'
+  ...
+# Subtest: domain adapter double: same external identifier is tenant isolated
+ok 146 - domain adapter double: same external identifier is tenant isolated
+  ---
+  duration_ms: 0.56485
+  type: 'test'
+  ...
+# Subtest: domain adapter double: updates require matching revision
+ok 147 - domain adapter double: updates require matching revision
+  ---
+  duration_ms: 0.467344
+  type: 'test'
+  ...
+# Subtest: domain adapter double: update patches and unsets fields
+ok 148 - domain adapter double: update patches and unsets fields
+  ---
+  duration_ms: 1.163421
+  type: 'test'
+  ...
+# Subtest: domain adapter double: update replay does not fail on now-stale expected revision
+ok 149 - domain adapter double: update replay does not fail on now-stale expected revision
+  ---
+  duration_ms: 0.343777
+  type: 'test'
+  ...
+# Subtest: domain adapter double: missing target rejected before writes
+ok 150 - domain adapter double: missing target rejected before writes
+  ---
+  duration_ms: 0.322876
+  type: 'test'
+  ...
+# Subtest: domain adapter double: foreign tenant target rejected before writes
+ok 151 - domain adapter double: foreign tenant target rejected before writes
+  ---
+  duration_ms: 0.366322
+  type: 'test'
+  ...
+# Subtest: domain adapter double: target table enforced even with same tenant
+ok 152 - domain adapter double: target table enforced even with same tenant
+  ---
+  duration_ms: 0.49203
+  type: 'test'
+  ...
+# Subtest: domain adapter double: valid target linked and list tenant-filtered
+ok 153 - domain adapter double: valid target linked and list tenant-filtered
+  ---
+  duration_ms: 0.593283
+  type: 'test'
+  ...
+# Subtest: domain adapter double: query page sizes are bounded
+ok 154 - domain adapter double: query page sizes are bounded
+  ---
+  duration_ms: 0.15954
+  type: 'test'
+  ...
+# Subtest: domain adapter double: invalid fields never create event
+ok 155 - domain adapter double: invalid fields never create event
+  ---
+  duration_ms: 0.241003
+  type: 'test'
+  ...
+# Subtest: typed client double: viewer cannot write records
+ok 156 - typed client double: viewer cannot write records
+  ---
+  duration_ms: 0.359431
+  type: 'test'
+  ...
+# Subtest: typed client double: unauthenticated caller cannot read
+ok 157 - typed client double: unauthenticated caller cannot read
+  ---
+  duration_ms: 0.196035
+  type: 'test'
+  ...
+# Subtest: typed client double: spoofed browser tenant and actor never reach component
+ok 158 - typed client double: spoofed browser tenant and actor never reach component
+  ---
+  duration_ms: 0.161323
+  type: 'test'
+  ...
+# Subtest: typed client double: import permission does not imply domain write permission
+ok 159 - typed client double: import permission does not imply domain write permission
+  ---
+  duration_ms: 0.125308
+  type: 'test'
+  ...
+# Subtest: domain: twenty contractor types are supported, not the summary total of eighteen
+ok 160 - domain: twenty contractor types are supported, not the summary total of eighteen
+  ---
+  duration_ms: 2.235835
+  type: 'test'
+  ...
+# Subtest: domain: contact properties and enums validate
+ok 161 - domain: contact properties and enums validate
+  ---
+  duration_ms: 1.532376
+  type: 'test'
+  ...
+# Subtest: domain: unknown fields are rejected instead of silently dropped
+ok 162 - domain: unknown fields are rejected instead of silently dropped
+  ---
+  duration_ms: 1.199996
+  type: 'test'
+  ...
+# Subtest: domain: supplied status enum is enforced
+ok 163 - domain: supplied status enum is enforced
+  ---
+  duration_ms: 0.156255
+  type: 'test'
+  ...
+# Subtest: domain: summary does not invent required business fields
+ok 164 - domain: summary does not invent required business fields
+  ---
+  duration_ms: 0.105999
+  type: 'test'
+  ...
+# Subtest: domain: null values are rejected by write API, not silently made optional
+ok 165 - domain: null values are rejected by write API, not silently made optional
+  ---
+  duration_ms: 0.20596
+  type: 'test'
+  ...
+# Subtest: domain: valid leap datetime accepted; impossible date rejected
+ok 166 - domain: valid leap datetime accepted; impossible date rejected
+  ---
+  duration_ms: 0.432631
+  type: 'test'
+  ...
+# Subtest: domain: email and HTTP URL constraints applied
+ok 167 - domain: email and HTTP URL constraints applied
+  ---
+  duration_ms: 0.272611
+  type: 'test'
+  ...
+# Subtest: domain: numeric fields reject non-finite and unsafe precision
+ok 168 - domain: numeric fields reject non-finite and unsafe precision
+  ---
+  duration_ms: 0.370157
+  type: 'test'
+  ...
+# Subtest: domain: negative change orders are not silently disallowed
+ok 169 - domain: negative change orders are not silently disallowed
+  ---
+  duration_ms: 0.461745
+  type: 'test'
+  ...
+# Subtest: domain: unspecified array items remain JSON, not guessed string-only
+ok 170 - domain: unspecified array items remain JSON, not guessed string-only
+  ---
+  duration_ms: 0.21283
+  type: 'test'
+  ...
+# Subtest: domain: supplied painting field is now typed
+ok 171 - domain: supplied painting field is now typed
+  ---
+  duration_ms: 0.100982
+  type: 'test'
+  ...
+# Subtest: domain: pricing trade enum inherits the explicit nine-trade reference
+ok 172 - domain: pricing trade enum inherits the explicit nine-trade reference
+  ---
+  duration_ms: 0.130937
+  type: 'test'
+  ...
+# Subtest: domain: newly supplied single relation cardinality is enforced
+ok 173 - domain: newly supplied single relation cardinality is enforced
+  ---
+  duration_ms: 0.267583
+  type: 'test'
+  ...
+# Subtest: domain: explicitly many relations require arrays
+ok 174 - domain: explicitly many relations require arrays
+  ---
+  duration_ms: 0.953885
+  type: 'test'
+  ...
+# Subtest: domain: duplicate target IDs are rejected
+ok 175 - domain: duplicate target IDs are rejected
+  ---
+  duration_ms: 0.140761
+  type: 'test'
+  ...
+# Subtest: domain: unknown relation names are rejected
+ok 176 - domain: unknown relation names are rejected
+  ---
+  duration_ms: 0.097306
+  type: 'test'
+  ...
+# Subtest: domain: patch and explicit unset preserve other fields
+ok 177 - domain: patch and explicit unset preserve other fields
+  ---
+  duration_ms: 0.165869
+  type: 'test'
+  ...
+# Subtest: domain: ambiguous set-and-unset is rejected
+ok 178 - domain: ambiguous set-and-unset is rejected
+  ---
+  duration_ms: 0.11291
+  type: 'test'
+  ...
+# Subtest: domain: full_name and newly supplied pricing formula execute
+ok 179 - domain: full_name and newly supplied pricing formula execute
+  ---
+  duration_ms: 0.400563
+  type: 'test'
+  ...
+# Subtest: domain: original import retains null/derived/unresolved data outside typed properties
+ok 180 - domain: original import retains null/derived/unresolved data outside typed properties
+  ---
+  duration_ms: 0.349186
+  type: 'test'
+  ...
+# Subtest: domain: invalid known import values cause rejection
+ok 181 - domain: invalid known import values cause rejection
+  ---
+  duration_ms: 0.145128
+  type: 'test'
+  ...
+# Subtest: domain: deferred prototype-named source fields are preserved without pollution
+ok 182 - domain: deferred prototype-named source fields are preserved without pollution
+  ---
+  duration_ms: 0.118178
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_client.client_type
+ok 183 - domain: every supplied enum member accepted at co_client.client_type
+  ---
+  duration_ms: 0.255024
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_client.status
+ok 184 - domain: every supplied enum member accepted at co_client.status
+  ---
+  duration_ms: 0.102675
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_client.source
+ok 185 - domain: every supplied enum member accepted at co_client.source
+  ---
+  duration_ms: 0.143746
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_contact.role
+ok 186 - domain: every supplied enum member accepted at co_contact.role
+  ---
+  duration_ms: 0.096786
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_lead.stage
+ok 187 - domain: every supplied enum member accepted at co_lead.stage
+  ---
+  duration_ms: 0.388375
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_lead.priority
+ok 188 - domain: every supplied enum member accepted at co_lead.priority
+  ---
+  duration_ms: 0.154132
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_lead.contract_type
+ok 189 - domain: every supplied enum member accepted at co_lead.contract_type
+  ---
+  duration_ms: 0.091568
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_lead.source
+ok 190 - domain: every supplied enum member accepted at co_lead.source
+  ---
+  duration_ms: 0.121713
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_lead.lost_reason
+ok 191 - domain: every supplied enum member accepted at co_lead.lost_reason
+  ---
+  duration_ms: 0.094312
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_site_visit.status
+ok 192 - domain: every supplied enum member accepted at co_site_visit.status
+  ---
+  duration_ms: 0.080201
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_scope.trade_type
+ok 193 - domain: every supplied enum member accepted at co_scope.trade_type
+  ---
+  duration_ms: 4.132249
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_scope.status
+ok 194 - domain: every supplied enum member accepted at co_scope.status
+  ---
+  duration_ms: 0.107241
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_scope.measurement_unit
+ok 195 - domain: every supplied enum member accepted at co_scope.measurement_unit
+  ---
+  duration_ms: 0.167982
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_trade_spec.trade
+ok 196 - domain: every supplied enum member accepted at co_trade_spec.trade
+  ---
+  duration_ms: 0.118258
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_trade_spec.measurement_unit
+ok 197 - domain: every supplied enum member accepted at co_trade_spec.measurement_unit
+  ---
+  duration_ms: 0.114913
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_trade_spec.surface_condition
+ok 198 - domain: every supplied enum member accepted at co_trade_spec.surface_condition
+  ---
+  duration_ms: 0.085108
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_trade_spec.paint_surface_type
+ok 199 - domain: every supplied enum member accepted at co_trade_spec.paint_surface_type
+  ---
+  duration_ms: 0.115444
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_trade_spec.paint_finish
+ok 200 - domain: every supplied enum member accepted at co_trade_spec.paint_finish
+  ---
+  duration_ms: 0.081613
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_trade_spec.paint_grade
+ok 201 - domain: every supplied enum member accepted at co_trade_spec.paint_grade
+  ---
+  duration_ms: 0.0735
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_trade_spec.prep_work
+ok 202 - domain: every supplied enum member accepted at co_trade_spec.prep_work
+  ---
+  duration_ms: 0.070746
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_trade_spec.masking_complexity
+ok 203 - domain: every supplied enum member accepted at co_trade_spec.masking_complexity
+  ---
+  duration_ms: 0.079349
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_trade_spec.roof_type
+ok 204 - domain: every supplied enum member accepted at co_trade_spec.roof_type
+  ---
+  duration_ms: 0.081022
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_trade_spec.roof_pitch
+ok 205 - domain: every supplied enum member accepted at co_trade_spec.roof_pitch
+  ---
+  duration_ms: 0.184597
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_trade_spec.hvac_system_type
+ok 206 - domain: every supplied enum member accepted at co_trade_spec.hvac_system_type
+  ---
+  duration_ms: 0.084848
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_trade_spec.electrical_service_type
+ok 207 - domain: every supplied enum member accepted at co_trade_spec.electrical_service_type
+  ---
+  duration_ms: 0.069495
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_trade_spec.pipe_material
+ok 208 - domain: every supplied enum member accepted at co_trade_spec.pipe_material
+  ---
+  duration_ms: 0.084297
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_trade_spec.concrete_type
+ok 209 - domain: every supplied enum member accepted at co_trade_spec.concrete_type
+  ---
+  duration_ms: 0.077517
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_trade_spec.concrete_finish
+ok 210 - domain: every supplied enum member accepted at co_trade_spec.concrete_finish
+  ---
+  duration_ms: 0.07275
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_trade_spec.reinforcement
+ok 211 - domain: every supplied enum member accepted at co_trade_spec.reinforcement
+  ---
+  duration_ms: 0.069585
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_trade_spec.drywall_type
+ok 212 - domain: every supplied enum member accepted at co_trade_spec.drywall_type
+  ---
+  duration_ms: 0.068403
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_trade_spec.framing_type
+ok 213 - domain: every supplied enum member accepted at co_trade_spec.framing_type
+  ---
+  duration_ms: 0.071128
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_trade_spec.finishing_level
+ok 214 - domain: every supplied enum member accepted at co_trade_spec.finishing_level
+  ---
+  duration_ms: 0.207983
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_trade_spec.door_type
+ok 215 - domain: every supplied enum member accepted at co_trade_spec.door_type
+  ---
+  duration_ms: 1.983305
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_trade_spec.door_material
+ok 216 - domain: every supplied enum member accepted at co_trade_spec.door_material
+  ---
+  duration_ms: 0.094382
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_trade_spec.spring_type
+ok 217 - domain: every supplied enum member accepted at co_trade_spec.spring_type
+  ---
+  duration_ms: 0.069124
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_trade_spec.landscape_service_type
+ok 218 - domain: every supplied enum member accepted at co_trade_spec.landscape_service_type
+  ---
+  duration_ms: 0.076475
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_trade_spec.sod_or_seed
+ok 219 - domain: every supplied enum member accepted at co_trade_spec.sod_or_seed
+  ---
+  duration_ms: 11.048292
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_pricing_rule.trade
+ok 220 - domain: every supplied enum member accepted at co_pricing_rule.trade
+  ---
+  duration_ms: 0.286761
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_pricing_rule.pricing_type
+ok 221 - domain: every supplied enum member accepted at co_pricing_rule.pricing_type
+  ---
+  duration_ms: 0.209325
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_proposal.status
+ok 222 - domain: every supplied enum member accepted at co_proposal.status
+  ---
+  duration_ms: 0.151808
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_bid.status
+ok 223 - domain: every supplied enum member accepted at co_bid.status
+  ---
+  duration_ms: 0.135634
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_bid.bid_type
+ok 224 - domain: every supplied enum member accepted at co_bid.bid_type
+  ---
+  duration_ms: 0.115654
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_contract.status
+ok 225 - domain: every supplied enum member accepted at co_contract.status
+  ---
+  duration_ms: 0.111168
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_contract.contract_type
+ok 226 - domain: every supplied enum member accepted at co_contract.contract_type
+  ---
+  duration_ms: 0.104347
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_job.status
+ok 227 - domain: every supplied enum member accepted at co_job.status
+  ---
+  duration_ms: 0.11977
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_job.job_type
+ok 228 - domain: every supplied enum member accepted at co_job.job_type
+  ---
+  duration_ms: 0.161463
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_subcontractor.trade
+ok 229 - domain: every supplied enum member accepted at co_subcontractor.trade
+  ---
+  duration_ms: 0.143756
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_subcontractor.status
+ok 230 - domain: every supplied enum member accepted at co_subcontractor.status
+  ---
+  duration_ms: 0.107392
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_change_order.status
+ok 231 - domain: every supplied enum member accepted at co_change_order.status
+  ---
+  duration_ms: 0.108414
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_invoice.status
+ok 232 - domain: every supplied enum member accepted at co_invoice.status
+  ---
+  duration_ms: 0.11276
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_invoice.invoice_type
+ok 233 - domain: every supplied enum member accepted at co_invoice.invoice_type
+  ---
+  duration_ms: 0.109675
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_payment.payment_method
+ok 234 - domain: every supplied enum member accepted at co_payment.payment_method
+  ---
+  duration_ms: 0.118418
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_daily_report.status
+ok 235 - domain: every supplied enum member accepted at co_daily_report.status
+  ---
+  duration_ms: 0.264097
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_daily_report.weather
+ok 236 - domain: every supplied enum member accepted at co_daily_report.weather
+  ---
+  duration_ms: 0.139781
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_campaign.status
+ok 237 - domain: every supplied enum member accepted at co_campaign.status
+  ---
+  duration_ms: 0.10674
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_campaign.campaign_type
+ok 238 - domain: every supplied enum member accepted at co_campaign.campaign_type
+  ---
+  duration_ms: 0.122515
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_campaign.target_market
+ok 239 - domain: every supplied enum member accepted at co_campaign.target_market
+  ---
+  duration_ms: 0.122534
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_outreach.status
+ok 240 - domain: every supplied enum member accepted at co_outreach.status
+  ---
+  duration_ms: 0.136485
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_outreach.channel
+ok 241 - domain: every supplied enum member accepted at co_outreach.channel
+  ---
+  duration_ms: 0.147933
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_automation_rule.trigger
+ok 242 - domain: every supplied enum member accepted at co_automation_rule.trigger
+  ---
+  duration_ms: 0.361313
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_automation_rule.status
+ok 243 - domain: every supplied enum member accepted at co_automation_rule.status
+  ---
+  duration_ms: 0.140241
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_automation_rule.channel
+ok 244 - domain: every supplied enum member accepted at co_automation_rule.channel
+  ---
+  duration_ms: 0.199039
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_document.doc_type
+ok 245 - domain: every supplied enum member accepted at co_document.doc_type
+  ---
+  duration_ms: 0.233081
+  type: 'test'
+  ...
+# Subtest: domain: every supplied enum member accepted at co_document.status
+ok 246 - domain: every supplied enum member accepted at co_document.status
+  ---
+  duration_ms: 0.124798
+  type: 'test'
+  ...
+# Subtest: v040 migration: single-element arrays yield a proposal without changing source
+ok 247 - v040 migration: single-element arrays yield a proposal without changing source
+  ---
+  duration_ms: 2.065789
+  type: 'test'
+  ...
+# Subtest: v040 migration: multi-target single relations require human resolution
+ok 248 - v040 migration: multi-target single relations require human resolution
+  ---
+  duration_ms: 0.264017
+  type: 'test'
+  ...
+# Subtest: v040 migration: ordinary many relations remain intact
+ok 249 - v040 migration: ordinary many relations remain intact
+  ---
+  duration_ms: 0.522927
+  type: 'test'
+  ...
+# Subtest: v040 migration: unknown table and malformed input reject instead of being skipped
+ok 250 - v040 migration: unknown table and malformed input reject instead of being skipped
+  ---
+  duration_ms: 0.473873
+  type: 'test'
+  ...
+# Subtest: v040 adapter: registered read calculates fields through actual adapter code
+ok 251 - v040 adapter: registered read calculates fields through actual adapter code
+  ---
+  duration_ms: 2.370507
+  type: 'test'
+  ...
+# Subtest: v040 adapter: mirrors use local IDs and tenant checks
+ok 252 - v040 adapter: mirrors use local IDs and tenant checks
+  ---
+  duration_ms: 0.804721
+  type: 'test'
+  ...
+# Subtest: v040 adapter: reverse aggregation uses component relation index
+ok 253 - v040 adapter: reverse aggregation uses component relation index
+  ---
+  duration_ms: 1.658736
+  type: 'test'
+  ...
+# Subtest: v040 host: membership fixes tenant on the new read method
+ok 254 - v040 host: membership fixes tenant on the new read method
+  ---
+  duration_ms: 0.94371
+  type: 'test'
+  ...
+# Subtest: v040 host: new read denies anonymous callers
+ok 255 - v040 host: new read denies anonymous callers
+  ---
+  duration_ms: 0.61833
+  type: 'test'
+  ...
+# Subtest: v040: billing read labels receivable separately from remaining contract balance
+ok 256 - v040: billing read labels receivable separately from remaining contract balance
+  ---
+  duration_ms: 23.533718
+  type: 'test'
+  ...
+# Subtest: v040: multi-hop mirrors follow declared relations
+ok 257 - v040: multi-hop mirrors follow declared relations
+  ---
+  duration_ms: 4.437919
+  type: 'test'
+  ...
+# Subtest: v040: foreign tenant mirror and missing target have the same safe result
+ok 258 - v040: foreign tenant mirror and missing target have the same safe result
+  ---
+  duration_ms: 1.05621
+  type: 'test'
+  ...
+# Subtest: v040: aggregates deduplicate by ID and keep explicit relationship scope
+ok 259 - v040: aggregates deduplicate by ID and keep explicit relationship scope
+  ---
+  duration_ms: 0.619583
+  type: 'test'
+  ...
+# Subtest: v040: unfiltered source totals retain draft and voided invoice amounts
+ok 260 - v040: unfiltered source totals retain draft and voided invoice amounts
+  ---
+  duration_ms: 0.583889
+  type: 'test'
+  ...
+# Subtest: v040: a capped aggregate returns null, never a partial authoritative total
+ok 261 - v040: a capped aggregate returns null, never a partial authoritative total
+  ---
+  duration_ms: 0.344348
+  type: 'test'
+  ...
+# Subtest: v040: many-side aggregate uses explicit supplied jobs and reports missing targets
+ok 262 - v040: many-side aggregate uses explicit supplied jobs and reports missing targets
+  ---
+  duration_ms: 0.426151
+  type: 'test'
+  ...
+# Subtest: v040: legacy arrays in single relations cannot be silently picked or flattened
+ok 263 - v040: legacy arrays in single relations cannot be silently picked or flattened
+  ---
+  duration_ms: 0.539332
+  type: 'test'
+  ...
+# Subtest: v040: inconsistent incoming links cannot contaminate aggregate values
+ok 264 - v040: inconsistent incoming links cannot contaminate aggregate values
+  ---
+  duration_ms: 0.249035
+  type: 'test'
+  ...
+# Subtest: v040: no silent conversion between sq_ft and roofing squares
+ok 265 - v040: no silent conversion between sq_ft and roofing squares
+  ---
+  duration_ms: 0.513633
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_change_order.client_name -> job.client.$title
+ok 266 - v040: supplied mirror co_change_order.client_name -> job.client.$title
+  ---
+  duration_ms: 0.473102
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_change_order.job_number -> job.job_number
+ok 267 - v040: supplied mirror co_change_order.job_number -> job.job_number
+  ---
+  duration_ms: 0.188484
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_change_order.contract_number -> contract.contract_number
+ok 268 - v040: supplied mirror co_change_order.contract_number -> contract.contract_number
+  ---
+  duration_ms: 0.122124
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_proposal.client_name -> client.$title
+ok 269 - v040: supplied mirror co_proposal.client_name -> client.$title
+  ---
+  duration_ms: 0.215965
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_proposal.contact_email -> contact.email
+ok 270 - v040: supplied mirror co_proposal.contact_email -> contact.email
+  ---
+  duration_ms: 0.208864
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_proposal.lead_priority -> lead.priority
+ok 271 - v040: supplied mirror co_proposal.lead_priority -> lead.priority
+  ---
+  duration_ms: 0.162264
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_proposal.lead_stage -> lead.stage
+ok 272 - v040: supplied mirror co_proposal.lead_stage -> lead.stage
+  ---
+  duration_ms: 0.177917
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_proposal.scope_estimated_hours -> scope.estimated_hours
+ok 273 - v040: supplied mirror co_proposal.scope_estimated_hours -> scope.estimated_hours
+  ---
+  duration_ms: 0.282395
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_proposal.scope_trade_type -> scope.trade_type
+ok 274 - v040: supplied mirror co_proposal.scope_trade_type -> scope.trade_type
+  ---
+  duration_ms: 0.1663
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_scope.client_name -> lead.client.$title
+ok 275 - v040: supplied mirror co_scope.client_name -> lead.client.$title
+  ---
+  duration_ms: 0.282986
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_scope.lead_estimated_value -> lead.estimated_value
+ok 276 - v040: supplied mirror co_scope.lead_estimated_value -> lead.estimated_value
+  ---
+  duration_ms: 0.127031
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_scope.lead_stage -> lead.stage
+ok 277 - v040: supplied mirror co_scope.lead_stage -> lead.stage
+  ---
+  duration_ms: 0.090496
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_contract.bid_amount -> bid.amount
+ok 278 - v040: supplied mirror co_contract.bid_amount -> bid.amount
+  ---
+  duration_ms: 0.206491
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_contract.bid_type -> bid.bid_type
+ok 279 - v040: supplied mirror co_contract.bid_type -> bid.bid_type
+  ---
+  duration_ms: 0.915799
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_contract.client_name -> client.$title
+ok 280 - v040: supplied mirror co_contract.client_name -> client.$title
+  ---
+  duration_ms: 0.190426
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_contract.contact_email -> contact.email
+ok 281 - v040: supplied mirror co_contract.contact_email -> contact.email
+  ---
+  duration_ms: 0.128343
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_contract.proposal_amount -> bid.proposal.amount
+ok 282 - v040: supplied mirror co_contract.proposal_amount -> bid.proposal.amount
+  ---
+  duration_ms: 0.129885
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_site_visit.client_name -> client.$title
+ok 283 - v040: supplied mirror co_site_visit.client_name -> client.$title
+  ---
+  duration_ms: 0.076936
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_site_visit.contact_email -> contact.email
+ok 284 - v040: supplied mirror co_site_visit.contact_email -> contact.email
+  ---
+  duration_ms: 0.070356
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_site_visit.lead_estimated_value -> lead.estimated_value
+ok 285 - v040: supplied mirror co_site_visit.lead_estimated_value -> lead.estimated_value
+  ---
+  duration_ms: 0.069024
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_site_visit.lead_stage -> lead.stage
+ok 286 - v040: supplied mirror co_site_visit.lead_stage -> lead.stage
+  ---
+  duration_ms: 0.069454
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_job.bid_amount -> bid.amount
+ok 287 - v040: supplied mirror co_job.bid_amount -> bid.amount
+  ---
+  duration_ms: 0.127342
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_job.client_name -> client.$title
+ok 288 - v040: supplied mirror co_job.client_name -> client.$title
+  ---
+  duration_ms: 0.150757
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_job.contract_signed_at -> contract.signed_at
+ok 289 - v040: supplied mirror co_job.contract_signed_at -> contract.signed_at
+  ---
+  duration_ms: 0.129415
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_job.contract_status -> contract.status
+ok 290 - v040: supplied mirror co_job.contract_status -> contract.status
+  ---
+  duration_ms: 0.117236
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_job.contract_type -> contract.contract_type
+ok 291 - v040: supplied mirror co_job.contract_type -> contract.contract_type
+  ---
+  duration_ms: 0.140491
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_trade_spec.scope_client -> scope.lead.client.$title
+ok 292 - v040: supplied mirror co_trade_spec.scope_client -> scope.lead.client.$title
+  ---
+  duration_ms: 0.116495
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_trade_spec.scope_lead -> scope.lead.$title
+ok 293 - v040: supplied mirror co_trade_spec.scope_lead -> scope.lead.$title
+  ---
+  duration_ms: 0.100702
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_trade_spec.scope_trade_type -> scope.trade_type
+ok 294 - v040: supplied mirror co_trade_spec.scope_trade_type -> scope.trade_type
+  ---
+  duration_ms: 0.091548
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_document.campaign_name -> campaign.$title
+ok 295 - v040: supplied mirror co_document.campaign_name -> campaign.$title
+  ---
+  duration_ms: 0.086701
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_document.contract_number -> contract.contract_number
+ok 296 - v040: supplied mirror co_document.contract_number -> contract.contract_number
+  ---
+  duration_ms: 0.117768
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_document.job_number -> job.job_number
+ok 297 - v040: supplied mirror co_document.job_number -> job.job_number
+  ---
+  duration_ms: 0.132229
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_document.job_status -> job.status
+ok 298 - v040: supplied mirror co_document.job_status -> job.status
+  ---
+  duration_ms: 0.206681
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_payment.client_name -> client.$title
+ok 299 - v040: supplied mirror co_payment.client_name -> client.$title
+  ---
+  duration_ms: 0.095274
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_payment.invoice_amount -> invoice.amount
+ok 300 - v040: supplied mirror co_payment.invoice_amount -> invoice.amount
+  ---
+  duration_ms: 0.144578
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_payment.invoice_number -> invoice.invoice_number
+ok 301 - v040: supplied mirror co_payment.invoice_number -> invoice.invoice_number
+  ---
+  duration_ms: 0.090817
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_payment.invoice_status -> invoice.status
+ok 302 - v040: supplied mirror co_payment.invoice_status -> invoice.status
+  ---
+  duration_ms: 0.086761
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_outreach.campaign_name -> campaign.$title
+ok 303 - v040: supplied mirror co_outreach.campaign_name -> campaign.$title
+  ---
+  duration_ms: 0.138889
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_outreach.client_name -> client.$title
+ok 304 - v040: supplied mirror co_outreach.client_name -> client.$title
+  ---
+  duration_ms: 0.214353
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_outreach.contact_email -> contact.email
+ok 305 - v040: supplied mirror co_outreach.contact_email -> contact.email
+  ---
+  duration_ms: 0.113641
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_outreach.contact_first_name -> contact.first_name
+ok 306 - v040: supplied mirror co_outreach.contact_first_name -> contact.first_name
+  ---
+  duration_ms: 0.096836
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_outreach.contact_last_name -> contact.last_name
+ok 307 - v040: supplied mirror co_outreach.contact_last_name -> contact.last_name
+  ---
+  duration_ms: 0.091768
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_automation_rule.campaign_name -> campaign.$title
+ok 308 - v040: supplied mirror co_automation_rule.campaign_name -> campaign.$title
+  ---
+  duration_ms: 0.091387
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_automation_rule.campaign_status -> campaign.status
+ok 309 - v040: supplied mirror co_automation_rule.campaign_status -> campaign.status
+  ---
+  duration_ms: 0.0859
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_automation_rule.campaign_type -> campaign.campaign_type
+ok 310 - v040: supplied mirror co_automation_rule.campaign_type -> campaign.campaign_type
+  ---
+  duration_ms: 0.085939
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_lead.campaign_name -> campaign.$title
+ok 311 - v040: supplied mirror co_lead.campaign_name -> campaign.$title
+  ---
+  duration_ms: 0.194713
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_lead.client_name -> client.$title
+ok 312 - v040: supplied mirror co_lead.client_name -> client.$title
+  ---
+  duration_ms: 0.198749
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_lead.client_status -> client.status
+ok 313 - v040: supplied mirror co_lead.client_status -> client.status
+  ---
+  duration_ms: 0.274283
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_lead.client_type -> client.client_type
+ok 314 - v040: supplied mirror co_lead.client_type -> client.client_type
+  ---
+  duration_ms: 0.129425
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_lead.contact_email -> contact.email
+ok 315 - v040: supplied mirror co_lead.contact_email -> contact.email
+  ---
+  duration_ms: 0.109134
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_lead.contact_first_name -> contact.first_name
+ok 316 - v040: supplied mirror co_lead.contact_first_name -> contact.first_name
+  ---
+  duration_ms: 0.100471
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_lead.contact_last_name -> contact.last_name
+ok 317 - v040: supplied mirror co_lead.contact_last_name -> contact.last_name
+  ---
+  duration_ms: 0.097156
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_contact.client_name -> client.$title
+ok 318 - v040: supplied mirror co_contact.client_name -> client.$title
+  ---
+  duration_ms: 0.341183
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_contact.client_status -> client.status
+ok 319 - v040: supplied mirror co_contact.client_status -> client.status
+  ---
+  duration_ms: 0.274323
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_contact.client_type -> client.client_type
+ok 320 - v040: supplied mirror co_contact.client_type -> client.client_type
+  ---
+  duration_ms: 0.120972
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_invoice.client_name -> client.$title
+ok 321 - v040: supplied mirror co_invoice.client_name -> client.$title
+  ---
+  duration_ms: 0.14624
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_invoice.contract_amount -> contract.amount
+ok 322 - v040: supplied mirror co_invoice.contract_amount -> contract.amount
+  ---
+  duration_ms: 0.11271
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_invoice.contract_number -> contract.contract_number
+ok 323 - v040: supplied mirror co_invoice.contract_number -> contract.contract_number
+  ---
+  duration_ms: 0.203587
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_invoice.job_number -> job.job_number
+ok 324 - v040: supplied mirror co_invoice.job_number -> job.job_number
+  ---
+  duration_ms: 0.195995
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_invoice.job_status -> job.status
+ok 325 - v040: supplied mirror co_invoice.job_status -> job.status
+  ---
+  duration_ms: 0.197167
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_bid.client_name -> client.$title
+ok 326 - v040: supplied mirror co_bid.client_name -> client.$title
+  ---
+  duration_ms: 0.117717
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_bid.lead_estimated_value -> lead.estimated_value
+ok 327 - v040: supplied mirror co_bid.lead_estimated_value -> lead.estimated_value
+  ---
+  duration_ms: 0.098348
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_bid.lead_stage -> lead.stage
+ok 328 - v040: supplied mirror co_bid.lead_stage -> lead.stage
+  ---
+  duration_ms: 0.088203
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_bid.proposal_amount -> proposal.amount
+ok 329 - v040: supplied mirror co_bid.proposal_amount -> proposal.amount
+  ---
+  duration_ms: 0.091227
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_bid.proposal_status -> proposal.status
+ok 330 - v040: supplied mirror co_bid.proposal_status -> proposal.status
+  ---
+  duration_ms: 0.134112
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_daily_report.client_name -> job.client.$title
+ok 331 - v040: supplied mirror co_daily_report.client_name -> job.client.$title
+  ---
+  duration_ms: 0.07321
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_daily_report.job_number -> job.job_number
+ok 332 - v040: supplied mirror co_daily_report.job_number -> job.job_number
+  ---
+  duration_ms: 0.060401
+  type: 'test'
+  ...
+# Subtest: v040: supplied mirror co_daily_report.job_status -> job.status
+ok 333 - v040: supplied mirror co_daily_report.job_status -> job.status
+  ---
+  duration_ms: 0.057908
+  type: 'test'
+  ...
+# Subtest: v040: declared aggregate path co_proposal.total_bids
+ok 334 - v040: declared aggregate path co_proposal.total_bids
+  ---
+  duration_ms: 0.182815
+  type: 'test'
+  ...
+# Subtest: v040: declared aggregate path co_contract.change_order_count
+ok 335 - v040: declared aggregate path co_contract.change_order_count
+  ---
+  duration_ms: 0.103586
+  type: 'test'
+  ...
+# Subtest: v040: declared aggregate path co_contract.invoice_count
+ok 336 - v040: declared aggregate path co_contract.invoice_count
+  ---
+  duration_ms: 0.093932
+  type: 'test'
+  ...
+# Subtest: v040: declared aggregate path co_contract.total_invoiced_agg
+ok 337 - v040: declared aggregate path co_contract.total_invoiced_agg
+  ---
+  duration_ms: 0.095764
+  type: 'test'
+  ...
+# Subtest: v040: declared aggregate path co_job.total_invoiced
+ok 338 - v040: declared aggregate path co_job.total_invoiced
+  ---
+  duration_ms: 0.098678
+  type: 'test'
+  ...
+# Subtest: v040: declared aggregate path co_job.total_invoices
+ok 339 - v040: declared aggregate path co_job.total_invoices
+  ---
+  duration_ms: 0.110857
+  type: 'test'
+  ...
+# Subtest: v040: declared aggregate path co_job.daily_reports_count
+ok 340 - v040: declared aggregate path co_job.daily_reports_count
+  ---
+  duration_ms: 0.093391
+  type: 'test'
+  ...
+# Subtest: v040: declared aggregate path co_job.total_change_orders
+ok 341 - v040: declared aggregate path co_job.total_change_orders
+  ---
+  duration_ms: 0.090827
+  type: 'test'
+  ...
+# Subtest: v040: declared aggregate path co_job.total_co_amount
+ok 342 - v040: declared aggregate path co_job.total_co_amount
+  ---
+  duration_ms: 0.241434
+  type: 'test'
+  ...
+# Subtest: v040: declared aggregate path co_client.active_jobs
+ok 343 - v040: declared aggregate path co_client.active_jobs
+  ---
+  duration_ms: 0.109394
+  type: 'test'
+  ...
+# Subtest: v040: declared aggregate path co_client.total_contracts
+ok 344 - v040: declared aggregate path co_client.total_contracts
+  ---
+  duration_ms: 0.083486
+  type: 'test'
+  ...
+# Subtest: v040: declared aggregate path co_client.total_jobs
+ok 345 - v040: declared aggregate path co_client.total_jobs
+  ---
+  duration_ms: 1.095008
+  type: 'test'
+  ...
+# Subtest: v040: declared aggregate path co_client.total_leads
+ok 346 - v040: declared aggregate path co_client.total_leads
+  ---
+  duration_ms: 0.130256
+  type: 'test'
+  ...
+# Subtest: v040: declared aggregate path co_client.total_payments_received
+ok 347 - v040: declared aggregate path co_client.total_payments_received
+  ---
+  duration_ms: 0.094182
+  type: 'test'
+  ...
+# Subtest: v040: declared aggregate path co_campaign.total_leads_generated
+ok 348 - v040: declared aggregate path co_campaign.total_leads_generated
+  ---
+  duration_ms: 0.055373
+  type: 'test'
+  ...
+# Subtest: v040: declared aggregate path co_campaign.total_outreach_sent
+ok 349 - v040: declared aggregate path co_campaign.total_outreach_sent
+  ---
+  duration_ms: 0.047551
+  type: 'test'
+  ...
+# Subtest: v040: declared aggregate path co_lead.total_proposals
+ok 350 - v040: declared aggregate path co_lead.total_proposals
+  ---
+  duration_ms: 0.091328
+  type: 'test'
+  ...
+# Subtest: v040: declared aggregate path co_lead.total_site_visits
+ok 351 - v040: declared aggregate path co_lead.total_site_visits
+  ---
+  duration_ms: 0.083326
+  type: 'test'
+  ...
+# Subtest: v040: declared aggregate path co_subcontractor.total_jobs
+ok 352 - v040: declared aggregate path co_subcontractor.total_jobs
+  ---
+  duration_ms: 0.111308
+  type: 'test'
+  ...
+# Subtest: v040: co_contact.client rejects a list because supplied many=false
+ok 353 - v040: co_contact.client rejects a list because supplied many=false
+  ---
+  duration_ms: 2.074181
+  type: 'test'
+  ...
+# Subtest: v040: co_lead.client rejects a list because supplied many=false
+ok 354 - v040: co_lead.client rejects a list because supplied many=false
+  ---
+  duration_ms: 0.208303
+  type: 'test'
+  ...
+# Subtest: v040: co_lead.contact rejects a list because supplied many=false
+ok 355 - v040: co_lead.contact rejects a list because supplied many=false
+  ---
+  duration_ms: 0.148243
+  type: 'test'
+  ...
+# Subtest: v040: co_lead.campaign rejects a list because supplied many=false
+ok 356 - v040: co_lead.campaign rejects a list because supplied many=false
+  ---
+  duration_ms: 0.089195
+  type: 'test'
+  ...
+# Subtest: v040: co_site_visit.contact rejects a list because supplied many=false
+ok 357 - v040: co_site_visit.contact rejects a list because supplied many=false
+  ---
+  duration_ms: 0.1596
+  type: 'test'
+  ...
+# Subtest: v040: co_site_visit.client rejects a list because supplied many=false
+ok 358 - v040: co_site_visit.client rejects a list because supplied many=false
+  ---
+  duration_ms: 0.105919
+  type: 'test'
+  ...
+# Subtest: v040: co_site_visit.lead rejects a list because supplied many=false
+ok 359 - v040: co_site_visit.lead rejects a list because supplied many=false
+  ---
+  duration_ms: 0.133371
+  type: 'test'
+  ...
+# Subtest: v040: co_scope.trade_spec rejects a list because supplied many=false
+ok 360 - v040: co_scope.trade_spec rejects a list because supplied many=false
+  ---
+  duration_ms: 0.107462
+  type: 'test'
+  ...
+# Subtest: v040: co_scope.lead rejects a list because supplied many=false
+ok 361 - v040: co_scope.lead rejects a list because supplied many=false
+  ---
+  duration_ms: 3.051603
+  type: 'test'
+  ...
+# Subtest: v040: co_scope.proposal rejects a list because supplied many=false
+ok 362 - v040: co_scope.proposal rejects a list because supplied many=false
+  ---
+  duration_ms: 0.406231
+  type: 'test'
+  ...
+# Subtest: v040: co_trade_spec.scope rejects a list because supplied many=false
+ok 363 - v040: co_trade_spec.scope rejects a list because supplied many=false
+  ---
+  duration_ms: 0.206541
+  type: 'test'
+  ...
+# Subtest: v040: co_trade_spec.pricing_rule rejects a list because supplied many=false
+ok 364 - v040: co_trade_spec.pricing_rule rejects a list because supplied many=false
+  ---
+  duration_ms: 0.101152
+  type: 'test'
+  ...
+# Subtest: v040: co_proposal.client rejects a list because supplied many=false
+ok 365 - v040: co_proposal.client rejects a list because supplied many=false
+  ---
+  duration_ms: 0.825993
+  type: 'test'
+  ...
+# Subtest: v040: co_proposal.lead rejects a list because supplied many=false
+ok 366 - v040: co_proposal.lead rejects a list because supplied many=false
+  ---
+  duration_ms: 0.086951
+  type: 'test'
+  ...
+# Subtest: v040: co_proposal.contact rejects a list because supplied many=false
+ok 367 - v040: co_proposal.contact rejects a list because supplied many=false
+  ---
+  duration_ms: 0.060641
+  type: 'test'
+  ...
+# Subtest: v040: co_proposal.scope rejects a list because supplied many=false
+ok 368 - v040: co_proposal.scope rejects a list because supplied many=false
+  ---
+  duration_ms: 0.055293
+  type: 'test'
+  ...
+# Subtest: v040: co_bid.proposal rejects a list because supplied many=false
+ok 369 - v040: co_bid.proposal rejects a list because supplied many=false
+  ---
+  duration_ms: 0.055273
+  type: 'test'
+  ...
+# Subtest: v040: co_bid.client rejects a list because supplied many=false
+ok 370 - v040: co_bid.client rejects a list because supplied many=false
+  ---
+  duration_ms: 3.041858
+  type: 'test'
+  ...
+# Subtest: v040: co_bid.lead rejects a list because supplied many=false
+ok 371 - v040: co_bid.lead rejects a list because supplied many=false
+  ---
+  duration_ms: 0.080281
+  type: 'test'
+  ...
+# Subtest: v040: co_contract.contact rejects a list because supplied many=false
+ok 372 - v040: co_contract.contact rejects a list because supplied many=false
+  ---
+  duration_ms: 0.207703
+  type: 'test'
+  ...
+# Subtest: v040: co_contract.client rejects a list because supplied many=false
+ok 373 - v040: co_contract.client rejects a list because supplied many=false
+  ---
+  duration_ms: 0.077447
+  type: 'test'
+  ...
+# Subtest: v040: co_contract.bid rejects a list because supplied many=false
+ok 374 - v040: co_contract.bid rejects a list because supplied many=false
+  ---
+  duration_ms: 0.068093
+  type: 'test'
+  ...
+# Subtest: v040: co_job.contact rejects a list because supplied many=false
+ok 375 - v040: co_job.contact rejects a list because supplied many=false
+  ---
+  duration_ms: 0.056595
+  type: 'test'
+  ...
+# Subtest: v040: co_job.contract rejects a list because supplied many=false
+ok 376 - v040: co_job.contract rejects a list because supplied many=false
+  ---
+  duration_ms: 0.109966
+  type: 'test'
+  ...
+# Subtest: v040: co_job.bid rejects a list because supplied many=false
+ok 377 - v040: co_job.bid rejects a list because supplied many=false
+  ---
+  duration_ms: 0.057015
+  type: 'test'
+  ...
+# Subtest: v040: co_job.client rejects a list because supplied many=false
+ok 378 - v040: co_job.client rejects a list because supplied many=false
+  ---
+  duration_ms: 0.051477
+  type: 'test'
+  ...
+# Subtest: v040: co_subcontractor.client rejects a list because supplied many=false
+ok 379 - v040: co_subcontractor.client rejects a list because supplied many=false
+  ---
+  duration_ms: 0.049455
+  type: 'test'
+  ...
+# Subtest: v040: co_change_order.job rejects a list because supplied many=false
+ok 380 - v040: co_change_order.job rejects a list because supplied many=false
+  ---
+  duration_ms: 0.054152
+  type: 'test'
+  ...
+# Subtest: v040: co_change_order.contract rejects a list because supplied many=false
+ok 381 - v040: co_change_order.contract rejects a list because supplied many=false
+  ---
+  duration_ms: 0.049805
+  type: 'test'
+  ...
+# Subtest: v040: co_invoice.client rejects a list because supplied many=false
+ok 382 - v040: co_invoice.client rejects a list because supplied many=false
+  ---
+  duration_ms: 0.050265
+  type: 'test'
+  ...
+# Subtest: v040: co_invoice.contract rejects a list because supplied many=false
+ok 383 - v040: co_invoice.contract rejects a list because supplied many=false
+  ---
+  duration_ms: 0.054382
+  type: 'test'
+  ...
+# Subtest: v040: co_invoice.job rejects a list because supplied many=false
+ok 384 - v040: co_invoice.job rejects a list because supplied many=false
+  ---
+  duration_ms: 0.061954
+  type: 'test'
+  ...
+# Subtest: v040: co_payment.invoice rejects a list because supplied many=false
+ok 385 - v040: co_payment.invoice rejects a list because supplied many=false
+  ---
+  duration_ms: 0.053641
+  type: 'test'
+  ...
+# Subtest: v040: co_payment.client rejects a list because supplied many=false
+ok 386 - v040: co_payment.client rejects a list because supplied many=false
+  ---
+  duration_ms: 0.052399
+  type: 'test'
+  ...
+# Subtest: v040: co_daily_report.job rejects a list because supplied many=false
+ok 387 - v040: co_daily_report.job rejects a list because supplied many=false
+  ---
+  duration_ms: 0.048483
+  type: 'test'
+  ...
+# Subtest: v040: co_outreach.campaign rejects a list because supplied many=false
+ok 388 - v040: co_outreach.campaign rejects a list because supplied many=false
+  ---
+  duration_ms: 0.051027
+  type: 'test'
+  ...
+# Subtest: v040: co_outreach.contact rejects a list because supplied many=false
+ok 389 - v040: co_outreach.contact rejects a list because supplied many=false
+  ---
+  duration_ms: 0.048033
+  type: 'test'
+  ...
+# Subtest: v040: co_outreach.client rejects a list because supplied many=false
+ok 390 - v040: co_outreach.client rejects a list because supplied many=false
+  ---
+  duration_ms: 0.200722
+  type: 'test'
+  ...
+# Subtest: v040: co_automation_rule.campaign rejects a list because supplied many=false
+ok 391 - v040: co_automation_rule.campaign rejects a list because supplied many=false
+  ---
+  duration_ms: 0.070245
+  type: 'test'
+  ...
+# Subtest: v040: co_document.campaign rejects a list because supplied many=false
+ok 392 - v040: co_document.campaign rejects a list because supplied many=false
+  ---
+  duration_ms: 0.055724
+  type: 'test'
+  ...
+# Subtest: v040: co_document.lead rejects a list because supplied many=false
+ok 393 - v040: co_document.lead rejects a list because supplied many=false
+  ---
+  duration_ms: 0.051928
+  type: 'test'
+  ...
+# Subtest: v040: co_document.job rejects a list because supplied many=false
+ok 394 - v040: co_document.job rejects a list because supplied many=false
+  ---
+  duration_ms: 0.051147
+  type: 'test'
+  ...
+# Subtest: v040: co_document.contract rejects a list because supplied many=false
+ok 395 - v040: co_document.contract rejects a list because supplied many=false
+  ---
+  duration_ms: 0.052198
+  type: 'test'
+  ...
+# Subtest: v040: full painting and shared fields are accepted with explicit types
+ok 396 - v040: full painting and shared fields are accepted with explicit types
+  ---
+  duration_ms: 0.274172
+  type: 'test'
+  ...
+# Subtest: v040: roofing/HVAC/plumbing/electrical/concrete/drywall/door/landscape fields are typed
+ok 397 - v040: roofing/HVAC/plumbing/electrical/concrete/drywall/door/landscape fields are typed
+  ---
+  duration_ms: 0.27893
+  type: 'test'
+  ...
+# Subtest: v040: trade field enum typos and wrong types are rejected
+ok 398 - v040: trade field enum typos and wrong types are rejected
+  ---
+  duration_ms: 0.156165
+  type: 'test'
+  ...
+# Subtest: v040: prior client health predicates are executed without inferring business approval
+ok 399 - v040: prior client health predicates are executed without inferring business approval
+  ---
+  duration_ms: 2.439952
+  type: 'test'
+  ...
+# Subtest: v040: missing scorecard predicates cannot yield a passing grade
+ok 400 - v040: missing scorecard predicates cannot yield a passing grade
+  ---
+  duration_ms: 0.227282
+  type: 'test'
+  ...
+# Subtest: v040: titles do not replace actual predicates
+ok 401 - v040: titles do not replace actual predicates
+  ---
+  duration_ms: 0.413933
+  type: 'test'
+  ...
+# Subtest: v040: every one of the 22 source rules is retained in the evaluator
+ok 402 - v040: every one of the 22 source rules is retained in the evaluator
+  ---
+  duration_ms: 4.403137
+  type: 'test'
+  ...
+# Subtest: v040: unknown query operators fail closed
+ok 403 - v040: unknown query operators fail closed
+  ---
+  duration_ms: 0.297487
+  type: 'test'
+  ...
+# Subtest: v040: numbers and booleans are not coerced from strings
+ok 404 - v040: numbers and booleans are not coerced from strings
+  ---
+  duration_ms: 0.127802
+  type: 'test'
+  ...
+# Subtest: v040: zero is present, not an empty monetary value
+ok 405 - v040: zero is present, not an empty monetary value
+  ---
+  duration_ms: 0.196916
+  type: 'test'
+  ...
+1..405
+# tests 405
+# suites 0
+# pass 405
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1591.675566

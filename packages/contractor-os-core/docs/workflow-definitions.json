@@ -1,0 +1,1820 @@
+[
+  {
+    "identifier": "co_create_lead",
+    "title": "Create Lead",
+    "description": "Create a new Lead / Opportunity linked to a client. Agents call this to capture inbound opportunities.",
+    "sourceVersion": "wfv_22wJ3Zx0554eKfJt",
+    "inputs": {
+      "order": [
+        "title",
+        "client",
+        "contact",
+        "stage",
+        "priority",
+        "estimated_value",
+        "source",
+        "description"
+      ],
+      "required": [
+        "title",
+        "client"
+      ],
+      "properties": {
+        "stage": {
+          "enum": [
+            "new",
+            "qualifying",
+            "site_visit_scheduled",
+            "scope_in_progress",
+            "proposal_sent",
+            "bid_submitted",
+            "awarded",
+            "won",
+            "lost",
+            "on_hold"
+          ],
+          "type": "string",
+          "title": "Stage",
+          "default": "new"
+        },
+        "title": {
+          "type": "string",
+          "title": "Lead Title"
+        },
+        "client": {
+          "type": "string",
+          "title": "Client",
+          "format": "entity",
+          "blueprint": "co_client"
+        },
+        "source": {
+          "enum": [
+            "cold_outreach",
+            "referral",
+            "repeat_client",
+            "website",
+            "bid_board",
+            "walk_in",
+            "other"
+          ],
+          "type": "string",
+          "title": "Source"
+        },
+        "contact": {
+          "type": "string",
+          "title": "Contact",
+          "format": "entity",
+          "blueprint": "co_contact"
+        },
+        "priority": {
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "urgent"
+          ],
+          "type": "string",
+          "title": "Priority",
+          "default": "medium"
+        },
+        "description": {
+          "type": "string",
+          "title": "Description"
+        },
+        "estimated_value": {
+          "type": "number",
+          "title": "Estimated Value ($)"
+        }
+      }
+    },
+    "nodes": [
+      {
+        "identifier": "trigger",
+        "title": "Create Lead",
+        "config": {
+          "type": "SELF_SERVE_TRIGGER",
+          "published": true,
+          "userInputs": {
+            "order": [
+              "title",
+              "client",
+              "contact",
+              "stage",
+              "priority",
+              "estimated_value",
+              "source",
+              "description"
+            ],
+            "required": [
+              "title",
+              "client"
+            ],
+            "properties": {
+              "stage": {
+                "enum": [
+                  "new",
+                  "qualifying",
+                  "site_visit_scheduled",
+                  "scope_in_progress",
+                  "proposal_sent",
+                  "bid_submitted",
+                  "awarded",
+                  "won",
+                  "lost",
+                  "on_hold"
+                ],
+                "type": "string",
+                "title": "Stage",
+                "default": "new"
+              },
+              "title": {
+                "type": "string",
+                "title": "Lead Title"
+              },
+              "client": {
+                "type": "string",
+                "title": "Client",
+                "format": "entity",
+                "blueprint": "co_client"
+              },
+              "source": {
+                "enum": [
+                  "cold_outreach",
+                  "referral",
+                  "repeat_client",
+                  "website",
+                  "bid_board",
+                  "walk_in",
+                  "other"
+                ],
+                "type": "string",
+                "title": "Source"
+              },
+              "contact": {
+                "type": "string",
+                "title": "Contact",
+                "format": "entity",
+                "blueprint": "co_contact"
+              },
+              "priority": {
+                "enum": [
+                  "low",
+                  "medium",
+                  "high",
+                  "urgent"
+                ],
+                "type": "string",
+                "title": "Priority",
+                "default": "medium"
+              },
+              "description": {
+                "type": "string",
+                "title": "Description"
+              },
+              "estimated_value": {
+                "type": "number",
+                "title": "Estimated Value ($)"
+              }
+            }
+          }
+        }
+      },
+      {
+        "identifier": "create_lead_entity",
+        "title": "Create Lead Entity",
+        "config": {
+          "type": "UPSERT_ENTITY",
+          "mapping": {
+            "title": "{{ .outputs.trigger.title }}",
+            "relations": {
+              "client": "{{ .outputs.trigger.client }}",
+              "contact": "{{ .outputs.trigger.contact }}"
+            },
+            "identifier": "{{ .outputs.trigger.title | gsub(\"[^\\p{L}0-9@_.+:\\/=-]\"; \"-\") | ascii_downcase }}",
+            "properties": {
+              "stage": "{{ .outputs.trigger.stage }}",
+              "source": "{{ .outputs.trigger.source }}",
+              "priority": "{{ .outputs.trigger.priority }}",
+              "description": "{{ .outputs.trigger.description }}",
+              "estimated_value": "{{ .outputs.trigger.estimated_value }}"
+            }
+          },
+          "onFailure": "terminate",
+          "blueprintIdentifier": "co_lead"
+        }
+      }
+    ],
+    "connections": [
+      {
+        "sourceIdentifier": "trigger",
+        "targetIdentifier": "create_lead_entity"
+      }
+    ],
+    "sourcePointer": "_workflow.json#/9"
+  },
+  {
+    "identifier": "co_schedule_site_visit",
+    "title": "Schedule Site Visit",
+    "description": "Book a site visit for a lead and automatically advance the lead stage to site_visit_scheduled.",
+    "sourceVersion": "wfv_4o2H6d34uSy5YFD5",
+    "inputs": {
+      "order": [
+        "lead",
+        "visit_date",
+        "address",
+        "notes"
+      ],
+      "required": [
+        "lead",
+        "visit_date"
+      ],
+      "properties": {
+        "lead": {
+          "type": "string",
+          "title": "Lead",
+          "format": "entity",
+          "blueprint": "co_lead"
+        },
+        "notes": {
+          "type": "string",
+          "title": "Notes"
+        },
+        "address": {
+          "type": "string",
+          "title": "Site Address"
+        },
+        "visit_date": {
+          "type": "string",
+          "title": "Visit Date",
+          "format": "date-time"
+        }
+      }
+    },
+    "nodes": [
+      {
+        "identifier": "trigger",
+        "title": "Schedule Site Visit",
+        "config": {
+          "type": "SELF_SERVE_TRIGGER",
+          "published": true,
+          "userInputs": {
+            "order": [
+              "lead",
+              "visit_date",
+              "address",
+              "notes"
+            ],
+            "required": [
+              "lead",
+              "visit_date"
+            ],
+            "properties": {
+              "lead": {
+                "type": "string",
+                "title": "Lead",
+                "format": "entity",
+                "blueprint": "co_lead"
+              },
+              "notes": {
+                "type": "string",
+                "title": "Notes"
+              },
+              "address": {
+                "type": "string",
+                "title": "Site Address"
+              },
+              "visit_date": {
+                "type": "string",
+                "title": "Visit Date",
+                "format": "date-time"
+              }
+            }
+          }
+        }
+      },
+      {
+        "identifier": "create_site_visit",
+        "title": "Create Site Visit",
+        "config": {
+          "type": "UPSERT_ENTITY",
+          "mapping": {
+            "title": "Site Visit \u2014 {{ .outputs.trigger.lead }}",
+            "relations": {
+              "lead": "{{ .outputs.trigger.lead }}"
+            },
+            "properties": {
+              "notes": "{{ .outputs.trigger.notes }}",
+              "status": "scheduled",
+              "address": "{{ .outputs.trigger.address }}",
+              "visit_date": "{{ .outputs.trigger.visit_date }}"
+            }
+          },
+          "onFailure": "terminate",
+          "blueprintIdentifier": "co_site_visit"
+        }
+      },
+      {
+        "identifier": "update_lead_stage",
+        "title": "Update Lead Stage",
+        "config": {
+          "type": "UPSERT_ENTITY",
+          "mapping": {
+            "identifier": "{{ .outputs.trigger.lead }}",
+            "properties": {
+              "stage": "site_visit_scheduled"
+            }
+          },
+          "onFailure": "terminate",
+          "blueprintIdentifier": "co_lead"
+        }
+      }
+    ],
+    "connections": [
+      {
+        "sourceIdentifier": "trigger",
+        "targetIdentifier": "create_site_visit"
+      },
+      {
+        "sourceIdentifier": "create_site_visit",
+        "targetIdentifier": "update_lead_stage"
+      }
+    ],
+    "sourcePointer": "_workflow.json#/10"
+  },
+  {
+    "identifier": "co_advance_lead",
+    "title": "Advance Lead Stage",
+    "description": "Move a lead to a new pipeline stage and optionally add follow-up notes and next follow-up date.",
+    "sourceVersion": "wfv_Jh3hue6CgjMyqm51",
+    "inputs": {
+      "order": [
+        "lead",
+        "new_stage",
+        "followup_notes",
+        "next_followup_date"
+      ],
+      "required": [
+        "lead",
+        "new_stage"
+      ],
+      "properties": {
+        "lead": {
+          "type": "string",
+          "title": "Lead",
+          "format": "entity",
+          "blueprint": "co_lead"
+        },
+        "new_stage": {
+          "enum": [
+            "qualifying",
+            "site_visit_scheduled",
+            "scope_in_progress",
+            "proposal_sent",
+            "bid_submitted",
+            "awarded",
+            "won",
+            "lost",
+            "on_hold"
+          ],
+          "type": "string",
+          "title": "New Stage"
+        },
+        "followup_notes": {
+          "type": "string",
+          "title": "Notes"
+        },
+        "next_followup_date": {
+          "type": "string",
+          "title": "Next Follow-up Date",
+          "format": "date-time"
+        }
+      }
+    },
+    "nodes": [
+      {
+        "identifier": "trigger",
+        "title": "Advance Lead Stage",
+        "config": {
+          "type": "SELF_SERVE_TRIGGER",
+          "published": true,
+          "userInputs": {
+            "order": [
+              "lead",
+              "new_stage",
+              "followup_notes",
+              "next_followup_date"
+            ],
+            "required": [
+              "lead",
+              "new_stage"
+            ],
+            "properties": {
+              "lead": {
+                "type": "string",
+                "title": "Lead",
+                "format": "entity",
+                "blueprint": "co_lead"
+              },
+              "new_stage": {
+                "enum": [
+                  "qualifying",
+                  "site_visit_scheduled",
+                  "scope_in_progress",
+                  "proposal_sent",
+                  "bid_submitted",
+                  "awarded",
+                  "won",
+                  "lost",
+                  "on_hold"
+                ],
+                "type": "string",
+                "title": "New Stage"
+              },
+              "followup_notes": {
+                "type": "string",
+                "title": "Notes"
+              },
+              "next_followup_date": {
+                "type": "string",
+                "title": "Next Follow-up Date",
+                "format": "date-time"
+              }
+            }
+          }
+        }
+      },
+      {
+        "identifier": "advance_lead",
+        "title": "Update Lead Stage",
+        "config": {
+          "type": "UPSERT_ENTITY",
+          "mapping": {
+            "identifier": "{{ .outputs.trigger.lead }}",
+            "properties": {
+              "stage": "{{ .outputs.trigger.new_stage }}",
+              "followup_notes": "{{ .outputs.trigger.followup_notes }}",
+              "next_followup_date": "{{ .outputs.trigger.next_followup_date }}"
+            }
+          },
+          "onFailure": "terminate",
+          "blueprintIdentifier": "co_lead"
+        }
+      }
+    ],
+    "connections": [
+      {
+        "sourceIdentifier": "trigger",
+        "targetIdentifier": "advance_lead"
+      }
+    ],
+    "sourcePointer": "_workflow.json#/11"
+  },
+  {
+    "identifier": "co_create_scope",
+    "title": "Create Scope of Work",
+    "description": "Create a Scope of Work linked to a lead. Sets status to draft and captures all cost/labor estimates.",
+    "sourceVersion": "wfv_B0DhkesBU1p3mxBY",
+    "inputs": {
+      "order": [
+        "lead",
+        "trade_type",
+        "estimated_hours",
+        "estimated_labor_cost",
+        "estimated_materials_cost",
+        "description",
+        "version"
+      ],
+      "required": [
+        "lead"
+      ],
+      "properties": {
+        "lead": {
+          "type": "string",
+          "title": "Lead",
+          "format": "entity",
+          "blueprint": "co_lead"
+        },
+        "version": {
+          "type": "string",
+          "title": "Version",
+          "default": "1"
+        },
+        "trade_type": {
+          "enum": [
+            "general",
+            "electrical",
+            "plumbing",
+            "hvac",
+            "structural",
+            "civil",
+            "concrete",
+            "roofing",
+            "landscaping",
+            "painting",
+            "other"
+          ],
+          "type": "string",
+          "title": "Trade Type"
+        },
+        "description": {
+          "type": "string",
+          "title": "Scope Description"
+        },
+        "estimated_hours": {
+          "type": "number",
+          "title": "Estimated Hours"
+        },
+        "estimated_labor_cost": {
+          "type": "number",
+          "title": "Est. Labor Cost ($)"
+        },
+        "estimated_materials_cost": {
+          "type": "number",
+          "title": "Est. Materials Cost ($)"
+        }
+      }
+    },
+    "nodes": [
+      {
+        "identifier": "trigger",
+        "title": "Create Scope of Work",
+        "config": {
+          "type": "SELF_SERVE_TRIGGER",
+          "published": true,
+          "userInputs": {
+            "order": [
+              "lead",
+              "trade_type",
+              "estimated_hours",
+              "estimated_labor_cost",
+              "estimated_materials_cost",
+              "description",
+              "version"
+            ],
+            "required": [
+              "lead"
+            ],
+            "properties": {
+              "lead": {
+                "type": "string",
+                "title": "Lead",
+                "format": "entity",
+                "blueprint": "co_lead"
+              },
+              "version": {
+                "type": "string",
+                "title": "Version",
+                "default": "1"
+              },
+              "trade_type": {
+                "enum": [
+                  "general",
+                  "electrical",
+                  "plumbing",
+                  "hvac",
+                  "structural",
+                  "civil",
+                  "concrete",
+                  "roofing",
+                  "landscaping",
+                  "painting",
+                  "other"
+                ],
+                "type": "string",
+                "title": "Trade Type"
+              },
+              "description": {
+                "type": "string",
+                "title": "Scope Description"
+              },
+              "estimated_hours": {
+                "type": "number",
+                "title": "Estimated Hours"
+              },
+              "estimated_labor_cost": {
+                "type": "number",
+                "title": "Est. Labor Cost ($)"
+              },
+              "estimated_materials_cost": {
+                "type": "number",
+                "title": "Est. Materials Cost ($)"
+              }
+            }
+          }
+        }
+      },
+      {
+        "identifier": "create_scope_entity",
+        "title": "Create Scope Entity",
+        "config": {
+          "type": "UPSERT_ENTITY",
+          "mapping": {
+            "title": "Scope \u2014 {{ .outputs.trigger.lead }}",
+            "relations": {
+              "lead": "{{ .outputs.trigger.lead }}"
+            },
+            "identifier": "scope-{{ .outputs.trigger.lead }}-v{{ .outputs.trigger.version }}",
+            "properties": {
+              "status": "draft",
+              "version": "{{ .outputs.trigger.version }}",
+              "trade_type": "{{ .outputs.trigger.trade_type }}",
+              "description": "{{ .outputs.trigger.description }}",
+              "estimated_hours": "{{ .outputs.trigger.estimated_hours }}",
+              "estimated_labor_cost": "{{ .outputs.trigger.estimated_labor_cost }}",
+              "estimated_materials_cost": "{{ .outputs.trigger.estimated_materials_cost }}"
+            }
+          },
+          "onFailure": "terminate",
+          "blueprintIdentifier": "co_scope"
+        }
+      }
+    ],
+    "connections": [
+      {
+        "sourceIdentifier": "trigger",
+        "targetIdentifier": "create_scope_entity"
+      }
+    ],
+    "sourcePointer": "_workflow.json#/12"
+  },
+  {
+    "identifier": "co_create_proposal",
+    "title": "Create Proposal",
+    "description": "Create a Proposal from a Scope of Work. Links proposal to scope, lead, and client. Status defaults to draft.",
+    "sourceVersion": "wfv_4ag3tnUsdHgaQA89",
+    "inputs": {
+      "order": [
+        "scope",
+        "lead",
+        "client",
+        "amount",
+        "expires_at",
+        "notes",
+        "version"
+      ],
+      "required": [
+        "scope",
+        "lead",
+        "client",
+        "amount"
+      ],
+      "properties": {
+        "lead": {
+          "type": "string",
+          "title": "Lead",
+          "format": "entity",
+          "blueprint": "co_lead"
+        },
+        "notes": {
+          "type": "string",
+          "title": "Notes"
+        },
+        "scope": {
+          "type": "string",
+          "title": "Scope of Work",
+          "format": "entity",
+          "blueprint": "co_scope"
+        },
+        "amount": {
+          "type": "number",
+          "title": "Proposal Amount ($)"
+        },
+        "client": {
+          "type": "string",
+          "title": "Client",
+          "format": "entity",
+          "blueprint": "co_client"
+        },
+        "version": {
+          "type": "string",
+          "title": "Version",
+          "default": "1"
+        },
+        "expires_at": {
+          "type": "string",
+          "title": "Expires At",
+          "format": "date-time"
+        }
+      }
+    },
+    "nodes": [
+      {
+        "identifier": "trigger",
+        "title": "Create Proposal",
+        "config": {
+          "type": "SELF_SERVE_TRIGGER",
+          "published": true,
+          "userInputs": {
+            "order": [
+              "scope",
+              "lead",
+              "client",
+              "amount",
+              "expires_at",
+              "notes",
+              "version"
+            ],
+            "required": [
+              "scope",
+              "lead",
+              "client",
+              "amount"
+            ],
+            "properties": {
+              "lead": {
+                "type": "string",
+                "title": "Lead",
+                "format": "entity",
+                "blueprint": "co_lead"
+              },
+              "notes": {
+                "type": "string",
+                "title": "Notes"
+              },
+              "scope": {
+                "type": "string",
+                "title": "Scope of Work",
+                "format": "entity",
+                "blueprint": "co_scope"
+              },
+              "amount": {
+                "type": "number",
+                "title": "Proposal Amount ($)"
+              },
+              "client": {
+                "type": "string",
+                "title": "Client",
+                "format": "entity",
+                "blueprint": "co_client"
+              },
+              "version": {
+                "type": "string",
+                "title": "Version",
+                "default": "1"
+              },
+              "expires_at": {
+                "type": "string",
+                "title": "Expires At",
+                "format": "date-time"
+              }
+            }
+          }
+        }
+      },
+      {
+        "identifier": "create_proposal_entity",
+        "title": "Create Proposal Entity",
+        "config": {
+          "type": "UPSERT_ENTITY",
+          "mapping": {
+            "title": "Proposal \u2014 {{ .outputs.trigger.lead }}",
+            "relations": {
+              "lead": "{{ .outputs.trigger.lead }}",
+              "scope": "{{ .outputs.trigger.scope }}",
+              "client": "{{ .outputs.trigger.client }}"
+            },
+            "identifier": "proposal-{{ .outputs.trigger.lead }}-v{{ .outputs.trigger.version }}",
+            "properties": {
+              "notes": "{{ .outputs.trigger.notes }}",
+              "amount": "{{ .outputs.trigger.amount }}",
+              "status": "draft",
+              "version": "{{ .outputs.trigger.version }}",
+              "currency": "USD",
+              "expires_at": "{{ .outputs.trigger.expires_at }}"
+            }
+          },
+          "onFailure": "terminate",
+          "blueprintIdentifier": "co_proposal"
+        }
+      }
+    ],
+    "connections": [
+      {
+        "sourceIdentifier": "trigger",
+        "targetIdentifier": "create_proposal_entity"
+      }
+    ],
+    "sourcePointer": "_workflow.json#/13"
+  },
+  {
+    "identifier": "co_submit_bid",
+    "title": "Submit Bid",
+    "description": "Submit a Bid from a Proposal. Creates the bid entity as submitted and advances the lead stage to bid_submitted.",
+    "sourceVersion": "wfv_FpAv1at4EzhXXILL",
+    "inputs": {
+      "order": [
+        "proposal",
+        "lead",
+        "client",
+        "bid_type",
+        "amount",
+        "bid_number",
+        "submission_deadline",
+        "bond_required"
+      ],
+      "required": [
+        "proposal",
+        "lead",
+        "client",
+        "bid_type",
+        "amount"
+      ],
+      "properties": {
+        "lead": {
+          "type": "string",
+          "title": "Lead",
+          "format": "entity",
+          "blueprint": "co_lead"
+        },
+        "amount": {
+          "type": "number",
+          "title": "Bid Amount ($)"
+        },
+        "client": {
+          "type": "string",
+          "title": "Client",
+          "format": "entity",
+          "blueprint": "co_client"
+        },
+        "bid_type": {
+          "enum": [
+            "open",
+            "invited",
+            "negotiated",
+            "sole_source"
+          ],
+          "type": "string",
+          "title": "Bid Type"
+        },
+        "proposal": {
+          "type": "string",
+          "title": "Proposal",
+          "format": "entity",
+          "blueprint": "co_proposal"
+        },
+        "bid_number": {
+          "type": "string",
+          "title": "Bid Number"
+        },
+        "bond_required": {
+          "type": "boolean",
+          "title": "Bond Required?",
+          "default": false
+        },
+        "submission_deadline": {
+          "type": "string",
+          "title": "Submission Deadline",
+          "format": "date-time"
+        }
+      }
+    },
+    "nodes": [
+      {
+        "identifier": "trigger",
+        "title": "Submit Bid",
+        "config": {
+          "type": "SELF_SERVE_TRIGGER",
+          "published": true,
+          "userInputs": {
+            "order": [
+              "proposal",
+              "lead",
+              "client",
+              "bid_type",
+              "amount",
+              "bid_number",
+              "submission_deadline",
+              "bond_required"
+            ],
+            "required": [
+              "proposal",
+              "lead",
+              "client",
+              "bid_type",
+              "amount"
+            ],
+            "properties": {
+              "lead": {
+                "type": "string",
+                "title": "Lead",
+                "format": "entity",
+                "blueprint": "co_lead"
+              },
+              "amount": {
+                "type": "number",
+                "title": "Bid Amount ($)"
+              },
+              "client": {
+                "type": "string",
+                "title": "Client",
+                "format": "entity",
+                "blueprint": "co_client"
+              },
+              "bid_type": {
+                "enum": [
+                  "open",
+                  "invited",
+                  "negotiated",
+                  "sole_source"
+                ],
+                "type": "string",
+                "title": "Bid Type"
+              },
+              "proposal": {
+                "type": "string",
+                "title": "Proposal",
+                "format": "entity",
+                "blueprint": "co_proposal"
+              },
+              "bid_number": {
+                "type": "string",
+                "title": "Bid Number"
+              },
+              "bond_required": {
+                "type": "boolean",
+                "title": "Bond Required?",
+                "default": false
+              },
+              "submission_deadline": {
+                "type": "string",
+                "title": "Submission Deadline",
+                "format": "date-time"
+              }
+            }
+          }
+        }
+      },
+      {
+        "identifier": "create_bid_entity",
+        "title": "Create Bid Entity",
+        "config": {
+          "type": "UPSERT_ENTITY",
+          "mapping": {
+            "title": "Bid \u2014 {{ .outputs.trigger.lead }}",
+            "relations": {
+              "lead": "{{ .outputs.trigger.lead }}",
+              "client": "{{ .outputs.trigger.client }}",
+              "proposal": "{{ .outputs.trigger.proposal }}"
+            },
+            "identifier": "bid-{{ .outputs.trigger.lead }}-{{ .outputs.trigger.bid_number }}",
+            "properties": {
+              "amount": "{{ .outputs.trigger.amount }}",
+              "status": "submitted",
+              "bid_type": "{{ .outputs.trigger.bid_type }}",
+              "bid_number": "{{ .outputs.trigger.bid_number }}",
+              "submitted_at": "{{ now | todateiso8601 }}",
+              "bond_required": "{{ .outputs.trigger.bond_required }}",
+              "submission_deadline": "{{ .outputs.trigger.submission_deadline }}"
+            }
+          },
+          "onFailure": "terminate",
+          "blueprintIdentifier": "co_bid"
+        }
+      },
+      {
+        "identifier": "update_lead_bid_submitted",
+        "title": "Update Lead Stage",
+        "config": {
+          "type": "UPSERT_ENTITY",
+          "mapping": {
+            "identifier": "{{ .outputs.trigger.lead }}",
+            "properties": {
+              "stage": "bid_submitted"
+            }
+          },
+          "onFailure": "terminate",
+          "blueprintIdentifier": "co_lead"
+        }
+      }
+    ],
+    "connections": [
+      {
+        "sourceIdentifier": "trigger",
+        "targetIdentifier": "create_bid_entity"
+      },
+      {
+        "sourceIdentifier": "create_bid_entity",
+        "targetIdentifier": "update_lead_bid_submitted"
+      }
+    ],
+    "sourcePointer": "_workflow.json#/14"
+  },
+  {
+    "identifier": "co_record_payment",
+    "title": "Record Payment",
+    "description": "Record a payment received against an invoice. Tracks method, amount, date, and QuickBooks reference.",
+    "sourceVersion": "wfv_dr0icVPoACpOuVvD",
+    "inputs": {
+      "order": [
+        "invoice",
+        "client",
+        "amount",
+        "payment_date",
+        "payment_method",
+        "reference_number"
+      ],
+      "required": [
+        "invoice",
+        "client",
+        "amount",
+        "payment_date",
+        "payment_method"
+      ],
+      "properties": {
+        "amount": {
+          "type": "number",
+          "title": "Amount ($)"
+        },
+        "client": {
+          "type": "string",
+          "title": "Client",
+          "format": "entity",
+          "blueprint": "co_client"
+        },
+        "invoice": {
+          "type": "string",
+          "title": "Invoice",
+          "format": "entity",
+          "blueprint": "co_invoice"
+        },
+        "payment_date": {
+          "type": "string",
+          "title": "Payment Date",
+          "format": "date-time"
+        },
+        "payment_method": {
+          "enum": [
+            "check",
+            "ach",
+            "wire",
+            "credit_card",
+            "cash",
+            "other"
+          ],
+          "type": "string",
+          "title": "Payment Method"
+        },
+        "reference_number": {
+          "type": "string",
+          "title": "Reference / Check Number"
+        }
+      }
+    },
+    "nodes": [
+      {
+        "identifier": "trigger",
+        "title": "Record Payment",
+        "config": {
+          "type": "SELF_SERVE_TRIGGER",
+          "published": true,
+          "userInputs": {
+            "order": [
+              "invoice",
+              "client",
+              "amount",
+              "payment_date",
+              "payment_method",
+              "reference_number"
+            ],
+            "required": [
+              "invoice",
+              "client",
+              "amount",
+              "payment_date",
+              "payment_method"
+            ],
+            "properties": {
+              "amount": {
+                "type": "number",
+                "title": "Amount ($)"
+              },
+              "client": {
+                "type": "string",
+                "title": "Client",
+                "format": "entity",
+                "blueprint": "co_client"
+              },
+              "invoice": {
+                "type": "string",
+                "title": "Invoice",
+                "format": "entity",
+                "blueprint": "co_invoice"
+              },
+              "payment_date": {
+                "type": "string",
+                "title": "Payment Date",
+                "format": "date-time"
+              },
+              "payment_method": {
+                "enum": [
+                  "check",
+                  "ach",
+                  "wire",
+                  "credit_card",
+                  "cash",
+                  "other"
+                ],
+                "type": "string",
+                "title": "Payment Method"
+              },
+              "reference_number": {
+                "type": "string",
+                "title": "Reference / Check Number"
+              }
+            }
+          }
+        }
+      },
+      {
+        "identifier": "record_payment_entity",
+        "title": "Create Payment Entity",
+        "config": {
+          "type": "UPSERT_ENTITY",
+          "mapping": {
+            "title": "Payment \u2014 {{ .outputs.trigger.invoice }}",
+            "relations": {
+              "client": "{{ .outputs.trigger.client }}",
+              "invoice": "{{ .outputs.trigger.invoice }}"
+            },
+            "identifier": "pay-{{ .outputs.trigger.invoice }}-{{ now | todate }}",
+            "properties": {
+              "amount": "{{ .outputs.trigger.amount }}",
+              "payment_date": "{{ .outputs.trigger.payment_date }}",
+              "payment_method": "{{ .outputs.trigger.payment_method }}",
+              "reference_number": "{{ .outputs.trigger.reference_number }}"
+            }
+          },
+          "onFailure": "terminate",
+          "blueprintIdentifier": "co_payment"
+        }
+      }
+    ],
+    "connections": [
+      {
+        "sourceIdentifier": "trigger",
+        "targetIdentifier": "record_payment_entity"
+      }
+    ],
+    "sourcePointer": "_workflow.json#/15"
+  },
+  {
+    "identifier": "co_create_job",
+    "title": "Create Job from Contract",
+    "description": "Create a Job / Project from a signed Contract. Job starts in pre_construction status.",
+    "sourceVersion": "wfv_y3tTBKavxqjV1PGM",
+    "inputs": {
+      "order": [
+        "contract",
+        "client",
+        "job_number",
+        "job_type",
+        "address",
+        "city",
+        "state",
+        "project_manager",
+        "start_date"
+      ],
+      "required": [
+        "contract",
+        "client",
+        "job_number",
+        "job_type"
+      ],
+      "properties": {
+        "city": {
+          "type": "string",
+          "title": "City"
+        },
+        "state": {
+          "type": "string",
+          "title": "State"
+        },
+        "client": {
+          "type": "string",
+          "title": "Client",
+          "format": "entity",
+          "blueprint": "co_client"
+        },
+        "address": {
+          "type": "string",
+          "title": "Job Address"
+        },
+        "contract": {
+          "type": "string",
+          "title": "Contract",
+          "format": "entity",
+          "blueprint": "co_contract"
+        },
+        "job_type": {
+          "enum": [
+            "commercial",
+            "residential",
+            "municipal",
+            "subcontract",
+            "general"
+          ],
+          "type": "string",
+          "title": "Job Type"
+        },
+        "job_number": {
+          "type": "string",
+          "title": "Job Number"
+        },
+        "start_date": {
+          "type": "string",
+          "title": "Start Date",
+          "format": "date-time"
+        },
+        "project_manager": {
+          "type": "string",
+          "title": "Project Manager"
+        }
+      }
+    },
+    "nodes": [
+      {
+        "identifier": "trigger",
+        "title": "Create Job from Contract",
+        "config": {
+          "type": "SELF_SERVE_TRIGGER",
+          "published": true,
+          "userInputs": {
+            "order": [
+              "contract",
+              "client",
+              "job_number",
+              "job_type",
+              "address",
+              "city",
+              "state",
+              "project_manager",
+              "start_date"
+            ],
+            "required": [
+              "contract",
+              "client",
+              "job_number",
+              "job_type"
+            ],
+            "properties": {
+              "city": {
+                "type": "string",
+                "title": "City"
+              },
+              "state": {
+                "type": "string",
+                "title": "State"
+              },
+              "client": {
+                "type": "string",
+                "title": "Client",
+                "format": "entity",
+                "blueprint": "co_client"
+              },
+              "address": {
+                "type": "string",
+                "title": "Job Address"
+              },
+              "contract": {
+                "type": "string",
+                "title": "Contract",
+                "format": "entity",
+                "blueprint": "co_contract"
+              },
+              "job_type": {
+                "enum": [
+                  "commercial",
+                  "residential",
+                  "municipal",
+                  "subcontract",
+                  "general"
+                ],
+                "type": "string",
+                "title": "Job Type"
+              },
+              "job_number": {
+                "type": "string",
+                "title": "Job Number"
+              },
+              "start_date": {
+                "type": "string",
+                "title": "Start Date",
+                "format": "date-time"
+              },
+              "project_manager": {
+                "type": "string",
+                "title": "Project Manager"
+              }
+            }
+          }
+        }
+      },
+      {
+        "identifier": "create_job_entity",
+        "title": "Create Job Entity",
+        "config": {
+          "type": "UPSERT_ENTITY",
+          "mapping": {
+            "title": "Job #{{ .outputs.trigger.job_number }}",
+            "relations": {
+              "client": "{{ .outputs.trigger.client }}",
+              "contract": "{{ .outputs.trigger.contract }}"
+            },
+            "identifier": "job-{{ .outputs.trigger.job_number }}",
+            "properties": {
+              "city": "{{ .outputs.trigger.city }}",
+              "state": "{{ .outputs.trigger.state }}",
+              "status": "pre_construction",
+              "address": "{{ .outputs.trigger.address }}",
+              "job_type": "{{ .outputs.trigger.job_type }}",
+              "job_number": "{{ .outputs.trigger.job_number }}",
+              "start_date": "{{ .outputs.trigger.start_date }}",
+              "project_manager": "{{ .outputs.trigger.project_manager }}"
+            }
+          },
+          "onFailure": "terminate",
+          "blueprintIdentifier": "co_job"
+        }
+      }
+    ],
+    "connections": [
+      {
+        "sourceIdentifier": "trigger",
+        "targetIdentifier": "create_job_entity"
+      }
+    ],
+    "sourcePointer": "_workflow.json#/16"
+  },
+  {
+    "identifier": "co_convert_bid_to_contract",
+    "title": "Convert Won Bid to Contract",
+    "description": "Mark a bid as awarded and create a new Contract linked to the winning bid. Two-step: update bid status then create contract.",
+    "sourceVersion": "wfv_7KWo0poq8o3PoyrL",
+    "inputs": {
+      "order": [
+        "bid",
+        "client",
+        "contact",
+        "contract_type",
+        "contract_number",
+        "retainage_percent",
+        "start_date",
+        "end_date"
+      ],
+      "required": [
+        "bid",
+        "client",
+        "contract_type"
+      ],
+      "properties": {
+        "bid": {
+          "type": "string",
+          "title": "Winning Bid",
+          "format": "entity",
+          "blueprint": "co_bid"
+        },
+        "client": {
+          "type": "string",
+          "title": "Client",
+          "format": "entity",
+          "blueprint": "co_client"
+        },
+        "contact": {
+          "type": "string",
+          "title": "Contact",
+          "format": "entity",
+          "blueprint": "co_contact"
+        },
+        "end_date": {
+          "type": "string",
+          "title": "End Date",
+          "format": "date-time"
+        },
+        "start_date": {
+          "type": "string",
+          "title": "Start Date",
+          "format": "date-time"
+        },
+        "contract_type": {
+          "enum": [
+            "lump_sum",
+            "time_and_materials",
+            "unit_price",
+            "cost_plus",
+            "gmp"
+          ],
+          "type": "string",
+          "title": "Contract Type"
+        },
+        "contract_number": {
+          "type": "string",
+          "title": "Contract Number"
+        },
+        "retainage_percent": {
+          "type": "number",
+          "title": "Retainage %",
+          "default": 10
+        }
+      }
+    },
+    "nodes": [
+      {
+        "identifier": "trigger",
+        "title": "Convert Won Bid to Contract",
+        "config": {
+          "type": "SELF_SERVE_TRIGGER",
+          "published": true,
+          "userInputs": {
+            "order": [
+              "bid",
+              "client",
+              "contact",
+              "contract_type",
+              "contract_number",
+              "retainage_percent",
+              "start_date",
+              "end_date"
+            ],
+            "required": [
+              "bid",
+              "client",
+              "contract_type"
+            ],
+            "properties": {
+              "bid": {
+                "type": "string",
+                "title": "Winning Bid",
+                "format": "entity",
+                "blueprint": "co_bid"
+              },
+              "client": {
+                "type": "string",
+                "title": "Client",
+                "format": "entity",
+                "blueprint": "co_client"
+              },
+              "contact": {
+                "type": "string",
+                "title": "Contact",
+                "format": "entity",
+                "blueprint": "co_contact"
+              },
+              "end_date": {
+                "type": "string",
+                "title": "End Date",
+                "format": "date-time"
+              },
+              "start_date": {
+                "type": "string",
+                "title": "Start Date",
+                "format": "date-time"
+              },
+              "contract_type": {
+                "enum": [
+                  "lump_sum",
+                  "time_and_materials",
+                  "unit_price",
+                  "cost_plus",
+                  "gmp"
+                ],
+                "type": "string",
+                "title": "Contract Type"
+              },
+              "contract_number": {
+                "type": "string",
+                "title": "Contract Number"
+              },
+              "retainage_percent": {
+                "type": "number",
+                "title": "Retainage %",
+                "default": 10
+              }
+            }
+          }
+        }
+      },
+      {
+        "identifier": "mark_bid_awarded",
+        "title": "Mark Bid Awarded",
+        "config": {
+          "type": "UPSERT_ENTITY",
+          "mapping": {
+            "identifier": "{{ .outputs.trigger.bid }}",
+            "properties": {
+              "status": "awarded"
+            }
+          },
+          "onFailure": "terminate",
+          "blueprintIdentifier": "co_bid"
+        }
+      },
+      {
+        "identifier": "create_contract_entity",
+        "title": "Create Contract Entity",
+        "config": {
+          "type": "UPSERT_ENTITY",
+          "mapping": {
+            "title": "Contract \u2014 {{ .outputs.trigger.bid }}",
+            "relations": {
+              "bid": "{{ .outputs.trigger.bid }}",
+              "client": "{{ .outputs.trigger.client }}",
+              "contact": "{{ .outputs.trigger.contact }}"
+            },
+            "identifier": "contract-{{ .outputs.trigger.bid }}",
+            "properties": {
+              "status": "draft",
+              "end_date": "{{ .outputs.trigger.end_date }}",
+              "start_date": "{{ .outputs.trigger.start_date }}",
+              "contract_type": "{{ .outputs.trigger.contract_type }}",
+              "contract_number": "{{ .outputs.trigger.contract_number }}",
+              "retainage_percent": "{{ .outputs.trigger.retainage_percent }}"
+            }
+          },
+          "onFailure": "terminate",
+          "blueprintIdentifier": "co_contract"
+        }
+      }
+    ],
+    "connections": [
+      {
+        "sourceIdentifier": "trigger",
+        "targetIdentifier": "mark_bid_awarded"
+      },
+      {
+        "sourceIdentifier": "mark_bid_awarded",
+        "targetIdentifier": "create_contract_entity"
+      }
+    ],
+    "sourcePointer": "_workflow.json#/17"
+  },
+  {
+    "identifier": "co_mark_contract_signed",
+    "title": "Mark Contract Signed",
+    "description": "Mark a contract as fully executed, set the signed timestamp, and optionally record the DocuSign envelope ID and document URL.",
+    "sourceVersion": "wfv_sLwGxYkWAP3pGEqR",
+    "inputs": {
+      "order": [
+        "contract",
+        "contract_doc_url",
+        "docusign_envelope_id"
+      ],
+      "required": [
+        "contract"
+      ],
+      "properties": {
+        "contract": {
+          "type": "string",
+          "title": "Contract",
+          "format": "entity",
+          "blueprint": "co_contract"
+        },
+        "contract_doc_url": {
+          "type": "string",
+          "title": "Contract Doc URL",
+          "format": "url"
+        },
+        "docusign_envelope_id": {
+          "type": "string",
+          "title": "DocuSign Envelope ID"
+        }
+      }
+    },
+    "nodes": [
+      {
+        "identifier": "trigger",
+        "title": "Mark Contract Signed",
+        "config": {
+          "type": "SELF_SERVE_TRIGGER",
+          "published": true,
+          "userInputs": {
+            "order": [
+              "contract",
+              "contract_doc_url",
+              "docusign_envelope_id"
+            ],
+            "required": [
+              "contract"
+            ],
+            "properties": {
+              "contract": {
+                "type": "string",
+                "title": "Contract",
+                "format": "entity",
+                "blueprint": "co_contract"
+              },
+              "contract_doc_url": {
+                "type": "string",
+                "title": "Contract Doc URL",
+                "format": "url"
+              },
+              "docusign_envelope_id": {
+                "type": "string",
+                "title": "DocuSign Envelope ID"
+              }
+            }
+          }
+        }
+      },
+      {
+        "identifier": "sign_contract",
+        "title": "Update Contract Status",
+        "config": {
+          "type": "UPSERT_ENTITY",
+          "mapping": {
+            "identifier": "{{ .outputs.trigger.contract }}",
+            "properties": {
+              "status": "fully_executed",
+              "signed_at": "{{ now | todateiso8601 }}",
+              "contract_doc_url": "{{ .outputs.trigger.contract_doc_url }}",
+              "docusign_envelope_id": "{{ .outputs.trigger.docusign_envelope_id }}"
+            }
+          },
+          "onFailure": "terminate",
+          "blueprintIdentifier": "co_contract"
+        }
+      }
+    ],
+    "connections": [
+      {
+        "sourceIdentifier": "trigger",
+        "targetIdentifier": "sign_contract"
+      }
+    ],
+    "sourcePointer": "_workflow.json#/18"
+  },
+  {
+    "identifier": "co_create_invoice",
+    "title": "Create Invoice",
+    "description": "Issue an Invoice against a Job. Sets issued_date to now and status to draft.",
+    "sourceVersion": "wfv_fg5IkLgdrzPlBTjZ",
+    "inputs": {
+      "order": [
+        "job",
+        "client",
+        "contract",
+        "invoice_number",
+        "invoice_type",
+        "amount",
+        "due_date"
+      ],
+      "required": [
+        "job",
+        "client",
+        "invoice_number",
+        "invoice_type",
+        "amount",
+        "due_date"
+      ],
+      "properties": {
+        "job": {
+          "type": "string",
+          "title": "Job",
+          "format": "entity",
+          "blueprint": "co_job"
+        },
+        "amount": {
+          "type": "number",
+          "title": "Amount ($)"
+        },
+        "client": {
+          "type": "string",
+          "title": "Client",
+          "format": "entity",
+          "blueprint": "co_client"
+        },
+        "contract": {
+          "type": "string",
+          "title": "Contract",
+          "format": "entity",
+          "blueprint": "co_contract"
+        },
+        "due_date": {
+          "type": "string",
+          "title": "Due Date",
+          "format": "date-time"
+        },
+        "invoice_type": {
+          "enum": [
+            "progress",
+            "final",
+            "retainage",
+            "change_order",
+            "deposit"
+          ],
+          "type": "string",
+          "title": "Invoice Type"
+        },
+        "invoice_number": {
+          "type": "string",
+          "title": "Invoice Number"
+        }
+      }
+    },
+    "nodes": [
+      {
+        "identifier": "trigger",
+        "title": "Create Invoice",
+        "config": {
+          "type": "SELF_SERVE_TRIGGER",
+          "published": true,
+          "userInputs": {
+            "order": [
+              "job",
+              "client",
+              "contract",
+              "invoice_number",
+              "invoice_type",
+              "amount",
+              "due_date"
+            ],
+            "required": [
+              "job",
+              "client",
+              "invoice_number",
+              "invoice_type",
+              "amount",
+              "due_date"
+            ],
+            "properties": {
+              "job": {
+                "type": "string",
+                "title": "Job",
+                "format": "entity",
+                "blueprint": "co_job"
+              },
+              "amount": {
+                "type": "number",
+                "title": "Amount ($)"
+              },
+              "client": {
+                "type": "string",
+                "title": "Client",
+                "format": "entity",
+                "blueprint": "co_client"
+              },
+              "contract": {
+                "type": "string",
+                "title": "Contract",
+                "format": "entity",
+                "blueprint": "co_contract"
+              },
+              "due_date": {
+                "type": "string",
+                "title": "Due Date",
+                "format": "date-time"
+              },
+              "invoice_type": {
+                "enum": [
+                  "progress",
+                  "final",
+                  "retainage",
+                  "change_order",
+                  "deposit"
+                ],
+                "type": "string",
+                "title": "Invoice Type"
+              },
+              "invoice_number": {
+                "type": "string",
+                "title": "Invoice Number"
+              }
+            }
+          }
+        }
+      },
+      {
+        "identifier": "create_invoice_entity",
+        "title": "Create Invoice Entity",
+        "config": {
+          "type": "UPSERT_ENTITY",
+          "mapping": {
+            "title": "Invoice #{{ .outputs.trigger.invoice_number }}",
+            "relations": {
+              "job": "{{ .outputs.trigger.job }}",
+              "client": "{{ .outputs.trigger.client }}",
+              "contract": "{{ .outputs.trigger.contract }}"
+            },
+            "identifier": "inv-{{ .outputs.trigger.invoice_number }}",
+            "properties": {
+              "amount": "{{ .outputs.trigger.amount }}",
+              "status": "draft",
+              "due_date": "{{ .outputs.trigger.due_date }}",
+              "issued_date": "{{ now | todateiso8601 }}",
+              "invoice_type": "{{ .outputs.trigger.invoice_type }}",
+              "invoice_number": "{{ .outputs.trigger.invoice_number }}"
+            }
+          },
+          "onFailure": "terminate",
+          "blueprintIdentifier": "co_invoice"
+        }
+      }
+    ],
+    "connections": [
+      {
+        "sourceIdentifier": "trigger",
+        "targetIdentifier": "create_invoice_entity"
+      }
+    ],
+    "sourcePointer": "_workflow.json#/19"
+  }
+]

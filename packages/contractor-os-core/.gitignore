@@ -1,0 +1,7 @@
+node_modules/
+build/
+.env*
+private-import/
+src/component/_generated/
+examples/convex/_generated/
+*.tgz

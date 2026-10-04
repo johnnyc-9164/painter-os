@@ -1,0 +1,21 @@
+{
+  "status": "passed",
+  "routes": 19,
+  "realBrowserFlows": [
+    "demo login",
+    "lead creation",
+    "search",
+    "lead qualification",
+    "estimate creation",
+    "proposal send",
+    "portal issuance",
+    "anonymous customer approval",
+    "project creation",
+    "mobile navigation"
+  ],
+  "pageErrors": [],
+  "serverFailures": [],
+  "networkMocks": false,
+  "runtime": "local acceptance runtime on production Next build",
+  "mobileWidth": 390
+}

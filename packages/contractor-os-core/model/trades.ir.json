@@ -1,0 +1,1142 @@
+{
+  "irVersion": 1,
+  "sourceKind": "existing_summary_and_transcription_not_raw_Port_export",
+  "sourceBlueprint": "co_trade_spec",
+  "sourceFiles": [
+    "model/blueprints.summary.json",
+    "docs/SOURCE_CONTRACTOR_SUMMARY.md"
+  ],
+  "policy": "Trade storage partition is implementation policy. No new requiredness, defaults, transitions, unit limits or business rules. Existing source definitions remain authoritative.",
+  "commonFields": [
+    "trade",
+    "measurement_value",
+    "measurement_unit",
+    "permit_required",
+    "permit_number",
+    "materials_spec",
+    "special_requirements"
+  ],
+  "trades": {
+    "painting": {
+      "componentName": "contractorPainting",
+      "fields": [
+        "trade",
+        "measurement_value",
+        "measurement_unit",
+        "permit_required",
+        "permit_number",
+        "materials_spec",
+        "special_requirements",
+        "paint_finish",
+        "paint_grade",
+        "paint_surface_type",
+        "number_of_coats",
+        "color_count",
+        "primer_required",
+        "pressure_wash_required",
+        "prep_work",
+        "masking_complexity",
+        "lead_hazard_present",
+        "ceiling_height_ft",
+        "surface_condition"
+      ]
+    },
+    "plumbing": {
+      "componentName": "contractorPlumbing",
+      "fields": [
+        "trade",
+        "measurement_value",
+        "measurement_unit",
+        "permit_required",
+        "permit_number",
+        "materials_spec",
+        "special_requirements",
+        "pipe_material",
+        "pipe_diameter",
+        "fixture_count",
+        "drain_cleaning",
+        "water_heater_involved"
+      ]
+    },
+    "roofing": {
+      "componentName": "contractorRoofing",
+      "fields": [
+        "trade",
+        "measurement_value",
+        "measurement_unit",
+        "permit_required",
+        "permit_number",
+        "materials_spec",
+        "special_requirements",
+        "roof_type",
+        "roof_pitch",
+        "layers_to_remove",
+        "decking_replacement",
+        "gutter_work",
+        "skylight_count"
+      ]
+    },
+    "garage_door": {
+      "componentName": "contractorGarageDoor",
+      "fields": [
+        "trade",
+        "measurement_value",
+        "measurement_unit",
+        "permit_required",
+        "permit_number",
+        "materials_spec",
+        "special_requirements",
+        "door_type",
+        "door_material",
+        "door_count",
+        "spring_type",
+        "opener_included"
+      ]
+    },
+    "electrical": {
+      "componentName": "contractorElectrical",
+      "fields": [
+        "trade",
+        "measurement_value",
+        "measurement_unit",
+        "permit_required",
+        "permit_number",
+        "materials_spec",
+        "special_requirements",
+        "electrical_service_type",
+        "circuit_count",
+        "panel_amps",
+        "panel_upgrade",
+        "fixture_count"
+      ]
+    },
+    "hvac": {
+      "componentName": "contractorHvac",
+      "fields": [
+        "trade",
+        "measurement_value",
+        "measurement_unit",
+        "permit_required",
+        "permit_number",
+        "materials_spec",
+        "special_requirements",
+        "hvac_system_type",
+        "tonnage",
+        "ductwork_included"
+      ]
+    },
+    "concrete": {
+      "componentName": "contractorConcrete",
+      "fields": [
+        "trade",
+        "measurement_value",
+        "measurement_unit",
+        "permit_required",
+        "permit_number",
+        "materials_spec",
+        "special_requirements",
+        "concrete_type",
+        "concrete_finish",
+        "reinforcement",
+        "thickness_inches"
+      ]
+    },
+    "landscaping": {
+      "componentName": "contractorLandscaping",
+      "fields": [
+        "trade",
+        "measurement_value",
+        "measurement_unit",
+        "permit_required",
+        "permit_number",
+        "materials_spec",
+        "special_requirements",
+        "landscape_service_type",
+        "irrigation_zones",
+        "sod_or_seed"
+      ]
+    },
+    "drywall_framing": {
+      "componentName": "contractorDrywallFraming",
+      "fields": [
+        "trade",
+        "measurement_value",
+        "measurement_unit",
+        "permit_required",
+        "permit_number",
+        "materials_spec",
+        "special_requirements",
+        "drywall_type",
+        "framing_type",
+        "finishing_level",
+        "ceiling_height_ft"
+      ]
+    }
+  },
+  "fields": {
+    "trade": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "trade",
+      "definition": {
+        "type": "string",
+        "required": null,
+        "nullable": null,
+        "source_line": 109,
+        "enum": [
+          "painting",
+          "plumbing",
+          "roofing",
+          "garage_door",
+          "electrical",
+          "hvac",
+          "concrete",
+          "landscaping",
+          "drywall_framing"
+        ]
+      },
+      "appliesTo": [
+        "painting",
+        "plumbing",
+        "roofing",
+        "garage_door",
+        "electrical",
+        "hvac",
+        "concrete",
+        "landscaping",
+        "drywall_framing"
+      ],
+      "applicabilityEvidence": "Shared summary fields; applicability to all trades is partition policy"
+    },
+    "measurement_value": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "measurement_value",
+      "definition": {
+        "type": "number",
+        "required": null,
+        "nullable": null,
+        "source_line": 110
+      },
+      "appliesTo": [
+        "painting",
+        "plumbing",
+        "roofing",
+        "garage_door",
+        "electrical",
+        "hvac",
+        "concrete",
+        "landscaping",
+        "drywall_framing"
+      ],
+      "applicabilityEvidence": "Shared summary fields; applicability to all trades is partition policy"
+    },
+    "measurement_unit": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "measurement_unit",
+      "definition": {
+        "type": "string",
+        "required": null,
+        "nullable": null,
+        "source_line": 111,
+        "enum": [
+          "sq_ft",
+          "linear_ft",
+          "units",
+          "squares",
+          "tons",
+          "cubic_yards",
+          "lf"
+        ]
+      },
+      "appliesTo": [
+        "painting",
+        "plumbing",
+        "roofing",
+        "garage_door",
+        "electrical",
+        "hvac",
+        "concrete",
+        "landscaping",
+        "drywall_framing"
+      ],
+      "applicabilityEvidence": "Shared summary fields; applicability to all trades is partition policy"
+    },
+    "permit_required": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "permit_required",
+      "definition": {
+        "type": "boolean",
+        "required": null,
+        "nullable": null,
+        "source_line": 112
+      },
+      "appliesTo": [
+        "painting",
+        "plumbing",
+        "roofing",
+        "garage_door",
+        "electrical",
+        "hvac",
+        "concrete",
+        "landscaping",
+        "drywall_framing"
+      ],
+      "applicabilityEvidence": "Shared summary fields; applicability to all trades is partition policy"
+    },
+    "permit_number": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "permit_number",
+      "definition": {
+        "type": "string",
+        "required": null,
+        "nullable": null,
+        "source_line": 113
+      },
+      "appliesTo": [
+        "painting",
+        "plumbing",
+        "roofing",
+        "garage_door",
+        "electrical",
+        "hvac",
+        "concrete",
+        "landscaping",
+        "drywall_framing"
+      ],
+      "applicabilityEvidence": "Shared summary fields; applicability to all trades is partition policy"
+    },
+    "materials_spec": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "materials_spec",
+      "definition": {
+        "type": "string",
+        "required": null,
+        "nullable": null,
+        "source_line": 114,
+        "format": "markdown"
+      },
+      "appliesTo": [
+        "painting",
+        "plumbing",
+        "roofing",
+        "garage_door",
+        "electrical",
+        "hvac",
+        "concrete",
+        "landscaping",
+        "drywall_framing"
+      ],
+      "applicabilityEvidence": "Shared summary fields; applicability to all trades is partition policy"
+    },
+    "special_requirements": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "special_requirements",
+      "definition": {
+        "type": "string",
+        "required": null,
+        "nullable": null,
+        "source_line": 115,
+        "format": "markdown"
+      },
+      "appliesTo": [
+        "painting",
+        "plumbing",
+        "roofing",
+        "garage_door",
+        "electrical",
+        "hvac",
+        "concrete",
+        "landscaping",
+        "drywall_framing"
+      ],
+      "applicabilityEvidence": "Shared summary fields; applicability to all trades is partition policy"
+    },
+    "surface_condition": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "surface_condition",
+      "definition": {
+        "type": "string",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22",
+        "enum": [
+          "new",
+          "good",
+          "fair",
+          "poor",
+          "needs_repair"
+        ]
+      },
+      "appliesTo": [
+        "painting"
+      ],
+      "applicabilityEvidence": "Implementation policy: painting compatibility test; source applicability unspecified"
+    },
+    "paint_surface_type": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "paint_surface_type",
+      "definition": {
+        "type": "string",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22",
+        "enum": [
+          "interior_walls",
+          "exterior_walls",
+          "trim",
+          "ceilings",
+          "cabinets",
+          "deck",
+          "fence",
+          "concrete_floor",
+          "garage_floor",
+          "other"
+        ]
+      },
+      "appliesTo": [
+        "painting"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "paint_finish": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "paint_finish",
+      "definition": {
+        "type": "string",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22",
+        "enum": [
+          "flat",
+          "eggshell",
+          "satin",
+          "semi_gloss",
+          "gloss",
+          "cabinet_enamel"
+        ]
+      },
+      "appliesTo": [
+        "painting"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "paint_grade": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "paint_grade",
+      "definition": {
+        "type": "string",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22",
+        "enum": [
+          "economy",
+          "standard",
+          "premium",
+          "luxury"
+        ]
+      },
+      "appliesTo": [
+        "painting"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "number_of_coats": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "number_of_coats",
+      "definition": {
+        "type": "number",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22"
+      },
+      "appliesTo": [
+        "painting"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "color_count": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "color_count",
+      "definition": {
+        "type": "number",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22"
+      },
+      "appliesTo": [
+        "painting"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "primer_required": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "primer_required",
+      "definition": {
+        "type": "boolean",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22"
+      },
+      "appliesTo": [
+        "painting"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "pressure_wash_required": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "pressure_wash_required",
+      "definition": {
+        "type": "boolean",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22"
+      },
+      "appliesTo": [
+        "painting"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "prep_work": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "prep_work",
+      "definition": {
+        "type": "string",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22",
+        "enum": [
+          "minimal",
+          "moderate",
+          "extensive",
+          "repair_needed"
+        ]
+      },
+      "appliesTo": [
+        "painting"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "masking_complexity": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "masking_complexity",
+      "definition": {
+        "type": "string",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22",
+        "enum": [
+          "simple",
+          "moderate",
+          "complex"
+        ]
+      },
+      "appliesTo": [
+        "painting"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "lead_hazard_present": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "lead_hazard_present",
+      "definition": {
+        "type": "boolean",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22"
+      },
+      "appliesTo": [
+        "painting"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "ceiling_height_ft": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "ceiling_height_ft",
+      "definition": {
+        "type": "number",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22"
+      },
+      "appliesTo": [
+        "painting",
+        "drywall_framing"
+      ],
+      "applicabilityEvidence": "Source summary: drywall; painting compatibility: tests/schema-v040.test.mjs (implementation policy)"
+    },
+    "roof_type": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "roof_type",
+      "definition": {
+        "type": "string",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22",
+        "enum": [
+          "asphalt_shingle",
+          "metal",
+          "tile",
+          "flat_tpo",
+          "flat_epdm",
+          "slate",
+          "cedar_shake",
+          "other"
+        ]
+      },
+      "appliesTo": [
+        "roofing"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "roof_pitch": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "roof_pitch",
+      "definition": {
+        "type": "string",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22",
+        "enum": [
+          "flat",
+          "low",
+          "medium",
+          "steep"
+        ]
+      },
+      "appliesTo": [
+        "roofing"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "layers_to_remove": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "layers_to_remove",
+      "definition": {
+        "type": "number",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22"
+      },
+      "appliesTo": [
+        "roofing"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "decking_replacement": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "decking_replacement",
+      "definition": {
+        "type": "boolean",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22"
+      },
+      "appliesTo": [
+        "roofing"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "gutter_work": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "gutter_work",
+      "definition": {
+        "type": "boolean",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22"
+      },
+      "appliesTo": [
+        "roofing"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "skylight_count": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "skylight_count",
+      "definition": {
+        "type": "number",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22"
+      },
+      "appliesTo": [
+        "roofing"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "hvac_system_type": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "hvac_system_type",
+      "definition": {
+        "type": "string",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22",
+        "enum": [
+          "central_air",
+          "mini_split",
+          "heat_pump",
+          "furnace",
+          "boiler",
+          "ductwork",
+          "other"
+        ]
+      },
+      "appliesTo": [
+        "hvac"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "tonnage": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "tonnage",
+      "definition": {
+        "type": "number",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22"
+      },
+      "appliesTo": [
+        "hvac"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "ductwork_included": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "ductwork_included",
+      "definition": {
+        "type": "boolean",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22"
+      },
+      "appliesTo": [
+        "hvac"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "electrical_service_type": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "electrical_service_type",
+      "definition": {
+        "type": "string",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22",
+        "enum": [
+          "residential",
+          "commercial",
+          "industrial"
+        ]
+      },
+      "appliesTo": [
+        "electrical"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "circuit_count": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "circuit_count",
+      "definition": {
+        "type": "number",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22"
+      },
+      "appliesTo": [
+        "electrical"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "panel_amps": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "panel_amps",
+      "definition": {
+        "type": "number",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22"
+      },
+      "appliesTo": [
+        "electrical"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "panel_upgrade": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "panel_upgrade",
+      "definition": {
+        "type": "boolean",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22"
+      },
+      "appliesTo": [
+        "electrical"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "fixture_count": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "fixture_count",
+      "definition": {
+        "type": "number",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22"
+      },
+      "appliesTo": [
+        "plumbing",
+        "electrical"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "pipe_material": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "pipe_material",
+      "definition": {
+        "type": "string",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22",
+        "enum": [
+          "copper",
+          "pvc",
+          "cpvc",
+          "pex",
+          "cast_iron",
+          "abs",
+          "galvanized",
+          "other"
+        ]
+      },
+      "appliesTo": [
+        "plumbing"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "pipe_diameter": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "pipe_diameter",
+      "definition": {
+        "type": "string",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22"
+      },
+      "appliesTo": [
+        "plumbing"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "drain_cleaning": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "drain_cleaning",
+      "definition": {
+        "type": "boolean",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22"
+      },
+      "appliesTo": [
+        "plumbing"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "water_heater_involved": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "water_heater_involved",
+      "definition": {
+        "type": "boolean",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22"
+      },
+      "appliesTo": [
+        "plumbing"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "concrete_type": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "concrete_type",
+      "definition": {
+        "type": "string",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22",
+        "enum": [
+          "slab",
+          "driveway",
+          "sidewalk",
+          "foundation",
+          "decorative",
+          "stamped"
+        ]
+      },
+      "appliesTo": [
+        "concrete"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "concrete_finish": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "concrete_finish",
+      "definition": {
+        "type": "string",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22",
+        "enum": [
+          "broom",
+          "smooth",
+          "exposed_aggregate",
+          "stamped",
+          "epoxy"
+        ]
+      },
+      "appliesTo": [
+        "concrete"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "reinforcement": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "reinforcement",
+      "definition": {
+        "type": "string",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22",
+        "enum": [
+          "none",
+          "rebar",
+          "wire_mesh",
+          "fiber"
+        ]
+      },
+      "appliesTo": [
+        "concrete"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "thickness_inches": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "thickness_inches",
+      "definition": {
+        "type": "number",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22"
+      },
+      "appliesTo": [
+        "concrete"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "drywall_type": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "drywall_type",
+      "definition": {
+        "type": "string",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22",
+        "enum": [
+          "standard",
+          "moisture_resistant",
+          "fire_rated",
+          "soundproof"
+        ]
+      },
+      "appliesTo": [
+        "drywall_framing"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "framing_type": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "framing_type",
+      "definition": {
+        "type": "string",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22",
+        "enum": [
+          "wood",
+          "metal",
+          "none"
+        ]
+      },
+      "appliesTo": [
+        "drywall_framing"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "finishing_level": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "finishing_level",
+      "definition": {
+        "type": "string",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22",
+        "enum": [
+          "level_1",
+          "level_2",
+          "level_3",
+          "level_4",
+          "level_5"
+        ]
+      },
+      "appliesTo": [
+        "drywall_framing"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "door_type": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "door_type",
+      "definition": {
+        "type": "string",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22",
+        "enum": [
+          "single",
+          "double",
+          "roll_up",
+          "sectional",
+          "carriage_style"
+        ]
+      },
+      "appliesTo": [
+        "garage_door"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "door_material": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "door_material",
+      "definition": {
+        "type": "string",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22",
+        "enum": [
+          "steel",
+          "wood",
+          "aluminum",
+          "fiberglass",
+          "vinyl"
+        ]
+      },
+      "appliesTo": [
+        "garage_door"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "door_count": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "door_count",
+      "definition": {
+        "type": "number",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22"
+      },
+      "appliesTo": [
+        "garage_door"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "spring_type": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "spring_type",
+      "definition": {
+        "type": "string",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22",
+        "enum": [
+          "torsion",
+          "extension"
+        ]
+      },
+      "appliesTo": [
+        "garage_door"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "opener_included": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "opener_included",
+      "definition": {
+        "type": "boolean",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22"
+      },
+      "appliesTo": [
+        "garage_door"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "landscape_service_type": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "landscape_service_type",
+      "definition": {
+        "type": "string",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22",
+        "enum": [
+          "lawn_care",
+          "hardscaping",
+          "planting",
+          "irrigation",
+          "drainage",
+          "tree_work",
+          "cleanup"
+        ]
+      },
+      "appliesTo": [
+        "landscaping"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "irrigation_zones": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "irrigation_zones",
+      "definition": {
+        "type": "number",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22"
+      },
+      "appliesTo": [
+        "landscaping"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    },
+    "sod_or_seed": {
+      "sourceBlueprint": "co_trade_spec",
+      "sourceProperty": "sod_or_seed",
+      "definition": {
+        "type": "string",
+        "required": null,
+        "nullable": null,
+        "source": "user_schema_transcription_2026_09_22",
+        "enum": [
+          "sod",
+          "seed",
+          "hydroseed",
+          "na"
+        ]
+      },
+      "appliesTo": [
+        "landscaping"
+      ],
+      "applicabilityEvidence": "docs/SOURCE_CONTRACTOR_SUMMARY.md co_trade_spec named trade groups"
+    }
+  }
+}

@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: v040: prior client health predicates are executed without inferring business approval
+ok 1 - v040: prior client health predicates are executed without inferring business approval
+  ---
+  duration_ms: 1.330252
+  type: 'test'
+  ...
+# Subtest: v040: missing scorecard predicates cannot yield a passing grade
+ok 2 - v040: missing scorecard predicates cannot yield a passing grade
+  ---
+  duration_ms: 0.148884
+  type: 'test'
+  ...
+# Subtest: v040: titles do not replace actual predicates
+ok 3 - v040: titles do not replace actual predicates
+  ---
+  duration_ms: 0.282526
+  type: 'test'
+  ...
+# Subtest: v040: every one of the 22 source rules is retained in the evaluator
+ok 4 - v040: every one of the 22 source rules is retained in the evaluator
+  ---
+  duration_ms: 1.581901
+  type: 'test'
+  ...
+# Subtest: v040: unknown query operators fail closed
+ok 5 - v040: unknown query operators fail closed
+  ---
+  duration_ms: 0.162054
+  type: 'test'
+  ...
+# Subtest: v040: numbers and booleans are not coerced from strings
+ok 6 - v040: numbers and booleans are not coerced from strings
+  ---
+  duration_ms: 0.115974
+  type: 'test'
+  ...
+# Subtest: v040: zero is present, not an empty monetary value
+ok 7 - v040: zero is present, not an empty monetary value
+  ---
+  duration_ms: 0.262334
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 62.637985

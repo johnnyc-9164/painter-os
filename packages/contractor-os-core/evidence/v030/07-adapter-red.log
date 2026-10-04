@@ -1,0 +1,226 @@
+TAP version 13
+# Subtest: Convex adapter registers the unified command endpoint and fourteen named commands
+not ok 1 - Convex adapter registers the unified command endpoint and fourteen named commands
+  ---
+  duration_ms: 8.276628
+  type: 'test'
+  location: '/mnt/data/backend_work/contractor-os-core/tests/backend-adapter.test.mjs:24:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert.ok(workflow)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: ~
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/backend-adapter.test.mjs:24:102)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: Convex adapter creates records and immutable command evidence through actual adapter methods
+not ok 2 - Convex adapter creates records and immutable command evidence through actual adapter methods
+  ---
+  duration_ms: 0.504712
+  type: 'test'
+  location: '/mnt/data/backend_work/contractor-os-core/tests/backend-adapter.test.mjs:25:1'
+  failureType: 'testCodeFailure'
+  error: 'Convex business adapter is not implemented'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: ~
+  operator: '=='
+  stack: |-
+    call (file:///mnt/data/backend_work/contractor-os-core/tests/backend-adapter.test.mjs:23:40)
+    TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/backend-adapter.test.mjs:25:173)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: Convex adapter looks up request receipts in tenant scope
+not ok 3 - Convex adapter looks up request receipts in tenant scope
+  ---
+  duration_ms: 0.22455
+  type: 'test'
+  location: '/mnt/data/backend_work/contractor-os-core/tests/backend-adapter.test.mjs:26:1'
+  failureType: 'testCodeFailure'
+  error: 'Convex business adapter is not implemented'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: ~
+  operator: '=='
+  stack: |-
+    call (file:///mnt/data/backend_work/contractor-os-core/tests/backend-adapter.test.mjs:23:40)
+    TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/backend-adapter.test.mjs:26:254)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: Convex adapter refuses a foreign tenant source record
+not ok 4 - Convex adapter refuses a foreign tenant source record
+  ---
+  duration_ms: 0.655304
+  type: 'test'
+  location: '/mnt/data/backend_work/contractor-os-core/tests/backend-adapter.test.mjs:27:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /ENTITY_NOT_FOUND/. Input:
+    
+    'AssertionError [ERR_ASSERTION]: Convex business adapter is not implemented'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+  error: 'Convex business adapter is not implemented'
+  stack: |-
+    call (file:///mnt/data/backend_work/contractor-os-core/tests/backend-adapter.test.mjs:23:40)
+    TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/backend-adapter.test.mjs:27:153)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/backend-adapter.test.mjs:27:132)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: Convex adapter updates linked records and rejects a stale revision
+not ok 5 - Convex adapter updates linked records and rejects a stale revision
+  ---
+  duration_ms: 0.517972
+  type: 'test'
+  location: '/mnt/data/backend_work/contractor-os-core/tests/backend-adapter.test.mjs:28:1'
+  failureType: 'testCodeFailure'
+  error: 'Convex business adapter is not implemented'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: ~
+  operator: '=='
+  stack: |-
+    call (file:///mnt/data/backend_work/contractor-os-core/tests/backend-adapter.test.mjs:23:40)
+    TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/backend-adapter.test.mjs:28:369)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: read API is tenant scoped and rejects oversized pages
+not ok 6 - read API is tenant scoped and rejects oversized pages
+  ---
+  duration_ms: 2.69399
+  type: 'test'
+  location: '/mnt/data/backend_work/contractor-os-core/tests/backend-adapter.test.mjs:29:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert.ok(ops)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: ~
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/backend-adapter.test.mjs:29:79)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: backend client strips browser tenant, actor, and attestor spoofing
+not ok 7 - backend client strips browser tenant, actor, and attestor spoofing
+  ---
+  duration_ms: 2.614103
+  type: 'test'
+  location: '/mnt/data/backend_work/contractor-os-core/tests/backend-adapter.test.mjs:31:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert.ok(client)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: ~
+  operator: '=='
+  stack: |-
+    host (file:///mnt/data/backend_work/contractor-os-core/tests/backend-adapter.test.mjs:30:62)
+    TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/backend-adapter.test.mjs:31:106)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: backend client refuses unauthenticated users and read-only writers
+not ok 8 - backend client refuses unauthenticated users and read-only writers
+  ---
+  duration_ms: 0.338308
+  type: 'test'
+  location: '/mnt/data/backend_work/contractor-os-core/tests/backend-adapter.test.mjs:32:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert.ok(client)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: ~
+  operator: '=='
+  stack: |-
+    host (file:///mnt/data/backend_work/contractor-os-core/tests/backend-adapter.test.mjs:30:62)
+    TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/backend-adapter.test.mjs:32:93)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: backend client only derives attestor permission from verified membership
+not ok 9 - backend client only derives attestor permission from verified membership
+  ---
+  duration_ms: 0.38775
+  type: 'test'
+  location: '/mnt/data/backend_work/contractor-os-core/tests/backend-adapter.test.mjs:33:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert.ok(client)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: ~
+  operator: '=='
+  stack: |-
+    host (file:///mnt/data/backend_work/contractor-os-core/tests/backend-adapter.test.mjs:30:62)
+    TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/backend-adapter.test.mjs:33:112)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 0
+# fail 9
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 258.432404

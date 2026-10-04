@@ -1,0 +1,148 @@
+contractPolicy:
+  statusValues:
+  - existing
+  - extend
+  - planned
+  rule: planned contracts are requirements, not claims about current backend implementation
+aggregates:
+- name: Lead
+  module: sales
+  status: existing
+  identity: leadId
+  tenantScoped: true
+  states:
+  - new
+  - contacted
+  - qualified
+  - lost
+  commands:
+  - createLead
+  - updateLead
+  - qualifyLead
+  - markLeadLost
+- name: PaintingScope
+  module: estimating
+  status: existing/extend
+  identity: tradeRecordId
+  tenantScoped: true
+  runtime: painting component
+  commands:
+  - get
+  - create
+  - update
+- name: Estimate
+  module: estimating
+  status: extend
+  identity: estimateId
+  tenantScoped: true
+  states:
+  - draft
+  - sent
+  - viewed
+  - changes_requested
+  - approved
+  - rejected
+  - expired
+  commands:
+  - createEstimate
+  - updateEstimate
+  - sendEstimate
+  - requestEstimateChanges
+  - approveEstimate
+  - rejectEstimate
+- name: Job
+  module: jobs
+  status: existing/extend
+  identity: jobId
+  tenantScoped: true
+  states:
+  - planned
+  - scheduled
+  - active
+  - blocked
+  - substantial_complete
+  - complete
+  - cancelled
+  commands:
+  - createJobFromApprovedEstimate
+  - scheduleJob
+  - startJob
+  - blockJob
+  - completeJob
+  - cancelJob
+- name: ScheduleEntry
+  module: scheduling
+  status: planned
+  identity: scheduleEntryId
+  tenantScoped: true
+  states:
+  - tentative
+  - confirmed
+  - in_progress
+  - complete
+  - cancelled
+  commands:
+  - createScheduleEntry
+  - reschedule
+  - confirmScheduleEntry
+  - cancelScheduleEntry
+- name: FieldRun
+  module: field
+  status: planned
+  identity: fieldRunId
+  tenantScoped: true
+  states:
+  - not_started
+  - in_progress
+  - blocked
+  - ready_for_completion
+  - complete
+  commands:
+  - startFieldRun
+  - recordDailyLog
+  - recordChecklistItem
+  - attachSitePhoto
+  - recordMaterialUsage
+  - submitCompletion
+- name: Invoice
+  module: finance
+  status: existing/extend
+  identity: invoiceId
+  tenantScoped: true
+  states:
+  - draft
+  - issued
+  - partially_paid
+  - paid
+  - void
+  - overdue
+  commands:
+  - createInvoice
+  - issueInvoice
+  - recordPayment
+  - voidInvoice
+- name: ReviewRequest
+  module: reviews_referrals
+  status: planned
+  identity: reviewRequestId
+  tenantScoped: true
+  states:
+  - pending
+  - sent
+  - clicked
+  - completed
+  - closed
+  commands:
+  - createReviewRequest
+  - sendReviewRequest
+  - recordReviewOutcome
+  - closeReviewRequest
+globalInvariants:
+- Every mutable business record is tenant-owned.
+- Browser-provided tenant IDs never establish authorization.
+- Approved estimate data is immutable by downstream consumers; amendments use explicit
+  revision/change-order semantics.
+- Money transitions are append/audit friendly; do not silently rewrite payment history.
+- Cross-module side effects occur through typed commands/events, not direct table
+  reach-through.
+- Material agent actions are observable and approval-gated when policy requires.

@@ -1,0 +1,6 @@
+COMMAND: npm run typecheck
+CWD: /agent/workspace/painter-os-bts/packages/contractor-os-core
+
+> @johnny/contractor-os-core@0.6.0 typecheck
+> tsc --noEmit -p tsconfig.json
+

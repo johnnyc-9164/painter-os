@@ -1,0 +1,8 @@
+COMMAND: npm run check:generated
+CWD: /agent/workspace/painter-os-bts/packages/contractor-os-core
+
+> @johnny/contractor-os-core@0.6.0 check:generated
+> python3 tools/generate_domain.py --check
+
+Trade IR validated; 9 components; 52 source fields; no drift
+Generated-file check passed.

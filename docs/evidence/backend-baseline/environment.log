@@ -1,0 +1,8 @@
+COMMAND: bash -c node --version; npm --version; command -v tsc; tsc --version; node -p "require.resolve('typescript/package.json')"; node -p "require('typescript/package.json').version"
+CWD: /agent/workspace/painter-os-bts/packages/contractor-os-core
+v24.14.1
+11.11.0
+/agent/workspace/painter-os-bts/packages/contractor-os-core/node_modules/.bin/tsc
+Version 5.8.3
+/agent/workspace/painter-os-bts/packages/contractor-os-core/node_modules/typescript/package.json
+5.8.3

@@ -1,0 +1,8 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+[verbose] 2026-10-02T12:33:40.351Z [proxy-bootstrap] Using proxy: http://127.0.0.1:46661
+[verbose] 2026-10-02T12:33:40.361Z Updating big brain auth to null
+[verbose] 2026-10-02T12:33:40.370Z Anonymous, has selected deployment?: false
+CONVEX_AGENT_MODE=anonymous mode is in beta, functionality may change in the future.
+[verbose] 2026-10-02T12:33:40.371Z Deployment name: anonymous-agent
+[verbose] 2026-10-02T12:33:40.371Z Ensuring backend binary downloaded for version precompiled-2026-09-28-5c7cb5b
+[verbose] 2026-10-02T12:33:40.382Z Using existing download at /tmp/contractor-convex-home/.cache/convex/binaries/precompiled-2026-09-28-5c7cb5b/convex-local-backend

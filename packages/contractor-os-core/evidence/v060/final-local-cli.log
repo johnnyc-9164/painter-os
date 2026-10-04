@@ -1,0 +1,8 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+▌ Developing against deployment:
+▌ └─ http://127.0.0.1:3210
+- Preparing Convex functions...
+
+Found no convex/tsconfig.json to use to typecheck Convex functions, so skipping typecheck.
+Run `npx convex codegen --init` to create one.
+To ignore failing typecheck, use `--typecheck=disable`.

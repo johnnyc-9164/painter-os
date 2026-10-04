@@ -1,0 +1,9 @@
+import betterAuth from '@convex-dev/better-auth/convex.config';
+import { defineApp } from 'convex/server';
+import contractorOs from '../../contractor-os-core/src/component/convex.config';
+import painting from '../../contractor-os-core/src/trades/painting/component/convex.config';
+const app=defineApp();
+app.use(betterAuth);
+app.use(contractorOs);
+app.use(painting);
+export default app;

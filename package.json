@@ -1,0 +1,52 @@
+{
+  "name": "painter-os-bts",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "type": "module",
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "npm run build --workspace web",
+    "check-types": "npm run check-types --workspace web && npm run check-types --workspace @painter-os-bts/domain && tsc --noEmit -p packages/backend/convex/tsconfig.json",
+    "dev:web": "turbo run dev -F web --",
+    "dev:server": "turbo run dev -F @painter-os-bts/backend --",
+    "dev:setup": "turbo run dev:setup -F @painter-os-bts/backend --",
+    "env:generate": "varlock codegen --path ./apps/web/",
+    "test": "tsx --test tests/*.test.ts",
+    "lint": "eslint apps/web/src packages/domain/src tests",
+    "verify": "npm run check-types && npm run lint && npm test && npm run test:convex && npm run build",
+    "test:convex": "vitest run --config vitest.product.config.ts",
+    "test:http": "node tests/http.acceptance.mjs",
+    "test:browser": "node tests/browser.acceptance.mjs",
+    "dev:local": "PAINTER_RUNTIME=local PAINTER_ALLOW_DEMO=true npm run dev --workspace web",
+    "start:local": "PAINTER_RUNTIME=local PAINTER_ALLOW_DEMO=true PAINTER_COOKIE_SECURE=false npm run start --workspace web"
+  },
+  "dependencies": {
+    "zod": "^4.5.4"
+  },
+  "devDependencies": {
+    "@painter-os-bts/config": "*",
+    "@types/node": "^26.4.1",
+    "turbo": "^2.10.12",
+    "typescript": "^6.0.3",
+    "varlock": "1.18.0",
+    "tsx": "4.21.0",
+    "eslint": "9.39.2",
+    "eslint-config-next": "16.3.4",
+    "@playwright/test": "1.57.0",
+    "convex-test": "0.0.59",
+    "vitest": "4.1.10",
+    "@edge-runtime/vm": "5.0.0"
+  },
+  "packageManager": "npm@11.16.0",
+  "allowScripts": {
+    "esbuild": true,
+    "sharp": true
+  },
+  "engines": {
+    "node": ">=24",
+    "npm": ">=11.16.0"
+  }
+}

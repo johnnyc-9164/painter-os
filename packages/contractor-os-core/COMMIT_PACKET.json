@@ -1,0 +1,17 @@
+{
+  "version": "0.6.0",
+  "scope": "contractor_trade_component_split",
+  "status": "reviewable_local_artifact",
+  "changes": [
+    "nine independently installable trade specification components",
+    "shared contractor core retained",
+    "explicit trade applicability IR and deterministic generator",
+    "host-authenticated clients and core-reference bindings",
+    "product composition declaration and validation"
+  ],
+  "remote_repository_changes": false,
+  "production_deployment": false,
+  "local_validation_only": true,
+  "database_migration_performed": false,
+  "note": "Review artifact only; no automatic ontology, production, or user state update."
+}

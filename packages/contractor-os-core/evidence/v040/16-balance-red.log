@@ -1,0 +1,61 @@
+TAP version 13
+# Subtest: v040 adapter: registered read calculates fields through actual adapter code
+ok 1 - v040 adapter: registered read calculates fields through actual adapter code
+  ---
+  duration_ms: 2.333102
+  type: 'test'
+  ...
+# Subtest: v040 adapter: mirrors use local IDs and tenant checks
+ok 2 - v040 adapter: mirrors use local IDs and tenant checks
+  ---
+  duration_ms: 0.846484
+  type: 'test'
+  ...
+# Subtest: v040 adapter: reverse aggregation uses component relation index
+ok 3 - v040 adapter: reverse aggregation uses component relation index
+  ---
+  duration_ms: 1.118384
+  type: 'test'
+  ...
+# Subtest: v040 host: membership fixes tenant on the new read method
+ok 4 - v040 host: membership fixes tenant on the new read method
+  ---
+  duration_ms: 0.862519
+  type: 'test'
+  ...
+# Subtest: v040 host: new read denies anonymous callers
+ok 5 - v040 host: new read denies anonymous callers
+  ---
+  duration_ms: 0.466523
+  type: 'test'
+  ...
+# Subtest: v040: billing read labels receivable separately from remaining contract balance
+not ok 6 - v040: billing read labels receivable separately from remaining contract balance
+  ---
+  duration_ms: 22.224179
+  type: 'test'
+  location: '/mnt/data/contractor_v040/contractor-os-core/tests/projection-adapter-v040.test.mjs:33:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    undefined !== 300
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 300
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/contractor_v040/contractor-os-core/tests/projection-adapter-v040.test.mjs:36:9)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 5
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 633.320102

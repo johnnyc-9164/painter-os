@@ -1,0 +1,13 @@
+
+> @johnny/contractor-os-core@0.5.0 check:packaged-component
+> node tools/check_component_contract.mjs --require-generated
+
+{
+  "status": "failed",
+  "checkedComponentFiles": 39,
+  "errors": [
+    "component generated artifacts absent: src/component/_generated/component.ts, src/component/_generated/server.ts, src/component/_generated/api.ts, src/component/_generated/dataModel.ts"
+  ],
+  "warnings": [],
+  "requireGenerated": true
+}

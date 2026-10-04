@@ -1,0 +1,28 @@
+{
+  "irVersion": 1,
+  "product": {"id": "contractor-os","name": "Contractor OS","version": "0.6.0"},
+  "foundation": {"package": "create-better-t-stack","version": "3.44.2","command": "create-json","config": {"projectName": "contractor-os","frontend": ["next"],"backend": "convex","runtime": "none","database": "none","orm": "none","api": "none","auth": "none","payments": "none","addons": [],"examples": [],"dbSetup": "none","webDeploy": "none","serverDeploy": "none","packageManager": "npm","git": false,"install": false,"yes": true,"directoryConflict": "error","disableAnalytics": true,"dryRun": true}},
+  "host": {"membership": "authenticated_host_resolver"},
+  "components": [
+    {"ref": "core","component": "core","version": "0.6.0","mount": "contractorOs","config": {"env": {"MODE": "development"}},"dependsOn": [],"bindings": {"membership": "host.membership"}},
+    {"ref": "painting","component": "painting","version": "0.6.0","mount": "contractorPainting","config": {},"dependsOn": ["core"],"bindings": {"core": "core","membership": "host.membership"}},
+    {"ref": "plumbing","component": "plumbing","version": "0.6.0","mount": "contractorPlumbing","config": {},"dependsOn": ["core"],"bindings": {"core": "core","membership": "host.membership"}},
+    {"ref": "roofing","component": "roofing","version": "0.6.0","mount": "contractorRoofing","config": {},"dependsOn": ["core"],"bindings": {"core": "core","membership": "host.membership"}},
+    {"ref": "garage_door","component": "garage_door","version": "0.6.0","mount": "contractorGarageDoor","config": {},"dependsOn": ["core"],"bindings": {"core": "core","membership": "host.membership"}},
+    {"ref": "electrical","component": "electrical","version": "0.6.0","mount": "contractorElectrical","config": {},"dependsOn": ["core"],"bindings": {"core": "core","membership": "host.membership"}},
+    {"ref": "hvac","component": "hvac","version": "0.6.0","mount": "contractorHvac","config": {},"dependsOn": ["core"],"bindings": {"core": "core","membership": "host.membership"}},
+    {"ref": "concrete","component": "concrete","version": "0.6.0","mount": "contractorConcrete","config": {},"dependsOn": ["core"],"bindings": {"core": "core","membership": "host.membership"}},
+    {"ref": "landscaping","component": "landscaping","version": "0.6.0","mount": "contractorLandscaping","config": {},"dependsOn": ["core"],"bindings": {"core": "core","membership": "host.membership"}},
+    {"ref": "drywall_framing","component": "drywall_framing","version": "0.6.0","mount": "contractorDrywallFraming","config": {},"dependsOn": ["core"],"bindings": {"core": "core","membership": "host.membership"}}
+  ],
+  "configPacks": [
+    {"pack": "schema","version": "0.6.0","mode": "source_aligned","applyTo": ["core"]},
+    {"pack": "workflows","version": "0.6.0","mode": "builtin_commands","applyTo": ["core"]},
+    {"pack": "business_policy","version": "0.6.0","mode": "contractor_operations_v1","applyTo": ["core"]},
+    {"pack": "projections","version": "0.6.0","mode": "component_explicit_paths_v1","applyTo": ["core"]},
+    {"pack": "scorecards","version": "0.6.0","mode": "advisory_supplied_predicates","applyTo": ["core"]},
+    {"pack": "trade_partition","version": "0.6.0","mode": "explicit_trade_fields_v1","applyTo": ["painting","plumbing","roofing","garage_door","electrical","hvac","concrete","landscaping","drywall_framing"]}
+  ],
+  "ui": {"library": "shadcn/ui","registry": "https://ui.shadcn.com/r/styles/base-lyra/{name}.json","items": ["button","card","input","table"],"bindings": [{"view": "contractorOverview","componentRef": "core","operations": ["listJobs","inspectRecord"]},{"view": "paintingEditor","componentRef": "painting","operations": ["get","create","update"]}],"style": "base-lyra","packageDirectory": "packages/ui","componentDirectory": "packages/ui/src/components","tokensFile": "packages/ui/src/styles/globals.css"},
+  "tokens": {"color": {"light": {"background": "#ffffff","foreground": "#0f172a","primary": "#2563eb"},"dark": {"background": "#0f172a","foreground": "#f8fafc","primary": "#60a5fa"}},"type": {"fontFamily": "system-ui, sans-serif","bodyPx": 16,"headingPx": 32},"spacing": {"unitPx": 4,"scale": [0,1,2,3,4,6,8]},"radii": {"controlPx": 8,"cardPx": 12},"motion": {"fastMs": 120,"normalMs": 200,"easing": "ease-out","reducedMotion": "respect-system"},"theme": {"default": "system","supported": ["light","dark"]}}
+}

@@ -1,0 +1,9 @@
+node_modules
+.next
+.git
+.painter-data
+**/.painter-data
+**/.env
+**/.env.local
+**/*.sqlite*
+docs/evidence/browser/*.png

@@ -1,0 +1,35 @@
+{
+  "name": "@johnny/contractor-os-core",
+  "version": "0.6.0",
+  "scripts": {
+    "build:core": "tsc -p tsconfig.core.json",
+    "test": "npm run build:core && node --test tests/*.test.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test:integration": "vitest run",
+    "codegen": "convex codegen --component-dir ./src/component",
+    "check:generated": "python3 tools/generate_domain.py --check",
+    "verify": "npm test && npm run check:generated && npm run check:component",
+    "verify:sdk": "convex dev --once --typecheck-components && npm run typecheck && npm run test:integration",
+    "test:business": "npm run build:core && node --test tests/business*.test.mjs tests/backend-adapter.test.mjs",
+    "check:syntax": "node tools/check_syntax.cjs",
+    "test:formulas": "npm run build:core && node --test tests/calculations-v040.test.mjs",
+    "test:core": "npm test",
+    "check:component": "node tools/check_component_contract.mjs",
+    "check:packaged-component": "node tools/check_component_contract.mjs --require-generated",
+    "prepare:component": "npm run codegen && npm run typecheck",
+    "pack:dry-run": "npm pack --dry-run --ignore-scripts",
+    "check:trades": "python3 tools/generate_trades.py --check",
+    "verify:all": "npm run verify && npm run typecheck && npm run test:integration && npm run check:syntax && npm run check:packaged-component && npm run check:composition",
+    "check:composition": "python3 tools/validate_composition.py && python3 -m unittest discover -s tests -p test_composition.py"
+  },
+  "devDependencies": {
+    "typescript": "5.8.3",
+    "convex": "1.46.0",
+    "convex-helpers": "0.1.124",
+    "convex-test": "0.0.59",
+    "vitest": "4.1.10",
+    "@edge-runtime/vm": "5.0.0",
+    "vite": "8.2.0"
+  },
+  "packageJSONSHA256": "9713e2e40335096f9ec0bd333da8edab47341a4b7567487d7cbcaf52c51bff01"
+}

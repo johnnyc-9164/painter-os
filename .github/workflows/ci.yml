@@ -1,0 +1,94 @@
+# CI — Painter OS platform checks
+#
+# Runs the repository's own verification steps (root `verify` script, split
+# into stable, individually-required checks):
+#   check-types -> npm run check-types   (web + domain + convex tsconfig)
+#   lint        -> npm run lint
+#   domain-tests-> npm test              (tsx --test tests/*.test.ts)
+#   convex-tests-> npm run test:convex    (vitest product config, convex-test)
+#   build       -> npm run build          (Next.js production build)
+#
+# Bootstrap note: these checks only exist on branches that contain this file.
+# The import PR (#1, import/better-t-stack-baseline -> main) cannot run them
+# until this file lands via the platform PR. Required-check branch protection
+# is therefore configured AFTER the platform PR's checks report their exact
+# names on a real run — never before, so the import PR is not blocked by
+# checks that cannot execute.
+#
+# Security: no secrets are used or exposed; `pull_request` (not
+# `pull_request_target`) keeps fork PR code untrusted and secretless.
+
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  typecheck:
+    name: typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npm run check-types
+
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npm run lint
+
+  domain-tests:
+    name: domain-tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npm test
+
+  convex-tests:
+    name: convex-tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npm run test:convex
+
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npm run build

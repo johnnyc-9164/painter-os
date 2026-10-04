@@ -1,0 +1,97 @@
+{
+  "version": "0.3.0",
+  "checked_at": "2026-09-22T20:26:27.390430+00:00",
+  "scope": "project_contractor_os_extraction",
+  "status": "business_logic_and_adapter_double_verified__sdk_and_real_backend_unverified",
+  "source": {
+    "input_archive": "contractor_os_convex_component_v0.2.0.zip",
+    "input_sha256": "d2260f9a36256205d1ada7a8b08a73643c4cb7adad8ca8b43acd1b8930c5e19a",
+    "source_model": "user_supplied_port_blueprint_summary_and_workflow_export",
+    "originals_modified": false
+  },
+  "implementation": {
+    "contractor_tables": 20,
+    "support_tables": 8,
+    "total_tables": 28,
+    "typed_properties": 199,
+    "enum_fields": 42,
+    "relations": 45,
+    "business_commands": 14,
+    "business_mutation_endpoints_including_execute": 15,
+    "business_queries": 5,
+    "maintenance_endpoints": 80,
+    "catalog_endpoints": 5,
+    "business_execution_code": true,
+    "external_sends_signing_or_payment_processing": false,
+    "policy": "contractor-operations-v1_new_implementation_policy_not_a_recovered_port_policy"
+  },
+  "verification": {
+    "strict_dependency_free_typescript": "passed",
+    "local_tests": {
+      "total": 189,
+      "passed": 189,
+      "failed": 0,
+      "original_schema_and_core_tests": 101,
+      "business_command_transaction_port_tests": 25,
+      "adapter_and_host_test_double_checks": 63,
+      "scope": "These tests use our explicit in-memory doubles for storage/adapters; not the Convex backend."
+    },
+    "generated_model_drift": "passed",
+    "syntax": {
+      "typescriptFiles": 56,
+      "syntaxErrors": [],
+      "sdkSemanticTypecheck": false
+    },
+    "dependency_install": "failed_EAI_AGAIN",
+    "sdk_semantic_typecheck": "blocked_by_missing_sdk_and_generated_apis_not_passed",
+    "official_sdk_harness_tests": {
+      "authored": 21,
+      "executed": 0,
+      "runner_error": "vitest not found"
+    },
+    "real_convex_backend": "not_started",
+    "real_concurrency_and_runtime_limits": "not_verified",
+    "dependency_security_audit": "not_run"
+  },
+  "deployment": {
+    "cloud_or_production_deployment": false,
+    "live_import": false,
+    "public_publish": false,
+    "account_or_permission_changes": false
+  },
+  "limits": [
+    "Existing v0.2.0 datasets not migrated or runtime-tested.",
+    "Human attestations are not independently verified provider events.",
+    "USD cents bookkeeping only; no tax/FX/refund/retainage allocator.",
+    "One operational job per contract is an implementation policy.",
+    "Grouped trade field schemas, computation formulas and scorecard logic remain source gaps.",
+    "Markdown automation rules are not executable; activation is refused."
+  ],
+  "evidence": [
+    "evidence/v030/16-final-tests.log",
+    "evidence/v030/17-generator-check.log",
+    "evidence/v030/18-syntax.json",
+    "evidence/v030/14-install.log",
+    "evidence/v030/19-sdk-typecheck.log",
+    "evidence/v030/20-sdk-tests.log"
+  ],
+  "founder_os": {
+    "state_modified": false,
+    "ontology_modified": false,
+    "build_event_persistence": "three_immutable_events_appended_confirmed_by_files_manage_library",
+    "event_receipts": [
+      {
+        "event_id": "evt_co_backend_inbound_660649c3eebf",
+        "file_id": "file_000000003f6c81f5ac7075a02ba70fb3"
+      },
+      {
+        "event_id": "evt_co_backend_material_11c62119c837",
+        "file_id": "file_00000000987c81f5b9265cbb06f7e1c0"
+      },
+      {
+        "event_id": "evt_co_backend_outbound_082c3164102c",
+        "file_id": "file_000000002a2081f59f7e07a44ad1e320"
+      }
+    ]
+  }
+}

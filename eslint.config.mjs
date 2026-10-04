@@ -1,0 +1,2 @@
+import next from "eslint-config-next/core-web-vitals";
+export default [...next, {ignores:["**/node_modules/**","**/.next/**","packages/contractor-os-core/**","packages/backend/convex/_generated/**"]}, {rules:{"react-hooks/set-state-in-effect":"off","react-hooks/immutability":"off","@typescript-eslint/no-explicit-any":"off","@next/next/no-img-element":"off","@next/next/no-html-link-for-pages":"off"}}];

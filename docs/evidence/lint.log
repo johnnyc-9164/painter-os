@@ -1,0 +1,4 @@
+
+> lint
+> eslint apps/web/src packages/domain/src tests
+

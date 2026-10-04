@@ -1,0 +1,40 @@
+TAP version 13
+# Subtest: v040 adapter: registered read calculates fields through actual adapter code
+ok 1 - v040 adapter: registered read calculates fields through actual adapter code
+  ---
+  duration_ms: 3.355982
+  type: 'test'
+  ...
+# Subtest: v040 adapter: mirrors use local IDs and tenant checks
+ok 2 - v040 adapter: mirrors use local IDs and tenant checks
+  ---
+  duration_ms: 1.144422
+  type: 'test'
+  ...
+# Subtest: v040 adapter: reverse aggregation uses component relation index
+ok 3 - v040 adapter: reverse aggregation uses component relation index
+  ---
+  duration_ms: 1.839939
+  type: 'test'
+  ...
+# Subtest: v040 host: membership fixes tenant on the new read method
+ok 4 - v040 host: membership fixes tenant on the new read method
+  ---
+  duration_ms: 1.593048
+  type: 'test'
+  ...
+# Subtest: v040 host: new read denies anonymous callers
+ok 5 - v040 host: new read denies anonymous callers
+  ---
+  duration_ms: 0.606603
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 606.992998

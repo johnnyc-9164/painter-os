@@ -1,0 +1,61 @@
+painter-os-bts@ /agent/workspace/painter-os-bts
+├─┬ @johnny/contractor-os-core@0.6.0 -> ./packages/contractor-os-core
+│ ├── @edge-runtime/vm@5.0.0
+│ ├─┬ convex-helpers@0.1.124
+│ │ ├── convex@1.46.0 deduped
+│ │ └── typescript@6.0.3 deduped
+│ ├─┬ convex-test@0.0.59
+│ │ └── convex@1.46.0 deduped
+│ ├── convex@1.46.0
+│ ├── typescript@5.8.3
+│ ├── vite@8.2.0
+│ └─┬ vitest@4.1.10
+│   ├── @edge-runtime/vm@5.0.0 deduped
+│   ├─┬ @vitest/mocker@4.1.10
+│   │ └── vite@8.2.0 deduped
+│   └── vite@8.2.0 deduped
+├─┬ @painter-os-bts/backend@1.0.0 -> ./packages/backend
+│ ├─┬ @convex-dev/better-auth@0.12.5
+│ │ ├── convex-helpers@0.1.124 deduped
+│ │ └── convex@1.46.0 deduped
+│ ├─┬ better-auth@1.6.17
+│ │ └── vitest@4.1.10 deduped
+│ ├── convex@1.46.0 deduped
+│ └── typescript@6.0.3 deduped
+├─┬ @painter-os-bts/domain@1.0.0 -> ./packages/domain
+│ └── typescript@6.0.3 deduped
+├─┬ @painter-os-bts/ui@0.0.0 -> ./packages/ui
+│ ├─┬ shadcn@4.21.1
+│ │ └─┬ cosmiconfig@9.0.2
+│ │   └── typescript@6.0.3 deduped
+│ └── typescript@6.0.3 deduped
+├─┬ eslint-config-next@16.3.4
+│ ├─┬ typescript-eslint@8.71.0
+│ │ ├─┬ @typescript-eslint/eslint-plugin@8.71.0
+│ │ │ ├─┬ @typescript-eslint/type-utils@8.71.0
+│ │ │ │ └── typescript@6.0.3 deduped
+│ │ │ ├─┬ ts-api-utils@2.5.0
+│ │ │ │ └── typescript@6.0.3 deduped
+│ │ │ └── typescript@6.0.3 deduped
+│ │ ├─┬ @typescript-eslint/parser@8.71.0
+│ │ │ └── typescript@6.0.3 deduped
+│ │ ├─┬ @typescript-eslint/typescript-estree@8.71.0
+│ │ │ ├─┬ @typescript-eslint/project-service@8.71.0
+│ │ │ │ └── typescript@6.0.3 deduped
+│ │ │ ├─┬ @typescript-eslint/tsconfig-utils@8.71.0
+│ │ │ │ └── typescript@6.0.3 deduped
+│ │ │ └── typescript@6.0.3 deduped
+│ │ ├─┬ @typescript-eslint/utils@8.71.0
+│ │ │ └── typescript@6.0.3 deduped
+│ │ └── typescript@6.0.3 deduped
+│ └── typescript@6.0.3 deduped
+├── typescript@6.0.3
+└─┬ web@0.1.0 -> ./apps/web
+  ├── convex@1.46.0 deduped
+  └── typescript@6.0.3 deduped
+
+npm notice
+npm notice New minor version of npm available! 11.11.0 -> 11.21.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.21.0
+npm notice To update run: npm install -g npm@11.21.0
+npm notice

@@ -1,0 +1,27 @@
+✖ nine independently installable trade components exist (1.216833ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 93.081733
+
+✖ failing tests:
+
+test at tests/trade-split.test.mjs:4:1
+✖ nine independently installable trade components exist (1.216833ms)
+  AssertionError [ERR_ASSERTION]: painting missing
+      at TestContext.<anonymous> (file:///workspace/scratch/d24983fe3ee1/trade-component-refactor/backend/contractor-os-core/tests/trade-split.test.mjs:6:36)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

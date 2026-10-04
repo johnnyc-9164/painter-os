@@ -1,0 +1,93 @@
+TAP version 13
+# Subtest: all eleven exported business workflows execute in a synthetic end-to-end lifecycle
+ok 1 - all eleven exported business workflows execute in a synthetic end-to-end lifecycle
+  ---
+  duration_ms: 17.915423
+  type: 'test'
+  ...
+# Subtest: a second job cannot multiply the same contract budget
+ok 2 - a second job cannot multiply the same contract budget
+  ---
+  duration_ms: 10.183524
+  type: 'test'
+  ...
+# Subtest: invoice issuance rejects contract overbilling and preserves drafts
+ok 3 - invoice issuance rejects contract overbilling and preserves drafts
+  ---
+  duration_ms: 13.242832
+  type: 'test'
+  ...
+# Subtest: draft jobs and payments cannot bypass the specialized creation paths
+ok 4 - draft jobs and payments cannot bypass the specialized creation paths
+  ---
+  duration_ms: 0.453407
+  type: 'test'
+  ...
+# Subtest: subcontract assignment maintains both relation directions and requires both revisions
+ok 5 - subcontract assignment maintains both relation directions and requires both revisions
+  ---
+  duration_ms: 8.925724
+  type: 'test'
+  ...
+# Subtest: field reports require active job, valid crew size and non-future report date
+ok 6 - field reports require active job, valid crew size and non-future report date
+  ---
+  duration_ms: 7.491677
+  type: 'test'
+  ...
+# Subtest: change orders cannot adjust a closed job
+ok 7 - change orders cannot adjust a closed job
+  ---
+  duration_ms: 9.101723
+  type: 'test'
+  ...
+# Subtest: rules written in markdown are not executed as automations
+ok 8 - rules written in markdown are not executed as automations
+  ---
+  duration_ms: 0.466946
+  type: 'test'
+  ...
+# Subtest: maintenance cannot reparent an existing contact away from its client
+ok 9 - maintenance cannot reparent an existing contact away from its client
+  ---
+  duration_ms: 0.541356
+  type: 'test'
+  ...
+# Subtest: workflow rejects a legacy lead whose contact belongs to a different client
+ok 10 - workflow rejects a legacy lead whose contact belongs to a different client
+  ---
+  duration_ms: 0.926502
+  type: 'test'
+  ...
+# Subtest: payment must not turn an inconsistent historical job into overcollected state
+ok 11 - payment must not turn an inconsistent historical job into overcollected state
+  ---
+  duration_ms: 8.969468
+  type: 'test'
+  ...
+# Subtest: job closure cannot discard an unbilled contract balance
+not ok 12 - job closure cannot discard an unbilled contract balance
+  ---
+  duration_ms: 6.306374
+  type: 'test'
+  location: '/mnt/data/backend_work/contractor-os-core/tests/business-lifecycle.test.mjs:84:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected rejection.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (file:///mnt/data/backend_work/contractor-os-core/tests/business-lifecycle.test.mjs:86:2)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 11
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 163.642604

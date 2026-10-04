@@ -1,0 +1,5 @@
+
+> @johnny/contractor-os-core@0.4.0 codegen
+> convex codegen --component-dir ./src/component
+
+sh: 1: convex: not found

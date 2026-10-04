@@ -1,0 +1,152 @@
+screens:
+- id: overview
+  reference: ui/reference-kit/reference-screens/01-overview.png
+  route: /overview
+  viewModel:
+  - priorityActions
+  - metrics
+  - recentActivity
+  - pipelineSummary
+  components:
+  - PageHeader
+  - MetricCard
+  - ActivityTimeline
+  - EntityTable
+- id: lead-list
+  reference: ui/reference-kit/reference-screens/02-leads.png
+  route: /leads
+  viewModel:
+  - leads
+  - filters
+  - counts
+  components:
+  - PageHeader
+  - PageToolbar
+  - EntityTable
+  - StatusBadge
+- id: estimate-editor
+  reference: ui/reference-kit/reference-screens/03-estimate.png
+  route: /estimates/new
+  viewModel:
+  - customer
+  - paintingScope
+  - lineItems
+  - totals
+  - terms
+  - attachments
+  components:
+  - PageHeader
+  - CustomerSummary
+  - EstimateSummary
+  - Tabs
+  - Input
+  - Select
+  - Textarea
+- id: customer-portal
+  reference: ui/reference-kit/reference-screens/04-client-portal.png
+  route: /customers/:customerId/portal
+  viewModel:
+  - customer
+  - openEstimate
+  - jobStatus
+  - messages
+  - documents
+  components:
+  - CustomerSummary
+  - EstimateSummary
+  - ApprovalBar
+  - ActivityTimeline
+- id: invoice-detail
+  reference: ui/reference-kit/reference-screens/05-invoice.png
+  route: /invoices/:invoiceId
+  viewModel:
+  - invoice
+  - customer
+  - payments
+  - balance
+  components:
+  - InvoiceSummary
+  - CustomerSummary
+  - ActivityTimeline
+- id: integrations
+  reference: ui/reference-kit/reference-screens/06-integrations.png
+  route: /settings/integrations
+  viewModel:
+  - providers
+  - connections
+  - health
+  components:
+  - PageHeader
+  - Card
+  - StatusBadge
+  - Dialog
+- id: billing
+  reference: ui/reference-kit/reference-screens/07-billing.png
+  route: /settings/billing
+  viewModel:
+  - plan
+  - usage
+  - paymentMethod
+  - invoices
+  components:
+  - PageHeader
+  - Card
+  - Table
+  - Badge
+- id: knowledge
+  reference: ui/reference-kit/reference-screens/08-knowledge.png
+  route: /automation/knowledge
+  viewModel:
+  - sources
+  - documents
+  - status
+  - agentAccess
+  components:
+  - PageHeader
+  - EntityTable
+  - Sheet
+  - StatusBadge
+- id: job-detail
+  reference: null
+  route: /jobs/:jobId
+  viewModel:
+  - job
+  - customer
+  - estimate
+  - schedule
+  - crew
+  - tasks
+  - photos
+  - financials
+  components:
+  - PageHeader
+  - JobSummary
+  - Tabs
+  - ActivityTimeline
+  - EvidenceLink
+- id: schedule
+  reference: null
+  route: /schedule
+  viewModel:
+  - range
+  - entries
+  - crews
+  - conflicts
+  components:
+  - PageHeader
+  - ScheduleBoard
+  - Sheet
+- id: field-today
+  reference: null
+  route: /field/today
+  viewModel:
+  - assignedJobs
+  - activeFieldRun
+  - checklist
+  - photos
+  - notes
+  components:
+  - PageHeader
+  - JobSummary
+  - FieldChecklist
+  - EvidenceLink

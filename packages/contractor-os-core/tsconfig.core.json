@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "target": "ES2022", "module": "NodeNext", "moduleResolution": "NodeNext",
+    "strict": true, "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true, "skipLibCheck": true,
+    "declaration": true, "outDir": "build", "rootDir": "src",
+    "lib": ["ES2022", "DOM"]
+  },
+  "include": ["src/shared/**/*.ts"]
+}
