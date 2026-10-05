@@ -1,3 +1,4 @@
+import agentmail from '@agentmail/convex/convex.config';
 import betterAuth from '@convex-dev/better-auth/convex.config';
 import { defineApp } from 'convex/server';
 import contractorOs from '../../contractor-os-core/src/component/convex.config';
@@ -6,4 +7,5 @@ const app=defineApp();
 app.use(betterAuth);
 app.use(contractorOs);
 app.use(painting);
+app.use(agentmail);
 export default app;
