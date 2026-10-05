@@ -104,10 +104,32 @@ export const acceptInvite=mutation({args:{token:v.string()},handler:async(ctx,ar
  if(!invite||invite.expiresAt<=Date.now()||invite.email!==user.email.toLowerCase()||!user.emailVerified)throw new Error('INVITE_INVALID_OR_EMAIL_NOT_VERIFIED');if(invite.acceptedBy){if(invite.acceptedBy!==String(user._id))throw new Error('INVITE_USED');return {workspaceId:invite.tenantId};}
  const member=await ctx.db.query('painterMembers').withIndex('by_tenant_user',q=>q.eq('tenantId',invite.tenantId).eq('userId',String(user._id))).unique();if(member)throw new Error('MEMBER_EXISTS');await ctx.db.insert('painterMembers',{tenantId:invite.tenantId,userId:String(user._id),name:user.name,email:user.email,role:invite.role,enabled:true});await ctx.db.patch(invite._id,{acceptedBy:String(user._id)});return {workspaceId:invite.tenantId};
 }});
-export const createPortal=mutation({args:{workspaceId:v.optional(v.id('painterWorkspaces')),estimateId:v.string(),tokenHash:v.string(),expectedRevision:v.optional(v.number())},handler:async(ctx,args)=>{
- const {actor,workspace}=await resolve(ctx,args.workspaceId);if(actor.role==='customer'||!canCommand(actor,'estimate.send'))throw new Error('FORBIDDEN');checkHash(args.tokenHash);const state=await load(ctx,workspace._id);const estimate=state.entities.find(e=>e.id===args.estimateId&&e.type==='estimate');if(!estimate||!['sent','viewed'].includes(String(estimate.data.status)))throw new Error('ESTIMATE_NOT_SENT');const customer=state.entities.find(e=>e.id===estimate.data.customerId&&e.type==='customer');if(!customer||!customer.data.email)throw new Error('CUSTOMER_EMAIL_REQUIRED');
- if(args.expectedRevision!==undefined&&estimate.revision!==args.expectedRevision)throw new Error('REVISION_CONFLICT');const existing=await ctx.db.query('painterPortals').withIndex('by_token',q=>q.eq('tokenHash',args.tokenHash)).unique();if(existing){if(existing.tenantId!==workspace._id||existing.estimateId!==estimate.id||existing.scope.revision!==estimate.revision)throw new Error('LINK_TOKEN_CONFLICT');return {expiresAt:existing.expiresAt,replayed:true};}const expiresAt=Date.now()+7*86400000;await ctx.db.insert('painterPortals',{tenantId:workspace._id,estimateId:estimate.id,customerId:customer.id,customerEmail:String(customer.data.email).toLowerCase(),tokenHash:args.tokenHash,expiresAt,scope:publicEstimate(estimate)});return {expiresAt};
-}});
+export const createPortal=mutation({
+ args:{workspaceId:v.optional(v.id('painterWorkspaces')),estimateId:v.string(),tokenHash:v.string(),expectedRevision:v.optional(v.number())},
+ returns:v.object({expiresAt:v.number(),replayed:v.optional(v.boolean())}),
+ handler:async(ctx,args)=>{
+  const {actor,workspace}=await resolve(ctx,args.workspaceId);
+  if(actor.role==='customer'||!canCommand(actor,'estimate.send'))throw new Error('FORBIDDEN');
+  checkHash(args.tokenHash);
+  // Portal issuance needs two entities, never the workspace snapshot or audit history.
+  const estimate=await ctx.db.query('painterEntities').withIndex('by_tenant_entity',q=>q.eq('tenantId',workspace._id).eq('entityId',args.estimateId)).unique();
+  if(!estimate||estimate.type!=='estimate'||!['sent','viewed'].includes(String(estimate.data.status)))throw new Error('ESTIMATE_NOT_SENT');
+  const customerId=estimate.data.customerId;
+  if(typeof customerId!=='string')throw new Error('CUSTOMER_EMAIL_REQUIRED');
+  const customer=await ctx.db.query('painterEntities').withIndex('by_tenant_entity',q=>q.eq('tenantId',workspace._id).eq('entityId',customerId)).unique();
+  if(!customer||customer.type!=='customer'||!customer.data.email)throw new Error('CUSTOMER_EMAIL_REQUIRED');
+  if(args.expectedRevision!==undefined&&estimate.revision!==args.expectedRevision)throw new Error('REVISION_CONFLICT');
+  const existing=await ctx.db.query('painterPortals').withIndex('by_token',q=>q.eq('tokenHash',args.tokenHash)).unique();
+  if(existing){
+   if(existing.tenantId!==workspace._id||existing.estimateId!==estimate.entityId||existing.scope.revision!==estimate.revision)throw new Error('LINK_TOKEN_CONFLICT');
+   return {expiresAt:existing.expiresAt,replayed:true};
+  }
+  const expiresAt=Date.now()+7*86400000;
+  const scope=publicEstimate({...estimate,id:estimate.entityId,type:'estimate'});
+  await ctx.db.insert('painterPortals',{tenantId:workspace._id,estimateId:estimate.entityId,customerId:customer.entityId,customerEmail:String(customer.data.email).toLowerCase(),tokenHash:args.tokenHash,expiresAt,scope});
+  return {expiresAt};
+ }
+});
 async function portalContext(ctx:Ctx,token:string){const tokenHash=await hashToken(token);const portal=await ctx.db.query('painterPortals').withIndex('by_token',q=>q.eq('tokenHash',tokenHash)).unique();if(!portal||portal.expiresAt<=Date.now())throw new Error('PORTAL_INVALID_OR_EXPIRED');return portal;}
 export const portalView=query({args:{token:v.string()},handler:async(ctx,args)=>{
  const portal=await portalContext(ctx,args.token);const state=await load(ctx,portal.tenantId);const estimate=state.entities.find(e=>e.id===portal.estimateId&&e.type==='estimate'&&e.data.customerId===portal.customerId);if(!estimate)throw new Error('PORTAL_INVALID');const jobs=state.entities.filter(e=>e.type==='job'&&e.data.estimateId===portal.estimateId&&e.data.customerId===portal.customerId);const jobIds=new Set(jobs.map(j=>j.id));return {estimate:{...portal.scope,status:estimate.data.status},expiresAt:portal.expiresAt,jobs:jobs.map(j=>({id:j.id,title:j.data.title,status:j.data.status})),schedules:state.entities.filter(e=>e.type==='schedule'&&jobIds.has(String(e.data.jobId))&&e.data.customerId===portal.customerId).map(e=>({id:e.id,startAt:e.data.startAt,endAt:e.data.endAt,status:e.data.status})),invoices:state.entities.filter(e=>e.type==='invoice'&&jobIds.has(String(e.data.jobId))&&e.data.customerId===portal.customerId&&e.data.status!=='draft').map(e=>({id:e.id,title:e.data.title,status:e.data.status,totalCents:e.data.totalCents,balanceCents:e.data.balanceCents}))};
