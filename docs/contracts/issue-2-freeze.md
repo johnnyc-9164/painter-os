@@ -4,7 +4,7 @@ Inspected source baseline: `61a212e75988586dda126da462e04750c327c659`, import/be
 
 ## Actual authority and call paths
 
-`packages/backend/convex/convex.config.ts` mounts exactly Better Auth, Contractor OS and painting. Preserve all three. Better Auth owns cloud sessions and authenticated users. `packages/backend/convex/painter.ts` resolves enabled `painterMembers` for `painterWorkspaces` on each authenticated invocation. That resolver is the single cloud membership authority; Contractor OS receives its server-resolved tenant and permissions through `MembershipResolver`. No new membership store or second cloud auth.
+`packages/backend/convex/convex.config.ts` preserves the Better Auth, Contractor OS and painting mounts and additionally registers the owner-approved official AgentMail provider. All three existing authorities remain unchanged. AgentMail owns its isolated provider records and built-in workpools; source registration does not establish deployment or authorize outbound sends, incoming webhooks/actions, remote reads or mailbox creation. The initial typed provider boundary is disabled and checks no credentials. No duplicate queue or new business/auth authority is introduced. Better Auth transactional email remains separately held. Better Auth owns cloud sessions and authenticated users. `packages/backend/convex/painter.ts` resolves enabled `painterMembers` for `painterWorkspaces` on each authenticated invocation. That resolver is the single cloud membership authority; Contractor OS receives its server-resolved tenant and permissions through `MembershipResolver`. No new membership store or second cloud auth.
 
 | Aggregate / surface | Current write authority | Read / command boundary |
 | --- | --- | --- |
