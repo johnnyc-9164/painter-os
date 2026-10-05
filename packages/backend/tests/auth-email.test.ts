@@ -12,7 +12,7 @@ async function fixture(delivery: AuthEmailDelivery) {
   const auth = betterAuth({
     baseURL,
     secret: 'public-test-fixture-secret-at-least-32-characters',
-    database: memoryAdapter({}),
+    database: memoryAdapter({ user: [], session: [], account: [], verification: [] }),
     trustedOrigins: [baseURL],
     logger: { disabled: true },
     telemetry: { enabled: false },
