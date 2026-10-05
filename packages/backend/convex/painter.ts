@@ -1,7 +1,7 @@
 /// <reference lib="es2022" />
 // Original Contractor OS uses ES2022 library declarations; Convex runtime supports these built-ins.
 import { mutationGeneric, queryGeneric, type MutationBuilder, type QueryBuilder, type GenericMutationCtx, type GenericQueryCtx } from 'convex/server';
-import { v } from 'convex/values';
+import { v, ConvexError } from 'convex/values';
 import { authComponent } from './auth';
 import type { DataModel, Id } from './runtime';
 import { components } from './runtime';
@@ -74,7 +74,7 @@ function originalGateway(workspaceId?:Id<'painterWorkspaces'>):ContractorBackend
 export const originalExecute=mutation({args:{workspaceId:v.optional(v.id('painterWorkspaces')),...commandOptions,command:businessCommand},returns:businessResult,handler:async(ctx,{workspaceId,...args})=>{const {actor}=await resolve(ctx,workspaceId);if(!['owner','office_admin'].includes(actor.role))throw new Error('FORBIDDEN');return originalGateway(workspaceId).execute(ctx,args);}});
 export const originalComponentInfo=query({args:{workspaceId:v.optional(v.id('painterWorkspaces'))},handler:async(ctx,args)=>{const {actor}=await resolve(ctx,args.workspaceId);if(actor.role==='customer')throw new Error('FORBIDDEN');return originalGateway(args.workspaceId).componentInfo(ctx);}});
 /** Published articles alone are public, workspace-scoped. No customer/business snapshot is exposed. */
-export const articles=query({args:{workspaceId:v.id('painterWorkspaces'),slug:v.optional(v.string())},handler:async(ctx,args)=>{const rows=await ctx.db.query('painterEntities').withIndex('by_tenant_type',q=>q.eq('tenantId',args.workspaceId).eq('type','article')).collect();return rows.filter(e=>e.data.status==='published'&&e.data.public===true&&(!args.slug||e.data.slug===args.slug)).map(e=>({id:e.entityId,title:e.data.title,slug:e.data.slug,content:e.data.content,publishedAt:e.data.publishedAt}));}});
+export const articles=query({args:{workspaceId:v.string(),slug:v.optional(v.string())},handler:async(ctx,args)=>{const workspaceId=ctx.db.normalizeId('painterWorkspaces',args.workspaceId);if(workspaceId===null)throw new ConvexError('PUBLIC_WORKSPACE_NOT_FOUND');const rows=await ctx.db.query('painterEntities').withIndex('by_tenant_type',q=>q.eq('tenantId',workspaceId).eq('type','article')).collect();return rows.filter(e=>e.data.status==='published'&&e.data.public===true&&(!args.slug||e.data.slug===args.slug)).map(e=>({id:e.entityId,title:e.data.title,slug:e.data.slug,content:e.data.content,publishedAt:e.data.publishedAt}));}});
 /** Private, actor-bound upload reservation. File metadata is verified from Convex storage, never trusted from a browser. */
 export const beginFileUpload=mutation({args:{workspaceId:v.optional(v.id('painterWorkspaces')),jobId:v.string(),name:v.string()},handler:async(ctx,args)=>{
  const {actor,workspace}=await resolve(ctx,args.workspaceId);if(!canCommand(actor,'field.photo'))throw new Error('FORBIDDEN');if(!args.name.trim()||args.name.length>200)throw new Error('INVALID_FILE_NAME');
