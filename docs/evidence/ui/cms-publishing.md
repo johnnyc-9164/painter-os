@@ -10,4 +10,6 @@ Configured command: `npm run test:convex` (the existing glob discovers the addit
 
 This is synthetic backend acceptance, not mounted UI authoring, real Better Auth login, production data, provider delivery or deployed cross-origin/cookie cutover acceptance. Issue #18 remains open for those gates.
 
+Initial CI run `37247351317` actually executed all four new cases: three passed; the denial no-effects case failed because its baseline preceded the second workspace fixture's legitimate `workspace.create` event. The repair places all membership/workspace fixtures before the baseline capture and preserves every denial and full entity/event/receipt equality assertion. No runtime failure was inferred or changed. Fresh exact-head CI is required after this fixture-order repair.
+
 Post-run extraction: reused `docs/skills/painter-pr-evidence/SKILL.md` for exact-head receipts. No new skill was created because this run applies the existing procedure; the new test fixture is coverage, not a separate reusable workflow.

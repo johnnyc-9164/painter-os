@@ -79,13 +79,14 @@ describe('authenticated CMS writes to anonymous published reads', () => {
     const { t, owner, workspace } = await setup();
     const draft = await createDraft(owner, 'create', 'draft');
     const command = { action: 'article.publish', entityId: draft.id, expectedRevision: draft.revision, requestKey: 'denied', input: {} };
+    await t.run(async ctx => { await ctx.db.insert('painterMembers', { tenantId: workspace.id, userId: 'crew', name: 'Crew', email: 'crew@example.invalid', role: 'crew_member', enabled: true }); });
+    const other = t.withIdentity({ subject: 'other-owner', name: 'Other', email: 'other@example.invalid', emailVerified: true });
+    const otherWorkspace = await other.mutation(api.painter.createWorkspace, { name: 'Other workspace' });
+    // Capture after all fixtures: createWorkspace legitimately appends its own event.
     const before = await t.run(async ctx => ({ entities: await ctx.db.query('painterEntities').collect(), events: await ctx.db.query('painterEvents').collect(), receipts: await ctx.db.query('painterReceipts').collect() }));
     await expect(t.mutation(api.painter.command, { command })).rejects.toThrow('UNAUTHENTICATED');
     await expect(t.withIdentity({ subject: 'nonmember', email: 'nonmember@example.invalid' }).mutation(api.painter.command, { command })).rejects.toThrow('WORKSPACE_MEMBERSHIP_REQUIRED');
-    await t.run(async ctx => { await ctx.db.insert('painterMembers', { tenantId: workspace.id, userId: 'crew', name: 'Crew', email: 'crew@example.invalid', role: 'crew_member', enabled: true }); });
     await expect(t.withIdentity({ subject: 'crew', email: 'crew@example.invalid' }).mutation(api.painter.command, { command })).rejects.toThrow('FORBIDDEN');
-    const other = t.withIdentity({ subject: 'other-owner', name: 'Other', email: 'other@example.invalid', emailVerified: true });
-    const otherWorkspace = await other.mutation(api.painter.createWorkspace, { name: 'Other workspace' });
     await expect(other.mutation(api.painter.command, { workspaceId: workspace.id, command })).rejects.toThrow('WORKSPACE_MEMBERSHIP_REQUIRED');
     await expect(other.mutation(api.painter.command, { workspaceId: otherWorkspace.id, command })).rejects.toThrow('NOT_FOUND_OR_FORBIDDEN');
     expect(await t.run(async ctx => ({ entities: await ctx.db.query('painterEntities').collect(), events: await ctx.db.query('painterEvents').collect(), receipts: await ctx.db.query('painterReceipts').collect() }))).toEqual(before);
