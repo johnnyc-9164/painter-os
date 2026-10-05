@@ -24,4 +24,6 @@ Sources: [pinned SDK verification](https://unpkg.com/better-auth@1.6.22/dist/api
 
 Local regression: `node --test --test-isolation=none tests/http-error.test.ts docs/contracts/compatibility.test.mjs` passed ten tests; `git diff --check` passed. This does not substitute for actual SDK CI or live acceptance. Broad Issue4 remains open.
 
+Initial CI `37254361013` passed type/lint/domain/both builds/HTTP but caught three fixture assumptions: Workpool `0.3.2` is hoisted at root (nested component, not nested physical package); the pinned limiter uses `X-Retry-After`; server-only `auth.api.verifyEmail` bypasses HTTP origin middleware and a redirect exception occurs after verification. The foreign-callback test now uses the actual HTTP handler and checks denial before verification. No runtime policy was weakened or SDK endpoint skipped. Fresh official queue execution remains required after this repair.
+
 Skill extraction reused [Painter PR evidence](../../skills/painter-pr-evidence/SKILL.md), with exact head and terminal independent CI receipt to be recorded on the PR. No new skill, dependency, provider or service.

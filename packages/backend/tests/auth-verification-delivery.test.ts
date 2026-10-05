@@ -3,7 +3,7 @@ import { convexTest } from 'convex-test';
 import { betterAuth } from 'better-auth/minimal';
 import betterAuthTest from '@convex-dev/better-auth/test';
 import agentmailTest from '@agentmail/convex/test';
-import workpoolTest from '../../../node_modules/@agentmail/convex/node_modules/@convex-dev/workpool/src/test';
+import workpoolTest from '@convex-dev/workpool/test';
 import schema from '../convex/schema';
 import { api, type DataModel } from '../convex/runtime';
 import type { GenericMutationCtx } from 'convex/server';
@@ -40,7 +40,7 @@ async function fixture() {
   });
   const workpoolModules = {
     ...workpoolTest.modules,
-    './component/lib.ts': () => import('../../../node_modules/@agentmail/convex/node_modules/@convex-dev/workpool/src/component/lib'),
+    './component/lib.ts': () => import('../../../node_modules/@convex-dev/workpool/src/component/lib'),
     './component/_generated/test-root-marker.ts': () => Promise.resolve({}),
   };
   t.registerComponent('agentmail/sendPool', workpoolTest.schema, workpoolModules);

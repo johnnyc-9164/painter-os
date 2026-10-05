@@ -57,7 +57,11 @@ describe('prepared auth email callbacks with the pinned Better Auth SDK', () => 
     const { auth, owner, other } = await fixture({ async send(message) { messages.push(message); } }, { expiresIn: 1 });
     await auth.api.sendVerificationEmail({ body: { email } });
     const token = new URL(messages[0]!.url).searchParams.get('token')!;
-    await expect(auth.api.verifyEmail({ query: { token, callbackURL: 'https://foreign.example.test/steal' } })).rejects.toThrow();
+    const foreign = new URL(`${baseURL}/api/auth/verify-email`);
+    foreign.searchParams.set('token', token);
+    foreign.searchParams.set('callbackURL', 'https://foreign.example.test/steal');
+    // Origin middleware is an HTTP boundary; auth.api is server-only and bypasses it.
+    expect((await auth.handler(new Request(foreign))).status).toBe(403);
     vi.useFakeTimers({ toFake: ['Date'] });
     vi.setSystemTime(Date.now() + 2000);
     try {
@@ -77,7 +81,7 @@ describe('prepared auth email callbacks with the pinned Better Auth SDK', () => 
     for (let i = 0; i < 3; i++) expect((await auth.handler(request())).status).toBe(200);
     const limited = await auth.handler(request());
     expect(limited.status).toBe(429);
-    expect(limited.headers.get('retry-after')).not.toBeNull();
+    expect(Number(limited.headers.get('x-retry-after'))).toBeGreaterThan(0);
     expect(messages).toHaveLength(3);
     await auth.api.sendVerificationEmail({ body: { email } });
     expect(messages).toHaveLength(4);
