@@ -3,7 +3,7 @@ export type EntityType = 'customer'|'lead'|'estimate'|'job'|'schedule'|'field'|'
 export interface Entity { id:string; type:EntityType; tenantId:string; revision:number; createdAt:string; updatedAt:string; data:Record<string, unknown>; }
 export interface Actor { id:string; tenantId:string; name:string; email:string; role:Role; }
 export interface AuditEvent { id:string; type:string; entityId:string; actorId:string; occurredAt:string; payload:Record<string,unknown>; }
-export interface Snapshot { members?:{id:string;name:string;email:string;role:Role}[]; actor:Actor; workspace:{id:string;name:string}; entities:Entity[]; events:AuditEvent[]; runtime:{storage:string; integrations:string; demo:boolean}; }
+export interface Snapshot { members?:{id:string;name:string;email:string;role:Role}[]; actor:Actor; workspace:{id:string;name:string}; entities:Entity[]; events:AuditEvent[]; runtime:{kind?:'convex'|'local'; storage:string; integrations:string; demo:boolean}; }
 export interface Command { action:string; entityId?:string; expectedRevision?:number; requestKey:string; input:Record<string,unknown>; }
 export interface CommandResult { entity?:Entity; entities?:Entity[]; replayed?:boolean; portalUrl?:string; message?:string; }
 export const entityTypes:EntityType[]=['customer','lead','estimate','job','schedule','field','invoice','payment','expense','review','referral','bid','knowledge','automation','task','file','integration','article'];
