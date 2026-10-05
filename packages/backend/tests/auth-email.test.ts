@@ -7,7 +7,7 @@ const baseURL = 'https://auth.example.test';
 const email = 'owner@example.test';
 const password = 'fixture-password-123';
 
-async function fixture(delivery: AuthEmailDelivery) {
+async function fixture(delivery: AuthEmailDelivery, options: { rateLimit?: boolean; expiresIn?: number } = {}) {
   const callbacks = createAuthEmailCallbacks(delivery);
   const auth = betterAuth({
     baseURL,
@@ -16,8 +16,10 @@ async function fixture(delivery: AuthEmailDelivery) {
     trustedOrigins: [baseURL],
     logger: { disabled: true },
     telemetry: { enabled: false },
+    rateLimit: { enabled: options.rateLimit ?? false, storage: 'memory' },
+    advanced: { ipAddress: { ipAddressHeaders: ['x-test-ip'] } },
     emailAndPassword: { enabled: true, requireEmailVerification: false, sendResetPassword: callbacks.sendResetPassword },
-    emailVerification: { sendOnSignUp: false, sendVerificationEmail: callbacks.sendVerificationEmail },
+    emailVerification: { sendOnSignUp: false, expiresIn: options.expiresIn, sendVerificationEmail: callbacks.sendVerificationEmail },
   });
   const owner = await auth.api.signUpEmail({ body: { name: 'Owner', email, password } });
   const other = await auth.api.signUpEmail({ body: { name: 'Other', email: 'other@example.test', password } });
@@ -32,6 +34,7 @@ describe('prepared auth email callbacks with the pinned Better Auth SDK', () => 
     expect(messages).toHaveLength(1);
     const message = messages[0]!;
     expect(message.to).toBe(owner.user.email);
+    expect(message.userId).toBe(owner.user.id);
     expect(message.purpose).toBe('verify-email');
     const link = new URL(message.url);
     expect(link.origin).toBe(baseURL);
@@ -43,6 +46,41 @@ describe('prepared auth email callbacks with the pinned Better Auth SDK', () => 
     expect((await context.internalAdapter.findUserById(owner.user.id))?.emailVerified).toBe(true);
     expect((await context.internalAdapter.findUserById(other.user.id))?.emailVerified).toBe(false);
     await expect(auth.api.verifyEmail({ query: { token: `${token}corrupted` } })).rejects.toThrow();
+    // SDK verification JWTs are not one-use tokens. Valid replay is an idempotent success.
+    expect((await auth.api.verifyEmail({ query: { token } })).status).toBe(true);
+    expect((await context.internalAdapter.findUserById(other.user.id))?.emailVerified).toBe(false);
+    expect(messages).toHaveLength(1);
+  });
+
+  it('rejects SDK-signed expired links and foreign callback origins without verifying any user', async () => {
+    const messages: AuthEmailMessage[] = [];
+    const { auth, owner, other } = await fixture({ async send(message) { messages.push(message); } }, { expiresIn: 1 });
+    await auth.api.sendVerificationEmail({ body: { email } });
+    const token = new URL(messages[0]!.url).searchParams.get('token')!;
+    await expect(auth.api.verifyEmail({ query: { token, callbackURL: 'https://foreign.example.test/steal' } })).rejects.toThrow();
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(Date.now() + 2000);
+    try {
+      await expect(auth.api.verifyEmail({ query: { token } })).rejects.toMatchObject({ status: 'UNAUTHORIZED' });
+      const context = await auth.$context;
+      expect((await context.internalAdapter.findUserById(owner.user.id))?.emailVerified).toBe(false);
+      expect((await context.internalAdapter.findUserById(other.user.id))?.emailVerified).toBe(false);
+    } finally { vi.useRealTimers(); }
+  });
+
+  it('executes the SDK HTTP verification 3/60 limiter and demonstrates auth.api bypass is not a durable send budget', async () => {
+    const messages: AuthEmailMessage[] = [];
+    const { auth } = await fixture({ async send(message) { messages.push(message); } }, { rateLimit: true });
+    const request = () => new Request(`${baseURL}/api/auth/send-verification-email`, {
+      method: 'POST', headers: { 'content-type': 'application/json', origin: baseURL, 'x-test-ip': '192.0.2.31' }, body: JSON.stringify({ email }),
+    });
+    for (let i = 0; i < 3; i++) expect((await auth.handler(request())).status).toBe(200);
+    const limited = await auth.handler(request());
+    expect(limited.status).toBe(429);
+    expect(limited.headers.get('retry-after')).not.toBeNull();
+    expect(messages).toHaveLength(3);
+    await auth.api.sendVerificationEmail({ body: { email } });
+    expect(messages).toHaveLength(4);
   });
 
   it('uses the SDK reset record and consumes it once without changing another recipient', async () => {

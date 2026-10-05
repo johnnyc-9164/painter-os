@@ -1,0 +1,27 @@
+# Prepared legitimate verification delivery
+
+This prepares the existing Better Auth callback boundary and official AgentMail queue. Production `createAuth` still installs no verification/reset callback. The internal enqueue's server scope is literal `null`: it denies before any provider constructor, credential lookup or write. No live email, account verification, platform grant, environment change or deployment occurred.
+
+## Ownership and activation
+
+The SDK supplies user ID, email and signed URL through the existing typed callback factory. The prepared core resolves that immutable ID through the existing Better Auth component, requires exact approved server recipient and current user email, and validates the approved HTTPS auth origin, verification path and callback origin. A workspace owner/inbox binding or public signup cannot select this platform sender. The normal SDK verification JWT embeds email, not immutable ID; the delivery binding does not change token format or invent a second auth authority.
+
+Before installing callbacks or opening the server scope, the owner must approve the concrete sender/inbox, recipient, immutable account ID and origin. Secure deployment credentials must be present and prove access to that same inbox. Existing connector inbox metadata (`johnnyc@agentmail.to`, `cbexmn@agentmail.to`, `foundit@agentmail.to`) proves neither approved platform sender nor backend key ownership. Backend `AGENTMAIL_API_KEY` presence/scope is **unknown**, not absent; no safe presence-only Convex tool was exposed. Names-only metadata access and `johnnyc@agentmail.to` selection still need the owner's exact response. No secret values are inspected or copied. Inbound webhooks and reset delivery remain held.
+
+## Budget, deduplication and ambiguity
+
+One host mutation writes a durable recipient/purpose budget, official enqueue and host receipt atomically. Receipt identity hashes purpose, SDK user ID, recipient and complete SDK URL; host rows never store a raw token. Exact intent replay returns the prior queue acceptance, without another budget charge or job. Changed sender scope cannot reuse that receipt. A new intent is capped at three per **fixed** 60-second window; six near a window boundary are possible, so this is not a rolling-window claim. Reset delivery is rejected.
+
+Published `@agentmail/convex@0.1.0` has no provider HTTP idempotency field. `sendMessage` calls the existing component/Workpool enqueue and returns an outbound ID, not delivery. Its `retryAttempts` maps to Workpool `maxAttempts`; one means one total configured attempt. No second queue or automatic resend is added. Receipt output says `queue-accepted` with delivery `unknown`; provider/network ambiguity can still mean the external send happened even when a later status fails. No exactly-once claim. The official component necessarily stores the message payload/link for its existing queue; host receipts contain only the digest and ownership metadata. Retention and live outcome proof remain activation concerns.
+
+## Tests and source versions
+
+Actual pinned Better Auth `1.6.22` tests cover recipient/token mapping, corrupt and expired token rejection, foreign callback denial, other recipient remaining unverified, and valid verification replay returning success without another email. Verification JWT replay is SDK idempotency, not token consumption once. Actual HTTP handler tests exercise its three-per-60-second limiter and show direct `auth.api` bypass; the prepared durable enqueue budget covers that latter path. Default memory HTTP limiting alone is insufficient across serverless instances. `storage:'database'` is not blindly adopted because the installed Convex adapter lacks the newer atomic increment contract.
+
+Official component fixtures register actual Better Auth, AgentMail and its existing nested Workpool `0.3.2`, preserving their schemas and implementations. They assert closed production gate/zero provider environment reads, missing-key transactional rollback, exact replay/no additional job, one-attempt work metadata, fixed-window reset, and real SDK adapter callback-to-queue mapping. No scheduled provider actions are flushed and no network/provider call is made. Local SDK execution is unavailable without dependencies; CI execution is required, not inferred from these source tests.
+
+Sources: [pinned SDK verification](https://unpkg.com/better-auth@1.6.22/dist/api/routes/email-verification.mjs), [pinned rate limiter](https://unpkg.com/better-auth@1.6.22/dist/api/rate-limiter/index.mjs), [published AgentMail client](https://unpkg.com/@agentmail/convex@0.1.0/dist/client/index.js), [published component enqueue](https://unpkg.com/@agentmail/convex@0.1.0/src/component/lib.ts). Current [Better Auth verification documentation](https://better-auth.com/docs/authentication/email-password) and [rate-limit documentation](https://better-auth.com/docs/concepts/rate-limit) were checked; pinned source/CI governs version-specific behavior.
+
+Local regression: `node --test --test-isolation=none tests/http-error.test.ts docs/contracts/compatibility.test.mjs` passed ten tests; `git diff --check` passed. This does not substitute for actual SDK CI or live acceptance. Broad Issue4 remains open.
+
+Skill extraction reused [Painter PR evidence](../../skills/painter-pr-evidence/SKILL.md), with exact head and terminal independent CI receipt to be recorded on the PR. No new skill, dependency, provider or service.
