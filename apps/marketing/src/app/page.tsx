@@ -1,5 +1,8 @@
+import './product.css';
+import type { Metadata } from 'next';
 import { publicAdminOrigin } from '@painter-os-bts/backend/published-articles.mjs';
+import ProductLanding from '../components/product/product-landing';
+export const metadata: Metadata = { title: 'Painter OS | A clearer workflow for your painting business', description: 'Connect leads, estimates, projects, crew schedules, field evidence and invoices in your painting workspace.' };
 export default function Home() {
-  const adminOrigin = publicAdminOrigin(process.env.NEXT_PUBLIC_ADMIN_ORIGIN);
-  return <><p className="eyebrow">THOUGHTFUL WORK. BEAUTIFUL SPACES.</p><h1>Better spaces begin with great painting.</h1><p>Ideas and practical guidance from the people who care for every detail.</p>{adminOrigin && <a href={adminOrigin}>Open your workspace →</a>}</>;
+  return <ProductLanding adminOrigin={publicAdminOrigin(process.env.NEXT_PUBLIC_ADMIN_ORIGIN)}/>;
 }
