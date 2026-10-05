@@ -41,7 +41,7 @@ export async function waitForReady(base, state, timeoutMs = 60_000) {
     if (state.ended) throw new Error('NEXT_EXITED_BEFORE_READY', { cause: state.result?.error });
     try {
       const response = await fetch(`${base}/api/snapshot`, { redirect: 'error', signal: AbortSignal.timeout(Math.min(500, Math.max(1, deadline - Date.now()))) });
-      if (response.status === 200 && (await response.json()).session === null) return;
+      if (response.status === 401 && (await response.json()).error === 'UNAUTHENTICATED') return;
     } catch { /* Startup is polled only until the fixed deadline. */ }
     await pause(Math.min(100, Math.max(0, deadline - Date.now())));
   }

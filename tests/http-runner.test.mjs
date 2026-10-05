@@ -32,7 +32,7 @@ test('real child failure propagates and timed-out owned child is stopped', async
 
 test('readiness requires the real unauthenticated snapshot shape and handles failure within deadline', async () => {
   let valid = false;
-  const server = createServer((_request, response) => { response.setHeader('Content-Type', 'application/json'); response.end(JSON.stringify(valid ? { session: null } : { session: 'wrong-service' })); });
+  const server = createServer((_request, response) => { response.statusCode = valid ? 401 : 200; response.setHeader('Content-Type', 'application/json'); response.end(JSON.stringify(valid ? { error: 'UNAUTHENTICATED' } : { session: null })); });
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   const base = `http://127.0.0.1:${server.address().port}`;
   try {
