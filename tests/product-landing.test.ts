@@ -33,3 +33,15 @@ test('activated image registry entries require materialized payloads', () => {
     assert.ok(webp || png || jpeg, `Unsupported/nonimage asset: ${image.src}`);
   }
 });
+
+
+test('workspace preview is a labeled noninteractive illustration with no app authority', () => {
+  const preview = readFileSync(new URL('../apps/marketing/src/components/product/workspace-preview.tsx', import.meta.url), 'utf8');
+  assert.match(preview, /Workspace illustration · Example data/);
+  assert.match(preview, /aria-hidden="true"/);
+  assert.doesNotMatch(preview, /<button|<input|onClick|fetch\(|useQuery|auth-client|local-runtime|\/api\//);
+  const action = readFileSync(new URL('../apps/marketing/src/components/product/action-link.tsx', import.meta.url), 'utf8');
+  assert.match(action, /buttonVariants/);
+  assert.match(action, /<a href=\{href\}/);
+  assert.doesNotMatch(action, /role="button"/);
+});
