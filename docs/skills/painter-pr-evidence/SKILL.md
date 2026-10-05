@@ -39,3 +39,16 @@ git diff --check origin/main
 ```
 
 The combined command passed 19 tests. Strict standalone helper compilation passed with global TypeScript 7; it was reported separately from the locked full-project check. [Fresh CI run](https://github.com/johnnyc-9164/painter-os/actions/runs/37243441075) passed typecheck, lint, domain-tests, convex-tests and build at that head. Parent subsequently merged PR #16; implementation owner did not self-merge. Vercel preview was pending at handoff, and no live-cloud/browser acceptance or manual promotion was claimed. The command is a historical receipt for that source revision, not a substitute for choosing affected checks on a future PR.
+
+## Native web validation and workspace JSX
+
+Use this bounded procedure when a native-cloud web task has the installed project dependencies but a direct `tsx` renderer fails on shared workspace JSX. It does not authorize a dependency change, skipped check or security bypass.
+
+1. Inspect the current app and existing `scripts/run-http-acceptance.mjs` pattern before inventing another harness. Prefer real built-page loopback HTTP assertions for server-rendered content, exact routes, headers, native links, API status and compatibility. Keep original assertions and role semantics; do not change an anchor into a button to satisfy a test.
+2. A client state that requires a real operator/session may be unreachable in isolated anonymous HTTP. Cover that state separately with the installed Vitest/Vite automatic-JSX transform and the real shared UI components, as in `vitest.platform.config.ts`. Keep the state fixture in tests, not in a production auth bypass. Static render coverage does not prove browser events, layout, focus or live authorization.
+3. Root `tsx` and shared-package JSX configuration may differ from Next's automatic transform. Preserve the actual failure, then choose the matching supported test runner rather than adding global React stubs, rewriting shared controls or silently dropping assertions. Pure transport/decoder tests can remain on the established Node import-loader entry point when the CLI's optional Unix IPC is blocked.
+4. Keep isolated runners on 127.0.0.1 with whitelisted, secret-free environments, owned temporary directories, bounded readiness and cleanup, and no real provider configuration. Verify the runner's environment exclusions.
+5. Record build exit 137 as an observed termination, not a proven out-of-memory diagnosis. A serialized bounded-heap retry may be appropriate; retain the original failure and stop at the task's retry limit. Do not disable Next TypeScript. If authorized CI supplies build/HTTP evidence instead, name that exact head and CI run separately.
+6. Sandboxed browser failure remains a browser verification gap. Never add `--no-sandbox` or otherwise weaken security to produce a screenshot. Record scoped static audit results separately from pre-existing repository-wide findings.
+
+The platform inventory slice records the exact branch, reviewer and command evidence in `docs/evidence/platform/read-only-inventory.md`. The recipe is reusable only within its stated read-only/local-fixture boundaries.

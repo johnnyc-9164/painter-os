@@ -1,0 +1,4 @@
+import { platformWorkspacesResponse } from '@/lib/platform-http';
+import { platformReads } from '@/lib/platform-server';
+export const runtime = 'nodejs';
+export async function GET(request: Request) { return platformWorkspacesResponse(request, platformReads); }
