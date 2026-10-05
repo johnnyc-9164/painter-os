@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { ArrowRight, BookOpen, CalendarDays, Check, FileText, HardHat, Paintbrush, Receipt, ShieldCheck, Users } from 'lucide-react';
 import { productFeatures } from './content';
+import { BrandLogo } from '@painter-os-bts/ui/components/brand-logo';
 import ActionLink from './action-link';
 import { productImagery } from './imagery';
 import WorkspacePreview from './workspace-preview';
@@ -19,7 +20,7 @@ export default function ProductLanding({ adminOrigin }: { adminOrigin: string | 
     <div className="product-masthead">
       {productImagery.hero && <div className="product-hero-background" aria-hidden="true"><Image {...productImagery.hero} alt={productImagery.hero.alt} preload sizes="(max-width: 760px) 100vw, 70vw"/></div>}
       <header className="product-nav product-container">
-        <a href="/" className="product-brand"><span className="product-brand-mark" aria-hidden="true"><Paintbrush size={21} strokeWidth={2.5}/></span>Painter OS</a>
+        <a href="/" className="product-brand" aria-label="Painter OS home"><BrandLogo/></a>
         <nav aria-label="Product navigation"><a href="#features">Product</a><a href="#workflow">How it works</a><a href="#ownership">Your workspace</a></nav>
         <div className="product-nav-actions">{adminOrigin && <a className="product-signin" href={adminOrigin}>Sign in</a>}<ActionLink href={adminOrigin || '#features'}>{adminOrigin ? 'Open workspace' : 'Explore product'}</ActionLink></div>
       </header>
@@ -47,7 +48,7 @@ export default function ProductLanding({ adminOrigin }: { adminOrigin: string | 
     </section>
     <section className="product-closing" aria-labelledby="closing-title"><div className="product-container"><p className="product-eyebrow">MAKE ROOM FOR YOUR BEST WORK</p><h2 id="closing-title">A smoother day starts with Painter OS.</h2><p>One connected workspace for the business behind the brush.</p><div className="product-actions">{workspaceAction}<a className="product-secondary-button" href="#ownership">Explore workspace options</a></div><ul className="product-benefits"><li><Check/>Clear next steps</li><li><Check/>Connected crews</li><li><Check/>Details in one place</li></ul></div></section>
     <footer className="product-footer product-container">
-      <div className="product-footer-top"><a href="/" className="product-brand"><span className="product-brand-mark" aria-hidden="true"><Paintbrush size={17}/></span>Painter OS</a><p>Thoughtful software for the people who transform spaces.</p><a href="#features">Explore features <ArrowRight size={14} aria-hidden="true"/></a></div>
+      <div className="product-footer-top"><a href="/" className="product-brand" aria-label="Painter OS home"><BrandLogo size="sm"/></a><p>Thoughtful software for the people who transform spaces.</p><a href="#features">Explore features <ArrowRight size={14} aria-hidden="true"/></a></div>
       <details id="ownership" className="product-ownership"><summary>Your workspace, your way forward <span>Deployment options</span></summary><div><p>Painter OS is being built for a hosted SaaS workspace and independently operated, customer-owned deployments. Contractor operations and public sites stay distinct from platform administration.</p><p>Hosting setup and ownership handoff require a reviewed deployment plan. Subscription billing and live provider connections are not available through this page.</p></div></details>
     </footer>
   </div>;

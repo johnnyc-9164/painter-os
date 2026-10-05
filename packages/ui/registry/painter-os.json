@@ -1,0 +1,28 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "painter-os",
+  "type": "registry:style",
+  "title": "Painter OS",
+  "description": "Painter OS brand tokens: brand blue, ink, borders and radius. Components read semantic variables only.",
+  "cssVars": {
+    "theme": {
+      "font-sans": "Arial, Helvetica, sans-serif",
+      "radius": "0.625rem"
+    },
+    "light": {
+      "brand": "#0867e8",
+      "background": "#f4f8fc",
+      "foreground": "#0d172a",
+      "primary": "#0867e8",
+      "primary-foreground": "#ffffff",
+      "secondary": "#edf5ff",
+      "secondary-foreground": "#0c2944",
+      "muted": "#f2f5f9",
+      "muted-foreground": "#586576",
+      "border": "#dce5ef",
+      "input": "#dce5ef",
+      "ring": "#0867e8",
+      "destructive": "#ba4336"
+    }
+  }
+}
