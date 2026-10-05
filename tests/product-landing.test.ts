@@ -1,22 +1,27 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { createElement } from 'react';
-import { renderToStaticMarkup } from 'react-dom/server';
 import { readFileSync } from 'node:fs';
 import { productImagery } from '../apps/marketing/src/components/product/imagery';
 import { fileURLToPath } from 'node:url';
-import { tsImport } from 'tsx/esm/api';
+import { createRequire } from 'node:module';
+import { spawnSync } from 'node:child_process';
 
-async function renderLanding(props: { adminOrigin: string | null }) {
-  const { default: ProductLanding } = await tsImport('../apps/marketing/src/components/product/product-landing.tsx', {
-    parentURL: import.meta.url,
-    tsconfig: fileURLToPath(new URL('../apps/marketing/tsconfig.json', import.meta.url)),
-  });
-  return renderToStaticMarkup(createElement(ProductLanding, props));
+function renderLanding(props: { adminOrigin: string | null }) {
+  // A fresh process makes the app's automatic JSX transform apply to shared UI too.
+  const require = createRequire(import.meta.url);
+  const result = spawnSync(process.execPath, [
+    require.resolve('tsx/cli'), '--tsconfig',
+    fileURLToPath(new URL('../apps/marketing/tsconfig.json', import.meta.url)),
+    fileURLToPath(new URL('./fixtures/product-landing/render.tsx', import.meta.url)),
+    props.adminOrigin || '',
+  ], { encoding: 'utf8', timeout: 20000, env: { PATH: process.env.PATH, SystemRoot: process.env.SystemRoot } });
+  assert.equal(result.error, undefined);
+  assert.equal(result.status, 0, result.stderr);
+  return JSON.parse(result.stdout).html as string;
 }
 
-test('product landing renders eight capabilities and no unconfigured workspace link', async () => {
-  const html = await renderLanding({ adminOrigin: null });
+test('product landing renders eight capabilities and no unconfigured workspace link', () => {
+  const html = renderLanding({ adminOrigin: null });
   assert.equal((html.match(/<h3>/g) || []).length, 8);
   assert.match(html, /href="#workflow"/);
   assert.doesNotMatch(html, /Open your workspace|Sign in|\/api\/snapshot|\/api\/auth|free trial|thousands of|trusted by/i);
@@ -24,15 +29,15 @@ test('product landing renders eight capabilities and no unconfigured workspace l
   assert.match(html, /customer-owned deployments/);
 });
 
-test('configured workspace CTA uses only the supplied public origin', async () => {
-  const html = await renderLanding({ adminOrigin: 'https://workspace.example.test' });
+test('configured workspace CTA uses only the supplied public origin', () => {
+  const html = renderLanding({ adminOrigin: 'https://workspace.example.test' });
   assert.match(html, /href="https:\/\/workspace\.example\.test"/);
   assert.match(html, /Open your workspace/);
   assert.doesNotMatch(html, /href="\/(dashboard|platform|settings)/);
 });
 
-test('unavailable imagery emits no broken asset requests; activated payloads must be actual images', async () => {
-  const html = await renderLanding({ adminOrigin: null });
+test('unavailable imagery emits no broken asset requests; activated payloads must be actual images', () => {
+  const html = renderLanding({ adminOrigin: null });
   const images = Object.values(productImagery).filter(image => image !== null);
   if (images.length === 0) assert.doesNotMatch(html, /<img|\/images\/product\//);
   for (const image of images) {
