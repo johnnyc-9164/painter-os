@@ -21,6 +21,9 @@ async function fixture() {
   // Add only a virtual root marker; real official schema and all actual function modules remain unchanged.
   t.registerComponent('agentmail', agentmailTest.schema, {
     ...agentmailTest.modules,
+    // The published helper's node_modules glob omits the runtime lib in Vitest.
+    // Load the actual installed official function module explicitly; no handler is copied or mocked.
+    './component/lib.ts': () => import('../../../node_modules/@agentmail/convex/src/component/lib'),
     './component/_generated/test-root-marker.ts': () => Promise.resolve({}),
   });
   const owner = t.withIdentity({ subject: 'owner', name: 'Owner', email: 'owner@example.test' });
