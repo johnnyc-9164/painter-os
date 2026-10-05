@@ -1,4 +1,4 @@
-import { internalMutationGeneric, type MutationBuilder } from 'convex/server';
+import { internalMutationGeneric, type GenericQueryCtx, type MutationBuilder } from 'convex/server';
 import { v } from 'convex/values';
 import { authComponent } from './auth';
 import { query, type DataModel } from './runtime';
@@ -13,15 +13,19 @@ function validate(args: { userId: string; requestKey: string; operatorReceiptRef
   }
 }
 
+/** Shared read authorization. Only the Better Auth component and stored grant establish authority. */
+export async function resolvePlatformAccess(ctx: GenericQueryCtx<DataModel>): Promise<'ready' | 'unauthenticated' | 'denied'> {
+  const user = await authComponent.safeGetAuthUser(ctx);
+  if (!user) return 'unauthenticated';
+  if (!user.emailVerified) return 'denied';
+  const owner = await ctx.db.query('platformOwners').withIndex('by_user', q => q.eq('userId', user._id)).unique();
+  return owner?.enabled === true ? 'ready' : 'denied';
+}
+
 /** Self capability only. Workspace roles never confer platform authority. */
 export const current = query({
   args: {}, returns: v.boolean(),
-  handler: async ctx => {
-    const user = await authComponent.safeGetAuthUser(ctx);
-    if (!user || !user.emailVerified) return false;
-    const owner = await ctx.db.query('platformOwners').withIndex('by_user', q => q.eq('userId', user._id)).unique();
-    return owner?.enabled === true;
-  },
+  handler: async ctx => (await resolvePlatformAccess(ctx)) === 'ready',
 });
 
 /** Deployment-operator only. Receipt references are audit links, NOT verified caller authority.
