@@ -2,6 +2,8 @@ import { defineSchema, defineTable } from 'convex/server';
 import { v } from 'convex/values';
 const role=v.union(v.literal('owner'),v.literal('office_admin'),v.literal('estimator'),v.literal('project_manager'),v.literal('salesperson'),v.literal('crew_lead'),v.literal('crew_member'),v.literal('accountant'),v.literal('customer'));
 export default defineSchema({
+ platformOwners:defineTable({slot:v.literal('initial-platform-owner'),userId:v.string(),enabled:v.boolean(),grantedAt:v.number()}).index('by_slot',['slot']).index('by_user',['userId']),
+ platformOwnerAudit:defineTable({requestKey:v.string(),fingerprint:v.string(),userId:v.string(),action:v.union(v.literal('bootstrap'),v.literal('revoke')),operatorReceiptReference:v.string(),identityProofReference:v.optional(v.string()),occurredAt:v.number(),beforeEnabled:v.boolean(),afterEnabled:v.boolean()}).index('by_request',['requestKey']),
  painterEmailBindings:defineTable({tenantId:v.id('painterWorkspaces'),inboxId:v.string(),configuredSender:v.string(),enabled:v.literal(false),createdBy:v.string()}).index('by_tenant',['tenantId']).index('by_inbox',['inboxId']),
  painterInvites:defineTable({tenantId:v.id('painterWorkspaces'),tokenHash:v.string(),email:v.string(),role,expiresAt:v.number(),acceptedBy:v.optional(v.string())}).index('by_token',['tokenHash']),
  painterPortals:defineTable({tenantId:v.id('painterWorkspaces'),tokenHash:v.string(),estimateId:v.string(),customerId:v.string(),customerEmail:v.string(),expiresAt:v.number(),scope:v.any()}).index('by_token',['tokenHash']),
