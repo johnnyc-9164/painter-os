@@ -81,6 +81,20 @@ jobs:
       - run: npm ci --no-audit --no-fund
       - run: npm run test:convex
 
+  contractor-component:
+    name: contractor-component
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - name: Check component test prerequisites
+        run: python3 --version && jq --version
+      - run: npm ci --no-audit --no-fund
+      - run: npm run verify:all --workspace @johnny/contractor-os-core
+
   build:
     name: build
     runs-on: ubuntu-latest
