@@ -4,10 +4,19 @@ import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { readFileSync } from 'node:fs';
 import { productImagery } from '../apps/marketing/src/components/product/imagery';
-import ProductLanding from '../apps/marketing/src/components/product/product-landing';
+import { fileURLToPath } from 'node:url';
+import { tsImport } from 'tsx/esm/api';
 
-test('product landing renders eight capabilities and no unconfigured workspace link', () => {
-  const html = renderToStaticMarkup(createElement(ProductLanding, { adminOrigin: null }));
+async function renderLanding(props: { adminOrigin: string | null }) {
+  const { default: ProductLanding } = await tsImport('../apps/marketing/src/components/product/product-landing.tsx', {
+    parentURL: import.meta.url,
+    tsconfig: fileURLToPath(new URL('../apps/marketing/tsconfig.json', import.meta.url)),
+  });
+  return renderToStaticMarkup(createElement(ProductLanding, props));
+}
+
+test('product landing renders eight capabilities and no unconfigured workspace link', async () => {
+  const html = await renderLanding({ adminOrigin: null });
   assert.equal((html.match(/<h3>/g) || []).length, 8);
   assert.match(html, /href="#workflow"/);
   assert.doesNotMatch(html, /Open your workspace|Sign in|\/api\/snapshot|\/api\/auth|free trial|thousands of|trusted by/i);
@@ -15,15 +24,15 @@ test('product landing renders eight capabilities and no unconfigured workspace l
   assert.match(html, /customer-owned deployments/);
 });
 
-test('configured workspace CTA uses only the supplied public origin', () => {
-  const html = renderToStaticMarkup(createElement(ProductLanding, { adminOrigin: 'https://workspace.example.test' }));
+test('configured workspace CTA uses only the supplied public origin', async () => {
+  const html = await renderLanding({ adminOrigin: 'https://workspace.example.test' });
   assert.match(html, /href="https:\/\/workspace\.example\.test"/);
   assert.match(html, /Open your workspace/);
   assert.doesNotMatch(html, /href="\/(dashboard|platform|settings)/);
 });
 
-test('unavailable imagery emits no broken asset requests; activated payloads must be actual images', () => {
-  const html = renderToStaticMarkup(createElement(ProductLanding, { adminOrigin: null }));
+test('unavailable imagery emits no broken asset requests; activated payloads must be actual images', async () => {
+  const html = await renderLanding({ adminOrigin: null });
   const images = Object.values(productImagery).filter(image => image !== null);
   if (images.length === 0) assert.doesNotMatch(html, /<img|\/images\/product\//);
   for (const image of images) {
