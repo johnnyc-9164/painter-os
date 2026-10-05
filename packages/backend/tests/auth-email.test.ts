@@ -70,7 +70,7 @@ describe('prepared auth email callbacks with the pinned Better Auth SDK', () => 
     const { auth } = await fixture({ send });
     await auth.api.requestPasswordReset({ body: { email: 'missing@example.test' } });
     expect(send).not.toHaveBeenCalled();
-    // 1.6.17 catches delivery errors for anti-enumeration; status is not a delivery receipt.
+    // The pinned SDK catches reset delivery errors for anti-enumeration; status is not a delivery receipt.
     expect((await auth.api.requestPasswordReset({ body: { email } })).status).toBe(true);
     expect(send).toHaveBeenCalledTimes(1);
     send.mockClear();
@@ -93,7 +93,7 @@ describe('prepared auth email callbacks with the pinned Better Auth SDK', () => 
     expect(send).toHaveBeenCalledTimes(1);
     expect(send.mock.results[0]!.value).toBeInstanceOf(Promise);
     await expect(send.mock.results[0]!.value).rejects.toMatchObject({ code: 'AGENTMAIL_OUTBOUND_DISABLED' });
-    await auth.api.sendVerificationEmail({ body: { email } });
+    await expect(auth.api.sendVerificationEmail({ body: { email } })).rejects.toMatchObject({ code: 'AGENTMAIL_OUTBOUND_DISABLED' });
     expect(send).toHaveBeenCalledTimes(2);
     await expect(send.mock.results[1]!.value).rejects.toMatchObject({ code: 'AGENTMAIL_OUTBOUND_DISABLED' });
     expect(callbacks).toHaveProperty('sendVerificationEmail');
