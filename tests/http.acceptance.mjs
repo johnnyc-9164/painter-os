@@ -50,3 +50,6 @@ const cross=await a.req('/api/command','POST',{action:'task.create',requestKey:r
 const stale=await a.cmd('lead.update',{name:'Changed'},lead);check(stale.status===409,'stale revision rejected');
 await a.req('/api/auth','POST',{action:'logout'});check((await a.req('/api/snapshot')).status===401,'logout revokes server-side session');await a.req('/api/auth','POST',{action:'signin',email,password});check((await a.snapshot()).entities.some(e=>e.id===job.id&&e.data.status==='complete'),'sign-in reloads durable completed workflow');
 console.log(JSON.stringify({status:'passed',checks,flow:'lead→estimate→customer approval→deposit→job→schedule→field→completion→invoice→payment→review',runtime:'production Next build with local SQLite acceptance adapter; not live Convex'},null,2));
+// Separate platform acceptance follows the unchanged 52 contractor checks. Any failure rejects this harness.
+const { platformHttpAcceptance } = await import('./platform-http.acceptance.mjs');
+await platformHttpAcceptance(base, 'local_runtime');
