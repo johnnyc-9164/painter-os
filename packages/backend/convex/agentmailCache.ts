@@ -1,4 +1,3 @@
-import { AgentMail } from '@agentmail/convex';
 import { internalMutationGeneric, type MutationBuilder } from 'convex/server';
 import { v } from 'convex/values';
 import { components, query, type DataModel } from './runtime';
@@ -46,9 +45,9 @@ export const inbox = query({
     const binding = await ctx.db.query('painterEmailBindings').withIndex('by_tenant', q => q.eq('tenantId', workspace._id)).unique();
     const transport = { outbound: 'disabled' as const, inbound: 'disabled' as const, senderVerification: 'unverified' as const };
     if (!binding) return { binding: 'absent' as const, cache: 'absent' as const, transport };
-    // Explicit empty webhookSecret prevents constructor environment lookup. Cached read has no API/credentials.
-    const provider = new AgentMail(components.agentmail, { webhookSecret: '' });
-    const cached = await provider.getCachedInbox(ctx, binding.inboxId);
+    // Published 0.1.0 exposes this public component query, but its client class has no cache wrapper.
+    // Use the official typed reference directly: no client construction, environment or provider API.
+    const cached = await ctx.runQuery(components.agentmail.lib.getCachedInbox, { inboxId: binding.inboxId });
     return {
       binding: 'configured' as const,
       configuredSender: binding.configuredSender,

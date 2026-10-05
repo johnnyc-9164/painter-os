@@ -17,7 +17,12 @@ const modules = {
 };
 async function fixture() {
   const t = convexTest(schema, modules);
-  agentmailTest.register(t);
+  // Published test glob includes .ts functions but its generated runtime files are .js.
+  // Add only a virtual root marker; real official schema and all actual function modules remain unchanged.
+  t.registerComponent('agentmail', agentmailTest.schema, {
+    ...agentmailTest.modules,
+    './component/_generated/test-root-marker.ts': () => Promise.resolve({}),
+  });
   const owner = t.withIdentity({ subject: 'owner', name: 'Owner', email: 'owner@example.test' });
   const otherOwner = t.withIdentity({ subject: 'other-owner', name: 'Other', email: 'other@example.test' });
   const workspace = await owner.mutation(api.painter.createWorkspace, { name: 'Workspace' });
