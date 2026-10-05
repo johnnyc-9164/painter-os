@@ -66,7 +66,8 @@ describe('prepared official AgentMail auth verification enqueue', () => {
     } }));
     try {
       await expect(t.mutation(api.authVerificationDelivery.enqueue, message)).rejects.toMatchObject({ code: 'AGENTMAIL_OUTBOUND_DISABLED' });
-      await expect(t.run(ctx => createPreparedAgentMailAuthDelivery(ctx).send(message))).rejects.toMatchObject({ code: 'AGENTMAIL_OUTBOUND_DISABLED' });
+      // Nested runMutation serializes custom Error fields; its exact stable message survives.
+      await expect(t.run(ctx => createPreparedAgentMailAuthDelivery(ctx).send(message))).rejects.toThrow('AGENTMAIL_OUTBOUND_DISABLED');
       expect(providerReads).toEqual([]);
     } finally { vi.unstubAllGlobals(); }
     await expect(t.run(ctx => enqueueConfiguredVerification(ctx, { ...message, purpose: 'reset-password' }, scope))).rejects.toThrow('AUTH_RESET_DELIVERY_HELD');
@@ -107,7 +108,7 @@ describe('prepared official AgentMail auth verification enqueue', () => {
     expect(JSON.stringify(receipt)).not.toContain('synthetic-core-fixture');
     const outbound = await t.runInComponent('agentmail', ctx => ctx.db.query('outboundMessages').collect());
     expect(outbound).toHaveLength(1);
-    expect(outbound[0]).toMatchObject({ status: 'pending', inboxId: scope.inboxId, payload: { to: [recipient] } });
+    expect(outbound[0]).toMatchObject({ status: 'pending', inboxId: scope.inboxId, payload: { to: recipient } });
     const work = await t.runInComponent('agentmail/sendPool', ctx => ctx.db.query('work').collect());
     expect(work).toHaveLength(1);
     expect(work[0]).toMatchObject({ retryBehavior: { maxAttempts: 1 } });

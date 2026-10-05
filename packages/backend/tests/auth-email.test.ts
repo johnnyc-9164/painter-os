@@ -17,7 +17,8 @@ async function fixture(delivery: AuthEmailDelivery, options: { rateLimit?: boole
     logger: { disabled: true },
     telemetry: { enabled: false },
     rateLimit: { enabled: options.rateLimit ?? false, storage: 'memory' },
-    advanced: { ipAddress: { ipAddressHeaders: ['x-test-ip'] } },
+    // The SDK skips origin checks in NODE_ENV=test unless explicitly enabled.
+    advanced: { disableOriginCheck: false, disableCSRFCheck: false, ipAddress: { ipAddressHeaders: ['x-test-ip'] } },
     emailAndPassword: { enabled: true, requireEmailVerification: false, sendResetPassword: callbacks.sendResetPassword },
     emailVerification: { sendOnSignUp: false, expiresIn: options.expiresIn, sendVerificationEmail: callbacks.sendVerificationEmail },
   });
