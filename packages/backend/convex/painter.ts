@@ -23,6 +23,8 @@ async function resolve(ctx:Ctx,workspaceId?:Id<'painterWorkspaces'>) {
  const actor:Actor={id:String(user._id),tenantId:String(workspace._id),name:user.name,email:user.email,role:member.role};
  return {actor,workspace,member,user};
 }
+// Shared host authority seam; consumers reuse the exact existing membership resolution.
+export { resolve as resolvePainterMembership };
 async function load(ctx:Ctx,tenantId:Id<'painterWorkspaces'>,requestKey?:string):Promise<State> {
  const [rows,events,receipts]=await Promise.all([
  ctx.db.query('painterEntities').withIndex('by_tenant',q=>q.eq('tenantId',tenantId)).collect(),
