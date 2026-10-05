@@ -41,7 +41,7 @@
     "eslint-config-next": "16.3.4",
     "@playwright/test": "1.57.0",
     "convex-test": "0.0.59",
-    "vitest": "4.1.10",
+    "vitest": "4.1.11",
     "@edge-runtime/vm": "5.0.0"
   },
   "packageManager": "npm@11.16.0",
