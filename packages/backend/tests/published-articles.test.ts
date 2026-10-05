@@ -18,3 +18,10 @@ it('anonymous CMS reads exclude draft/private/other-tenant records and all inter
   expect(await t.query(api.painter.articles, { workspaceId: workspace, slug: 'draft' })).toEqual([]);
   expect((await t.query(api.painter.articles, { workspaceId: other }))[0].id).toBe('other');
 });
+
+it('invalid public workspace input has an explicit application error instead of validator failure', async () => {
+  const t = convexTest(schema, modules);
+  const error = await t.query(api.painter.articles, { workspaceId: 'not-a-workspace' }).then(() => null, error => error);
+  expect(error).toBeTruthy();
+  expect(error.data, String(error)).toBe('PUBLIC_WORKSPACE_NOT_FOUND');
+});
