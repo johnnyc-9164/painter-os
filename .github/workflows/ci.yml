@@ -2,11 +2,11 @@
 #
 # Runs the repository's own verification steps (root `verify` script, split
 # into stable, individually-required checks):
-#   check-types -> npm run check-types   (web + domain + convex tsconfig)
+#   check-types -> npm run check-types   (web + domain + convex + marketing)
 #   lint        -> npm run lint
 #   domain-tests-> npm test              (tsx --test tests/*.test.ts)
 #   convex-tests-> npm run test:convex    (vitest product config, convex-test)
-#   build       -> npm run build          (Next.js production build)
+#   build       -> npm run build && npm run build:marketing (both apps)
 #
 # Bootstrap note: these checks only exist on branches that contain this file.
 # The import PR (#1, import/better-t-stack-baseline -> main) cannot run them
@@ -92,3 +92,4 @@ jobs:
           cache: npm
       - run: npm ci --no-audit --no-fund
       - run: npm run build
+      - run: npm run build:marketing
