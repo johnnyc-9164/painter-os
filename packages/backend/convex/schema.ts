@@ -2,6 +2,8 @@ import { defineSchema, defineTable } from 'convex/server';
 import { v } from 'convex/values';
 const role=v.union(v.literal('owner'),v.literal('office_admin'),v.literal('estimator'),v.literal('project_manager'),v.literal('salesperson'),v.literal('crew_lead'),v.literal('crew_member'),v.literal('accountant'),v.literal('customer'));
 export default defineSchema({
+ authEmailBudgets:defineTable({recipient:v.string(),purpose:v.literal('verify-email'),count:v.number(),windowStartedAt:v.number()}).index('by_recipient_purpose',['recipient','purpose']),
+ authEmailReceipts:defineTable({intentHash:v.string(),userId:v.string(),recipient:v.string(),purpose:v.literal('verify-email'),inboxId:v.string(),outboundId:v.string(),createdAt:v.number()}).index('by_intent',['intentHash']),
  platformOwners:defineTable({slot:v.literal('initial-platform-owner'),userId:v.string(),enabled:v.boolean(),grantedAt:v.number()}).index('by_slot',['slot']).index('by_user',['userId']),
  platformOwnerAudit:defineTable({requestKey:v.string(),fingerprint:v.string(),userId:v.string(),action:v.union(v.literal('bootstrap'),v.literal('revoke')),operatorReceiptReference:v.string(),identityProofReference:v.optional(v.string()),occurredAt:v.number(),beforeEnabled:v.boolean(),afterEnabled:v.boolean()}).index('by_request',['requestKey']),
  painterEmailBindings:defineTable({tenantId:v.id('painterWorkspaces'),inboxId:v.string(),configuredSender:v.string(),enabled:v.literal(false),createdBy:v.string()}).index('by_tenant',['tenantId']).index('by_inbox',['inboxId']),

@@ -3,6 +3,7 @@ import { rejectAgentMailOperation } from './agentmailProvider';
 
 /** The SDK owns the link/token; this boundary owns only delivery. */
 export interface AuthEmailMessage {
+  readonly userId: string;
   readonly purpose: 'verify-email' | 'reset-password';
   readonly to: string;
   readonly url: string;
@@ -28,10 +29,10 @@ export function createAuthEmailCallbacks(delivery: AuthEmailDelivery = disabledA
 } {
   return {
     async sendVerificationEmail({ user, url }) {
-      await delivery.send({ purpose: 'verify-email', to: user.email, url });
+      await delivery.send({ purpose: 'verify-email', userId: user.id, to: user.email, url });
     },
     async sendResetPassword({ user, url }) {
-      await delivery.send({ purpose: 'reset-password', to: user.email, url });
+      await delivery.send({ purpose: 'reset-password', userId: user.id, to: user.email, url });
     },
   };
 }
