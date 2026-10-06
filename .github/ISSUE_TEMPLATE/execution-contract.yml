@@ -1,17 +1,18 @@
-# Factory execution contract. The build workflow parses this form with
+# Factory execution contract. Runners parse this form with
 # .github/factory/contract.mjs; keep the field labels in sync with FIELDS there.
-# The parsed contract's sha256 is the `contract_hash` input to factory-build.
+# The parsed contract's sha256 is the contract hash every runner attempt must carry.
 # Paths under .github/**, scripts/** and docs/contracts/** are always forbidden
 # for factory PRs, whatever allowedPaths says.
 name: Execution contract
-description: A bounded task for the factory build -> independent review -> human merge loop.
+description: A bounded, runner-neutral task for the factory build -> independent review -> human merge loop.
 title: "[contract] "
 labels: ["factory-contract"]
 body:
   - type: markdown
     attributes:
       value: |
-        Filling this form does not dispatch an agent. Johnny dispatches `factory-build` with this issue number and the contract hash
+        Filling this form does not dispatch an agent. The factory control plane (Port) dispatches any registered runner
+        (Codex in a Sprite, local Codex or Claude Code, DotBot, CI and so on) with this issue number and the contract hash
         (`gh issue view <n> --json body -q .body > body.md && node .github/factory/contract.mjs from-issue body.md <n> > c.json && node .github/factory/contract.mjs hash c.json`).
         Editing any field after dispatch changes the hash and invalidates the attempt.
   - type: textarea
