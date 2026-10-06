@@ -1,0 +1,70 @@
+# Factory execution contract. The build workflow parses this form with
+# .github/factory/contract.mjs; keep the field labels in sync with FIELDS there.
+# The parsed contract's sha256 is the `contract_hash` input to factory-build.
+# Paths under .github/**, scripts/** and docs/contracts/** are always forbidden
+# for factory PRs, whatever allowedPaths says.
+name: Execution contract
+description: A bounded task for the factory build -> independent review -> human merge loop.
+title: "[contract] "
+labels: ["factory-contract"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Filling this form does not dispatch an agent. Johnny dispatches `factory-build` with this issue number and the contract hash
+        (`gh issue view <n> --json body -q .body > body.md && node .github/factory/contract.mjs from-issue body.md <n> > c.json && node .github/factory/contract.mjs hash c.json`).
+        Editing any field after dispatch changes the hash and invalidates the attempt.
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: One concrete, observable outcome.
+    validations:
+      required: true
+  - type: textarea
+    id: successConditions
+    attributes:
+      label: Success conditions
+      description: One verifiable condition per line.
+    validations:
+      required: true
+  - type: textarea
+    id: nonGoals
+    attributes:
+      label: Non-goals
+      description: One per line. What the agent must not attempt.
+    validations:
+      required: false
+  - type: textarea
+    id: stopConditions
+    attributes:
+      label: Stop conditions
+      description: One per line. When the agent must stop and report instead of continuing.
+    validations:
+      required: true
+  - type: textarea
+    id: allowedPaths
+    attributes:
+      label: Allowed paths
+      description: One repo-relative glob per line (`**` spans directories, `*` stays in one segment). Every changed file must match one.
+    validations:
+      required: true
+  - type: textarea
+    id: requiredEvidence
+    attributes:
+      label: Required evidence
+      description: One command or artifact per line that the reviewer reruns or checks on the exact head.
+    validations:
+      required: true
+  - type: dropdown
+    id: riskClass
+    attributes:
+      label: Risk class
+      description: Anything touching packages/backend/convex/** is high. When unsure, leave unknown (human gate).
+      options:
+        - unknown
+        - low
+        - high
+      default: 0
+    validations:
+      required: true

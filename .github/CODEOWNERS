@@ -1,0 +1,8 @@
+# Changes to factory controls, build scripts, contracts, backend and the
+# lockfile need Johnny's review. Takes effect for merges only once branch
+# protection requires code-owner review.
+/.github/ @johnnyc-9164
+/scripts/ @johnnyc-9164
+/docs/contracts/ @johnnyc-9164
+/packages/backend/convex/ @johnnyc-9164
+/package-lock.json @johnnyc-9164
