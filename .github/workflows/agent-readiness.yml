@@ -1,0 +1,35 @@
+name: Agent readiness
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '17 12 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: agent-readiness-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  agent-readiness:
+    name: agent-readiness
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Match repository npm requirement
+        run: npm install --global npm@11.16.0 --ignore-scripts --no-audit --no-fund
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm run agent:doctor
+      - run: npm run test:agent
+      - name: Validate knowledge and dependency rules; report remaining debt
+        run: npm run agent:garden

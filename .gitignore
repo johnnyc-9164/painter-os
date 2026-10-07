@@ -58,6 +58,8 @@ tmp
 temp
 
 .painter-data/
+.agent/
+CLAUDE.local.md
 .env
 .env.local
 *.sqlite
