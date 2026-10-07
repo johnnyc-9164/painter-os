@@ -5,6 +5,7 @@ import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { importsIn, boundaryError, schemaInventory } from '../scripts/agent-check.mjs';
 import { assertNoEnvFiles, agentEnvironment, verificationEnvironment, safeRoute } from '../scripts/agent-common.mjs';
+import { allowedNextRewrite } from '../scripts/agent-generated.mjs';
 
 test('boundary scanner sees imports, re-exports, dynamic imports and require, ignoring comments', () => {
   assert.deepEqual(importsIn("// import 'forbidden'\nimport x from 'a'; export {x} from 'b'; import('c'); require('d');"), ['a', 'b', 'c', 'd']);
@@ -26,6 +27,7 @@ test('local environment ignores credentials and request labels omit token/query 
   const verification = verificationEnvironment({ PATH: '/safe', PAINTER_APP_URL: 'https://real', CONVEX_DEPLOY_KEY: 'synthetic-secret' });
   assert.equal(verification.PAINTER_APP_URL, undefined); assert.equal(verification.CONVEX_DEPLOY_KEY, undefined);
   assert.equal(verification.NODE_ENV, 'production');
+  assert.equal(verification.PYTHONDONTWRITEBYTECODE, '1');
 });
 
 test('Next env files are rejected by filename without reading or deleting them', async () => {
@@ -42,4 +44,13 @@ test('generated schema comes from real host tables without component or tenant d
   const inventory = await schemaInventory();
   assert.match(inventory, /painterWorkspaces/); assert.match(inventory, /authEmailReceipts/);
   assert.doesNotMatch(inventory, /\| role \|/); assert.match(inventory, /mounted components own separate schemas/);
+});
+
+test('generated restoration accepts only known Next defaults and rejects weakened compiler/source edits', () => {
+  const before = JSON.stringify({ compilerOptions: { strict: true }, include: ['src/**/*.ts'] });
+  const after = JSON.stringify({ compilerOptions: { strict: true, allowJs: true, incremental: true }, include: ['src/**/*.ts', '.next/dev/types/**/*.ts'] });
+  assert.equal(allowedNextRewrite('apps/marketing/tsconfig.json', before, after), true);
+  assert.equal(allowedNextRewrite('apps/marketing/tsconfig.json', before, after.replace('"strict":true', '"strict":false')), false);
+  assert.equal(allowedNextRewrite('apps/web/next-env.d.ts', before, '// unexpected edit'), false);
+  assert.equal(allowedNextRewrite('apps/web/src/lib/http.ts', before, after), false);
 });

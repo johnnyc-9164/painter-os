@@ -60,6 +60,8 @@ temp
 .painter-data/
 .agent/
 CLAUDE.local.md
+__pycache__/
+*.py[cod]
 .env
 .env.local
 *.sqlite

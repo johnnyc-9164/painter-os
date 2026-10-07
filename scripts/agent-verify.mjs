@@ -3,6 +3,7 @@ import { createWriteStream } from 'node:fs';
 import { join } from 'node:path';
 import { readdir } from 'node:fs/promises';
 import { root, assertNoEnvFiles, createRun, verificationEnvironment, gitState, writeJson, observe, stop } from './agent-common.mjs';
+import { captureNextArtifacts, restoreOwnedNextArtifacts } from './agent-generated.mjs';
 
 const browser = process.argv.includes('--browser');
 if (process.argv.slice(2).some(arg => arg !== '--browser')) throw new Error('ONLY_SUPPORTED_OPTION_IS_--browser');
@@ -12,6 +13,7 @@ if (!npmCli) throw new Error('RUN_THROUGH_NPM');
 const directory = await createRun('verify');
 const initial = gitState();
 if (initial.dirty) throw new Error('CLEAN_CHECKOUT_REQUIRED: commit the scoped change before producing exact-head acceptance evidence.');
+const generatedBefore = await captureNextArtifacts();
 const env = verificationEnvironment();
 const gates = [
   ['doctor', [npmCli, 'run', 'agent:doctor']],
@@ -56,8 +58,11 @@ try {
 } catch (error) { console.error(error.message); process.exitCode = 1; }
 finally {
   process.removeListener('SIGINT', interrupt); process.removeListener('SIGTERM', interrupt);
+  let restored = [];
+  try { restored = await restoreOwnedNextArtifacts(generatedBefore); }
+  catch (error) { process.exitCode = 1; results.push({ name: 'generated-artifact-restoration', status: 'failed', reason: error.message }); }
   const current = gitState();
   if (current.head !== initial.head || current.dirty) { process.exitCode = 1; results.push({ name: 'source-stability', status: 'failed', reason: 'Head or tracked/untracked source changed during verification.' }); }
-  await writeJson(join(directory, 'receipt.json'), { ...initial, final: current, status: process.exitCode ? 'failed' : 'passed', browser: browser ? 'requested' : 'not requested', runtime: 'local synthetic only', results });
+  await writeJson(join(directory, 'receipt.json'), { ...initial, final: current, generatedArtifactsRestored: restored, status: process.exitCode ? 'failed' : 'passed', browser: browser ? 'requested' : 'not requested', runtime: 'local synthetic only', results });
   console.log(`Verification receipt: ${join(directory, 'receipt.json')}`);
 }

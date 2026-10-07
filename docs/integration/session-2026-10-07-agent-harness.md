@@ -10,4 +10,6 @@ Failures retained: existing tsx CLI cannot open its optional Unix IPC socket her
 
 Skill extraction: executor and independent reviewer reused [Painter PR evidence](../skills/painter-pr-evidence/SKILL.md). No additional skill was created: the existing procedure covers exact-head evidence, environment failures, honest partial results and scoped review. New procedures remain documented developer tools until final reproducible receipts exist.
 
+All combined functional gates passed at the original PR tree, including both builds, original core verification and three HTTP suites. Final clean-source receipt initially failed on Next-generated declaration/config scaffolding and Python caches. The harness now suppresses caches and restores only recognized own-build artifacts; arbitrary edits remain failures. Current-head CI/review and the final full receipt belong in the PR description.
+
 No product authority, auth/business source, dependency versions, lockfile, stable ci.yml, deployment configuration, real data, provider settings or secrets were changed. No merge or production promotion. Existing PR #38 remains separate.

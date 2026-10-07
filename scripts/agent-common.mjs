@@ -58,7 +58,7 @@ export function agentEnvironment(base, directory, mode = 'development') {
 export function verificationEnvironment(source = process.env) {
   const env = {};
   for (const key of ['PATH', 'Path', 'SystemRoot', 'WINDIR', 'TEMP', 'TMP', 'CI', 'TZ']) if (source[key] !== undefined) env[key] = source[key];
-  return { ...env, NODE_ENV: 'production', NEXT_TELEMETRY_DISABLED: '1' };
+  return { ...env, NODE_ENV: 'production', NEXT_TELEMETRY_DISABLED: '1', PYTHONDONTWRITEBYTECODE: '1' };
 }
 
 export function spawnNext(mode, base, directory, stdio) {
