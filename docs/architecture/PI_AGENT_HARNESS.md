@@ -18,6 +18,12 @@ Put the agent experience inside the authenticated company admin and platform ope
 
 Use Pi Durable for the agent loop and Convex for business records, membership and approvals. There is no concrete need for Convex Workflow or Cloudflare Workflows alongside Pi's lifecycle/job recovery in this first integration. A future Convex Workflow may own a separately defined deterministic business process, but must not duplicate the agent transcript/run/retry owner. Do not add a parallel workflow engine or mirror business data to Durable Objects. Any later provider must have an explicit overlap assessment.
 
+## Pi Durable versus Convex Workflow
+
+The choice is ownership, not whether one system can run durable work. [Convex Workflow's official component documentation](https://www.convex.dev/components/workflow) supports deterministic durable functions, query/mutation/action steps, parallelism, retries, sleeps, typed approval events and reactive status. Its mutation guarantees do not make external action effects exactly once. Cancellation does not stop already running actions, and changing an active workflow's step structure can cause determinism violations.
+
+Pi Durable directly owns the requested conversational agent loop, transcript, steers, model/tool execution and recovery on Cloudflare; select it for that responsibility. Keep approvals and business mutations in Convex. If a specific deterministic business process later warrants Convex Workflow, give it a distinct process ID and single owner, not the same conversational run. Installing Workflow merely to wait for an approval duplicates orchestration unnecessarily; Pi can return a pending approval, and a trusted approved command can submit the bounded continuation after validation.
+
 ## Verified SDK behavior and limits
 
 [Cloudflare's October 2 announcement](https://developers.cloudflare.com/changelog/post/2026-10-02-pi-harness/) introduces the beta integration. [The current Pi guide](https://developers.cloudflare.com/agents/harnesses/pi/) documents:
