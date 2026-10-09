@@ -36,12 +36,47 @@ try {
  await page.getByRole('button',{name:'Create estimate',exact:true}).click();await page.getByLabel('Estimate title').fill('Browser-tested interior repaint');await page.getByLabel('Unit price ($)').fill('2000');await page.getByRole('button',{name:'Save estimate',exact:true}).click();await page.getByRole('dialog').waitFor({state:'hidden'});await page.getByRole('heading',{name:'Browser-tested interior repaint',exact:true}).waitFor();await page.screenshot({path:out+'/04-estimate.png',fullPage:true});await page.getByRole('button',{name:'Send proposal',exact:true}).click();await page.getByRole('dialog').getByRole('button',{name:'Send proposal',exact:true}).click();await page.getByRole('dialog').waitFor({state:'hidden'});await page.getByRole('button',{name:'Customer portal link',exact:true}).click();await page.getByRole('dialog').getByRole('button',{name:'Customer portal link',exact:true}).click();await page.getByRole('dialog').waitFor({state:'hidden'});const link=await page.locator('.share-notice a').getAttribute('href');assert.ok(link?.startsWith('/p/'));
  const customerContext=await browser.newContext({viewport:{width:1280,height:900}}),customer=await customerContext.newPage();customer.on('dialog',d=>d.accept());customer.on('pageerror',e=>errors.push(e.message));await customer.goto(base+link);await customer.getByRole('button',{name:'Approve proposal'}).waitFor();await customer.screenshot({path:out+'/05-customer-portal.png',fullPage:true});await customer.getByRole('button',{name:'Approve proposal'}).click();await customer.getByText('Your response was saved. Thank you.').waitFor();await customerContext.close();
  await page.reload();await page.getByRole('button',{name:'Create project',exact:true}).waitFor();await page.getByRole('button',{name:'Create project',exact:true}).click();await page.getByRole('dialog').getByRole('button',{name:'Save changes',exact:true}).click();await page.getByRole('dialog').waitFor({state:'hidden'});await page.locator('.detail-heading h1').waitFor();
+ // Exercise the approved deposit policy through real controls and the local command route.
+ const depositPanel = page.getByRole('region', { name: 'Required deposit', exact: true });
+ await depositPanel.waitFor();
+ const closeDialog = () => page.getByRole('dialog').getByRole('button', { name: 'Close dialog', exact: true }).click();
+ const deniedStart = async (label) => {
+  await page.getByRole('button', { name: label, exact: true }).click();
+  const dialog = page.getByRole('dialog');
+  await dialog.getByRole('button', { name: label === 'Start project' ? label : 'Save changes', exact: true }).click();
+  await dialog.getByText(/The full required deposit must be received/).waitFor();
+  await closeDialog();
+ };
+ const exception = async (approve, reason) => {
+  await depositPanel.getByRole('button', { name: approve ? 'Approve deposit exception' : 'Revoke deposit exception', exact: true }).click();
+  const dialog = page.getByRole('dialog');
+  await dialog.getByLabel(approve ? 'Reason for deposit exception' : 'Reason for revoking deposit exception').fill(reason);
+  await dialog.getByRole('button', { name: 'Save changes', exact: true }).click();
+  await dialog.waitFor({ state: 'hidden' });
+  await depositPanel.getByRole('button', { name: approve ? 'Revoke deposit exception' : 'Approve deposit exception', exact: true }).waitFor();
+ };
+ await deniedStart('Start project');
+ await exception(true, 'Synthetic approved customer terms');
+ await depositPanel.getByText('Synthetic approved customer terms', { exact: true }).waitFor();
+ await exception(false, 'Synthetic approval withdrawn');
+ await deniedStart('Start project');
+ await exception(true, 'Synthetic approval renewed');
+ await page.getByRole('button', { name: 'Start project', exact: true }).click();
+ await page.getByRole('dialog').getByRole('button', { name: 'Start project', exact: true }).click();
+ await page.getByRole('dialog').waitFor({ state: 'hidden' });
+ await exception(false, 'Synthetic first-field hold');
+ await deniedStart('Start field run');
+ await exception(true, 'Synthetic crew start approved');
+ await page.getByRole('button', { name: 'Start field run', exact: true }).click();
+ await page.getByRole('dialog').getByRole('button', { name: 'Save changes', exact: true }).click();
+ await page.getByRole('dialog').waitFor({ state: 'hidden' });
+ await page.locator('.field-card').waitFor();
  const routes=['/overview','/leads','/customers','/estimates','/jobs','/schedule','/field/today','/invoices','/reviews','/commercial/bids','/automation/knowledge','/automation/workflows','/settings/integrations','/settings/billing','/settings/team','/tasks','/files','/activity','/content'];
  for(const route of routes){await page.goto(base+route);await page.locator('.app-shell').waitFor();assert.equal(await page.locator('.error').count(),0,'route error '+route);}
  await page.setViewportSize({width:390,height:844});await page.goto(base+'/overview');await page.locator('.app-shell').waitFor();assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),390,'mobile horizontal overflow');await page.screenshot({path:out+'/06-mobile.png',fullPage:true});await page.getByRole('button',{name:'Open navigation'}).click();await page.locator('aside nav').getByRole('link',{name:'Field workspace'}).click();await page.getByRole('heading',{name:'Field workspace',exact:true}).waitFor();
  await context.close();
  if (interrupted) throw new Error('BROWSER_ACCEPTANCE_INTERRUPTED');
- assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);const report={status:'passed',routes:routes.length,realBrowserFlows:['demo login','lead creation','search','lead qualification','estimate creation','proposal send','portal issuance','anonymous customer approval','project creation','mobile navigation'],pageErrors:errors,serverFailures:failed,networkMocks:false,runtime:'local acceptance runtime on production Next build',mobileWidth:390};await writeJson(join(out, 'results.json'), report);
+ assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);const report={status:'passed',routes:routes.length,realBrowserFlows:['demo login','lead creation','search','lead qualification','estimate creation','proposal send','portal issuance','anonymous customer approval','project creation','mobile navigation','deposit start denial','deposit exception approval','deposit exception revocation','project start under exception','first field start denial after revocation','field start under exception'],pageErrors:errors,serverFailures:failed,networkMocks:false,runtime:'local acceptance runtime on production Next build',mobileWidth:390};await writeJson(join(out, 'results.json'), report);
  await writeJson(join(out, 'receipt.json'), { ...gitState(), status: 'passed', sandbox: true, browser: browserDetails, scope: report.realBrowserFlows, runtime: 'local synthetic only', errors, failures: failed });
  console.log(`Browser acceptance passed. Artifacts: ${out}`);
 

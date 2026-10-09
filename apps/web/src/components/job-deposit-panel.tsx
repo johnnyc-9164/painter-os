@@ -12,12 +12,17 @@ type Props = {
   onAction: (action: DepositAction, title: string, job: Entity) => void;
 };
 
+function readEvidence(entities: readonly Entity[], job: Entity) {
+  try { return { deposit: depositForJob(entities, job), override: activeDepositOverride(job) }; }
+  catch { return undefined; }
+}
+
 /** Display only: the authoritative command checks payment evidence and approvals. */
 export function JobDepositPanel({ job, entities, role, busy, onAction }: Props) {
   if (!['owner', 'office_admin', 'accountant', 'project_manager'].includes(role)) return null;
-  try {
-    const deposit = depositForJob(entities, job);
-    const override = activeDepositOverride(job);
+  const evidence = readEvidence(entities, job);
+  if (!evidence) return <section aria-label="Required deposit" className="card"><h3>Required deposit</h3><p role="alert">Deposit evidence is unavailable. Refresh the workspace; an owner or office admin must resolve invalid records before scheduling or starting.</p></section>;
+  const { deposit, override } = evidence;
     const satisfied = deposit.status === 'satisfied' || deposit.status === 'not_required';
     const canApprove = role === 'owner' || role === 'office_admin';
     const eligible = ['planned', 'scheduled', 'active', 'blocked'].includes(String(job.data.status));
@@ -39,7 +44,4 @@ export function JobDepositPanel({ job, entities, role, busy, onAction }: Props) 
         ? <Button variant="outline" disabled={busy} onClick={() => onAction('job.revokeDepositOverride', 'Revoke deposit exception', job)}>Revoke deposit exception</Button>
         : !satisfied && <Button variant="outline" disabled={busy} onClick={() => onAction('job.overrideDeposit', 'Approve deposit exception', job)}>Approve deposit exception</Button>)}
     </section>;
-  } catch {
-    return <section aria-label="Required deposit" className="card"><h3>Required deposit</h3><p role="alert">Deposit evidence is unavailable. Refresh the workspace; an owner or office admin must resolve invalid records before scheduling or starting.</p></section>;
-  }
 }
