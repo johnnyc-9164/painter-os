@@ -1,0 +1,22 @@
+{
+  "name": "@painter-os-bts/agent-worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "WRANGLER_SEND_METRICS=false wrangler deploy --dry-run --outdir dist",
+    "check-types": "tsc --noEmit",
+    "test": "npm run build && npm run build:fixture && node --test tests/*.test.mjs",
+    "build:fixture": "cd tests/fixtures && WRANGLER_SEND_METRICS=false wrangler deploy --dry-run --outdir ../../dist-fixture"
+  },
+  "dependencies": {
+    "@earendil-works/pi-ai": "1.1.0",
+    "@earendil-works/pi-durable": "1.1.0",
+    "agents": "0.27.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "5.20261009.1",
+    "miniflare": "5.20261006.1-alpha",
+    "wrangler": "4.149.0"
+  }
+}

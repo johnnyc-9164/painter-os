@@ -13,13 +13,13 @@
     "test:vercel-build": "node --test tests/vercel-build.test.mjs",
     "build:marketing": "npm run build --workspace marketing",
     "test:marketing": "node --test tests/marketing-boundary.test.mjs",
-    "check-types": "npm run check-types --workspace web && npm run check-types --workspace @painter-os-bts/domain && tsc --noEmit -p packages/backend/convex/tsconfig.json && npm run check-types --workspace marketing",
+    "check-types": "npm run check-types --workspace web && npm run check-types --workspace @painter-os-bts/domain && tsc --noEmit -p packages/backend/convex/tsconfig.json && npm run check-types --workspace marketing && npm run check-types --workspace @painter-os-bts/agent-worker",
     "dev:web": "turbo run dev -F web --",
     "dev:server": "turbo run dev -F @painter-os-bts/backend --",
     "dev:setup": "turbo run dev:setup -F @painter-os-bts/backend --",
     "env:generate": "varlock codegen --path ./apps/web/",
-    "test": "tsx --test tests/*.test.ts && npm run test:marketing && npm run test:vercel-build && npm run test:forms",
-    "lint": "eslint apps/web/src apps/marketing/src packages/domain/src tests",
+    "test": "tsx --test tests/*.test.ts && npm run test:marketing && npm run test:vercel-build && npm run test:forms && npm run test:agent-worker",
+    "lint": "eslint apps/web/src apps/marketing/src packages/domain/src packages/agent-worker/src packages/agent-worker/tests/fixtures/*.ts tests",
     "verify": "npm run check-types && npm run lint && npm test && npm run test:convex && npm run build",
     "test:convex": "vitest run --config vitest.product.config.ts",
     "test:http": "node tests/http.acceptance.mjs",
@@ -37,7 +37,9 @@
     "agent:schema": "node scripts/agent-check.mjs --write-schema",
     "test:agent": "node --test tests/agent-*.test.mjs",
     "worktree:setup": "node scripts/worktree-setup.mjs",
-    "worktree:cleanup": "node scripts/worktree-cleanup.mjs"
+    "worktree:cleanup": "node scripts/worktree-cleanup.mjs",
+    "build:agent-worker": "npm run build --workspace @painter-os-bts/agent-worker",
+    "test:agent-worker": "npm run test --workspace @painter-os-bts/agent-worker"
   },
   "dependencies": {
     "zod": "^4.5.4"
