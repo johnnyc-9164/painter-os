@@ -1,0 +1,17 @@
+# Documentation index
+
+Start with [agent setup](development/AGENT_SETUP.md) and the [repository map](../ARCHITECTURE.md). Follow the current issue and source; archived reports describe their tested revision only.
+
+| Question | Source |
+| --- | --- |
+| What must remain compatible? | [Issue 2 freeze](contracts/issue-2-freeze.md) |
+| What is public versus private? | [Marketing/admin split](architecture/MARKETING_ADMIN_SPLIT.md) |
+| What should this product become? | [Product intent](product-specs/index.md), preserved [IR](ir/system.ir.yaml) |
+| How do agents work and verify? | [Setup](development/AGENT_SETUP.md), [plans](PLANS.md), [evidence procedure](skills/painter-pr-evidence/SKILL.md) |
+| What is proven or missing? | [Quality score](QUALITY_SCORE.md), [harness audit](development/HARNESS_AUDIT.md), [technical debt](exec-plans/tech-debt-tracker.md) |
+| Where are logs and timing probes? | [Local observability](development/OBSERVABILITY.md) |
+| What tables exist? | [Generated host schema](generated/schema.md) and [component source](../packages/contractor-os-core/src/component/schema.ts) |
+| What are the design rules? | [Core beliefs](design-docs/core-beliefs.md), [Artisan reference](references/ARTISAN_CORE.md), [marketing design](../apps/marketing/DESIGN.md) |
+| How is cloud deployment configured? | [Deployment guide](CONVEX_DEPLOYMENT.md); requires separate live acceptance |
+
+`docs/harness.json` records owners/review dates for the current agent entry points. `agent:check` validates their links, freshness, schema inventory and source dependency rules. Historical evidence and imported documentation are not silently re-dated or rewritten. The weekly hygiene workflow reports debt/check failures; a human or assigned agent reviews proposed repairs.
