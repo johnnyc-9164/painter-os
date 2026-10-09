@@ -25,7 +25,7 @@ for (const timezone of ['UTC', 'Pacific/Auckland']) {
       for (let save = 0; save < 4; save++) {
         const onSubmit = vi.fn(async (_input: Record<string, unknown>) => {});
         const entity = { id: 'bid-1', type: 'bid', data: {
-          title: 'Original', customerId: 'customer-1', value: 100, status: 'draft', deadline,
+          title: 'Original', customerId: 'customer-1', valueCents: 10000, status: 'draft', deadline,
         } } as Entity;
         const html = renderToStaticMarkup(createElement(CommandForm, {
           spec: { action: 'bid.update', title: 'Edit bid', entity, initial: { title: 'Edited title' } },
