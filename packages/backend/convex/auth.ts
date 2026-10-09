@@ -6,6 +6,7 @@ import { components } from "./runtime";
 import type { DataModel } from "./runtime";
 import { query } from "./runtime";
 import authConfig from "./auth.config";
+import { disabledAuthEmailOptions } from "./authEmailOptions";
 import { painterAuthOrigins } from "./authOrigins";
 
 
@@ -21,10 +22,7 @@ function createAuth(ctx: GenericCtx<DataModel>) {
     baseURL: siteUrl,
     trustedOrigins: painterAuthOrigins(siteUrl, process.env.PAINTER_AUTH_ADDITIONAL_ORIGINS),
     database: authComponent.adapter(ctx),
-    emailAndPassword: {
-      enabled: true,
-      requireEmailVerification: false,
-    },
+    ...disabledAuthEmailOptions(),
     plugins: [
       convex({
         authConfig,
