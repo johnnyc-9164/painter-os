@@ -8,7 +8,8 @@
     "./engine": "./src/engine.ts",
     "./seed": "./src/seed.ts",
     "./next-action-queue": "./src/next-action-queue.ts",
-    "./review-follow-up": "./src/review-follow-up.ts"
+    "./review-follow-up": "./src/review-follow-up.ts",
+    "./company-website": "./src/company-website.ts"
   },
   "scripts": {
     "check-types": "tsc --noEmit"

@@ -9,10 +9,15 @@
       "default": "./index.mjs"
     },
     "./intake": "./intake.ts",
-    "./qualification": "./qualification.ts"
+    "./qualification": "./qualification.ts",
+    "./company-website": {
+      "types": "./company-website.d.mts",
+      "default": "./company-website.mjs"
+    }
   },
   "dependencies": {
     "@painter-os-bts/backend": "*",
-    "convex": "^1.45.0"
+    "convex": "^1.45.0",
+    "@painter-os-bts/domain": "*"
   }
 }
