@@ -72,3 +72,22 @@ Unset `PAINTER_TEST_URL`: the lifecycle runner rejects operator URLs and starts 
 The runner prints its private, ignored `.agent/runs/browser-acceptance-*` directory containing screenshots, video, server logs, synthetic database and pass/failure receipt with exact head, browser version/path and redacted server-failure routes. It stops its owned server and browser on completion or interruption. Keep artifacts private, especially issued synthetic portal links. Existing tracked historical evidence is retained; new runs do not write to `docs/evidence/browser`.
 
 This preserves the actual demo login, lead creation/search/qualification, estimate creation/send, portal issuance, anonymous approval, project creation, 19-route navigation and mobile assertions. It does not prove payment processing, full financial lifecycle, cloud auth, provider email or production operation. A product assertion failure remains a failed receipt and requires a separately scoped product repair.
+
+## Worktree setup and cleanup
+
+From an existing checkout, create a new branch with its own dependencies and run the doctor:
+
+```sh
+npm run worktree:setup -- ../painter-task agent/my-task origin/main
+```
+
+The base defaults to the current `HEAD`; fetch separately when a fresh remote base is needed. Use Node 24+ and npm 11.16+. `--skip-install` creates only the checkout. Existing paths/branches are refused. Install or doctor failures retain the checkout for inspection. No environment files, secrets, dependencies or build directories are copied from another worktree.
+
+Stop the target worktree's processes, then preview and execute cleanup:
+
+```sh
+npm run worktree:cleanup -- ../painter-task
+npm run worktree:cleanup -- ../painter-task --execute
+```
+
+Cleanup targets one registered linked worktree, retains its branch and never uses force. It refuses the invoking checkout, primary checkout, locked worktrees, tracked edits, untracked files and ignored data outside `node_modules`, `.next` and `.turbo` caches. Archive private `.agent` receipts, databases and configuration outside the worktree first. It does not stop processes, delete branches, sweep other worktrees, merge PRs or deploy.
