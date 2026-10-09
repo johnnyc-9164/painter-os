@@ -1,6 +1,7 @@
 import { ConvexError } from "convex/values";
 import {
   EstimateAppointmentPolicyError,
+  decodeEstimateAppointmentRefusal,
   type EstimateAppointmentRefusalCode,
 } from "../../domain/src/estimate-appointments";
 
@@ -23,4 +24,14 @@ export async function appointmentBoundary<R>(
       refuseAppointment(error.code);
     throw error;
   }
+}
+
+/** Omission in bounded lists is allowed only for a structured, explicit refusal. */
+export function isAppointmentRefusal(
+  error: unknown,
+  codes: readonly EstimateAppointmentRefusalCode[],
+): boolean {
+  if (!(error instanceof ConvexError)) return false;
+  const refusal = decodeEstimateAppointmentRefusal(error.data);
+  return refusal !== null && codes.includes(refusal.code);
 }

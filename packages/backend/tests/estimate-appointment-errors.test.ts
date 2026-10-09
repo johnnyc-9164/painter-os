@@ -5,6 +5,7 @@ import { makeFunctionReference } from "convex/server";
 import { invokeFunction } from "../../../node_modules/convex/src/server/impl/registration_impl";
 import {
   appointmentBoundary,
+  isAppointmentRefusal,
   refuseAppointment,
 } from "../convex/estimateAppointmentErrors";
 import {
@@ -13,6 +14,36 @@ import {
 } from "../../domain/src/estimate-appointments";
 
 describe("native refusal official transport", () => {
+  it("source/resource list omission never swallows ordinary message lookalikes", () => {
+    for (const code of [
+      "APPOINTMENT_RESOURCE_UNAVAILABLE",
+      "APPOINTMENT_QUALIFIED_SOURCE_REQUIRED",
+      "APPOINTMENT_INTAKE_TRANSFER_REQUIRED",
+    ] as const) {
+      expect(isAppointmentRefusal(new Error(code), [code])).toBe(false);
+      expect(
+        isAppointmentRefusal(
+          new ConvexError({
+            kind: "estimate_appointment_refusal",
+            version: 1,
+            code,
+          }),
+          [code],
+        ),
+      ).toBe(true);
+      expect(
+        isAppointmentRefusal(
+          new ConvexError({
+            kind: "estimate_appointment_refusal",
+            version: 1,
+            code,
+            input: "private",
+          }),
+          [code],
+        ),
+      ).toBe(false);
+    }
+  });
   it("official serializer and actual HTTP client preserve only closed structured refusal data", async () => {
     let serialized: unknown;
     try {

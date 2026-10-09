@@ -1,5 +1,6 @@
 import {
   appointmentBoundary,
+  isAppointmentRefusal,
   refuseAppointment,
 } from "./estimateAppointmentErrors";
 import {
@@ -336,11 +337,10 @@ export const sources = query({
           });
         } catch (error) {
           if (
-            !(error instanceof Error) ||
-            ![
+            !isAppointmentRefusal(error, [
               "APPOINTMENT_QUALIFIED_SOURCE_REQUIRED",
               "APPOINTMENT_INTAKE_TRANSFER_REQUIRED",
-            ].some((code) => error.message.includes(code))
+            ])
           )
             throw error;
         }
