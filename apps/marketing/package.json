@@ -16,7 +16,8 @@
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "@painter-os-bts/ui": "*",
-    "lucide-react": "^1.41.0"
+    "lucide-react": "^1.41.0",
+    "@painter-os-bts/public-content": "*"
   },
   "devDependencies": {
     "@types/node": "^26.4.1",

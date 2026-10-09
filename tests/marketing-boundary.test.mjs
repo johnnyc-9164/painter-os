@@ -27,10 +27,10 @@ test('admin CTA is absent by default and only accepts an explicit HTTP origin', 
   }
 });
 test('marketing has no admin/auth/local runtime, mutation, private API or unsafe HTML boundary', () => {
-  const code = sources(root).join('\n');
+  const code = [...sources(root), readFileSync(new URL('../packages/public-content/index.mjs', import.meta.url), 'utf8')].join('\n');
   assert.doesNotMatch(code, /local-runtime|convex-runtime|auth-server|auth-client|PainterApp|painter-forms|\/api\/snapshot|dangerouslySetInnerHTML|\.mutation\(|CONVEX_DEPLOY_KEY|BETTER_AUTH_SECRET|PAINTER_LINK_SECRET/);
   assert.ok(code.includes('decodePublishedArticles'));
-  assert.ok(code.includes("makeFunctionReference<'query'"));
+  assert.ok(code.includes('makeFunctionReference(publishedArticlesFunction)'));
 });
 test('new workspace is locked and independently buildable without changing admin build', () => {
   const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url)));
