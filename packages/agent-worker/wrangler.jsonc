@@ -1,0 +1,9 @@
+{
+  "name": "painter-agent-preparation",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-09",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": false,
+  "durable_objects": { "bindings": [{ "name": "PAINTER_AGENT", "class_name": "PainterAgent" }] },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["PainterAgent"] }]
+}

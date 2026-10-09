@@ -13,13 +13,13 @@
     "test:vercel-build": "node --test tests/vercel-build.test.mjs",
     "build:marketing": "npm run build --workspace marketing",
     "test:marketing": "node --test tests/marketing-boundary.test.mjs",
-    "check-types": "npm run check-types --workspace web && npm run check-types --workspace @painter-os-bts/domain && tsc --noEmit -p packages/backend/convex/tsconfig.json && npm run check-types --workspace marketing && npm run check-types --workspace company-site && npm run check-types --workspace platform-admin",
+    "check-types": "npm run check-types --workspace web && npm run check-types --workspace @painter-os-bts/domain && tsc --noEmit -p packages/backend/convex/tsconfig.json && npm run check-types --workspace marketing && npm run check-types --workspace company-site && npm run check-types --workspace platform-admin && npm run check-types --workspace @painter-os-bts/agent-worker",
     "dev:web": "turbo run dev -F web --",
     "dev:server": "turbo run dev -F @painter-os-bts/backend --",
     "dev:setup": "turbo run dev:setup -F @painter-os-bts/backend --",
     "env:generate": "varlock codegen --path ./apps/web/",
-    "test": "tsx --test tests/*.test.ts && npm run test:marketing && npm run test:vercel-build && npm run test:forms && npm run test:company-site && npm run test:platform-admin",
-    "lint": "eslint apps/web/src apps/marketing/src apps/company-site/src apps/platform-admin/src packages/platform-admin-ui/src packages/cloud-session/src packages/domain/src tests",
+    "test": "tsx --test tests/*.test.ts && npm run test:marketing && npm run test:vercel-build && npm run test:forms && npm run test:company-site && npm run test:platform-admin && npm run test:agent-worker",
+    "lint": "eslint apps/web/src apps/marketing/src apps/company-site/src apps/platform-admin/src packages/platform-admin-ui/src packages/cloud-session/src packages/domain/src packages/agent-worker/src packages/agent-worker/tests/fixtures/*.ts tests",
     "verify": "npm run check-types && npm run lint && npm test && npm run test:convex && npm run build",
     "test:convex": "vitest run --config vitest.product.config.ts",
     "test:http": "node tests/http.acceptance.mjs",
@@ -42,7 +42,9 @@
     "test:company-site": "node --test tests/company-site-boundary.test.mjs",
     "test:http:company-site": "node --test tests/company-site.http.acceptance.mjs",
     "build:platform-admin": "npm run build --workspace platform-admin",
-    "test:platform-admin": "node --test tests/platform-admin-boundary.test.mjs"
+    "test:platform-admin": "node --test tests/platform-admin-boundary.test.mjs",
+    "build:agent-worker": "npm run build --workspace @painter-os-bts/agent-worker",
+    "test:agent-worker": "npm run test --workspace @painter-os-bts/agent-worker"
   },
   "dependencies": {
     "zod": "^4.5.4"
