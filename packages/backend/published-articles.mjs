@@ -20,3 +20,21 @@ export function publicAdminOrigin(value) {
     url.pathname !== '/' || url.search || url.hash) throw new Error('INVALID_PUBLIC_ADMIN_ORIGIN');
   return url.origin;
 }
+
+export const publishedArticlePageFunction = 'painter:articlesPage';
+export const publicArticlePageSize = 10;
+
+/** Page rows intentionally omit complete content and private source fields. */
+export function decodePublishedArticlePage(value) {
+  if (!value || typeof value !== 'object' || !Array.isArray(value.page) || value.page.length > 20 ||
+    typeof value.isDone !== 'boolean' || (value.isDone ? value.continueCursor !== null :
+      typeof value.continueCursor !== 'string' || !value.continueCursor || value.continueCursor.length > 8192)) {
+    throw new Error('INVALID_PUBLIC_ARTICLE_PAGE');
+  }
+  const page = value.page.map(article => {
+    if (!article || ['id', 'title', 'slug', 'excerpt', 'publishedAt'].some(key => typeof article[key] !== 'string') ||
+      article.excerpt.length > 300 || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(article.slug)) throw new Error('INVALID_PUBLIC_ARTICLE_SUMMARY');
+    return { id: article.id, title: article.title, slug: article.slug, excerpt: article.excerpt, publishedAt: article.publishedAt };
+  });
+  return { page, isDone: value.isDone, continueCursor: value.continueCursor };
+}
