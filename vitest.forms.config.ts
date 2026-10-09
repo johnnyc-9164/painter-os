@@ -1,2 +1,2 @@
 import { defineConfig } from 'vitest/config';
-export default defineConfig({ esbuild: { jsx: 'automatic' }, test: { include: ['tests/estimate-form.test.tsx', 'tests/deadline-form.test.tsx', 'tests/bid-amount-form.test.tsx', 'tests/bid-status-form.test.tsx', 'tests/next-action-panel.test.tsx'], environment: 'node' } });
+export default defineConfig({ esbuild: { jsx: 'automatic' }, test: { include: ['tests/estimate-form.test.tsx', 'tests/deadline-form.test.tsx', 'tests/bid-amount-form.test.tsx', 'tests/bid-status-form.test.tsx', 'tests/next-action-panel.test.tsx', 'tests/review-follow-up-panel.test.tsx'], environment: 'node' } });
