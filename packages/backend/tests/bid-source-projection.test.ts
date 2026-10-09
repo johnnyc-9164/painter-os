@@ -32,7 +32,7 @@ test('UTF-8 truncation and missing content remain explicit, never silently verif
 });
 test('private redirect destinations and malformed data fail closed without reflecting provider diagnostics',async()=>{
   expect(await projectBidSource({markdown:'text',metadata:{sourceURL:'https://127.0.0.1/private'}},url,100,policy)).toEqual({state:'source_rejected'});
-  for(const raw of [null,[],{markdown:{secret:'private'} }])expect(await projectBidSource(raw,url,100,policy)).toEqual({state:'malformed'});
+  for(const raw of [null,[],{markdown:{secret:'private'} },{markdown:'text',truncated:'unknown'},{markdown:'text',unstored:0}])expect(await projectBidSource(raw,url,100,policy)).toEqual({state:'malformed'});
   expect(await projectBidSource({markdown:'text'},url,NaN,policy)).toEqual({state:'malformed'});
   expect(bidSourceFailure({data:{status:402,message:'private account'}})).toBe('credits_exhausted');
   expect(bidSourceFailure({data:{status:429}})).toBe('rate_limited');

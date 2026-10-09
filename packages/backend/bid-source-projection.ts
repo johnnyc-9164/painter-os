@@ -35,6 +35,7 @@ export async function projectBidSource(raw:unknown,requestedUrl:string,fetchedAt
   if(!count(fetchedAtMs))return {state:'malformed'};
   if(!raw||typeof raw!=='object'||Array.isArray(raw))return {state:'malformed'};
   const data=object(raw);const metadata=object(data.metadata);
+  if((data.truncated!==undefined&&typeof data.truncated!=='boolean')||(data.unstored!==undefined&&typeof data.unstored!=='boolean'))return {state:'malformed'};
   const reported=data.url??metadata.sourceURL??metadata.url;
   const sourceUrl=reported===undefined?requested:bidSourceUrl(reported,policy);
   if(!sourceUrl)return {state:'source_rejected'};
@@ -44,7 +45,7 @@ export async function projectBidSource(raw:unknown,requestedUrl:string,fetchedAt
   const digest=await crypto.subtle.digest('SHA-256',encoder.encode(retained.text));
   const hash=Array.from(new Uint8Array(digest),byte=>byte.toString(16).padStart(2,'0')).join('');
   const quotes=retained.text.split(/\r?\n/).filter(line=>line.trim()).slice(0,BID_SOURCE_LIMITS.quotes).map(line=>excerpt(line,BID_SOURCE_LIMITS.quoteBytes).text);
-  return {state:retained.text?'source_ready_unverified':'content_missing',document:{sourceUrl,fetchedAtMs,hash:`sha256:${hash}`,hashScope:'retained_excerpt',quotes,content:retained.text,
+  return {state:retained.text.trim()?'source_ready_unverified':'content_missing',document:{sourceUrl,fetchedAtMs,hash:`sha256:${hash}`,hashScope:'retained_excerpt',quotes,content:retained.text,
     truncated:retained.truncated||data.truncated===true||typeof data.warning==='string',unstored:data.unstored===true,
     sourceUrlEvidence:reported===undefined?'requested_only':'provider_reported',verification:'unverified',authorizesBusinessWrite:false,networkPolicy:'allowlist_only_dns_redirects_unverified'}};
 }
@@ -63,6 +64,6 @@ export async function projectBidCrawl(raw:unknown,pages:readonly unknown[],reque
   const truncated=pages.length>BID_SOURCE_LIMITS.pages||documents.some(d=>d.truncated);
   const complete=data.status==='completed'&&unstoredPages===0&&rejectedPages===0&&!truncated
     &&totalsKnown&&data.total===data.completed&&data.pageCount===data.completed&&documents.length===data.pageCount
-    &&documents.every(d=>d.content&&!d.unstored);
+    &&documents.every(d=>d.content.trim()&&!d.unstored&&d.sourceUrlEvidence==='provider_reported');
   return {status:data.status as BidCrawlProjection['status'],documents,rejectedPages,unstoredPages,truncated,completeness:complete?'complete_reported_unverified':'partial',verification:'unverified',authorizesBusinessWrite:false};
 }
