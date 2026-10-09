@@ -25,19 +25,29 @@ jobs:
           node-version: "24"
       - name: Self-test trusted guard
         run: node --test .github/factory/contract.test.mjs
-      - name: Enforce base-owned approval
+      - name: Fetch PR objects with ephemeral read authentication
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          FETCH_TOKEN: ${{ github.token }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
-          PR_BODY: ${{ github.event.pull_request.body }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           set -euo pipefail
           [[ "$PR_NUMBER" =~ ^[0-9]+$ ]]
           [[ "$HEAD_SHA" =~ ^[0-9a-f]{40}$ ]]
-          # Fetch objects only. Never checkout, import, install or execute head files.
-          git fetch --no-tags origin "refs/pull/$PR_NUMBER/head"
+          # Process-only config: no credential helper, file writes, or tracing.
+          auth_header="$(node -e 'process.stdout.write("AUTHORIZATION: basic " + Buffer.from("x-access-token:" + process.env.FETCH_TOKEN).toString("base64"))')"
+          GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=http.https://github.com/.extraheader GIT_CONFIG_VALUE_0="$auth_header" \
+            git fetch --no-tags origin "refs/pull/$PR_NUMBER/head"
+          unset auth_header FETCH_TOKEN
           test "$(git rev-parse FETCH_HEAD)" = "$HEAD_SHA"
+      - name: Enforce base-owned approval
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          set -euo pipefail
+          # Never checkout, import, install or execute head files.
           git show "$HEAD_SHA:.factory/contract.json" > "$RUNNER_TEMP/factory-contract.json"
           git diff --no-renames --name-only -z "$BASE_SHA...$HEAD_SHA" > "$RUNNER_TEMP/changed.bin"
           printf '%s' "$PR_BODY" > "$RUNNER_TEMP/pr-body.md"

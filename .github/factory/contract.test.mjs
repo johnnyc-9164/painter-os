@@ -1,7 +1,7 @@
 // Run: node --test .github/factory/contract.test.mjs
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { mkdtempSync, mkdirSync, writeFileSync } from "node:fs";
+import { mkdtempSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
@@ -164,4 +164,23 @@ test("real Git NUL output cannot C-quote a protected filename into broad allowan
 test("backend/auth paths require explicit high risk approval", () => {
   const broad = {...contract, allowedPaths: ["**"]};
   assert.match(checkChanges(broad, [".factory/contract.json", "apps/web/src/app/api/auth/route.ts"], body(contractHash(broad))).join("\n"), /require riskClass high/);
+});
+
+
+test("workflow keeps trusted execution and ephemeral read-only fetch authentication", () => {
+  const workflow = readFileSync(new URL("../workflows/factory-path-guard.yml", import.meta.url), "utf8");
+  assert.match(workflow, /pull_request_target:/);
+  assert.doesNotMatch(workflow, /\n  pull_request:/);
+  assert.match(workflow, /permissions:\n  contents: read/);
+  assert.match(workflow, /ref: \$\{\{ github.event.pull_request.base.sha \}\}/);
+  assert.match(workflow, /persist-credentials: false/);
+  assert.equal((workflow.match(/uses: actions\/checkout@/g) ?? []).length, 1);
+  assert.match(workflow, /FETCH_TOKEN: \$\{\{ github.token \}\}/);
+  assert.match(workflow, /GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=http\.https:\/\/github\.com\/\.extraheader GIT_CONFIG_VALUE_0=/);
+  assert.match(workflow, /unset auth_header FETCH_TOKEN/);
+  assert.match(workflow, /git show "\$HEAD_SHA:\.factory\/contract.json"/);
+  assert.match(workflow, /--name-only -z/);
+  assert.doesNotMatch(workflow, /secrets\.|set -x|git config|actions\/cache|download-artifact|npm install|npm ci/);
+  const enforce = workflow.split("- name: Enforce base-owned approval")[1];
+  assert.doesNotMatch(enforce, /FETCH_TOKEN|github.token/);
 });
