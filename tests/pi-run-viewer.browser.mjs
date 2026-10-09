@@ -5,7 +5,7 @@ import {writeFile} from 'node:fs/promises';
 import {browserLaunchOptions} from '../scripts/agent-browser-options.mjs';
 const base=process.env.PI_VIEW_TEST_URL,artifacts=process.env.PI_VIEW_ARTIFACTS;
 if(!base||new URL(base).hostname!=='127.0.0.1'||!artifacts)throw new Error('OWNED_LOOPBACK_FIXTURE_REQUIRED');
-const browser=await chromium.launch(await browserLaunchOptions());
+const launch=await browserLaunchOptions();const browser=await chromium.launch(launch);
 const context=await browser.newContext({viewport:{width:1280,height:900},reducedMotion:'reduce'});const page=await context.newPage();const faults=[];page.on('pageerror',error=>faults.push(error.message));
 const alerts=()=>page.getByRole('region',{name:'Agent run view'}).getByRole('alert');
 const refresh=()=>page.getByRole('button',{name:'Refresh view',exact:true});
@@ -26,5 +26,5 @@ try{
  await page.setViewportSize({width:390,height:844});await page.getByRole('button',{name:'Completed run',exact:true}).click();await settled();assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
  await page.keyboard.press('Tab');await refresh().focus();assert.equal(await page.evaluate(()=>document.activeElement?.textContent),'Refresh view');const outline=await refresh().evaluate(button=>getComputedStyle(button).outlineStyle);assert.notEqual(outline,'none');
  if(process.env.PI_VIEW_CAPTURE==='yes'){await page.screenshot({path:join(artifacts,'viewer-mobile-390.png'),fullPage:true});await page.setViewportSize({width:1280,height:900});await page.screenshot({path:join(artifacts,'viewer-desktop-1280.png'),fullPage:true});}
- assert.deepEqual(faults,[]);await writeFile(join(artifacts,'browser.json'),JSON.stringify({sandbox:true,executable:'/usr/bin/chromium',desktop:1280,mobile:390,style,hoverBackground,directMessages:direct.length,checks:['encoding-parity','provisional','interrupted-ledger','empty','failed','gap-reset','stale-abort','keyboard','responsive','actual-shadcn-tokens']},null,2),{mode:0o600});console.log('Local Pi viewer sandboxed browser checks passed');
+ assert.deepEqual(faults,[]);await writeFile(join(artifacts,'browser.json'),JSON.stringify({sandbox:true,executable:launch.executablePath??'playwright-installed',desktop:1280,mobile:390,style,hoverBackground,directMessages:direct.length,checks:['encoding-parity','provisional','interrupted-ledger','empty','failed','gap-reset','stale-abort','keyboard','responsive','actual-shadcn-tokens']},null,2),{mode:0o600});console.log('Local Pi viewer sandboxed browser checks passed');
 }finally{await context.close();await browser.close();}

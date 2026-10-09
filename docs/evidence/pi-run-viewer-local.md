@@ -55,8 +55,10 @@ Historical dirty desktop capture (one first round) lives at
 The later successful no-screenshot browser receipt is
 `.agent/runs/pi-viewer-d7372fef-18d9-4e55-b53a-00b0f8912043/{receipt,browser}.json`.
 These precede final source freeze and are not exact-head captures.
-Final affected worker tests, exact-head browser capture and independent review
-remain pending at this draft evidence revision.
+At integrated source ff8f342, all30 actual worker tests and both dry-run builds,
+all-repository TypeScript,32 combined forms tests,12 scanner/transport tests,
+agent-check and diff-check pass. Exact-head final browser capture and distinct
+source review remain pending at this draft evidence revision.
 
 ## CI and limits
 
