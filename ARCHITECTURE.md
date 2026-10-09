@@ -1,6 +1,6 @@
 # Painter OS repository map
 
-The [compatibility freeze](docs/contracts/issue-2-freeze.md) defines authority and cutover holds. This map navigates existing code; it does not replace that contract.
+The [compatibility freeze](docs/contracts/issue-2-freeze.md) defines authority and cutover holds. This map navigates existing code; it does not replace that contract. The [four application model](docs/architecture/FOUR_APP_MODEL.md) records the owner's intended product/company marketing and admin boundaries, the current two-app source gap, and staged realization holds.
 
 | Area | Owns | Inspect first |
 | --- | --- | --- |
