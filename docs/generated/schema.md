@@ -16,14 +16,17 @@ This lists host tables only; mounted components own separate schemas. It contain
 | authEmailBudgets | schema.ts |
 | authEmailReceipts | schema.ts |
 | painterBidSourceOwnership | schema.ts |
+| painterContactIntakePolicies | schema.ts |
 | painterEmailBindings | schema.ts |
 | painterEntities | schema.ts |
 | painterEvents | schema.ts |
 | painterIntakeAdmissionReceipts | schema.ts |
 | painterIntakeConfigs | schema.ts |
+| painterIntakeReceiptLinks | schema.ts |
 | painterInvites | schema.ts |
 | painterMembers | schema.ts |
 | painterPortals | schema.ts |
+| painterPublicLeadReceipts | schema.ts |
 | painterReceipts | schema.ts |
 | painterWorkspaces | schema.ts |
 | platformOwnerAudit | schema.ts |
