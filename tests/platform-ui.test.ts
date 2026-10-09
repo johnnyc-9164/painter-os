@@ -18,3 +18,9 @@ test('client rejects malformed and extra-private-field responses rather than ren
   assert.throws(() => decodePlatformResult('workspaces', { state: 'ready', items: 'wrong', nextCursor: null }));
   assert.throws(() => decodePlatformResult('overview', { state: 'ready', user: { email: 'secret' } }));
 });
+
+test('activity decoding rejects private fields and unrelated inventory records', () => {
+  const item = { id: 'a', action: 'bootstrap', occurredAt: 1, beforeEnabled: false, afterEnabled: true };
+  assert.deepEqual(decodePlatformResult('activity', { state: 'ready', items: [item], nextCursor: null }), { state: 'ready', items: [item], nextCursor: null });
+  for (const field of ['userId', 'operatorReceiptReference', 'identityProofReference', 'requestKey', 'fingerprint']) assert.throws(() => decodePlatformResult('activity', { state: 'ready', items: [{ ...item, [field]: 'secret' }], nextCursor: null }));
+});
