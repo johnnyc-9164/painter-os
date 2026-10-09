@@ -1,3 +1,4 @@
+import rateLimiter from '@convex-dev/rate-limiter/convex.config';
 import agentmail from '@agentmail/convex/convex.config';
 import betterAuth from '@convex-dev/better-auth/convex.config';
 import { defineApp } from 'convex/server';
@@ -8,4 +9,5 @@ app.use(betterAuth);
 app.use(contractorOs);
 app.use(painting);
 app.use(agentmail);
+app.use(rateLimiter);
 export default app;

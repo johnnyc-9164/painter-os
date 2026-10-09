@@ -24,7 +24,7 @@ test('every provider operation rejects before network, queue or inbound work',()
 });
 test('official mount and binding preserve existing component owners without exposing provider endpoints',()=>{
  const source=(path:string)=>readFileSync(new URL(`../${path}`,import.meta.url),'utf8');
- assert.deepEqual([...source('packages/backend/convex/convex.config.ts').matchAll(/app\.use\((\w+)\)/g)].map(m=>m[1]),['betterAuth','contractorOs','painting','agentmail']);
+ assert.deepEqual([...source('packages/backend/convex/convex.config.ts').matchAll(/app\.use\((\w+)\)/g)].map(m=>m[1]),['betterAuth','contractorOs','painting','agentmail','rateLimiter']);
  assert.match(source('packages/backend/convex/runtime.ts'),/agentmail: AgentMailComponent/);
  assert.doesNotMatch(source('packages/backend/convex/http.ts'),/agentmail/i);
  const manifest=JSON.parse(source('packages/backend/package.json'));
