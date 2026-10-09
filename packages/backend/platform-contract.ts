@@ -10,3 +10,6 @@ export type PlatformFailure = PlatformUnavailable | { state: 'invalid_request' }
 export const PLATFORM_PAGE_SIZE = 20;
 export const PLATFORM_MAX_PAGE_SIZE = 50;
 export const PLATFORM_MAX_CURSOR_LENGTH = 4096;
+
+export interface PlatformActivityItem { id: string; action: 'bootstrap' | 'revoke'; occurredAt: number; beforeEnabled: boolean; afterEnabled: boolean }
+export type PlatformActivityPage = { state: 'ready'; items: PlatformActivityItem[]; nextCursor: string | null } | { state: 'unauthenticated' | 'denied' };

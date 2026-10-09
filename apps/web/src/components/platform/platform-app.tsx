@@ -12,7 +12,7 @@ export function PlatformApp({ section, workspaceId, cursor }: { section: Platfor
   useEffect(() => {
     const controller = new AbortController();
     const signal = AbortSignal.any([controller.signal, AbortSignal.timeout(15000)]);
-    const url = section === 'workspaces' ? `/api/platform/workspaces${cursor ? `?cursor=${encodeURIComponent(cursor)}` : ''}` : section === 'detail' ? `/api/platform/workspaces/${encodeURIComponent(workspaceId ?? '')}` : '/api/platform/access';
+    const url = section === 'activity' ? `/api/platform/activity${cursor ? `?cursor=${encodeURIComponent(cursor)}` : ''}` : section === 'workspaces' ? `/api/platform/workspaces${cursor ? `?cursor=${encodeURIComponent(cursor)}` : ''}` : section === 'detail' ? `/api/platform/workspaces/${encodeURIComponent(workspaceId ?? '')}` : '/api/platform/access';
     readPlatform(section, url, signal).then(value => { if (!controller.signal.aborted) setResult(value); }).catch(() => { if (!controller.signal.aborted) setResult({ state: 'unavailable', reason: 'backend_unavailable' }); });
     return () => controller.abort();
   }, [section, workspaceId, cursor, attempt]);

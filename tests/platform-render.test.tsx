@@ -25,7 +25,16 @@ test('ready inventory and connected detail use only actual summary fields and bo
 });
 test('unavailable cursor pages provide a first-page recovery without misreporting a service outage', () => {
   const html = renderToStaticMarkup(createElement(PlatformView, { section: 'workspaces', cursor: 'stale-cursor', result: { state: 'unavailable', reason: 'backend_unavailable' }, onRetry() {}, onSignOut: async () => {} }));
-  expectMatch(html, /This inventory page could not be loaded/);
+  expectMatch(html, /This page could not be loaded/);
   expectMatch(html, /href="\/platform\/workspaces"[^>]*>Start from first page/);
   expectNotMatch(html, /service could not be reached/);
+});
+
+test('activity renders redacted events, empty state and pagination recovery', () => {
+  const render = (result: Parameters<typeof PlatformView>[0]['result']) => renderToStaticMarkup(createElement(PlatformView, { section: 'activity', cursor: 'page2', result, onRetry() {}, onSignOut: async () => {} }));
+  expectMatch(render({ state: 'ready', items: [], nextCursor: null }), /No platform access events/);
+  const html = render({ state: 'ready', items: [{ id: 'audit', action: 'bootstrap', occurredAt: 1, beforeEnabled: false, afterEnabled: true }], nextCursor: 'next' });
+  expectMatch(html, /Initial access grant/); expectMatch(html, /activity\?cursor=next/); expectNotMatch(html, /not connected/);
+  expectMatch(render({ state: 'denied' }), /Platform access required/);
+  expectMatch(render({ state: 'unavailable', reason: 'backend_unavailable' }), /href="\/platform\/activity"/);
 });
