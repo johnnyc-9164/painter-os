@@ -137,7 +137,7 @@ export const portalView=query({args:{token:v.string()},handler:async(ctx,args)=>
  if(!estimate||estimate.type!=='estimate'||estimate.data.customerId!==portal.customerId)throw new Error('PORTAL_INVALID');
  const jobs=await ctx.db.query('painterEntities').withIndex('by_tenant_type_estimate_customer',q=>q.eq('tenantId',portal.tenantId).eq('type','job').eq('data.estimateId',portal.estimateId).eq('data.customerId',portal.customerId)).collect();
  // Domain schedule/invoice writers persist resolved job IDs as strings.
- // This typed read seam excludes malformed historical nonstring links; inventory before deployment.
+ // This typed read seam excludes nonstring links; the owner confirms no existing company data.
  // Only related records are read; native transaction quotas remain the limit.
  // Merge per-job index results back into the original tenant creation order.
  const related=async(type:'schedule'|'invoice')=>{
