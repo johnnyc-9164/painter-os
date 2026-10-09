@@ -15,6 +15,7 @@ This lists host tables only; mounted components own separate schemas. It contain
 | aiWorkspaceEntitlements | schema.ts |
 | authEmailBudgets | schema.ts |
 | authEmailReceipts | schema.ts |
+| painterBidSourceOwnership | schema.ts |
 | painterEmailBindings | schema.ts |
 | painterEntities | schema.ts |
 | painterEvents | schema.ts |
