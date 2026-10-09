@@ -53,3 +53,16 @@ Configure PAINTER_LINK_SECRET (at least 32 random characters) securely on the we
 The current web adapter intentionally supports the default membership workspace only. An explicit workspaceId query is rejected with WORKSPACE_SELECTION_NOT_SUPPORTED until consistent workspace selection is implemented across commands, files, invitations, links and roster. This prevents misdirected writes; it is not a complete multi-workspace switching UI.
 
 Dockerfile is provided but no container image was built in this run. No deployment command was executed. See RELEASE_REPORT.md for current test evidence, store boundaries and remaining product scope.
+
+
+## Prepared additional authentication origins
+
+Issue [#114](https://github.com/johnnyc-9164/painter-os/issues/114) adds optional backend-only `PAINTER_AUTH_ADDITIONAL_ORIGINS`. When unset, Better Auth continues to trust exactly the existing `SITE_URL`; its base URL, development behavior, cookie options, email policy and identity authority remain unchanged.
+
+The option is a JSON array of at most eight canonical exact HTTPS origins (configuration capped at 4,096 characters), for example `["https://approved-platform-app.vercel.app"]`. This is illustrative configuration, not a verified deployment or instruction to activate it. Each entry must name one explicit Vercel hostname; no wildcard, path, query, fragment, credentials, port or origin reflection is accepted. Trailing slashes and noncanonical spellings are rejected. Empty arrays are allowed; empty strings, malformed JSON and nonstring entries fail closed with `INVALID_AUTH_TRUSTED_ORIGINS`, without echoing values. Duplicate entries are deduplicated with `SITE_URL` after validation.
+
+An operator must verify ownership and approve each exact application origin before setting this option on a selected backend deployment. The parser checks syntax, not ownership or deployment readiness. No browser Origin, Host, request URL, `PLATFORM_APP_URL` or preview-domain discovery automatically extends trust. This source change sets no environment values and does not activate providers or bootstrap a platform operator.
+
+Trusting an origin only permits Better Auth's origin checks. It does not establish company membership, an enabled platform-owner grant, shared sessions, cross-origin credential forwarding, cookie-domain widening or a callback/domain cutover. Existing app same-origin request checks remain. Separate approved live acceptance must verify the exact frontend/backend revision pair, independent host cookie behavior, login/logout/session/token flow and unchanged callbacks/old links before enabling another host. The four-app live readiness criteria remain open.
+
+Rollback removes the optional deployment configuration and/or reverts the helper and assignment together; default `SITE_URL` behavior is preserved. Source tests use the installed Better Auth component with synthetic accounts and explicitly enforced origin checks; they do not prove deployed cross-host cookies or live grants. Reuse [Painter PR evidence](skills/painter-pr-evidence/SKILL.md) for exact-head independent review.
