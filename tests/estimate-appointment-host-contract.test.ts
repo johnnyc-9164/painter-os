@@ -108,7 +108,10 @@ test("native scheduling snapshot projection grants office and assigned estimator
         revision: 1,
         createdAt: "test",
         updatedAt: "test",
-        data: { resourceId: "estimator" },
+        data: {
+          resourceId: "estimator",
+          normalizationProof: { version: 1, secret: "internal" },
+        },
       }) as Entity,
   );
   const actor = (role: Actor["role"], id = role): Actor => ({
@@ -120,6 +123,10 @@ test("native scheduling snapshot projection grants office and assigned estimator
   });
   const state = { entities, events: [], receipts: {} };
   assert.equal(visibleEntities(state, actor("owner")).length, 2);
+  assert.equal(
+    visibleEntities(state, actor("owner"))[0].data.normalizationProof,
+    undefined,
+  );
   assert.equal(visibleEntities(state, actor("office_admin")).length, 2);
   assert.equal(
     visibleEntities(state, actor("estimator", "estimator")).length,

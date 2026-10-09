@@ -1,8 +1,8 @@
 import type { Actor, Role } from "./contracts";
 
-/** Prospective pure policy only. A future host must resolve current Better Auth membership,
- * source records and complete conflict reads, then persist the staged result atomically.
- * Caller-provided context is not proof of any of those authorities. No production writer is wired. */
+/** Pure policy only. The host resolves current Better Auth membership,
+ * source records and complete conflict reads, then persists the staged result atomically.
+ * Caller-provided context is not proof of any of those authorities. This module owns no persistence. */
 export const ESTIMATE_APPOINTMENT_LIMITS = {
   appointments: 256,
   receipts: 512,
@@ -161,8 +161,8 @@ function resource(context: AppointmentContext, userId: string) {
     fail("APPOINTMENT_RESOURCE_UNAVAILABLE");
   identifier(member.userId);
 }
-/** Mandatory numeric offset disambiguates folds; round-trip rejects gaps or wrong zone offsets.
- * One-off slots avoid inventing a recurring calendar or browser-local timezone authority. */
+/** Deterministic numeric calendar/offset normalization only.
+ * IANA zone round-trip validation belongs to estimateSlotInstant or trusted host proof. */
 export function estimateSlotOffsetInstant(
   localStart: string,
   timeZone: string,
@@ -521,7 +521,7 @@ function validateState(state: EstimateAppointmentState) {
   }
 }
 /** Returns a staged copy; never mutates inputs. This is NOT an atomic durable reservation.
- * Future host must query all relevant native conflicts and persist under Convex OCC. */
+ * The host must query all relevant native conflicts and persist under Convex OCC. */
 export function stageEstimateAppointment(
   state: EstimateAppointmentState,
   context: AppointmentContext,
