@@ -1,0 +1,33 @@
+# Official Firecrawl bid-source preparation — issue 105
+
+Current scope is source preparation and local synthetic acceptance. No account, provider key, paid scrape/crawl, cloud deployment, production mount, webhook route or business bid write is authorized or activated.
+
+## Actual package inspection
+
+Inspected the npm tarball `@firecrawl/firecrawl-convex@0.1.1`, integrity `sha512-fecepodOAcKLUKFD+4dyqRfU8ATn3y15nYtayyAmmQAV0FT/6sVwKNY0+rpq8/NKTLrEpuHr+cE0htNQ+ssU+g==`. This is the official vendor package, MIT licensed, with Convex peer `^1.43.0` and dependency `convex-helpers ^0.1.122`. The installed Painter packages meet those semver ranges; actual component fixture compatibility is tracked separately below. The tarball was retrieved without scripts and retained privately under `.agent`, not vendored or committed.
+
+Its `defineComponent` configuration requires `FIRECRAWL_API_KEY: v.string()`, with optional API URL and upstream-optional webhook secret. Current Painter main automatically deploys Convex and has no typed app-env mapping for this component. A production mount would introduce an unapproved required key. Consequently no `convex.config`, runtime component binding or required deployment env is introduced. Installing the package for actual local test registration does not activate a mount or send a request.
+
+Official test registration exposes the actual component schema/modules. Generated component env reads `process.env`, allowing synthetic test-only key/secret and fetch stubs. These fixtures must restore env/fetch afterward and reject unexpected real network. No live credentials are inspected or copied. Better Auth remains the identity authority; Pi retains conversation/tool lifecycle ownership; Firecrawl would own independent crawl progress rather than a second host/Pi queue.
+
+## Typed source projection
+
+New pure contracts project only an approved source URL, trusted fetch time, bounded text/quotes, SHA-256 of the retained excerpt and explicit source/truncation/unstored/completeness flags. Provider raw JSON, screenshots, credentials and diagnostic messages never enter the projection. Evidence remains `unverified`, and content—including embedded instructions—never grants business write authority or creates a bid/price/deadline fact.
+
+Limits: five projected pages, 16 KiB retained UTF-8 content per page, eight 240-byte quotes per page, and a proposed 15-second source fetch timeout. Projection limits are not a claim that upstream response bytes or paid credits are already capped. Source hashes explicitly describe only retained excerpts, not a full dropped document.
+
+The URL policy allows exact approved HTTPS origins and query keys, rejects credentials, fragments, unusual ports, literal IP/private/local names and unapproved reported redirect destinations. It does not verify DNS rebinding, a hidden redirect chain or network resolution at the remote scraper. That limitation is explicit in every projection; production remains disabled until the network/provider policy is reviewed. Metadata URLs and source text are untrusted.
+
+Completed provider state is not verified evidence. Missing/invalid counters, unstored pages, rejected sources, page/content truncation or missing content keep the crawl partial. Provider 402/429 become safe refusal codes; an ambiguous start remains `start_unknown`, without claiming cancellation undid remote paid work.
+
+## Local fixture and activation boundaries
+
+Local actual-SDK acceptance remains a separate receipt while shared dependency/schema ownership is released. Synthetic component calls will test scrape/crawl, signed/token-protected webhooks, replay, normalization, ownership/current membership and cancellation/delete/resume guards. No fixture result proves live Firecrawl or deployment compatibility.
+
+Upstream request code retries three times after the initial request (up to four attempts), including network failures and 429, and may repeat an ambiguous crawl-start POST. It has no demonstrated per-operation paid idempotency guarantee in the inspected API. No additional Pi/Workpool retry layer is introduced. Before activation, review attempt/page budget reservation, ambiguous-start reconciliation and provider idempotency; do not blindly restart failed starts. Component retries do not constitute financial budget enforcement.
+
+Separate activation needs approved provider account/key and budget, verified source permissions, network/redirect policy, mandatory Painter HMAC secret and trusted webhook origin, explicit deployment env/route review and bounded live read-only acceptance. No mount requiring a new secret may merge into automatic production deployment as part of this preparation slice.
+
+Applied Convex expert/reviewer guidance to validators, bounded host reads and current authorization. Their generic alternative identity/orchestration examples do not override Painter Better Auth and Pi ownership. Deployment instructions are limited by this task's explicit no-deployment authorization.
+
+Skill extraction reuses `docs/skills/painter-pr-evidence/SKILL.md`; local fixture/source receipts are distinct from live operation. Exact-head tests and independent root acceptance will be supplied separately.
