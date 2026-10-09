@@ -1,5 +1,7 @@
 export type Role = 'owner'|'office_admin'|'estimator'|'project_manager'|'salesperson'|'crew_lead'|'crew_member'|'accountant'|'customer';
 export type EntityType = 'customer'|'lead'|'estimate'|'job'|'schedule'|'field'|'invoice'|'payment'|'expense'|'review'|'referral'|'bid'|'knowledge'|'automation'|'task'|'file'|'integration'|'article';
+export interface DepositView { requiredCents:number; receivedCents:number; remainingCents:number; status:'not_required'|'unpaid'|'partial'|'satisfied'; }
+export interface DepositOverride { approvedBy:string; approvedRole:'owner'|'office_admin'; approvedAt:string; reason:string; requiredCents:number; }
 export interface Entity { id:string; type:EntityType; tenantId:string; revision:number; createdAt:string; updatedAt:string; data:Record<string, unknown>; }
 export interface Actor { id:string; tenantId:string; name:string; email:string; role:Role; }
 export interface AuditEvent { id:string; type:string; entityId:string; actorId:string; occurredAt:string; payload:Record<string,unknown>; }
@@ -10,7 +12,7 @@ export const entityTypes:EntityType[]=['customer','lead','estimate','job','sched
 export const actionContract = {
  customer:['customer.create','customer.update'], lead:['lead.create','lead.update','lead.qualify','lead.lose'],
  estimate:['estimate.create','estimate.update','estimate.send','estimate.requestChanges','estimate.approve','estimate.reject','estimate.portal'],
- job:['job.create','job.start','job.block','job.resume','job.complete','job.cancel'], schedule:['schedule.create','schedule.reschedule','schedule.cancel'],
+ job:['job.overrideDeposit','job.revokeDepositOverride','job.create','job.start','job.block','job.resume','job.complete','job.cancel'], schedule:['schedule.create','schedule.reschedule','schedule.cancel'],
  field:['field.start','field.log','field.check','field.photo','field.material','field.submit'],
  invoice:['invoice.create','invoice.issue','invoice.void'], payment:['payment.record'], expense:['expense.create'],
  review:['review.create','review.sent','review.complete'], referral:['referral.create'], bid:['bid.create','bid.update'],

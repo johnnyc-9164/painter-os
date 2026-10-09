@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "exports": {
+    "./deposit-policy": "./src/deposit-policy.ts",
     "./contracts": "./src/contracts.ts",
     "./engine": "./src/engine.ts",
     "./seed": "./src/seed.ts"
