@@ -1,3 +1,4 @@
+import { refuseAppointment } from "./estimateAppointmentErrors";
 import type { GenericQueryCtx, GenericMutationCtx } from "convex/server";
 import type { DataModel, Id } from "./runtime";
 import { resolvePainterMembership } from "./painter";
@@ -30,13 +31,26 @@ export async function appointmentAuthority(
   workspaceId?: Id<"painterWorkspaces">,
   readOnly = false,
 ) {
-  const resolved = await resolvePainterMembership(ctx, workspaceId);
+  let resolved;
+  try {
+    resolved = await resolvePainterMembership(ctx, workspaceId);
+  } catch (error) {
+    // This exact current-auth seam has three explicit refusal sites. No generic error mapping.
+    if (
+      error instanceof Error &&
+      (error.message === "UNAUTHENTICATED" ||
+        error.message === "WORKSPACE_MEMBERSHIP_REQUIRED" ||
+        error.message === "WORKSPACE_NOT_FOUND")
+    )
+      refuseAppointment(error.message);
+    throw error;
+  }
   if (
     !["owner", "office_admin", ...(readOnly ? ["estimator"] : [])].includes(
       resolved.actor.role,
     )
   )
-    throw new Error("APPOINTMENT_OFFICE_REQUIRED");
+    refuseAppointment("APPOINTMENT_OFFICE_REQUIRED");
   return resolved;
 }
 export async function appointmentResource(
@@ -45,7 +59,7 @@ export async function appointmentResource(
   userId: string,
 ) {
   if (!userId || userId.length > 200)
-    throw new Error("APPOINTMENT_RESOURCE_UNAVAILABLE");
+    refuseAppointment("APPOINTMENT_RESOURCE_UNAVAILABLE");
   const member = await ctx.db
     .query("painterMembers")
     .withIndex("by_tenant_user", (q) =>
@@ -57,7 +71,7 @@ export async function appointmentResource(
     !["owner", "office_admin", "estimator"].includes(member.role) ||
     !(await authComponent.getAnyUserById(ctx, userId))
   )
-    throw new Error("APPOINTMENT_RESOURCE_UNAVAILABLE");
+    refuseAppointment("APPOINTMENT_RESOURCE_UNAVAILABLE");
   return {
     tenantId: String(tenantId),
     userId,
@@ -101,14 +115,14 @@ export function appointmentFromRow(
   row: DataModel["painterEntities"]["document"],
 ): EstimateAppointment {
   if (row.type !== "estimate_appointment")
-    throw new Error("APPOINTMENT_NOT_FOUND");
+    refuseAppointment("APPOINTMENT_NOT_FOUND");
   return publicFields<EstimateAppointment>(row.data, appointmentFields, row);
 }
 export function slotFromRow(
   row: DataModel["painterEntities"]["document"],
 ): EstimateSlot {
   if (row.type !== "estimate_slot")
-    throw new Error("APPOINTMENT_SLOT_NOT_FOUND");
+    refuseAppointment("APPOINTMENT_SLOT_NOT_FOUND");
   return publicFields<EstimateSlot>(row.data, slotFields, row);
 }
 export async function readNativeRow(
@@ -117,7 +131,7 @@ export async function readNativeRow(
   id: string,
   kind: NativeKind,
 ) {
-  if (!id || id.length > 200) throw new Error("APPOINTMENT_INVALID_ID");
+  if (!id || id.length > 200) refuseAppointment("APPOINTMENT_INVALID_ID");
   const row = await ctx.db
     .query("painterEntities")
     .withIndex("by_tenant_entity", (q) =>
@@ -155,14 +169,14 @@ export async function verifiedSlot(
       Date.parse(slot.startAt) + slot.durationMinutes * 60000,
     ).toISOString() !== slot.endAt
   )
-    throw new Error("APPOINTMENT_INVALID_NORMALIZATION");
+    refuseAppointment("APPOINTMENT_INVALID_NORMALIZATION");
   return {
     row,
     slot,
     options: {
       normalizeSlotInstant: (input: Readonly<EstimateSlotInput>) => {
         if (canonicalSlotInput(input) !== canonicalSlotInput(slotInput(slot)))
-          throw new Error("APPOINTMENT_INVALID_NORMALIZATION");
+          refuseAppointment("APPOINTMENT_INVALID_NORMALIZATION");
         return slot.startAt;
       },
     } satisfies EstimateSlotNormalization,
@@ -178,7 +192,7 @@ export async function nativeRequestKey(
     !requestKey.trim() ||
     requestKey.length > 180
   )
-    throw new Error("APPOINTMENT_INVALID_REQUEST");
+    refuseAppointment("APPOINTMENT_INVALID_REQUEST");
   return `native-${kind === "estimate_slot" ? "slot" : "appointment"}:${await intakeDigest(JSON.stringify([tenantId, kind, requestKey]))}`;
 }
 export async function nativeReceipt(
@@ -194,7 +208,7 @@ export async function nativeReceipt(
     )
     .unique();
   if (receipt && receipt.nativeKind !== kind)
-    throw new Error("APPOINTMENT_IDEMPOTENCY_CONFLICT");
+    refuseAppointment("APPOINTMENT_IDEMPOTENCY_CONFLICT");
   return receipt;
 }
 export async function nativeReceipts(
@@ -209,7 +223,7 @@ export async function nativeReceipts(
     )
     .take(ESTIMATE_APPOINTMENT_LIMITS.receipts + 1);
   if (receipts.length > ESTIMATE_APPOINTMENT_LIMITS.receipts)
-    throw new Error("APPOINTMENT_STATE_LIMIT");
+    refuseAppointment("APPOINTMENT_STATE_LIMIT");
   return receipts;
 }
 export async function nativeRows(
@@ -224,7 +238,7 @@ export async function nativeRows(
     )
     .take(ESTIMATE_APPOINTMENT_LIMITS.appointments + 1);
   if (rows.length > ESTIMATE_APPOINTMENT_LIMITS.appointments)
-    throw new Error("APPOINTMENT_STATE_LIMIT");
+    refuseAppointment("APPOINTMENT_STATE_LIMIT");
   return rows;
 }
 export async function appointmentSource(
@@ -261,7 +275,7 @@ export async function appointmentSource(
     !customer ||
     customer.type !== "customer"
   )
-    throw new Error("APPOINTMENT_QUALIFIED_SOURCE_REQUIRED");
+    refuseAppointment("APPOINTMENT_QUALIFIED_SOURCE_REQUIRED");
   if (receipt || leadId.startsWith(PUBLIC_INTAKE_LEAD_ID_PREFIX)) {
     if (
       !receipt ||
@@ -270,7 +284,7 @@ export async function appointmentSource(
       !receipt.transferredBy ||
       !Number.isFinite(receipt.transferredAt)
     )
-      throw new Error("APPOINTMENT_INTAKE_TRANSFER_REQUIRED");
+      refuseAppointment("APPOINTMENT_INTAKE_TRANSFER_REQUIRED");
   }
   return {
     lead: {
@@ -336,7 +350,7 @@ export async function paddedConflicts(
     )
     .take(ESTIMATE_APPOINTMENT_LIMITS.appointments + 1);
   if (rows.length > ESTIMATE_APPOINTMENT_LIMITS.appointments)
-    throw new Error("APPOINTMENT_CONFLICT_LIMIT");
+    refuseAppointment("APPOINTMENT_CONFLICT_LIMIT");
   return rows.map(appointmentFromRow);
 }
 export function painterEntity(
