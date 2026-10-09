@@ -57,8 +57,26 @@ The later successful no-screenshot browser receipt is
 These precede final source freeze and are not exact-head captures.
 At integrated source ff8f342, all30 actual worker tests and both dry-run builds,
 all-repository TypeScript,32 combined forms tests,12 scanner/transport tests,
-agent-check and diff-check pass. Exact-head final browser capture and distinct
-source review remain pending at this draft evidence revision.
+agent-check and diff-check pass.
+
+Final capture round2 passed on clean282d64f with sandboxed Chromium151 at390
+and1280. Both images were inspected for readable hierarchy, wrapping and focus.
+Receipts/images are in
+`.agent/runs/pi-viewer-ccda9a3a-bbf3-489a-b79b-1dfb1ecc6689/`.
+A previous c225 run passed HTTP but raced React paint in its immediate loading
+assertion and produced no images; the browser test now waits for visible loading.
+Root independently accepted the c225 source and nine focused checks. The only
+subsequent product-source change was normal main integration preserving both
+agent-run-view and estimate-appointments exports.
+
+At clean integration9b7793a, actual Pi preparation, Next production build, HTTP
+and sandboxed browser interactions pass again without another screenshot round;
+all-repository TypeScript and ten boundary harness checks also pass. Receipt:
+`.agent/runs/pi-viewer-e1cf2234-ddb0-48bc-9072-eeac002606a1/`.
+The images accurately represent pre-integration282d64f rather than claiming
+capture of a later documentation commit. Actual multi-frame SSE/AGUI bytes are
+completed1959/3129, running791/1238, interrupted1667/2667 and empty140/212.
+Exact published-head CI and final independent integration review remain pending.
 
 ## CI and limits
 
