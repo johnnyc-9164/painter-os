@@ -11,11 +11,16 @@ test('built company site serves isolated published journals and safe 404s', { ti
     let body = '';
     for await (const chunk of req) body += chunk;
     const { path, args: [args] } = JSON.parse(body);
-    assert.equal(path, 'painter:articles');
-    const value = args.workspaceId === 'company-a' ? [{ id: 'a', title: 'Company A <script>alert(1)</script>', slug: 'care', content: 'Company A guidance', publishedAt: '2026-10-09', privateNotes: 'DO_NOT_PUBLISH' }] : args.workspaceId === 'company-b' ? [{ id: 'b', title: 'Company B', slug: 'care', content: 'Company B guidance', publishedAt: '2026-10-09' }] : [];
+    assert.ok(['painter:articles', 'painter:articlesPage'].includes(path));
+    const value = args.workspaceId === 'company-a' ? Array.from({ length: 25 }, (_, i) => ({ id: `a-${i}`, title: `Company A <script>alert(1)</script> ${i}`, slug: i === 0 ? 'care' : `care-${i}`, content: `Company A guidance ${i}`, publishedAt: '2026-10-09', privateNotes: 'DO_NOT_PUBLISH' })) : args.workspaceId === 'company-b' ? [{ id: 'b', title: 'Company B', slug: 'care', content: 'Company B guidance', publishedAt: '2026-10-09' }] : [];
     res.setHeader('Content-Type', 'application/json');
     if (!['company-a', 'company-b'].includes(args.workspaceId)) res.end(JSON.stringify({ status: 'error', errorMessage: 'Missing workspace', errorData: 'PUBLIC_WORKSPACE_NOT_FOUND' }));
-    else res.end(JSON.stringify({ status: 'success', value: args.slug && args.slug !== 'care' ? [] : value }));
+    else {
+      const offset = args.cursor === null || args.cursor === undefined ? 0 : Number(args.cursor);
+      const done = offset + args.limit >= value.length;
+      const response = path === 'painter:articlesPage' ? { page: value.slice(offset, offset + args.limit).map(({ content, ...row }) => ({ ...row, excerpt: content.slice(0, 300) })), isDone: done, continueCursor: done ? null : String(offset + args.limit) } : args.slug ? value.filter(row => row.slug === args.slug) : value;
+      res.end(JSON.stringify({ status: 'success', value: response }));
+    }
   });
   backend.listen(0, '127.0.0.1');
   await once(backend, 'listening');
@@ -48,6 +53,16 @@ test('built company site serves isolated published journals and safe 404s', { ti
     assert.match(html, /Company A guidance/);
     assert.match(html, /&lt;script&gt;alert\(1\)&lt;\/script&gt;/);
     assert.doesNotMatch(html, /DO_NOT_PUBLISH|Company B guidance|<script>alert\(1\)<\/script>/);
+    assert.equal((html.match(/<article(?:\s|>)/g) || []).length, 10);
+    const firstNext = html.match(/href="([^"]+cursor=[^"]+)"/)[1];
+    const secondHtml = await (await fetch(base + firstNext)).text();
+    assert.equal((secondHtml.match(/<article(?:\s|>)/g) || []).length, 10);
+    assert.match(secondHtml, /care-19/);
+    assert.doesNotMatch(secondHtml, /href="\/site\/company-a\/care-9"/);
+    const secondNext = secondHtml.match(/href="([^"]+cursor=[^"]+)"/)[1];
+    const lastHtml = await (await fetch(base + secondNext)).text();
+    assert.equal((lastHtml.match(/<article(?:\s|>)/g) || []).length, 5);
+    assert.doesNotMatch(lastHtml, /Next articles/);
     const b = await fetch(`${base}/site/company-b/care`);
     assert.equal(b.status, 200);
     const bHtml = await b.text();
