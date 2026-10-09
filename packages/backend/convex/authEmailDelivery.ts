@@ -22,7 +22,7 @@ export const disabledAgentMailAuthDelivery: AuthEmailDelivery = Object.freeze({
 type VerifyCallback = NonNullable<NonNullable<BetterAuthOptions['emailVerification']>['sendVerificationEmail']>;
 type ResetCallback = NonNullable<NonNullable<BetterAuthOptions['emailAndPassword']>['sendResetPassword']>;
 
-/** Prepared callbacks only: production createAuth deliberately does not install them. */
+/** Typed SDK callbacks: production installs these with the hard-disabled delivery port. */
 export function createAuthEmailCallbacks(delivery: AuthEmailDelivery = disabledAgentMailAuthDelivery): {
   sendVerificationEmail: VerifyCallback;
   sendResetPassword: ResetCallback;
