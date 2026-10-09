@@ -22,9 +22,9 @@ First capture inspection found unlayered legacy anchor/header/article CSS leakin
 
 ## Validation and remaining gates
 
-- Four shared React renderer tests plus existing form regressions (26 checks) cover identical authored fields in all templates, shared Button classes, escaped content, honest sparse content, required resolved media and private preview notices.
+- Five shared React renderer tests plus existing form regressions (27 checks) cover identical authored fields in all templates, shared Button classes, escaped content, honest sparse content, required resolved media and private preview notices.
 - Reader/proxy and canonical domain fixtures cover exact public query scope, projection/missing/transport errors, wrong-workspace media, fixed endpoint/parameters, redirect policy, size limits, header stripping and stale publication rejection.
 - Real built Next HTTP checks cover all three published templates, sparse/unpublished/unknown/malformed states, blog/guide links, current/stale image reads and unchanged journal routes. Optional capture mode runs the nine browser inspections above.
 - UI/company TypeScript, scoped lint, company build, existing journal HTTP/boundary checks and exact-head CI are review receipts, not production readiness. A narrowly reviewed AST type-only guard seam is required for the approved shared canonical type import; runtime/mixed/backend imports remain forbidden.
 
-Root independent source/test/visual review and backend/editor integration remain required. This source slice does not prove real company data entered, production media uploaded, provider connected, domain routed, paid call made or four applications live. No domain/cookie/provider cutover occurred.
+The public host reads the existing safe intake projection and exposes project guidance only when ready; shared preview defaults closed unless its host explicitly supplies that policy. Public metadata uses the published company name and authored introduction/tagline. Root independent source/test/visual review and backend/editor integration remain required. This source slice does not prove real company data entered, production media uploaded, provider connected, domain routed, paid call made or four applications live. No domain/cookie/provider cutover occurred.
