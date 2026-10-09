@@ -3,7 +3,7 @@ import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { publicAdminOrigin } from '../packages/backend/published-articles.mjs';
 
-export async function marketingHttpAcceptance(base, expectedAdminOrigin = null) {
+export async function marketingHttpAcceptance(base, expectedAdminOrigin = null, expectedSiteOrigin = null) {
   const parsed = new URL(base);
   assert.equal(parsed.protocol, 'http:');
   assert.equal(parsed.hostname, '127.0.0.1');
@@ -19,7 +19,7 @@ export async function marketingHttpAcceptance(base, expectedAdminOrigin = null) 
   assert.equal((html.match(/<h3(?:\s[^>]*)?>/g) || []).length, 8);
   for (const section of ['features', 'workflow', 'ownership']) {
     assert.match(html, new RegExp(`id="${section}"`));
-    assert.match(html, new RegExp(`href="#${section}"`));
+    assert.match(html, new RegExp(`href="${section==='workflow'?'/workflow':'#'+section}"`));
   }
   assert.match(html, /manually recorded customer payments/);
   assert.match(html, /customer-owned deployments/);
@@ -43,7 +43,7 @@ export async function marketingHttpAcceptance(base, expectedAdminOrigin = null) 
   const hrefs = [...html.matchAll(anchorPattern)].map(match => match[1]);
   assert.ok(hrefs.length > 4, 'Actual rendered navigation/CTA anchors');
   assert.doesNotMatch(html, /<a\b[^>]*role="button"/, 'Navigation CTAs preserve link semantics');
-  for (const href of hrefs) assert.ok(href === '/' || href.startsWith('#') || (origin !== null && href === origin), `Unexpected landing destination: ${href}`);
+  for (const href of hrefs) assert.ok(['/', '/product', '/workflow', '/resources', '/workspace-options'].includes(href) || href.startsWith('#') || (origin !== null && href === origin), `Unexpected landing destination: ${href}`);
   if (origin) {
     assert.ok(hrefs.includes(origin));
     assert.match(html, /Open your workspace/);
@@ -51,6 +51,23 @@ export async function marketingHttpAcceptance(base, expectedAdminOrigin = null) 
   } else {
     assert.doesNotMatch(html, /Open your workspace|Sign in/);
   }
+  const paths=['/','/product','/workflow','/resources','/resources/estimate-handoff','/resources/job-closeout','/workspace-options'];
+  const titles=new Set(),descriptions=new Set();
+  for(const path of paths){
+    const page=await fetch(base+path,{redirect:'error'});assert.equal(page.status,200,path);assert.equal(page.headers.get('set-cookie'),null);
+    const body=await page.text();assert.equal((body.match(/<h1(?:\s[^>]*)?>/g)||[]).length,1,path);
+    const title=body.match(/<title>(.*?)<\/title>/)?.[1];assert.ok(title,path);assert.ok(!titles.has(title),`Unique title ${path}`);titles.add(title);
+    const description=body.match(/<meta name="description" content="([^"<>]+)"/)?.[1];assert.ok(description,path);assert.ok(!descriptions.has(description),`Unique description ${path}`);descriptions.add(description);
+    assert.match(body,/aria-label="Product navigation"/);
+    if(origin){assert.ok(body.includes(`data-workspace="true"`),path);assert.ok(body.includes(`href="${origin}"`),path);assert.match(body,/Sign in/);}
+    if(path!=='/')assert.match(body,/class="product-skip-link" href="#product-content"/);
+    if(expectedSiteOrigin){assert.ok(body.includes(`rel="canonical" href="${expectedSiteOrigin+path}"`),path);assert.match(body,/<meta name="robots" content="index, follow"/);assert.ok(body.includes(`property="og:url" content="${expectedSiteOrigin+path}"`));}
+    else{assert.doesNotMatch(body,/rel="canonical"/);assert.match(body,/<meta name="robots" content="noindex, follow"/);}
+  }
+  const robots=await(await fetch(base+'/robots.txt')).text();assert.match(robots,/Allow: \/\n/);assert.match(robots,/Disallow: \/api\//);assert.doesNotMatch(robots,/Disallow: \/(?:site\/)?\n/);
+  const sitemap=await(await fetch(base+'/sitemap.xml')).text();assert.equal((sitemap.match(/<loc>/g)||[]).length,expectedSiteOrigin?7:0);
+  if(expectedSiteOrigin)for(const path of paths)assert.ok(sitemap.includes(`<loc>${expectedSiteOrigin+path}</loc>`));
+  assert.doesNotMatch(sitemap,/\/site\/|lastmod/);
   // This checks absent app surfaces, not live tenant projection or Convex availability.
   for (const path of ['/api/snapshot', '/api/auth', '/dashboard', '/platform', '/p/synthetic-token', '/i/synthetic-token']) {
     const denied = await fetch(base + path, { redirect: 'error', signal: AbortSignal.timeout(10_000) });
@@ -60,6 +77,6 @@ export async function marketingHttpAcceptance(base, expectedAdminOrigin = null) 
   console.log(`Built marketing HTTP acceptance PASS: content, eight cards, anchor destinations, ${origin ? 'configured build-origin' : 'absent build-origin'} CTA, materialized imagery/image optimizer, headers and six absent admin/portal surfaces. No browser/valid-tenant/visual claim.`);
 }
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  marketingHttpAcceptance(process.env.PAINTER_MARKETING_TEST_URL, process.env.PAINTER_EXPECTED_BUILD_ADMIN_ORIGIN || null).catch(error => { console.error(error); process.exitCode = 1; });
+  marketingHttpAcceptance(process.env.PAINTER_MARKETING_TEST_URL, process.env.PAINTER_EXPECTED_BUILD_ADMIN_ORIGIN || null, process.env.PAINTER_EXPECTED_BUILD_MARKETING_ORIGIN || null).catch(error => { console.error(error); process.exitCode = 1; });
 }
 

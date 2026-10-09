@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
+  validateCompanyWebsitePublication,
   decodePublicCompanyWebsite,
   emptyCompanyWebsiteContent,
   normalizeCompanyWebsiteContent,
@@ -78,6 +79,7 @@ test("public snapshot accepts only complete publication-bound proxy media", () =
     "https://private.example/storage",
     "/api/website/media?workspaceId=workspace_1&mediaId=media_1&revision=1",
     "/api/company-website-media?workspaceId=workspace_1&mediaId=media_1&revision=2",
+    "/api/company-website-media?workspaceId=workspace_1&mediaId=media_1&revision=1#fragment",
   ])
     assert.throws(() =>
       decodePublicCompanyWebsite({
@@ -85,4 +87,57 @@ test("public snapshot accepts only complete publication-bound proxy media", () =
         website: { ...value.website, media: [{ ...media, url }] },
       }),
     );
+});
+
+test("canonical bounds reject duplicated section IDs, unsupported currencies and excessive media", () => {
+  const content = emptyCompanyWebsiteContent("Company");
+  const service = { id: "service", title: "Painting", description: "" };
+  assert.throws(() =>
+    normalizeCompanyWebsiteContent({
+      ...content,
+      services: [service, service],
+    }),
+  );
+  assert.throws(() =>
+    normalizeCompanyWebsiteContent({
+      ...content,
+      pricing: [
+        {
+          id: "price",
+          title: "Painting",
+          description: "",
+          price: { mode: "fixed", amountMinor: 100, currency: "ZZZ" },
+        },
+      ],
+    }),
+  );
+  assert.throws(() =>
+    normalizeCompanyWebsiteContent({
+      ...content,
+      gallery: Array.from({ length: 25 }, (_, i) => ({
+        mediaId: `media_${i}`,
+        alt: "Project",
+      })),
+    }),
+  );
+});
+
+test("draft empty rows cannot become published claims", () => {
+  const content = emptyCompanyWebsiteContent("Company");
+  const draft = {
+    ...content,
+    testimonials: [{ id: "draft", quote: "", attribution: "" }],
+  };
+  assert.equal(normalizeCompanyWebsiteContent(draft).testimonials.length, 1);
+  assert.throws(
+    () => validateCompanyWebsitePublication(draft),
+    /WEBSITE_INCOMPLETE_SECTION/,
+  );
+  assert.deepEqual(
+    normalizeCompanyWebsiteContent({
+      ...content,
+      contacts: { ...content.contacts, address: { lines: [""] } },
+    }),
+    content,
+  );
 });
