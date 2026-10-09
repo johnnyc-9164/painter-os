@@ -16,7 +16,6 @@ import { api, mutation, query, type DataModel } from "./runtime";
 import {
   makeEstimateSlot,
   closeEstimateSlot,
-  ESTIMATE_APPOINTMENT_LIMITS,
   type EstimateSlotInput,
 } from "../../domain/src/estimate-appointments";
 import { intakeDigest } from "./intakeCrypto";
@@ -25,8 +24,6 @@ import {
   appointmentResource,
   nativeRequestKey,
   nativeReceipt,
-  nativeReceipts,
-  nativeRows,
   slotFromRow,
   canonicalSlotInput,
   verifiedSlot,
@@ -125,13 +122,6 @@ export const commitNormalized = internalMutation({
         );
         return { slot, replayed: true, ...NATIVE_FLAGS };
       }
-      const receipts = await nativeReceipts(
-        ctx,
-        workspace._id,
-        "estimate_slot",
-      );
-      if (receipts.length === ESTIMATE_APPOINTMENT_LIMITS.receipts)
-        refuseAppointment("APPOINTMENT_STATE_LIMIT");
       let before: DataModel["painterEntities"]["document"][] = [];
       let id = args.slotId;
       if (id) {
@@ -142,9 +132,6 @@ export const commitNormalized = internalMutation({
           refuseAppointment("APPOINTMENT_INVALID_TRANSITION");
         before = [current.row];
       } else {
-        const rows = await nativeRows(ctx, workspace._id, "estimate_slot");
-        if (rows.length === ESTIMATE_APPOINTMENT_LIMITS.appointments)
-          refuseAppointment("APPOINTMENT_STATE_LIMIT");
         id = `slot:${key.slice(key.lastIndexOf(":") + 1)}`;
         const collision = await ctx.db
           .query("painterEntities")
@@ -235,11 +222,6 @@ export const close = mutation({
           refuseAppointment("APPOINTMENT_IDEMPOTENCY_CONFLICT");
         return { slot: current.slot, replayed: true, ...NATIVE_FLAGS };
       }
-      if (
-        (await nativeReceipts(ctx, workspace._id, "estimate_slot")).length ===
-        ESTIMATE_APPOINTMENT_LIMITS.receipts
-      )
-        refuseAppointment("APPOINTMENT_STATE_LIMIT");
       const slot = closeEstimateSlot(
         { actor, nowMs: Date.now() },
         current.slot,

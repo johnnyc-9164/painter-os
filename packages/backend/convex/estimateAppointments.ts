@@ -21,6 +21,7 @@ import {
   nativeRequestKey,
   verifiedSlot,
   paddedConflicts,
+  activeSourceAppointments,
   persistNative,
   appointmentFromRow,
   NATIVE_FLAGS,
@@ -58,11 +59,16 @@ async function execute(
     "estimate_appointment",
     args.requestKey,
   );
-  const loaded = await loadAppointmentState(ctx, workspace._id);
   const appointmentId =
     kind === "propose"
       ? `appointment:${key.slice(key.lastIndexOf(":") + 1)}`
       : args.appointmentId!;
+  const loaded = await loadAppointmentState(
+    ctx,
+    workspace._id,
+    appointmentId,
+    key,
+  );
   const target = loaded.state.appointments.find(
     (item) => item.id === appointmentId,
   );
@@ -103,12 +109,23 @@ async function execute(
         kind === "propose" ? args.customerId! : target!.customerId,
       ),
     );
-    // This indexed range is part of the same OCC transaction as persistence.
-    // Full bounded aggregate below also validates every native conflict record.
-    const conflicts = await paddedConflicts(ctx, workspace._id, verified.slot);
-    const allIds = new Set(loaded.state.appointments.map((item) => item.id));
-    if (conflicts.some((item) => !allIds.has(item.id)))
-      refuseAppointment("APPOINTMENT_INCOMPLETE_CONFLICT_STATE");
+    // All relevant active records are read in this same OCC transaction; no lifetime scan.
+    const selected = [
+      ...loaded.state.appointments,
+      ...(await paddedConflicts(ctx, workspace._id, verified.slot)),
+    ];
+    if (kind === "propose" || kind === "reschedule")
+      selected.push(
+        ...(await activeSourceAppointments(
+          ctx,
+          workspace._id,
+          kind === "propose" ? args.leadId! : target!.leadId,
+          verified.slot.id,
+        )),
+      );
+    loaded.state.appointments = [
+      ...new Map(selected.map((item) => [item.id, item])).values(),
+    ];
   }
   let command: EstimateAppointmentCommand;
   if (kind === "propose")

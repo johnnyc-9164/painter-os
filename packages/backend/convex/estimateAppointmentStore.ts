@@ -211,36 +211,6 @@ export async function nativeReceipt(
     refuseAppointment("APPOINTMENT_IDEMPOTENCY_CONFLICT");
   return receipt;
 }
-export async function nativeReceipts(
-  ctx: QueryCtx,
-  tenantId: Id<"painterWorkspaces">,
-  kind: NativeKind,
-) {
-  const receipts = await ctx.db
-    .query("painterReceipts")
-    .withIndex("by_tenant_native_kind", (q) =>
-      q.eq("tenantId", tenantId).eq("nativeKind", kind),
-    )
-    .take(ESTIMATE_APPOINTMENT_LIMITS.receipts + 1);
-  if (receipts.length > ESTIMATE_APPOINTMENT_LIMITS.receipts)
-    refuseAppointment("APPOINTMENT_STATE_LIMIT");
-  return receipts;
-}
-export async function nativeRows(
-  ctx: QueryCtx,
-  tenantId: Id<"painterWorkspaces">,
-  kind: NativeKind,
-) {
-  const rows = await ctx.db
-    .query("painterEntities")
-    .withIndex("by_tenant_type", (q) =>
-      q.eq("tenantId", tenantId).eq("type", kind),
-    )
-    .take(ESTIMATE_APPOINTMENT_LIMITS.appointments + 1);
-  if (rows.length > ESTIMATE_APPOINTMENT_LIMITS.appointments)
-    refuseAppointment("APPOINTMENT_STATE_LIMIT");
-  return rows;
-}
 export async function appointmentSource(
   ctx: QueryCtx,
   tenantId: Id<"painterWorkspaces">,
@@ -301,24 +271,66 @@ export async function appointmentSource(
     },
   };
 }
+/** Indexed target and exact immutable receipt only; history is never loaded or pruned. */
 export async function loadAppointmentState(
   ctx: QueryCtx,
   tenantId: Id<"painterWorkspaces">,
+  appointmentId: string,
+  key: string,
 ) {
-  const [rows, receipts] = await Promise.all([
-    nativeRows(ctx, tenantId, "estimate_appointment"),
-    nativeReceipts(ctx, tenantId, "estimate_appointment"),
+  const [row, receipt] = await Promise.all([
+    ctx.db
+      .query("painterEntities")
+      .withIndex("by_tenant_entity", (q) =>
+        q.eq("tenantId", tenantId).eq("entityId", appointmentId),
+      )
+      .unique(),
+    nativeReceipt(ctx, tenantId, "estimate_appointment", key),
   ]);
+  if (row && row.type !== "estimate_appointment")
+    refuseAppointment("APPOINTMENT_DUPLICATE_ID");
+  const rows = row ? [row] : [];
   const state: EstimateAppointmentState = {
     appointments: rows.map(appointmentFromRow),
-    receipts: receipts.map((receipt) => ({
-      tenantId: String(tenantId),
-      requestKey: receipt.requestKey,
-      fingerprint: receipt.fingerprint,
-      appointmentId: String(receipt.result.entity?.id ?? ""),
-    })),
+    receipts: receipt
+      ? [
+          {
+            tenantId: String(tenantId),
+            requestKey: receipt.requestKey,
+            fingerprint: receipt.fingerprint,
+            appointmentId: String(receipt.result.entity?.id ?? ""),
+          },
+        ]
+      : [],
   };
-  return { rows, receipts, state };
+  return { rows, state };
+}
+/** Complete active-proposal readset; cancelled history cannot exhaust it. */
+export async function activeSourceAppointments(
+  ctx: QueryCtx,
+  tenantId: Id<"painterWorkspaces">,
+  leadId: string,
+  slotId: string,
+) {
+  const pages = await Promise.all(
+    (["proposed", "reserved_internal"] as const).map((status) =>
+      ctx.db
+        .query("painterEntities")
+        .withIndex("by_tenant_type_lead_slot_status", (q) =>
+          q
+            .eq("tenantId", tenantId)
+            .eq("type", "estimate_appointment")
+            .eq("data.leadId", leadId)
+            .eq("data.slotId", slotId)
+            .eq("data.status", status),
+        )
+        .take(ESTIMATE_APPOINTMENT_LIMITS.appointments + 1),
+    ),
+  );
+  const rows = pages.flat();
+  if (rows.length > ESTIMATE_APPOINTMENT_LIMITS.appointments)
+    refuseAppointment("APPOINTMENT_CONFLICT_LIMIT");
+  return rows.map(appointmentFromRow);
 }
 /** Complete padded conflict window; never silently truncate. Values are canonical UTC. */
 export async function paddedConflicts(
@@ -340,11 +352,12 @@ export async function paddedConflicts(
     ).toISOString();
   const rows = await ctx.db
     .query("painterEntities")
-    .withIndex("by_tenant_type_resource_start", (q) =>
+    .withIndex("by_tenant_type_resource_status_start", (q) =>
       q
         .eq("tenantId", tenantId)
         .eq("type", "estimate_appointment")
         .eq("data.resourceId", slot.resourceId)
+        .eq("data.status", "reserved_internal")
         .gte("data.startAt", lower)
         .lte("data.startAt", upper),
     )
