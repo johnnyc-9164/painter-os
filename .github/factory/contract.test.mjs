@@ -1,12 +1,14 @@
 // Run: node --test .github/factory/contract.test.mjs
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { mkdtempSync, writeFileSync } from "node:fs";
+import { mkdtempSync, mkdirSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
 import { fileURLToPath } from "node:url";
-import { checkChanges, contractHash, globToRegExp, parseIssueForm } from "./contract.mjs";
+import { checkChanges as checkApprovedChanges, decodeChangedPaths, contractHash, globToRegExp, parseIssueForm } from "./contract.mjs";
+
+const checkChanges = (contract, files, body) => checkApprovedChanges(contract, files, body, { contract, attempt: "a1" });
 
 const SCRIPT = fileURLToPath(new URL("./contract.mjs", import.meta.url));
 
@@ -110,11 +112,56 @@ test("CLI guard exits 0 on pass and 1 on fail", () => {
   const dir = mkdtempSync(join(tmpdir(), "factory-guard-"));
   const contractFile = join(dir, "contract.json");
   const bodyFile = join(dir, "body.md");
+  mkdirSync(join(dir, "approvals"));
+  writeFileSync(join(dir, "approvals", "42.json"), JSON.stringify({contract, attempt: "a1"}));
   writeFileSync(contractFile, JSON.stringify(contract));
   writeFileSync(bodyFile, body());
-  writeFileSync(join(dir, "ok.txt"), ".factory/contract.json\napps/marketing/src/faq.tsx\n");
-  writeFileSync(join(dir, "bad.txt"), ".factory/contract.json\nscripts/vercel-build.mjs\n");
-  assert.match(execFileSync(process.execPath, [SCRIPT, "guard", contractFile, join(dir, "ok.txt"), bodyFile], { encoding: "utf8" }), /PASS/);
-  assert.throws(() => execFileSync(process.execPath, [SCRIPT, "guard", contractFile, join(dir, "bad.txt"), bodyFile], { stdio: "pipe" }), (error) => error.status === 1);
+  writeFileSync(join(dir, "ok.txt"), ".factory/contract.json\0apps/marketing/src/faq.tsx\0");
+  writeFileSync(join(dir, "bad.txt"), ".factory/contract.json\0scripts/vercel-build.mjs\0");
+  assert.match(execFileSync(process.execPath, [SCRIPT, "guard", contractFile, join(dir, "ok.txt"), bodyFile, join(dir, "approvals")], { encoding: "utf8" }), /PASS/);
+  assert.throws(() => execFileSync(process.execPath, [SCRIPT, "guard", contractFile, join(dir, "bad.txt"), bodyFile, join(dir, "approvals")], { stdio: "pipe" }), (error) => error.status === 1);
   assert.equal(execFileSync(process.execPath, [SCRIPT, "hash", contractFile], { encoding: "utf8" }).trim(), hash);
+});
+
+
+test("PR widening and rehashing cannot replace base authority", () => {
+  const widened = { ...contract, allowedPaths: ["**"] };
+  assert.match(checkApprovedChanges(widened, [".factory/contract.json", "apps/web/x.ts"], body(contractHash(widened)), {contract, attempt: "a1"}).join("\n"), /differs from base-owned/);
+  assert.match(checkApprovedChanges(contract, [".factory/contract.json"], body().replace("a1", "a2"), {contract, attempt: "a1"}).join("\n"), /Attempt does not match/);
+  assert.match(checkApprovedChanges(contract, [".factory/contract.json"], body()).join("\n"), /missing base-owned/);
+});
+
+test("NUL paths preserve whitespace and protect odd names under broad scope", () => {
+  const broad = { ...contract, allowedPaths: ["**"] };
+  const paths = [".factory/contract.json", "scripts/ odd\nname\t.mjs", " leading ", "apps/marketing/src/line\nbreak.ts"];
+  assert.deepEqual(decodeChangedPaths(Buffer.from(paths.join("\0") + "\0")), paths);
+  assert.match(checkChanges(broad, paths, body(contractHash(broad))).join("\n"), /touches a protected path/);
+  assert.ok(globToRegExp("**").test(paths[3]));
+  assert.throws(() => decodeChangedPaths(Buffer.from("quoted\n")), /NUL/);
+  assert.throws(() => decodeChangedPaths(Buffer.from([255, 0])), /encoded data/);
+});
+
+test("rejects malformed typed evidence fields", () => {
+  assert.throws(() => checkChanges({...contract, successConditions: "yes"}, [], body()), /array of nonempty strings/);
+});
+
+
+test("real Git NUL output cannot C-quote a protected filename into broad allowance", () => {
+  const dir = mkdtempSync(join(tmpdir(), "factory-git-"));
+  const git = (...args) => execFileSync("git", args, {cwd: dir});
+  git("init", "--quiet");
+  git("-c", "user.name=Test", "-c", "user.email=test@example.invalid", "commit", "--allow-empty", "--quiet", "-m", "base");
+  mkdirSync(join(dir, "scripts"));
+  writeFileSync(join(dir, "scripts", 'odd \"name\n.mjs'), "data");
+  writeFileSync(join(dir, "contract.json"), "data");
+  git("add", ".");
+  const changed = decodeChangedPaths(git("diff", "--cached", "--no-renames", "--name-only", "-z"));
+  assert.ok(changed.includes('scripts/odd \"name\n.mjs'));
+  const broad = {...contract, allowedPaths: ["**"]};
+  assert.match(checkChanges(broad, [".factory/contract.json", ...changed], body(contractHash(broad))).join("\n"), /touches a protected path/);
+});
+
+test("backend/auth paths require explicit high risk approval", () => {
+  const broad = {...contract, allowedPaths: ["**"]};
+  assert.match(checkChanges(broad, [".factory/contract.json", "apps/web/src/app/api/auth/route.ts"], body(contractHash(broad))).join("\n"), /require riskClass high/);
 });

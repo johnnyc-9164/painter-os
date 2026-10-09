@@ -1,27 +1,13 @@
-# Factory path guard — enforces the committed execution contract on factory PRs.
-#
-# Only PRs whose head branch starts with `factory/` are checked; the job is
-# skipped (reported as success) for every other PR, so it is safe to mark
-# `factory-path-guard` as a required check.
-#
-# Trust boundary: the guard script runs from the BASE branch checkout. The PR
-# head is checked out into `pr-head/` and only read as data (its
-# .factory/contract.json and the diff), so a PR cannot weaken the guard that
-# judges it. `pull_request` (not `pull_request_target`) keeps it secretless.
-
+# Base-owned, secretless policy. PR contents are read only as Git data.
 name: factory-path-guard
-
 on:
-  pull_request:
+  pull_request_target:
     types: [opened, synchronize, reopened, edited]
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
-  cancel-in-progress: true
-
 permissions:
   contents: read
-
+concurrency:
+  group: factory-path-guard-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
 jobs:
   factory-path-guard:
     name: factory-path-guard
@@ -29,39 +15,30 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Check out base (trusted guard script)
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.base.sha }}
-          persist-credentials: false
-
-      - name: Check out PR head as data
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-          path: pr-head
           fetch-depth: 0
           persist-credentials: false
-
       - uses: actions/setup-node@v4
         with:
           node-version: "24"
-
-      - name: Self-test guard script
+      - name: Self-test trusted guard
         run: node --test .github/factory/contract.test.mjs
-
-      - name: Enforce contract
+      - name: Enforce base-owned approval
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
           PR_BODY: ${{ github.event.pull_request.body }}
         run: |
           set -euo pipefail
-          if [ ! -f pr-head/.factory/contract.json ]; then
-            echo "::error::path-guard: pr-head is missing .factory/contract.json"
-            exit 1
-          fi
-          git -C pr-head diff --no-renames --name-only "$BASE_SHA...$HEAD_SHA" > "$RUNNER_TEMP/changed.txt"
+          [[ "$PR_NUMBER" =~ ^[0-9]+$ ]]
+          [[ "$HEAD_SHA" =~ ^[0-9a-f]{40}$ ]]
+          # Fetch objects only. Never checkout, import, install or execute head files.
+          git fetch --no-tags origin "refs/pull/$PR_NUMBER/head"
+          test "$(git rev-parse FETCH_HEAD)" = "$HEAD_SHA"
+          git show "$HEAD_SHA:.factory/contract.json" > "$RUNNER_TEMP/factory-contract.json"
+          git diff --no-renames --name-only -z "$BASE_SHA...$HEAD_SHA" > "$RUNNER_TEMP/changed.bin"
           printf '%s' "$PR_BODY" > "$RUNNER_TEMP/pr-body.md"
-          echo "Changed files:"; cat "$RUNNER_TEMP/changed.txt"
-          node .github/factory/contract.mjs guard pr-head/.factory/contract.json "$RUNNER_TEMP/changed.txt" "$RUNNER_TEMP/pr-body.md"
+          node .github/factory/contract.mjs guard "$RUNNER_TEMP/factory-contract.json" "$RUNNER_TEMP/changed.bin" "$RUNNER_TEMP/pr-body.md" .github/factory/approved-contracts

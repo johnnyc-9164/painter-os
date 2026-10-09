@@ -14,7 +14,10 @@ body:
         Filling this form does not dispatch an agent. The factory control plane (Port) dispatches any registered runner
         (Codex in a Sprite, local Codex or Claude Code, DotBot, CI and so on) with this issue number and the contract hash
         (`gh issue view <n> --json body -q .body > body.md && node .github/factory/contract.mjs from-issue body.md <n> > c.json && node .github/factory/contract.mjs hash c.json`).
-        Editing any field after dispatch changes the hash and invalidates the attempt.
+        Before dispatch, a maintainer must commit the reviewed contract and authorized attempt identifier to
+        `.github/factory/approved-contracts/<issue-number>.json` on the PR base branch. Factory PRs must use
+        the `factory/` branch prefix. The base-owned guard compares the committed contract and attempt against
+        that approval. Issue edits alone cannot update approval; changed scope requires a newly reviewed base record.
   - type: textarea
     id: goal
     attributes:
@@ -61,7 +64,7 @@ body:
     id: riskClass
     attributes:
       label: Risk class
-      description: Anything touching packages/backend/convex/** is high. When unsure, leave unknown (human gate).
+      description: Backend, domain, Contractor OS core, API and web runtime library changes require high risk. Unknown requires human review before approval.
       options:
         - unknown
         - low
