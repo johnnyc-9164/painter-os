@@ -27,7 +27,9 @@
     "sonner": "^2.0.8",
     "varlock": "1.18.0",
     "zod": "^4.5.4",
-    "@painter-os-bts/domain": "*"
+    "@painter-os-bts/domain": "*",
+    "@painter-os-bts/platform": "*",
+    "@painter-os-bts/cloud-session": "*"
   },
   "devDependencies": {
     "@painter-os-bts/config": "*",
