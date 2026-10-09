@@ -3,6 +3,7 @@ import { test } from 'node:test';
 import { mkdtemp, mkdir, writeFile, readFile, rm, unlink } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
+import { assertNoLegacyWranglerConfig, workerGateEnvironment } from '../scripts/agent-worker-gate.mjs';
 import { verificationGates } from '../scripts/agent-verification-gates.mjs';
 import { assertNoEnvFiles, verificationEnvironment, root } from '../scripts/agent-common.mjs';
 
@@ -48,5 +49,27 @@ test('fourth app and production/fixture Worker config filenames are rejected wit
   const accessed=[];const source=new Proxy({PATH:'/safe'},{get(target,key){accessed.push(key);return target[key];}});
   assert.equal(verificationEnvironment(source).PATH,'/safe');
   assert.ok(accessed.every(key=>!/(SECRET|TOKEN|CONVEX|KEY|HOME|USERPROFILE)/.test(key)));
+ } finally {await rm(fixture,{recursive:true});}
+});
+
+test('only Worker gate receives private XDG/metrics settings without HOME repurposing',()=>{
+ const env=verificationEnvironment({PATH:'/safe',HOME:'/operator',USERPROFILE:'/operator',CLOUDFLARE_API_TOKEN:'synthetic-secret'});
+ const worker=workerGateEnvironment('worker-local-runtime',env,'/owned/run');
+ assert.deepEqual(worker,{...env,XDG_CONFIG_HOME:'/owned/run',WRANGLER_LOG_PATH:'/owned/run/wrangler.log',WRANGLER_SEND_METRICS:'false'});
+ assert.equal(worker.HOME,undefined);assert.equal(worker.USERPROFILE,undefined);assert.equal(worker.CLOUDFLARE_API_TOKEN,undefined);
+ for(const name of ['web-build','platform-admin-build','platform-admin-http','browser']) assert.strictEqual(workerGateEnvironment(name,env,'/owned/run'),env);
+ assert.equal(env.XDG_CONFIG_HOME,undefined);
+});
+
+test('Worker preflight refuses legacy config by metadata and preserves its untouched contents',async()=>{
+ const fixture=await mkdtemp(join(tmpdir(),'worker-legacy-config-'));
+ try {
+  const legacy=join(fixture,'.wrangler');await assertNoLegacyWranglerConfig(legacy);
+  await mkdir(legacy);const path=join(legacy,'config');await writeFile(path,'SYNTHETIC_SECRET=untouched');
+  await assert.rejects(assertNoLegacyWranglerConfig(legacy),/LEGACY_WRANGLER_CONFIG_PRESENT.*isolated runner/);
+  assert.equal(await readFile(path,'utf8'),'SYNTHETIC_SECRET=untouched');
+  const runner=await readFile(new URL('../scripts/agent-verify.mjs',import.meta.url),'utf8');
+  assert.ok(runner.indexOf('await assertNoLegacyWranglerConfig()')<runner.indexOf('child = spawn'));
+  assert.match(runner,/status: 'blocked'/);
  } finally {await rm(fixture,{recursive:true});}
 });
