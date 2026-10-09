@@ -10,6 +10,7 @@
     "build:fixture": "cd tests/fixtures && WRANGLER_SEND_METRICS=false wrangler deploy --dry-run --outdir ../../dist-fixture"
   },
   "dependencies": {
+    "@ag-ui/core": "1.0.2",
     "@earendil-works/pi-ai": "1.1.0",
     "@earendil-works/pi-durable": "1.1.0",
     "agents": "0.27.0"
