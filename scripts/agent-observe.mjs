@@ -1,0 +1,20 @@
+import { readFile, appendFile } from 'node:fs/promises';
+import { join } from 'node:path';
+import { randomUUID } from 'node:crypto';
+import { ownedRun, safeRoute } from './agent-common.mjs';
+
+const directory = await ownedRun(process.argv[2] || '');
+const run = JSON.parse(await readFile(join(directory, 'run.json'), 'utf8'));
+if (run.status !== 'running') throw new Error('RUN_NOT_ACTIVE');
+const base = new URL(run.base);
+if (base.protocol !== 'http:' || base.hostname !== '127.0.0.1' || base.username || base.password || base.pathname !== '/' || base.search || base.hash) throw new Error('LOOPBACK_REQUIRED');
+const path = process.argv[3] || '/api/snapshot';
+if (!['/', '/api/snapshot', '/overview', '/platform'].includes(path)) throw new Error('EXPECTED_PUBLIC_PROBE_PATH');
+const started = performance.now();
+const response = await fetch(new URL(path, base), { redirect: 'error', signal: AbortSignal.timeout(30_000) });
+await response.arrayBuffer();
+const span = { traceId: randomUUID(), at: new Date().toISOString(), route: safeRoute(path), method: 'GET', status: response.status, durationMs: Math.round((performance.now() - started) * 100) / 100 };
+await appendFile(join(directory, 'requests.jsonl'), JSON.stringify(span) + '\n', { mode: 0o600 });
+const spans = (await readFile(join(directory, 'requests.jsonl'), 'utf8')).trim().split('\n').map(line => JSON.parse(line));
+const durations = spans.map(s => s.durationMs).sort((a, b) => a - b);
+console.log(JSON.stringify({ latest: span, metrics: { requests: spans.length, failures: spans.filter(s => s.status >= 500).length, p95Ms: durations[Math.ceil(durations.length * 0.95) - 1] }, log: join(directory, 'server.log') }, null, 2));
