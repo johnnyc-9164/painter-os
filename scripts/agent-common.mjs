@@ -18,7 +18,7 @@ export function gitState() {
 
 export async function assertNoEnvFiles(base = root) {
   const found = [];
-  for (const directory of [base, join(base, 'apps/web'), join(base, 'apps/marketing')]) {
+  for (const directory of [base, join(base, 'apps/web'), join(base, 'apps/marketing'), join(base, 'apps/company-site')]) {
     for (const name of await readdir(directory)) {
       if (/^\.env(?:\.(?:local|development|production|test)(?:\.local)?)?$/.test(name)) found.push(relative(base, join(directory, name)));
     }

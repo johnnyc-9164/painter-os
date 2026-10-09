@@ -2,7 +2,7 @@ import { browserGateEnvironment } from './agent-browser-options.mjs';
 import { spawn } from 'node:child_process';
 import { createWriteStream } from 'node:fs';
 import { join } from 'node:path';
-import { readdir } from 'node:fs/promises';
+import { verificationGates } from './agent-verification-gates.mjs';
 import { root, assertNoEnvFiles, createRun, verificationEnvironment, gitState, writeJson, observe, stop } from './agent-common.mjs';
 import { captureNextArtifacts, restoreOwnedNextArtifacts } from './agent-generated.mjs';
 
@@ -16,30 +16,7 @@ const initial = gitState();
 if (initial.dirty) throw new Error('CLEAN_CHECKOUT_REQUIRED: commit the scoped change before producing exact-head acceptance evidence.');
 const generatedBefore = await captureNextArtifacts();
 const env = verificationEnvironment();
-const gates = [
-  ['doctor', [npmCli, 'run', 'agent:doctor']],
-  ['agent-check', [npmCli, 'run', 'agent:check']],
-  ['agent-tests', [npmCli, 'run', 'test:agent']],
-  ['typecheck', [npmCli, 'run', 'check-types']],
-  ['lint', [npmCli, 'run', 'lint']],
-  // Same root TS test files as npm test; Node's loader avoids the CLI's optional Unix IPC server.
-  ['domain-tests', ['--import', 'tsx', '--test', ...(await readdir(join(root, 'tests'))).filter(name => name.endsWith('.test.ts')).sort().map(name => `tests/${name}`)]],
-  ['node-tests', ['--test', ...(await readdir(join(root, 'tests'))).filter(name => name.endsWith('.test.mjs') && name !== 'agent-harness.test.mjs').sort().map(name => `tests/${name}`)]],
-  // JSX form suites use their existing automatic-JSX Vitest runner.
-  ['forms-tests', [npmCli, 'run', 'test:forms']],
-  // Repository policy tests live outside the root tests directory.
-  ['factory-tests', ['--test', '.github/factory/contract.test.mjs']],
-  ['convex-tests', [npmCli, 'run', 'test:convex']],
-  ['web-build', [npmCli, 'run', 'build']],
-  ['compatibility', ['--test', 'docs/contracts/compatibility.test.mjs']],
-  ['platform-render', [join(root, 'node_modules/vitest/vitest.mjs'), 'run', '--config', 'vitest.platform.config.ts']],
-  ['contractor-component', [npmCli, 'run', 'verify:all', '--workspace', '@johnny/contractor-os-core']],
-  ['marketing-build', [npmCli, 'run', 'build:marketing']],
-  ['http', ['scripts/run-http-acceptance.mjs']],
-  ['marketing-http', ['scripts/run-marketing-http-acceptance.mjs']],
-  ['platform-http', ['scripts/run-platform-http-acceptance.mjs']],
-  ...(browser ? [['browser', ['scripts/agent-browser.mjs']]] : []),
-];
+const gates = await verificationGates({ root, npmCli, browser });
 const results = [];
 let child, state, interrupted = false;
 const interrupt = () => { interrupted = true; child?.kill('SIGTERM'); };
