@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdtemp, mkdir, writeFile, rm, chmod, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
-import { importsIn, boundaryError, schemaInventory } from '../scripts/agent-check.mjs';
+import { importsIn, importReferencesIn, boundaryError, schemaInventory } from '../scripts/agent-check.mjs';
 import { assertNoEnvFiles, agentEnvironment, verificationEnvironment, safeRoute } from '../scripts/agent-common.mjs';
 import { allowedNextRewrite } from '../scripts/agent-generated.mjs';
 
@@ -14,6 +14,35 @@ test('boundary scanner sees imports, re-exports, dynamic imports and require, ig
   assert.ok(boundaryError('packages/domain/src/test.ts', '@painter-os-bts/backend'));
   assert.ok(boundaryError('packages/backend/convex/test.ts', '../../../apps/web/src/lib/http'));
   assert.ok(boundaryError('packages/backend/convex/test.ts', 'marketing/src/lib/articles'));
+});
+
+test('only the canonical renderer static import type crosses the public DTO boundary', () => {
+  const path = 'packages/ui/src/components/company-website.tsx';
+  const target = '@painter-os-bts/domain/company-website';
+  const scan = (source, sourcePath = path) => importReferencesIn(source, sourcePath).map(reference => boundaryError(sourcePath, reference.specifier, reference));
+  const allowed = `import type { PublishedCompanyContent } from '${target}';`;
+  assert.deepEqual(importsIn(allowed), [target]);
+  assert.deepEqual(importReferencesIn(allowed), [{specifier: target, kind: 'import', typeOnly: true}]);
+  assert.deepEqual(scan(allowed), [null]);
+  assert.ok(boundaryError(path, target), 'legacy string-only callers cannot grant the exception');
+  for (const source of [
+    `import { PublishedCompanyContent } from '${target}';`,
+    `import { type PublishedCompanyContent, value } from '${target}';`,
+    `import { type PublishedCompanyContent } from '${target}';`,
+    `import '${target}';`, `import('${target}');`, `require('${target}');`,
+    `import value = require('${target}');`,
+    `type Value = import('${target}').PublishedCompanyContent;`,
+    `export type { PublishedCompanyContent } from '${target}';`,
+    `export { PublishedCompanyContent } from '${target}';`, `export * from '${target}';`,
+    `import type { from '${target}';`,
+  ]) {
+    const errors = scan(source); assert.ok(errors.length, source); assert.ok(errors.every(Boolean), source);
+  }
+  assert.ok(scan(allowed, 'packages/ui/src/components/another.tsx').every(Boolean));
+  for (const alternate of ['../../../domain/src/company-website', '@painter-os-bts/domain/company-website/other', '@painter-os-bts/domain', '@painter-os-bts/backend', '@painter-os-bts/domain/engine']) {
+    assert.ok(scan(`import type { Value } from '${alternate}';`).every(Boolean), alternate);
+  }
+  assert.ok(scan(`import type { PublishedCompanyContent } from '${target}'; import { value } from '${target}';`).some(Boolean), 'a second runtime import still fails');
 });
 
 test('local environment ignores credentials and request labels omit token/query values', () => {
