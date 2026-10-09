@@ -12,6 +12,21 @@ Tooling uses `miniflare@5.20261006.1-alpha` and workerd. Its constructor differs
 
 The Agent SDK requires exact peer `@modelcontextprotocol/sdk@1.30.0`, replacing the previously indirect root `1.32.0`. Preserving `1.32.0` produced an invalid peer graph; those exploratory explicit pins were removed. The resulting `npm ls` graph is valid and the existing `shadcn` dependency accepts this SDK. This is the only previously installed package version changed. New SDK/tooling adds approximately 240 dependency nodes. Lock key ordering was preserved to reduce irrelevant diff; clean pinned `npm ci --ignore-scripts` validates the resulting graph.
 
+## Installed SDK license inventory
+
+Read-only inspection of the exact installed packages records their declared licenses:
+
+| Package/version | Installed package metadata license |
+| --- | --- |
+| `agents@0.27.0` | MIT |
+| `@earendil-works/pi-durable@1.1.0` | MIT |
+| `@earendil-works/pi-ai@1.1.0` | MIT |
+| `miniflare@5.20261006.1-alpha` | MIT |
+| `wrangler@4.149.0` | MIT OR Apache-2.0 |
+| `@cloudflare/workers-types@5.20261009.1` | MIT OR Apache-2.0 |
+
+The installed Agents package also contains its MIT `LICENSE` (Cloudflare copyright 2025). The other listed npm artifacts do not include a top-level license file, so their license entries above are metadata verification, not a claim that every distributable notice has been assembled. Preserve upstream attribution/license notices when distributing a future Worker bundle; this source-only dry-run slice does not redistribute generated bundles. This inventory does not assert a complete transitive license audit.
+
 ## Local acceptance
 
 Eight tests use actual separately bundled Workers, Pi lifecycle and durable SQLite:
