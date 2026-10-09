@@ -18,7 +18,8 @@ export function fixtureProvider(onCall: () => void, releaseModel = true): Provid
     const last = context.messages.at(-1);
     const unsafe = context.messages.some(m => m.role === 'user' && JSON.stringify(m.content).includes('unsafe'));
     const priorCalls = context.messages.filter(m => m.role === 'assistant').length;
-    const finished = last?.role === 'toolResult' && (!unsafe || priorCalls >= 2);
+    const budgetLoop = context.messages.some(m => m.role === 'user' && JSON.stringify(m.content).includes('budget loop'));
+    const finished = !budgetLoop && last?.role === 'toolResult' && (!unsafe || priorCalls >= 2);
     const content = finished ? [{ type: 'text' as const, text: 'fixture completed' }] : [{ type: 'toolCall' as const, id: `fixture-call-${priorCalls}`, name: unsafe ? 'fixture_effect' : 'fixture_read', arguments: {} }];
     const message: AssistantMessage = { role: 'assistant', content, api: model.api, provider: model.provider, model: model.id, stopReason: finished ? 'stop' : 'toolUse', timestamp: Date.now(), usage: { input: 1, output: 1, cacheRead: 0, cacheWrite: 0, totalTokens: 2, cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0, total: 0 } } };
     events.push({ type: 'start', partial: message });

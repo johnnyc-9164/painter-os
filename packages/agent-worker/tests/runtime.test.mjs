@@ -124,3 +124,40 @@ test('interrupted actual model stream is requested again after SQLite runtime re
     assert.equal(metric(await call(mf, '/inspect'), 'read'), 1);
   } finally { await mf.dispose(); await rm(storage, { recursive: true, force: true }); }
 });
+
+test('queued follow-up and steer inputs survive actual restart and all settle without duplication', { timeout: 60000 }, async () => {
+  const storage = await mkdtemp(join(tmpdir(), 'painter-pi-inbox-'));
+  let mf = runtime(storage, 'no');
+  try {
+    const first = { operation: 'active-input', prompt: 'active-input' };
+    const queued = { operation: 'queued-input', prompt: 'queued follow-up' };
+    const steer = { operation: 'steer-input', prompt: 'running steer', whenBusy: 'steer' };
+    await call(mf, '/submit', first);
+    await until(mf, state => metric(state, 'read') === 1);
+    assert.equal((await call(mf, '/submit', queued)).accepted, true);
+    assert.equal((await call(mf, '/submit', steer)).accepted, true);
+    assert.ok((await call(mf, '/inspect')).pending.some(input => input.operationId === queued.operation && input.status === 'queued'));
+    await mf.dispose();
+    mf = runtime(storage, 'yes');
+    for (const input of [first, steer, queued]) {
+      assert.equal((await call(mf, '/result', input)).status, 'done');
+      assert.equal((await call(mf, '/submit', input)).accepted, false);
+    }
+    const snapshot = JSON.stringify(await call(mf, '/snapshot'));
+    assert.ok(snapshot.includes('queued follow-up'));
+    assert.ok(snapshot.includes('running steer'));
+    assert.deepEqual((await call(mf, '/inspect')).pending, []);
+  } finally { await mf.dispose(); await rm(storage, { recursive: true, force: true }); }
+});
+
+test('durable local model budget bounds a deliberately nonterminating model loop', { timeout: 60000 }, async () => {
+  const storage = await mkdtemp(join(tmpdir(), 'painter-pi-budget-'));
+  const mf = runtime(storage, 'yes');
+  try {
+    const params = { operation: 'budget-input', prompt: 'budget loop' };
+    await call(mf, '/submit', params);
+    assert.equal((await call(mf, '/result', params)).status, 'unanswered');
+    assert.equal(metric(await call(mf, '/inspect'), 'model'), 8);
+    assert.deepEqual((await call(mf, '/inspect')).pending, []);
+  } finally { await mf.dispose(); await rm(storage, { recursive: true, force: true }); }
+});

@@ -15,7 +15,11 @@ export class FixtureAgent extends Agent<Env> {
     ctx.storage.sql.exec('CREATE TABLE IF NOT EXISTS fixture_metrics (name TEXT PRIMARY KEY, count INTEGER NOT NULL)');
     ctx.storage.sql.exec('CREATE TABLE IF NOT EXISTS fixture_effects (id TEXT PRIMARY KEY, outcome TEXT NOT NULL)');
     const models = createModels({ authContext: { env: async () => undefined, fileExists: async () => false } });
-    models.setProvider(fixtureProvider(() => this.increment('model'), env.RELEASE === 'yes'));
+    models.setProvider(fixtureProvider(() => {
+      const used = ctx.storage.sql.exec<{ count: number }>('SELECT count FROM fixture_metrics WHERE name = ?', 'model').toArray()[0]?.count ?? 0;
+      if (used >= 8) throw new Error('FIXTURE_MODEL_BUDGET_EXHAUSTED');
+      this.increment('model');
+    }, env.RELEASE === 'yes'));
     const registry = createRegistry();
     registry.install({ name: 'local-fixture', tools: [{
       name: 'fixture_read', description: 'Deterministic local read', parameters: Type.Object({}), replay: 'safe',
@@ -44,7 +48,7 @@ export class FixtureAgent extends Agent<Env> {
       signal?.addEventListener('abort', () => reject(new Error('FIXTURE_ABORTED')), { once: true });
     });
   }
-  async submit(prompt: string, operationId: string) { return this.fixtureHarness.submit(prompt, { operationId }); }
+  async submit(prompt: string, operationId: string, whenBusy: 'followUp' | 'steer' = 'followUp') { return this.fixtureHarness.submit(prompt, { operationId, whenBusy }); }
   async result(operationId: string) { return this.fixtureHarness.wait(operationId); }
   async snapshot(): Promise<unknown> {
     const stream = await this.fixtureHarness.session().events();
@@ -61,7 +65,7 @@ const fixtureWorker = { async fetch(request: Request, env: Env) {
   if (url.pathname === '/inspect') return Response.json(await agent.inspect());
   if (url.pathname === '/snapshot') return Response.json(await agent.snapshot());
   const operationId = url.searchParams.get('operation') ?? 'fixture-operation';
-  if (url.pathname === '/submit') return Response.json(await agent.submit(url.searchParams.get('prompt') ?? 'read', operationId));
+  if (url.pathname === '/submit') return Response.json(await agent.submit(url.searchParams.get('prompt') ?? 'read', operationId, url.searchParams.get('whenBusy') === 'steer' ? 'steer' : 'followUp'));
   if (url.pathname === '/result') return Response.json(await agent.result(operationId));
   if (url.pathname === '/abort') return Response.json(await agent.abort(operationId));
   return new Response('Fixture route missing', { status: 404 });

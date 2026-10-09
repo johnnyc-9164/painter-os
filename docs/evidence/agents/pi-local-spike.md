@@ -14,7 +14,7 @@ The Agent SDK requires exact peer `@modelcontextprotocol/sdk@1.30.0`, replacing 
 
 ## Local acceptance
 
-Six tests use actual separately bundled Workers, Pi lifecycle and durable SQLite:
+Eight tests use actual separately bundled Workers, Pi lifecycle and durable SQLite:
 
 1. Production requests to root/ask/submit/snapshot always fail closed with 503/no-store.
 2. Completed input dedup, transcript snapshot and separate named conversation objects survive runtime restart.
@@ -22,13 +22,17 @@ Six tests use actual separately bundled Workers, Pi lifecycle and durable SQLite
 4. An interrupted unsafe fake effect is not automatically replayed. A deliberate fresh model retry is blocked by a durable unresolved-outcome fixture ledger; count remains one. This fixture demonstrates the required dispatcher boundary, not an implemented production approval/side-effect adapter.
 5. Explicit session abort reaches a tool honoring `context.abortSignal`, settles unanswered and clears pending work.
 6. An interrupted model stream is requested again after restart; local call counts demonstrate why recovery needs a usage budget.
+7. A queued follow-up and running steer survive restart, all three operations finish, duplicate submissions remain rejected and the inbox clears.
+8. A durable local fixture budget stops a deliberately nonterminating model loop at eight model calls with an unanswered result. This is a test-only per-object bound, not a production tenant quota.
 
 The deterministic provider has no network transport or credentials. The fake effect changes only its test-local SQLite ledger. Tests prove object separation, not trusted tenant authentication: the fixture router deliberately chooses names from test inputs and is excluded from production.
 
-Pinned install, agent doctor/check, full repository types/lint, production/fixture dry-run builds and the six local runtime tests are the scoped checks. Initial fixture syntax, RPC type-inference, generated-file lint and Miniflare configuration errors were preserved during development and repaired. Exact final head, full regressions, CI and independent review must be attached to the PR. There is no deployed browser/provider acceptance claim.
+Pinned install, agent doctor/check, full repository types/lint, production/fixture dry-run builds and the eight local runtime tests are the scoped checks. Initial fixture syntax, RPC type-inference, generated-file lint and Miniflare configuration errors were preserved during development and repaired. Exact final head, full regressions, CI and independent review must be attached to the PR. There is no deployed browser/provider acceptance claim.
 
 ## Release and rollback scope
 
 No paid model, ChatGPT subscription, Zapier connection, email/send provider, live company data, domain/cookie/auth cutover or production Worker is activated. Source preparations remain closed until a reviewed trusted request adapter and budgets/approval/reconciliation/retention gates exist. Disable submissions and external dispatch before any future rollback; preserve unknown outcomes for reconciliation rather than clearing durable storage.
 
 Skill extraction reused [Painter PR evidence](../../skills/painter-pr-evidence/SKILL.md); the verified Miniflare persistence/API lesson is recorded here. No new skill grants runtime activation authority.
+
+Integrated main `6e44903` without dropping company-site verification; clean pinned npm ci, full types/lint, standard repository tests (including then-six runtime cases), and 56 Convex tests passed. After adding inbox/steer and budget acceptance, workspace types and all eight runtime cases passed. The standard web production build was also run to verify the dependency graph. Exact-head CI/review remain distinct from these local checks.
