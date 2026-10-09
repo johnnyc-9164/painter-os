@@ -5,6 +5,7 @@ import { intakeSettingsFields } from './intakeValidators';
 import { intakeAdmissionReceiptFields } from './intakeAdmissionValidators';
 const role=v.union(v.literal('owner'),v.literal('office_admin'),v.literal('estimator'),v.literal('project_manager'),v.literal('salesperson'),v.literal('crew_lead'),v.literal('crew_member'),v.literal('accountant'),v.literal('customer'));
 export default defineSchema({
+ painterBidSourceOwnership:defineTable({tenantId:v.id('painterWorkspaces'),creatorId:v.string(),operationKey:v.string(),sourceUrl:v.string(),componentCrawlId:v.optional(v.string()),callbackDigest:v.optional(v.string()),deleted:v.boolean()}).index('by_tenant',['tenantId']).index('by_tenant_operation',['tenantId','operationKey']).index('by_component',['componentCrawlId']),
  painterIntakeAdmissionReceipts:defineTable(intakeAdmissionReceiptFields).index('by_tenant_and_request',['tenantId','requestKey']).index('by_expires_at',['expiresAt']),
   aiWorkspaceEntitlements: defineTable({tenantId:v.id('painterWorkspaces'),kind:v.literal('internal'),revision:v.number(),expiresAtMs:v.number(),capabilities:v.array(aiCapability),limitAttempts:v.number(),auditId:v.id('aiGrantAudit')}).index('by_tenant',['tenantId']),
   aiInternalGrants: defineTable({tenantId:v.id('painterWorkspaces'),userId:v.string(),revision:v.number(),enabled:v.boolean(),expiresAtMs:v.number(),capabilities:v.array(aiCapability),auditId:v.id('aiGrantAudit')}).index('by_tenant_user',['tenantId','userId']),
