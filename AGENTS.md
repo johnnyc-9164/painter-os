@@ -1,5 +1,14 @@
 # Painter OS working rules
 
+## Start here
+
+- [Agent setup and commands](docs/development/AGENT_SETUP.md): prerequisites, isolated local app, browser evidence and verification.
+- [Repository map](ARCHITECTURE.md) and [documentation index](docs/index.md): navigate before changing code.
+- [Quality and remaining gaps](docs/QUALITY_SCORE.md), [plans](docs/PLANS.md), and [harness audit](docs/development/HARNESS_AUDIT.md): distinguish implementation from verified operation.
+- Run `npm run agent:doctor` after `npm ci --ignore-scripts`; run `npm run agent:check` before handing off changes. Keep this file under 100 lines; put detailed procedures in linked docs.
+
+## Existing boundaries
+
 Standing owner directive: **modularity going forward**. Apply this to every implementation and review, using the existing component map and compatibility freeze in `docs/contracts/issue-2-freeze.md`.
 
 - Keep coherent ownership and explicit typed boundaries. Reuse existing components and independently testable parts; avoid duplicated business/auth authority and abstractions without a concrete need.
