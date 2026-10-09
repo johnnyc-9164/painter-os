@@ -1,6 +1,7 @@
-import { PLATFORM_MAX_CURSOR_LENGTH, PLATFORM_MAX_PAGE_SIZE, PLATFORM_PAGE_SIZE, type PlatformAccess, type PlatformUnavailable, type WorkspaceDetail, type WorkspacePage } from '@painter-os-bts/backend/platform-contract';
+import { PLATFORM_MAX_CURSOR_LENGTH, PLATFORM_MAX_PAGE_SIZE, PLATFORM_PAGE_SIZE, type PlatformActivityPage, type PlatformAccess, type PlatformUnavailable, type WorkspaceDetail, type WorkspacePage } from '@painter-os-bts/backend/platform-contract';
 
 export interface PlatformReads {
+  activity(args: { cursor: string | null; limit: number }): Promise<PlatformActivityPage | PlatformUnavailable>;
   access(): Promise<PlatformAccess | PlatformUnavailable>;
   list(args: { cursor: string | null; limit: number }): Promise<WorkspacePage | PlatformUnavailable>;
   get(id: string): Promise<WorkspaceDetail | PlatformUnavailable>;
@@ -20,7 +21,7 @@ function failure(error: unknown) {
 export async function platformAccessResponse(reads: PlatformReads): Promise<Response> {
   try { return reply(await reads.access()); } catch (error) { return failure(error); }
 }
-export async function platformWorkspacesResponse(request: Request, reads: PlatformReads): Promise<Response> {
+async function platformPageResponse(request: Request, read: PlatformReads['list'] | PlatformReads['activity']): Promise<Response> {
   try {
     const query = new URL(request.url).searchParams;
     if ([...query.keys()].some(key => !['cursor', 'limit'].includes(key)) || query.getAll('cursor').length > 1 || query.getAll('limit').length > 1) return reply({ state: 'invalid_request' });
@@ -28,9 +29,12 @@ export async function platformWorkspacesResponse(request: Request, reads: Platfo
     const rawLimit = query.get('limit');
     const limit = rawLimit === null ? PLATFORM_PAGE_SIZE : Number(rawLimit);
     if ((rawLimit !== null && !/^\d+$/.test(rawLimit)) || !Number.isInteger(limit) || limit < 1 || limit > PLATFORM_MAX_PAGE_SIZE || (cursor !== null && (!cursor || cursor.length > PLATFORM_MAX_CURSOR_LENGTH))) return reply({ state: 'invalid_request' });
-    return reply(await reads.list({ cursor, limit }));
+    return reply(await read({ cursor, limit }));
   } catch (error) { return failure(error); }
 }
 export async function platformWorkspaceResponse(id: string, reads: PlatformReads): Promise<Response> {
   try { return reply(await reads.get(id)); } catch (error) { return failure(error); }
 }
+
+export function platformWorkspacesResponse(request: Request, reads: PlatformReads) { return platformPageResponse(request, args => reads.list(args)); }
+export function platformActivityResponse(request: Request, reads: PlatformReads) { return platformPageResponse(request, args => reads.activity(args)); }

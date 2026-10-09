@@ -1,0 +1,7 @@
+body { margin: 0; background: #f6f5f0; color: #172d24; font-family: system-ui, sans-serif; line-height: 1.7; }
+header, main, footer { max-width: 900px; margin: auto; padding: 24px; }
+header { border-bottom: 1px solid #bac6bd; } footer { border-top: 1px solid #bac6bd; }
+main { min-height: 60vh; } h1 { font-size: clamp(2rem, 6vw, 3.5rem); line-height: 1.15; }
+a { color: #23563c; text-underline-offset: .2em; } a:focus-visible { outline: 3px solid #23563c; outline-offset: 4px; }
+article { margin-block: 32px; border-top: 1px solid #bac6bd; padding-top: 16px; }
+.copy { white-space: pre-wrap; overflow-wrap: anywhere; } .eyebrow { letter-spacing: .1em; font-size: .85rem; }
