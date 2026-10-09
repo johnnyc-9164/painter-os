@@ -1,0 +1,40 @@
+import {z} from 'zod';
+import type {EstimateSlot, EstimateAppointment, EstimateNativePage} from '@painter-os-bts/domain/estimate-appointments';
+const id=z.string().min(1).max(200).regex(/^[-A-Za-z0-9_:]+$/);
+const revision=z.number().int().min(1).max(Number.MAX_SAFE_INTEGER-1);
+const flags={nativeOnly:z.literal(true),customerNotified:z.literal(false),externalCalendarsChecked:z.literal(false)};
+const slot=z.object({id,tenantId:id,revision,resourceId:id,status:z.enum(['offered','closed']),localStart:z.string().max(30),offset:z.string().max(6),timeZone:z.string().max(100),startAt:z.string().datetime(),endAt:z.string().datetime(),durationMinutes:z.number().int().min(15).max(240),bufferBeforeMinutes:z.number().int().min(0).max(120),bufferAfterMinutes:z.number().int().min(0).max(120)}).strict();
+const appointment=z.object({id,tenantId:id,revision,status:z.enum(['proposed','reserved_internal','cancelled']),leadId:id,leadRevision:revision,customerId:id,customerRevision:revision,slotId:id,slotRevision:revision,resourceId:id,timeZone:z.string().max(100),startAt:z.string().datetime(),endAt:z.string().datetime(),durationMinutes:z.number().int().min(15).max(240),bufferBeforeMinutes:z.number().int().min(0).max(120),bufferAfterMinutes:z.number().int().min(0).max(120),proposedBy:id,approvedBy:id.optional(),cancelledBy:id.optional()}).strict();
+const page=<T extends z.ZodType>(item:T)=>z.object({items:z.array(item).max(25),nextCursor:z.string().max(8192).nullable(),done:z.boolean(),...flags}).strict().refine(value=>value.done===(value.nextCursor===null));
+const resource=z.object({userId:id,name:z.string().max(200),role:z.enum(['owner','office_admin','estimator'])}).strict();
+const source=z.object({leadId:id,leadRevision:revision,customerId:id,customerRevision:revision,leadName:z.string().max(200),customerName:z.string().max(200)}).strict();
+const data=z.object({workspaceId:id,actorId:id,role:z.enum(['owner','office_admin','estimator']),slots:page(slot),appointments:page(appointment),sources:page(source).nullable(),resources:z.array(resource).max(100)}).strict().superRefine((value,ctx)=>{
+ if(value.role==='estimator'&&(value.sources!==null||value.resources.length||value.slots.items.some(item=>item.resourceId!==value.actorId)||value.appointments.items.some(item=>item.resourceId!==value.actorId)))ctx.addIssue({code:'custom',message:'Invalid estimator projection'});
+ if([...value.slots.items,...value.appointments.items].some(item=>item.tenantId!==value.workspaceId))ctx.addIssue({code:'custom',message:'Invalid workspace projection'});
+});
+export type AppointmentData=z.infer<typeof data>;
+export type AppointmentSource=z.infer<typeof source>;
+const key=id;const selection={slotId:id,slotRevision:revision,leadRevision:revision,customerRevision:revision};
+const base={appointmentId:id,expectedRevision:revision};
+export const appointmentWriteSchema=z.discriminatedUnion('action',[
+ z.object({action:z.literal('saveSlot'),expectedRevision:z.number().int().min(0),slotId:id.optional(),requestKey:key,resourceId:id,localStart:z.string().regex(/^20\d{2}-\d{2}-\d{2}T\d{2}:\d{2}$/),timeZone:z.string().min(1).max(100),offset:z.string().regex(/^[+-]\d{2}:\d{2}$/),durationMinutes:z.number().int().min(15).max(240),bufferBeforeMinutes:z.number().int().min(0).max(120),bufferAfterMinutes:z.number().int().min(0).max(120)}).strict(),
+ z.object({action:z.literal('closeSlot'),slotId:id,expectedRevision:revision,requestKey:key}).strict(),
+ z.object({action:z.literal('propose'),leadId:id,customerId:id,...selection,requestKey:key}).strict(),
+ z.object({action:z.literal('approve'),...base,requestKey:key}).strict(),
+ z.object({action:z.literal('cancel'),...base,requestKey:key}).strict(),
+ z.object({action:z.literal('reschedule'),...base,...selection,requestKey:key}).strict(),
+]);
+export type AppointmentWrite=z.infer<typeof appointmentWriteSchema>;
+export type AppointmentDraft=AppointmentWrite extends infer T?T extends {requestKey:string}?Omit<T,'requestKey'>:never:never;
+export function decodeAppointmentData(value:unknown):AppointmentData{return data.parse(value);}
+export function decodeSlotPage(value:unknown):EstimateNativePage<EstimateSlot>{return page(slot).parse(value);}
+export function decodeAppointmentPage(value:unknown):EstimateNativePage<EstimateAppointment>{return page(appointment).parse(value);}
+export function decodeAppointmentResult(value:unknown){return z.union([z.object({slot,replayed:z.boolean(),...flags}).strict(),z.object({appointment,replayed:z.boolean(),...flags}).strict()]).parse(value);}
+export class AppointmentTransportError extends Error{constructor(public kind:'signed_out'|'denied'|'conflict'|'unknown'|'unavailable'|'capacity',message:string){super(message);}}
+export interface AppointmentTransport{load(workspaceId:string,cursors?:Partial<Record<'slots'|'appointments'|'sources',string>>,signal?:AbortSignal):Promise<AppointmentData>;write(workspaceId:string,input:AppointmentWrite,signal?:AbortSignal):Promise<ReturnType<typeof decodeAppointmentResult>>;}
+export function createAppointmentTransport(actorId:string):AppointmentTransport{
+ async function request<T>(path:string,decode:(value:unknown)=>T,init:RequestInit){let response:Response;try{response=await fetch(path,{...init,credentials:'same-origin',cache:'no-store',headers:{...init.headers,'x-painter-appointment-actor':actorId}});}catch{throw new AppointmentTransportError('unknown','The result is unknown. Retry the same action or reload appointments before making another change.');}
+ if(!response.ok){if(response.status===400){try{const text=await response.text();if(text.length<1000&&JSON.parse(text).error==='APPOINTMENT_STATE_LIMIT')throw new AppointmentTransportError('capacity','Native scheduling has reached its record limit. Existing records are still visible; ask your workspace owner for help before making another change.');}catch(reason){if(reason instanceof AppointmentTransportError)throw reason;}}if(response.status===401)throw new AppointmentTransportError('signed_out','Sign in again to view estimate appointments.');if(response.status===403)throw new AppointmentTransportError('denied','Your current workspace access does not allow this action.');if(response.status===409)throw new AppointmentTransportError('conflict','The appointment, source or slot changed. Reload current records before trying again.');if(response.status===503)throw new AppointmentTransportError('unavailable','Estimate appointments are unavailable. No result has been confirmed.');throw new AppointmentTransportError('unknown','The action was not confirmed. Check the time, source and current records; retry the same action if the result is unknown.');}
+ try{const text=await response.text();if(text.length>256*1024)throw new Error();return decode(JSON.parse(text));}catch{throw new AppointmentTransportError('unknown','The returned result could not be confirmed. Retry the same action or reload current records.');}}
+ return {load(workspaceId,cursors={},signal){const query=new URLSearchParams({workspaceId,...cursors});return request(`/api/estimate-appointments?${query}`,value=>{const result=decodeAppointmentData(value);if(result.workspaceId!==workspaceId||result.actorId!==actorId)throw new Error('INVALID_APPOINTMENT_SCOPE');return result;},{signal});},write(workspaceId,input,signal){return request('/api/estimate-appointments',value=>{const result=decodeAppointmentResult(value);if(('slot' in result?result.slot:result.appointment).tenantId!==workspaceId)throw new Error('INVALID_APPOINTMENT_SCOPE');return result;},{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({workspaceId,...appointmentWriteSchema.parse(input)}),signal});}};
+}
