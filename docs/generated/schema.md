@@ -6,6 +6,13 @@ This lists host tables only; mounted components own separate schemas. It contain
 
 | Host table | Source |
 | --- | --- |
+| aiGrantAudit | schema.ts |
+| aiInternalGrants | schema.ts |
+| aiUsageAttempts | schema.ts |
+| aiUsageBudgets | schema.ts |
+| aiUsageReservations | schema.ts |
+| aiUsageSettlements | schema.ts |
+| aiWorkspaceEntitlements | schema.ts |
 | authEmailBudgets | schema.ts |
 | authEmailReceipts | schema.ts |
 | painterEmailBindings | schema.ts |
