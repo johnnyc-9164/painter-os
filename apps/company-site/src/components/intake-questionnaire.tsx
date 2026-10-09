@@ -4,7 +4,7 @@ import { assessQualification, type PublicIntake, type QualificationRecommendatio
 import type {ContactPolicy,PublicContactSubmission} from '@painter-os-bts/public-content/public-lead';
 import {ContactInquiry} from './contact-inquiry';
 const labels = {eligible_for_follow_up: 'Your project matches the work this company serves.', outside_service_area: 'This ZIP code is outside the company’s listed service area.', unsupported_project: 'This project type is outside the company’s listed work.', needs_review: 'A person will need to review these project details.'};
-export function IntakeQuestionnaire({policy,workspace,contactPolicy}: {policy: PublicIntake;workspace?:string;contactPolicy?:ContactPolicy}) {
+export function IntakeQuestionnaire({policy,workspace,contactPolicy,onInquiryLock}: {policy: PublicIntake;workspace?:string;contactPolicy?:ContactPolicy;onInquiryLock?:()=>void}) {
   const [locked,setLocked]=useState(false);
   const [heldPolicy,setHeldPolicy]=useState<ContactPolicy|undefined>(contactPolicy);
   const contact = locked ? heldPolicy : contactPolicy;
@@ -27,7 +27,7 @@ export function IntakeQuestionnaire({policy,workspace,contactPolicy}: {policy: P
       {step === 3 && <label>Preferred timeframe<select value={timeline} onChange={e => setTimeline(e.target.value)} required><option value="">Choose a timeframe</option><option value="soon">As soon as practical</option><option value="one-to-three-months">In the next 1–3 months</option><option value="later">Later this year</option><option value="flexible">I’m flexible</option></select></label>}
       <div className="intake-controls">{step > 0 && <button type="button" className="intake-back" onClick={() => setStep(step - 1)}>Back</button>}<button type="submit">{step === 3 ? 'See project guidance' : 'Continue'}</button></div>
     </form>}
-    {result && workspace && contact && <ContactInquiry workspace={workspace} policy={contact} project={{postalCode,projectType:projectType as PublicContactSubmission['project']['projectType'],scope,timeline}} onLock={value=>{if(value)setHeldPolicy(contact);setLocked(value);}}/>}
+    {result && workspace && contact && <ContactInquiry workspace={workspace} policy={contact} project={{postalCode,projectType:projectType as PublicContactSubmission['project']['projectType'],scope,timeline}} onLock={value=>{if(value){setHeldPolicy(contact);onInquiryLock?.();}setLocked(value);}}/>}
     <p className="intake-privacy">Your answers stay on this page while you explore. Refreshing clears them. {contact ? 'Only the optional consented contact form sends your answers and contact details.' : 'This guide does not send a request or collect contact details.'}</p>
   </section>;
 }
