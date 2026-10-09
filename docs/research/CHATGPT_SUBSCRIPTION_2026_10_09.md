@@ -56,4 +56,3 @@ E. Anonymous website chatbot: keep separate blocked acceptance criterion until p
 F. Production readiness: commercial acceptance, protected storage, compliant SDK request behavior, revocation and refresh tests, live owner-bound proof, approved budgets and public-chatbot funding decision must be evidence-backed. Infrastructure remains separately metered; subscription inference does not make Cloudflare, Vercel, Zapier or agent operations free.
 
 No implementation procedure was validated; this research creates readiness requirements only.
-
