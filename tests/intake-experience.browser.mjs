@@ -58,7 +58,7 @@ try {
   await page.goto(adminBase + '/settings/intake'); await page.getByLabel('Service ZIP codes').waitFor();
   await page.getByLabel('Service ZIP codes').fill('55401, 55402');
   await page.getByRole('button', {name: 'Save intake settings'}).click(); await page.getByRole('alert').filter({hasText: 'not been confirmed'}).waitFor();
-  await page.getByRole('button', {name: 'Save intake settings'}).click(); await page.getByText('Project guidance is now available').waitFor();
+  await page.getByRole('button', {name: 'Save intake settings'}).click(); await page.getByText('Project guidance is enabled.').waitFor();
   assert.equal(saves[0].requestKey, saves[1].requestKey, 'uncertain outcome retries same key');
   await page.screenshot({path: join(out, 'settings-desktop.png'), fullPage: true});
   revision++; await page.getByLabel('Service ZIP codes').fill('55403'); await page.getByRole('button', {name: 'Save intake settings'}).click();

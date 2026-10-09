@@ -37,7 +37,7 @@ export function IntakeSettings({role, cloud, workspaceId}: {role: string; cloud:
       const intent = journal.current.begin(`company-intake:${workspaceId}`, {action: 'intake.configure', expectedRevision: saved.revision, input: settings as unknown as Record<string, unknown>});
       const result = decodeIntakeWrite(await call('/api/intake', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({workspaceId, settings, expectedRevision: saved.revision, requestKey: intent.requestKey})}));
       journal.current.complete(intent); setSaved({...settings, revision: result.revision});
-      setNotice(result.enabled ? 'Project guidance is now available on your company site.' : 'Project guidance is turned off.');
+      setNotice(result.enabled ? 'Project guidance is enabled.' : 'Project guidance is turned off.');
     } catch (e) { setError(e instanceof Error && /INVALID_INTAKE|INTAKE_POLICY/.test(e.message) ? 'Add five-digit US ZIP codes, at least one project type, and consent wording before enabling guidance.' : e instanceof Error ? e.message : 'Save failed. Retry with the same settings.'); }
     finally { lock.current = false; setBusy(false); }
   }
