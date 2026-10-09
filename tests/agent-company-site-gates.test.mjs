@@ -36,7 +36,7 @@ test('stable CI build job builds company site before its existing HTTP suite',as
 test('company environment filenames are rejected without reading or changing contents',async()=>{
  const fixture=await mkdtemp(join(tmpdir(),'company-gate-env-'));
  try {
-  for(const app of ['web','marketing','company-site']) await mkdir(join(fixture,'apps',app),{recursive:true});
+  for(const app of ['web','marketing','company-site','platform-admin']) await mkdir(join(fixture,'apps',app),{recursive:true});
   const path=join(fixture,'apps/company-site/.env.production.local');
   await writeFile(path,'SYNTHETIC_SECRET=untouched');
   await assert.rejects(assertNoEnvFiles(fixture),/LOCAL_ENV_FILES_PRESENT.*company-site.*\.env.production.local/);

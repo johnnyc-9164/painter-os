@@ -1,4 +1,5 @@
 import { browserGateEnvironment } from './agent-browser-options.mjs';
+import { assertNoLegacyWranglerConfig, workerGateEnvironment } from './agent-worker-gate.mjs';
 import { spawn } from 'node:child_process';
 import { createWriteStream } from 'node:fs';
 import { join } from 'node:path';
@@ -24,10 +25,14 @@ process.once('SIGINT', interrupt); process.once('SIGTERM', interrupt);
 try {
   for (const [name, args] of gates) {
     if (interrupted) throw new Error('VERIFICATION_INTERRUPTED');
+    if (name === 'worker-local-runtime') {
+      try { await assertNoLegacyWranglerConfig(); }
+      catch (error) { results.push({ name, status: 'blocked', reason: error.message }); throw error; }
+    }
     console.log(`Running ${name}; logs: ${directory}`);
     const log = createWriteStream(join(directory, `${name}.log`), { mode: 0o600 });
     const started = performance.now();
-    child = spawn(process.execPath, args, { cwd: root, env: browserGateEnvironment(name, env), stdio: ['ignore', 'pipe', 'pipe'], shell: false }); state = observe(child);
+    child = spawn(process.execPath, args, { cwd: root, env: workerGateEnvironment(name, browserGateEnvironment(name, env), directory), stdio: ['ignore', 'pipe', 'pipe'], shell: false }); state = observe(child);
     child.stdout.pipe(log, { end: false }); child.stderr.pipe(log, { end: false });
     let timer;
     try {
