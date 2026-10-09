@@ -25,3 +25,7 @@ article { margin-block: 32px; border-top: 1px solid #bac6bd; padding-top: 16px; 
 
 body:has(.company-website)>header,body:has(.company-website)>footer{display:none}
 body:has(.company-website)>main{max-width:none;margin:0;padding:0;min-height:0}
+
+@source "../../../../packages/ui/src/components/input.tsx";
+@source "../../../../packages/ui/src/components/label.tsx";
+.contact-inquiry{margin-top:40px;border-top:2px solid #82988a;padding-top:24px}.contact-inquiry label{margin-top:20px;line-height:1.5;font-size:1rem}.contact-inquiry input[type=checkbox]{width:20px!important;height:20px;margin:0!important;flex-shrink:0;accent-color:#23563c}.contact-inquiry label.inquiry-consent{display:flex;align-items:flex-start;gap:12px;font-weight:400}.contact-inquiry button{height:auto;white-space:normal;margin:8px 12px 8px 0}.contact-inquiry fieldset:disabled{opacity:.8}.contact-inquiry p{overflow-wrap:anywhere}
