@@ -19,7 +19,7 @@ export async function marketingHttpAcceptance(base, expectedAdminOrigin = null, 
   assert.equal((html.match(/<h3(?:\s[^>]*)?>/g) || []).length, 8);
   for (const section of ['features', 'workflow', 'ownership']) {
     assert.match(html, new RegExp(`id="${section}"`));
-    assert.match(html, new RegExp(`href="#${section}"`));
+    assert.match(html, new RegExp(`href="${section==='workflow'?'/workflow':'#'+section}"`));
   }
   assert.match(html, /manually recorded customer payments/);
   assert.match(html, /customer-owned deployments/);
