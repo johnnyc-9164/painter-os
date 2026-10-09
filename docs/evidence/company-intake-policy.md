@@ -1,0 +1,15 @@
+# Company intake configuration preparation
+
+Issue #84 prepares the canonical policy needed by the public lead-qualification experience. It does not activate a chatbot, save visitor contacts, change lead/customer status, book an appointment, or call an AI/provider service.
+
+`packages/backend/convex/intakeConfig.ts` is the single writer of `painterIntakeConfigs`. Configure and private-read operations reuse `resolvePainterMembership`; only enabled owner/office-admin memberships can access them. Caller workspace IDs select a candidate, never establish authority. Existing company naming remains owned by the workspace writer; the public projection derives its company name from that workspace.
+
+Policy configuration uses an expected revision and actor-bound, namespaced receipt in the existing host receipt store. Successful changes append a bounded audit event to the existing host audit store. Current membership is checked before a receipt replay; stale revisions and conflicting keys fail without partial writes. Missing configuration is disabled by default. There is no separate workspace enable flag in the existing authority, so none is invented here.
+
+The anonymous read returns only enabled configuration for an existing workspace. Unknown/deleted workspace, absent configuration, and disabled configuration return the same unavailable state. The public DTO contains company name, policy revision, enabled state, supported project types, service ZIP codes, and plain consent text. It excludes actor IDs, owner/membership records, audit records, receipts, and private business snapshots.
+
+Initial service coverage uses exact five-digit US ZIP codes, including leading zeros; no geocoding, ZIP+4 expansion, or other country coverage is inferred. Policy and answer sizes are bounded. The pure qualification helper returns eligible-for-follow-up, outside-area, unsupported-project, or needs-review advice with `appointmentStatus: not_booked`. It accepts no contact data or business command fields, and does not execute `lead.qualify`, which would create a customer.
+
+Focused tests cover owner/admin versus crew/customer permissions, cross-company denial, deleted workspace, disabled publication, actor-bound replay, stale revisions, invalid-policy atomicity, deterministic outcomes, and strict input boundaries. The main policy suite mocks authentication at the existing component boundary; a separate fixture registers the actual Better Auth component and verifies missing/forged/expired sessions and revoked membership denial. Neither constitutes live identity/provider acceptance.
+
+Follow-on work needs a public questionnaire, independently reviewed scoped lead ingress with abuse/idempotency/privacy controls, and provider-backed availability before confirming appointments. Subscription and model-dispatch authorization remain separate. Reuse `docs/skills/painter-pr-evidence/SKILL.md` for exact-head review evidence. Source rollback reverts the modules; keep already stored policy records until any destructive cleanup is separately authorized.
