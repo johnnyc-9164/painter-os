@@ -1,5 +1,5 @@
 export default {
-  transpilePackages: ['@painter-os-bts/public-content', '@painter-os-bts/backend'],
+  transpilePackages: ['@painter-os-bts/public-content', '@painter-os-bts/backend', '@painter-os-bts/ui', '@painter-os-bts/domain'],
   poweredByHeader: false,
   async headers() {
     return [{ source: '/:path*', headers: [
