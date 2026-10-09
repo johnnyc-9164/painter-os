@@ -154,6 +154,7 @@ export function stageEstimateAppointment(state:EstimateAppointmentState,context:
   if(!target)fail('APPOINTMENT_NOT_FOUND');revision(target.revision);revision(command.expectedRevision);
   if(target.revision!==command.expectedRevision)fail('APPOINTMENT_REVISION_CONFLICT');
   if(target.status==='cancelled')fail('APPOINTMENT_INVALID_TRANSITION');
+  if(target.revision>=Number.MAX_SAFE_INTEGER-1)fail('APPOINTMENT_REVISION_EXHAUSTED');
   appointment={...target,revision:target.revision+1};
   if(command.kind==='cancel'){appointment.status='cancelled';appointment.cancelledBy=context.actor.id;}
   else if(command.kind==='approve'){
@@ -164,6 +165,7 @@ export function stageEstimateAppointment(state:EstimateAppointmentState,context:
   }else{
    revision(command.leadRevision);revision(command.customerRevision);revision(command.slotRevision);
    currentSource(context,{...target,leadRevision:command.leadRevision,customerRevision:command.customerRevision});const slot=currentSlot(context,command.slotId,command.slotRevision);
+   if(state.appointments.some(existing=>existing.id!==target.id&&existing.tenantId===tenantId&&existing.leadId===target.leadId&&existing.slotId===slot.id&&existing.status!=='cancelled'))fail('APPOINTMENT_DUPLICATE_PROPOSAL');
    appointment={...appointment,...selection(slot),leadRevision:command.leadRevision,customerRevision:command.customerRevision};if(appointment.status==='reserved_internal'){appointment.approvedBy=context.actor.id;conflicts(state.appointments,appointment);}
   }
  }

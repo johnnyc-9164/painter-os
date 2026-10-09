@@ -73,3 +73,25 @@ test('proposed reschedule stays unbooked, cannot retarget customer, and bounded/
  assert.throws(()=>stageEstimateAppointment({appointments:[{...p.appointment,contactEmail:'private@example.test'}],receipts:[]} as unknown as EstimateAppointmentState,p.ctx,{kind:'cancel',appointmentId:p.appointment.id,expectedRevision:1,requestKey:'no-contact-copy'}),/UNKNOWN_FIELD/);
  assert.throws(()=>stageEstimateAppointment({appointments:[{...p.appointment,endAt:'invalid'}],receipts:[]},p.ctx,{kind:'cancel',appointmentId:p.appointment.id,expectedRevision:1,requestKey:'invalid-record'}),/INVALID_CONFLICT_RECORD/);
 });
+
+test('exhausted revisions reject every new transition without mutation while exact receipt replay remains valid',()=>{
+ const p=propose();const revision=Number.MAX_SAFE_INTEGER-1;
+ const state={appointments:[{...p.appointment,revision}],receipts:p.state.receipts};const before=JSON.stringify(state);
+ for(const kind of ['approve','cancel','reschedule'] as const){
+  const command=kind==='reschedule'?{kind,appointmentId:p.appointment.id,expectedRevision:revision,requestKey:'exhausted-'+kind,slotId:p.appointment.slotId,slotRevision:1,leadRevision:4,customerRevision:2}:{kind,appointmentId:p.appointment.id,expectedRevision:revision,requestKey:'exhausted-'+kind};
+  assert.throws(()=>stageEstimateAppointment(state,p.ctx,command),/REVISION_EXHAUSTED/);assert.equal(JSON.stringify(state),before);
+ }
+ assert.equal(stageEstimateAppointment(state,p.ctx,p.command).replayed,true);assert.equal(JSON.stringify(state),before);
+});
+test('reschedule rejects another active same-tenant lead/slot proposal, excluding itself and cancelled targets',()=>{
+ const a=propose();const destination=slot({id:'later',localStart:'2026-10-12T12:00'});
+ const b=propose(a.state,destination,'appointment-b');
+ const command={kind:'reschedule' as const,appointmentId:a.appointment.id,expectedRevision:1,requestKey:'duplicate-move',slotId:destination.id,slotRevision:1,leadRevision:4,customerRevision:2};
+ const ctx={...a.ctx,slot:destination};const before=JSON.stringify(b.state);
+ assert.throws(()=>stageEstimateAppointment(b.state,ctx,command),/DUPLICATE_PROPOSAL/);assert.equal(JSON.stringify(b.state),before);
+ const cancelled=stageEstimateAppointment(b.state,b.ctx,{kind:'cancel',appointmentId:b.appointment.id,expectedRevision:1,requestKey:'cancel-duplicate'});
+ const moved=stageEstimateAppointment(cancelled.state,ctx,command);assert.equal(moved.appointment.slotId,destination.id);
+ const same=stageEstimateAppointment(moved.state,ctx,{...command,expectedRevision:2,requestKey:'same-slot'});assert.equal(same.appointment.status,'proposed');
+ const foreign={appointments:b.state.appointments.map(row=>row.id===b.appointment.id?{...row,tenantId:'company-b'}:row),receipts:b.state.receipts};
+ assert.equal(stageEstimateAppointment(foreign,ctx,command).appointment.slotId,destination.id);
+});
