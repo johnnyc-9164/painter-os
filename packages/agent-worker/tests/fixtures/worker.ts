@@ -1,4 +1,6 @@
 import { Agent } from 'agents';
+import type { AgentEventStream } from '@earendil-works/pi-durable';
+import { projectSnapshot, projectEvents, agUiEvents } from '../../src/pi-ui-projection';
 import { createRegistry } from '@earendil-works/pi-durable';
 import { Type } from '@earendil-works/pi-ai';
 import { createModels } from '@earendil-works/pi-ai/models';
@@ -10,6 +12,34 @@ type Env = { RELEASE: string; FIXTURE: DurableObjectNamespace<FixtureAgent> };
 /** Deliberately separate test-only worker: never included by the production Wrangler entrypoint. */
 export class FixtureAgent extends Agent<Env> {
   private readonly fixtureHarness;
+  private capture?: {stream: AgentEventStream; frames: unknown[]; view: ReturnType<typeof projectSnapshot>; sequence: number; started: boolean; error?: string};
+  async eventsStart(defer: boolean) {
+    await this.capture?.stream.stop();
+    const stream = await this.fixtureHarness.session().events();
+    const view = projectSnapshot(stream.snapshot);
+    this.capture = {stream, view, sequence: 0, started: false, frames: []};
+    this.capture.frames.push({attachment:'local-fixture', sequence:0, reset:true, view});
+    if (!defer) this.eventsResume();
+    return this.eventsRead();
+  }
+  eventsResume() {
+    const capture = this.capture;
+    if (!capture || capture.started) throw new Error('FIXTURE_CAPTURE_NOT_AVAILABLE');
+    capture.started = true;
+    capture.stream.start(async events => {
+      try {
+      if (capture.frames.length >= 256) throw new Error('FIXTURE_CAPTURE_LIMIT_EXCEEDED');
+      capture.view = projectEvents(capture.view, events);
+      const frame = {attachment:'local-fixture', sequence:++capture.sequence, reset:events.some(event=>event.type==='snapshot'), view:capture.view};
+      capture.frames.push(frame);
+      // Exercise installed core schemas inside the actual Worker runtime.
+      agUiEvents(frame);
+      } catch (error) { capture.error = error instanceof Error ? error.message : 'FIXTURE_CAPTURE_FAILED'; }
+    });
+    return {started:true};
+  }
+  eventsRead() { if (this.capture?.error) throw new Error(this.capture.error); return {frames:this.capture?.frames ?? []}; }
+  async eventsStop() { await this.capture?.stream.stop(); this.capture=undefined; return {stopped:true}; }
   constructor(ctx: DurableObjectState, env: Env) {
     super(ctx, env);
     ctx.storage.sql.exec('CREATE TABLE IF NOT EXISTS fixture_metrics (name TEXT PRIMARY KEY, count INTEGER NOT NULL)');
@@ -62,6 +92,10 @@ export class FixtureAgent extends Agent<Env> {
 const fixtureWorker = { async fetch(request: Request, env: Env) {
   const url = new URL(request.url);
   const agent = env.FIXTURE.getByName(url.searchParams.get('conversation') ?? 'local-fixture');
+  if (url.pathname === '/events/start') return Response.json(await agent.eventsStart(url.searchParams.get('defer') === 'yes'));
+  if (url.pathname === '/events/resume') return Response.json(await agent.eventsResume());
+  if (url.pathname === '/events/read') return Response.json(await agent.eventsRead());
+  if (url.pathname === '/events/stop') return Response.json(await agent.eventsStop());
   if (url.pathname === '/inspect') return Response.json(await agent.inspect());
   if (url.pathname === '/snapshot') return Response.json(await agent.snapshot());
   const operationId = url.searchParams.get('operation') ?? 'fixture-operation';
