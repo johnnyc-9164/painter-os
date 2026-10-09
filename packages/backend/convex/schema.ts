@@ -1,10 +1,15 @@
 import { defineSchema, defineTable } from 'convex/server';
 import { v } from 'convex/values';
+import { websiteMediaFields, websiteContentValidator } from './websiteValidators';
 import { aiCapability, aiAttemptKind, aiBilling } from './aiValidators';
 import { intakeSettingsFields } from './intakeValidators';
 import { intakeAdmissionReceiptFields } from './intakeAdmissionValidators';
 const role=v.union(v.literal('owner'),v.literal('office_admin'),v.literal('estimator'),v.literal('project_manager'),v.literal('salesperson'),v.literal('crew_lead'),v.literal('crew_member'),v.literal('accountant'),v.literal('customer'));
 export default defineSchema({
+ painterCompanyWebsites:defineTable({tenantId:v.id('painterWorkspaces'),revision:v.number(),draft:websiteContentValidator,published:v.optional(v.object({revision:v.number(),publishedAt:v.string(),content:websiteContentValidator})),updatedBy:v.string(),updatedAt:v.string()}).index('by_tenant',['tenantId']),
+ painterWebsiteWrites:defineTable({tenantId:v.id('painterWorkspaces'),requestHash:v.string(),fingerprint:v.string(),result:v.object({revision:v.number(),publishedRevision:v.union(v.number(),v.null()),replayed:v.boolean()})}).index('by_tenant_request',['tenantId','requestHash']),
+ painterWebsiteMedia:defineTable(websiteMediaFields).index('by_tenant_request',['tenantId','requestHash']).index('by_tenant_media',['tenantId','mediaId']).index('by_tenant',['tenantId']).index('by_state_updated',['state','updatedAt']),
+
  painterContactIntakePolicies:defineTable({tenantId:v.id('painterWorkspaces'),enabled:v.boolean(),consentText:v.string(),acknowledgeRetention:v.boolean(),revision:v.number(),updatedBy:v.string(),updatedAt:v.number()}).index('by_tenant',['tenantId']),
  painterPublicLeadReceipts:defineTable({tenantId:v.id('painterWorkspaces'),requestHash:v.string(),payloadDigest:v.string(),leadEntityId:v.string(),contactPolicyRevision:v.number(),guidanceRevision:v.number(),consentedAt:v.number(),dueAt:v.number(),state:v.union(v.literal('received'),v.literal('deletion_pending'),v.literal('deleted'),v.literal('converted_preserved')),customerId:v.optional(v.string()),transferredBy:v.optional(v.string()),transferredAt:v.optional(v.number()),cleanupPhase:v.optional(v.union(v.literal('events'),v.literal('receipts'))),cleanupCursor:v.optional(v.string())}).index('by_tenant_request',['tenantId','requestHash']).index('by_tenant_entity',['tenantId','leadEntityId']).index('by_state_due',['state','dueAt']),
  painterIntakeReceiptLinks:defineTable({leadReceiptId:v.id('painterPublicLeadReceipts'),commandReceiptId:v.id('painterReceipts')}).index('by_lead_receipt',['leadReceiptId']),
