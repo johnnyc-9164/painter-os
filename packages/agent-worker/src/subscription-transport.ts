@@ -4,7 +4,7 @@ import { stream, type OpenAIResponsesOptions } from '@earendil-works/pi-ai/api/o
 import { normalizeContext, getDeclaredTools } from '@earendil-works/pi-ai/utils/transcript';
 
 export const SUBSCRIPTION_ENDPOINT='https://api.openai.com/v1/responses';
-export const SUBSCRIPTION_LIMITS={wireBytes:262144,providerEvents:256,outputBytes:32768} as const;
+export const SUBSCRIPTION_LIMITS={wireBytes:262144,providerEvents:256,outputBytes:32768,deadlineMs:15000} as const;
 export interface SubscriptionScope { actorId:string; workspaceId:string; connectionId:string; }
 /** Supplied by a separately trusted resolver in fixtures. This is not membership or commercial-grant proof. */
 export interface SubscriptionBinding extends SubscriptionScope { revoked:boolean; modelIds:readonly string[]; }
@@ -60,19 +60,29 @@ export async function runSubscriptionTransport(args:Args):Promise<SubscriptionOu
   if(expected[0]?.role!=='developer'||expected.some(message=>!message.text||message.text.length>32768)||JSON.stringify(expected).length>131072)throw new Error('unsupported');
  }catch{return failure('unsupported');}
  let observedCompleted=false;let terminalFailure:SubscriptionFailure|undefined;let policyFailure=false;let httpFailure:SubscriptionFailure|undefined;let retryAfterMs:number|undefined;let attempts=0;let text='';let done=false;let deltaBytes=0;let providerEvents=0;
+ let timedOut=false;let ownedReader:ReadableStreamDefaultReader<Uint8Array>|undefined;
+ const abort=new AbortController();let deadlineTimer:ReturnType<typeof setTimeout>;
+ const deadline=new Promise<SubscriptionOutcome>(resolve=>{deadlineTimer=setTimeout(()=>{
+  timedOut=true;resolve(failure('unavailable'));abort.abort();
+  // Cancel owned consumption without awaiting a hostile underlying cancel promise.
+  void ownedReader?.cancel().catch(()=>undefined);
+ },SUBSCRIPTION_LIMITS.deadlineMs);});
+ const consume=async():Promise<SubscriptionOutcome>=>{
  const events=stream(model,context,{
-  ...args.sdkOverrides,apiKey:'synthetic-subscription-fixture-token',cacheRetention:'none',maxRetries:0,timeoutMs:15000,
+  ...args.sdkOverrides,apiKey:'synthetic-subscription-fixture-token',cacheRetention:'none',maxRetries:0,timeoutMs:SUBSCRIPTION_LIMITS.deadlineMs,signal:abort.signal,
   fetch:async(input,init)=>{
+   if(timedOut)throw new Error('unavailable');
    attempts++;if(attempts!==1){policyFailure=true;throw new Error('unsupported');}
    const url=typeof input==='string'?input:input instanceof URL?input.href:input.url;
    if(url!==SUBSCRIPTION_ENDPOINT||init?.method!=='POST'||typeof init.body!=='string'){policyFailure=true;throw new Error('unsupported');}
    try{validateWire(JSON.parse(init.body),approvedModelId,expected);}catch{policyFailure=true;throw new Error('unsupported');}
    const response=await args.fetch(input,init);
+   if(timedOut){void response.body?.cancel().catch(()=>undefined);throw new Error('unavailable');}
    if(response.redirected||response.url&&response.url!==SUBSCRIPTION_ENDPOINT){policyFailure=true;throw new Error('unsupported');}
    if(response.status===429)httpFailure='quota_paused';else if(response.status===401||response.status===403)httpFailure='ineligible';else if(response.status===400)httpFailure='unsupported';else if(response.status>=500){httpFailure='unavailable';const header=response.headers.get('retry-after');const delay=header===null?NaN:Number(header);if(Number.isFinite(delay)&&delay>=0)retryAfterMs=Math.min(delay*1000,30000);}
    // Bound bytes before the vendor SSE/JSON parser can materialize arbitrary response events.
    if(!response.body)return response;
-   const reader=response.body.getReader();let bytes=0;
+   const reader=response.body.getReader();ownedReader=reader;let bytes=0;
    const body=new ReadableStream<Uint8Array>({async pull(controller){
     try{const chunk=await reader.read();if(chunk.done){controller.close();return;}bytes+=chunk.value.byteLength;if(bytes>SUBSCRIPTION_LIMITS.wireBytes){terminalFailure='unsupported';await reader.cancel();controller.error(new Error('unsupported'));return;}controller.enqueue(chunk.value);}
     catch{controller.error(new Error('protocol_error'));}
@@ -107,6 +117,11 @@ export async function runSubscriptionTransport(args:Args):Promise<SubscriptionOu
  try{for await(const event of events){if(event.type==='done'){done=event.reason==='stop';if(event.message.content.some(block=>block.type!=='text'))terminalFailure='unsupported';text=event.message.content.filter(block=>block.type==='text').map(block=>block.text).join('');}else if(event.type==='error'&&!terminalFailure&&!httpFailure&&!policyFailure)terminalFailure=observedCompleted?'failed':'protocol_error';}}
  catch{return failure(policyFailure?'unsupported':httpFailure??terminalFailure??'failed',retryAfterMs);}
  if(policyFailure)return failure('unsupported');if(httpFailure)return failure(httpFailure,retryAfterMs);if(terminalFailure)return failure(terminalFailure);
+ if(timedOut)return failure('unavailable');
  if(!observedCompleted||!done)return failure('protocol_error');if(new TextEncoder().encode(text).byteLength>SUBSCRIPTION_LIMITS.outputBytes)return failure('unsupported');
  return {state:'completed',text,toolsReady:false,compatibilityOnly:true};
+ };
+ try{return await Promise.race([consume(),deadline]);}
+ catch{return failure(timedOut?'unavailable':'protocol_error');}
+ finally{clearTimeout(deadlineTimer!);}
 }

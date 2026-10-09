@@ -69,3 +69,18 @@ test('response bytes/events are bounded before arbitrary SSE materialization; Un
  const unicode=fixture(()=>sse([initial[1],{type:'response.output_text.delta',output_index:0,delta:'🖌'.repeat(10000)},complete]));assert.equal((await runSubscriptionTransport(unicode.args)).state,'unsupported');
  const extra=fixture();assert.equal((await runSubscriptionTransport({...extra.args,sdkOverrides:{headers:{authorization:'forged'}}})).state,'unsupported');assert.equal(extra.calls.length,0);
 });
+test('application deadline bounds an actual Pi stalled SSE body ignoring vendor signal and cancels owned reader',async t=>{
+ for(const partial of [false,true]){
+  t.mock.timers.enable({apis:['setTimeout']});
+  let cancelled=0;let requests=0;let signal;let announceFetch;
+  const fetched=new Promise(resolve=>{announceFetch=resolve;});
+  const body=new ReadableStream({start(controller){if(partial)controller.enqueue(new TextEncoder().encode(initial.map(event=>`event: ${event.type}\ndata: ${JSON.stringify(event)}\n\n`).join('')));},cancel(){cancelled++;if(partial)return new Promise(()=>{});}});
+  const f=fixture();
+  const result=runSubscriptionTransport({...f.args,fetch:async(_input,init)=>{requests++;signal=init.signal;announceFetch();return new Response(body,{headers:{'content-type':'text/event-stream'}});}});
+  await fetched;for(let i=0;i<20;i++)await Promise.resolve();
+  let settled=false;void result.then(()=>{settled=true;});
+  t.mock.timers.tick(SUBSCRIPTION_LIMITS.deadlineMs-1);await Promise.resolve();assert.equal(settled,false);assert.equal(cancelled,0);
+  t.mock.timers.tick(1);assert.deepEqual(await result,{state:'unavailable',toolsReady:false,compatibilityOnly:true});assert.equal(signal.aborted,true);assert.equal(cancelled,1);assert.equal(requests,1);
+  t.mock.timers.reset();
+ }
+});
