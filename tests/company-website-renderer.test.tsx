@@ -9,9 +9,10 @@ test('all three compositions retain identical authored content and real shared B
 for(const template of ['studio','editorial','direct'] as const){const html=render({...content,template});expect(html).toContain(`data-template="${template}"`);for(const value of ['Authored service','An owner-curated quote','Named source','From $1,750.00','Owner-written scope conditions','Authored area','Owner-supplied address','Existing article'])expect(html).toContain(value);expect(html).toContain('bg-primary');expect(html).toContain('focus-visible:ring-ring/50');expect(html).toContain('/site/fixture/article');expect(html).toContain('href="/estimate-request/fixture"');expect(html).not.toContain('Verified');}
 });
 test('missing optional fields never fabricate phone, reviews, prices, services or project photos',()=>{
-const minimal={...content,tagline:'',services:[],testimonials:[],pricing:[],contacts:{serviceAreas:[],hours:[]},blogEnabled:false};const html=render(minimal);
+const minimal={...content,tagline:'',services:[],testimonials:[],pricing:[],contacts:{address:{lines:[]},serviceAreas:[],hours:[]},blogEnabled:false};const html=render(minimal);
 for(const absent of ['href="tel:', 'href="mailto:', 'Customer feedback','Pricing information','Our services','Our work','<img','From our journal'])expect(html).not.toContain(absent);
 expect(html).toContain('&lt;script&gt;text&lt;/script&gt;');expect(html).not.toContain('<script>text</script>');
+expect(render({...minimal,hero:{heading:'',summary:''}})).toContain('id="company-title">Fixture painting company</h1>');
 });
 test('publication-resolved media is required and alt/focal point/text are escaped',()=>{
 const reference={mediaId:'image',alt:'Owned photo <tag>',focalPoint:{x:.25,y:.75}};const rich={...content,hero:{...content.hero,media:reference}};
