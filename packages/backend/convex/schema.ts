@@ -1,8 +1,16 @@
 import { defineSchema, defineTable } from 'convex/server';
 import { v } from 'convex/values';
+import { aiCapability, aiAttemptKind, aiBilling } from './aiValidators';
 import { intakeSettingsFields } from './intakeValidators';
 const role=v.union(v.literal('owner'),v.literal('office_admin'),v.literal('estimator'),v.literal('project_manager'),v.literal('salesperson'),v.literal('crew_lead'),v.literal('crew_member'),v.literal('accountant'),v.literal('customer'));
 export default defineSchema({
+  aiWorkspaceEntitlements: defineTable({tenantId:v.id('painterWorkspaces'),kind:v.literal('internal'),revision:v.number(),expiresAtMs:v.number(),capabilities:v.array(aiCapability),limitAttempts:v.number(),auditId:v.id('aiGrantAudit')}).index('by_tenant',['tenantId']),
+  aiInternalGrants: defineTable({tenantId:v.id('painterWorkspaces'),userId:v.string(),revision:v.number(),enabled:v.boolean(),expiresAtMs:v.number(),capabilities:v.array(aiCapability),auditId:v.id('aiGrantAudit')}).index('by_tenant_user',['tenantId','userId']),
+  aiGrantAudit: defineTable({tenantId:v.id('painterWorkspaces'),requestKey:v.string(),fingerprint:v.string(),issuerId:v.string(),targetUserId:v.string(),action:v.union(v.literal('grant'),v.literal('revoke')),reason:v.string(),occurredAtMs:v.number(),beforeRevision:v.number(),afterRevision:v.number(),platformOwnerId:v.id('platformOwners')}).index('by_tenant_request',['tenantId','requestKey']),
+  aiUsageBudgets: defineTable({tenantId:v.id('painterWorkspaces'),periodId:v.string(),periodStartsAtMs:v.number(),periodEndsAtMs:v.number(),revision:v.number(),limitAttempts:v.number(),reservedAttempts:v.number(),settledAttempts:v.number()}).index('by_tenant_period',['tenantId','periodId']),
+  aiUsageReservations: defineTable({tenantId:v.id('painterWorkspaces'),userId:v.string(),operationId:v.string(),fingerprint:v.string(),capability:aiCapability,entitlementId:v.id('aiWorkspaceEntitlements'),entitlementRevision:v.number(),accessGrantRevision:v.number(),budgetId:v.id('aiUsageBudgets'),maxAttempts:v.number(),heldAttempts:v.number(),chargedAttempts:v.number(),state:v.union(v.literal('reserved'),v.literal('reconciliation'),v.literal('settled'))}).index('by_tenant_operation',['tenantId','operationId']),
+  aiUsageAttempts: defineTable({reservationId:v.id('aiUsageReservations'),attemptId:v.string(),kind:aiAttemptKind,billing:aiBilling}).index('by_reservation_attempt',['reservationId','attemptId']).index('by_reservation',['reservationId']),
+  aiUsageSettlements: defineTable({reservationId:v.id('aiUsageReservations'),settlementId:v.string(),fingerprint:v.string(),chargedAttempts:v.number(),heldAttempts:v.number()}).index('by_reservation_settlement',['reservationId','settlementId']),
  painterIntakeConfigs:defineTable({tenantId:v.id('painterWorkspaces'),...intakeSettingsFields,revision:v.number(),updatedBy:v.string(),updatedAt:v.string()}).index('by_tenant',['tenantId']),
  authEmailBudgets:defineTable({recipient:v.string(),purpose:v.literal('verify-email'),count:v.number(),windowStartedAt:v.number()}).index('by_recipient_purpose',['recipient','purpose']),
  authEmailReceipts:defineTable({intentHash:v.string(),userId:v.string(),recipient:v.string(),purpose:v.literal('verify-email'),inboxId:v.string(),outboundId:v.string(),createdAt:v.number()}).index('by_intent',['intentHash']),
