@@ -34,4 +34,3 @@ Commercial readiness note: Hobby is documented for personal non-commercial use. 
 https://vercel.com/docs/plans/hobby
 
 No implementation procedure validated; research only.
-
