@@ -16,6 +16,7 @@ This lists host tables only; mounted components own separate schemas. It contain
 | authEmailBudgets | schema.ts |
 | authEmailReceipts | schema.ts |
 | painterBidSourceOwnership | schema.ts |
+| painterCompanyWebsites | schema.ts |
 | painterContactIntakePolicies | schema.ts |
 | painterEmailBindings | schema.ts |
 | painterEntities | schema.ts |
@@ -28,6 +29,8 @@ This lists host tables only; mounted components own separate schemas. It contain
 | painterPortals | schema.ts |
 | painterPublicLeadReceipts | schema.ts |
 | painterReceipts | schema.ts |
+| painterWebsiteMedia | schema.ts |
+| painterWebsiteWrites | schema.ts |
 | painterWorkspaces | schema.ts |
 | platformOwnerAudit | schema.ts |
 | platformOwners | schema.ts |
