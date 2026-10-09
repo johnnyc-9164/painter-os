@@ -247,6 +247,20 @@ export type EstimateSlotInput = Omit<
   EstimateSlot,
   "tenantId" | "startAt" | "endAt"
 >;
+export function validateEstimateSlotTiming(
+  input: Pick<
+    EstimateSlotInput,
+    "durationMinutes" | "bufferBeforeMinutes" | "bufferAfterMinutes"
+  >,
+): void {
+  count(input.durationMinutes, 15, ESTIMATE_APPOINTMENT_LIMITS.durationMinutes);
+  count(
+    input.bufferBeforeMinutes,
+    0,
+    ESTIMATE_APPOINTMENT_LIMITS.bufferMinutes,
+  );
+  count(input.bufferAfterMinutes, 0, ESTIMATE_APPOINTMENT_LIMITS.bufferMinutes);
+}
 export interface EstimateSlotNormalization {
   /** Host invocation capability only, never command/context/transport data. */
   normalizeSlotInstant?: (input: Readonly<EstimateSlotInput>) => string;
@@ -277,13 +291,7 @@ export function makeEstimateSlot(
   resource(context, input.resourceId);
   if (!["offered", "closed"].includes(input.status))
     fail("APPOINTMENT_INVALID_SLOT_STATUS");
-  count(input.durationMinutes, 15, ESTIMATE_APPOINTMENT_LIMITS.durationMinutes);
-  count(
-    input.bufferBeforeMinutes,
-    0,
-    ESTIMATE_APPOINTMENT_LIMITS.bufferMinutes,
-  );
-  count(input.bufferAfterMinutes, 0, ESTIMATE_APPOINTMENT_LIMITS.bufferMinutes);
+  validateEstimateSlotTiming(input);
   const startAt = options.normalizeSlotInstant
     ? options.normalizeSlotInstant(input)
     : estimateSlotInstant(input.localStart, input.timeZone, input.offset);
@@ -784,3 +792,8 @@ export function closeEstimateSlot(
     fail("APPOINTMENT_REVISION_EXHAUSTED");
   return { ...slot, status: "closed", revision: slot.revision + 1 };
 }
+
+export type EstimateQualifiedSource = Pick<
+  SourceSelection,
+  "leadId" | "leadRevision" | "customerId" | "customerRevision"
+>;
