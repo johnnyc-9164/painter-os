@@ -1,0 +1,52 @@
+import { chromium } from '@playwright/test';
+import assert from 'node:assert/strict';
+import { createWriteStream } from 'node:fs';
+import { join } from 'node:path';
+import { browserLaunchOptions } from '../scripts/agent-browser-options.mjs';
+import { assertNoEnvFiles, createRun, unusedPort, spawnNext, observe, stop, waitForReady, gitState, writeJson } from '../scripts/agent-common.mjs';
+
+await assertNoEnvFiles();
+const out = await createRun('next-action-browser');
+const base = `http://127.0.0.1:${await unusedPort()}`;
+const log = createWriteStream(join(out,'server.log'), {mode:0o600});
+let browser, server, state;
+try {
+  browser = await chromium.launch(await browserLaunchOptions());
+  server = spawnNext('start',base,out,['ignore','pipe','pipe']); state=observe(server);
+  server.stdout.pipe(log,{end:false}); server.stderr.pipe(log,{end:false}); await waitForReady(base,state);
+  const context = await browser.newContext({viewport:{width:1440,height:1000},recordVideo:{dir:join(out,'video')}});
+  const page = await context.newPage(); const errors=[], failures=[];
+  page.on('pageerror',error=>errors.push(error.message));
+  page.on('response',response=>{if(response.status()>=500)failures.push(response.status());});
+  await page.goto(base); await page.getByRole('button',{name:'Explore demo workspace',exact:true}).click(); await page.locator('.app-shell').waitFor();
+  const read = async()=>{const response=await page.request.get(`${base}/api/snapshot`);assert.equal(response.status(),200);return response.json();};
+  let initial=await read(); const customer=initial.entities.find(entity=>entity.type==='customer');
+  const write = async(body)=>{const response=await page.request.post(`${base}/api/command`,{data:body});assert.equal(response.status(),200);return response.json();};
+  const created=await write({action:'estimate.create',requestKey:'browser-queue-estimate',input:{customerId:customer.id,title:'Browser queue estimate',lineItems:[{description:'Actual test scope',quantity:1,unitPrice:100}]}});
+  const source=created.entity; const tasksBefore=initial.entities.filter(entity=>entity.type==='task').length;
+  await page.getByRole('button',{name:'Refresh workspace',exact:true}).click();
+  const panel=page.getByRole('region',{name:'Next actions'});
+  await panel.getByText('Review estimate: Browser queue estimate',{exact:true}).waitFor();
+  assert.equal((await read()).entities.filter(entity=>entity.type==='task').length,tasksBefore);
+  await panel.getByRole('button',{name:'Review task',exact:true}).click();
+  await page.getByRole('heading',{name:'Approve suggested task',exact:true}).waitFor();
+  await write({action:'estimate.update',entityId:source.id,expectedRevision:source.revision,requestKey:'browser-queue-source-change',input:{title:'Changed browser queue estimate'}});
+  await page.getByRole('button',{name:'Save changes',exact:true}).click();
+  await page.getByRole('alert').filter({hasText:'This suggestion changed'}).waitFor();
+  assert.equal((await read()).entities.filter(entity=>entity.type==='task').length,tasksBefore);
+  await page.getByRole('button',{name:'Cancel',exact:true}).click();
+  await panel.getByText('Review estimate: Changed browser queue estimate',{exact:true}).waitFor();
+  await panel.getByRole('button',{name:'Review task',exact:true}).click();
+  await page.getByRole('button',{name:'Save changes',exact:true}).click();
+  await page.getByRole('heading',{name:'Approve suggested task',exact:true}).waitFor({state:'hidden'});
+  const fresh=await read(); const tasks=fresh.entities.filter(entity=>entity.type==='task');
+  assert.equal(tasks.length,tasksBefore+1);
+  assert.ok(tasks.some(task=>task.data.title==='Review estimate: Changed browser queue estimate'&&task.data.notes.includes('Painter next action source:')));
+  assert.equal(await panel.getByRole('button',{name:'Review task',exact:true}).count(),0);
+  assert.deepEqual(errors,[]);assert.deepEqual(failures,[]);
+  await page.screenshot({path:join(out,'approved-task.png'),fullPage:true});
+  await context.close();
+  await writeJson(join(out,'receipt.json'),{...gitState(),status:'passed',sandbox:true,browser:browser.version(),runtime:'local synthetic only',networkMocks:false,scope:['real overview queue','no automatic write','existing approval form','fresh source rejection','operator approved task','duplicate suppression'],errors,failures});
+  console.log(`Next-action browser passed. Artifacts: ${out}`);
+} catch(error) {await writeJson(join(out,'receipt.json'),{...gitState(),status:'failed',sandbox:true,error:error.message});throw error;}
+finally {try{await browser?.close();}finally{try{if(server)await stop(server,state);}finally{await new Promise(resolve=>log.end(resolve));}}}
