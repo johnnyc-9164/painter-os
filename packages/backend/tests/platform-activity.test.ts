@@ -11,8 +11,8 @@ const modules = {
   './platformInventory.ts': () => import('../convex/platformInventory'),
 };
 
-async function fixture() {
-  const t = convexTest(schema, modules);
+async function fixture(documentsRead?: number) {
+  const t = convexTest({ schema, modules, transactionLimits: documentsRead === undefined ? false : { documentsRead, bytesRead: 32768 } });
   t.registerComponent('betterAuth', betterAuthTest.schema, {
     ...betterAuthTest.modules,
     './component/adapter.ts': () => import('../../../node_modules/@convex-dev/better-auth/src/component/adapter'),
@@ -36,6 +36,22 @@ async function fixture() {
 }
 
 describe('redacted platform activity with actual Better Auth sessions', () => {
+  it('reads only a bounded page plus authorization despite hundreds of audit and unrelated rows', async () => {
+    const { t, user, grant, userId, workspaceIds } = await fixture(8); await grant();
+    await t.run(async ctx => {
+      for (let i = 0; i < 200; i++) {
+        await ctx.db.insert('platformOwnerAudit', { userId, requestKey: `private-noise-${i}`, fingerprint: 'private', operatorReceiptReference: 'private', action: 'bootstrap', occurredAt: i, beforeEnabled: false, afterEnabled: true });
+        await ctx.db.insert('painterEntities', { tenantId: workspaceIds[0], entityId: `noise-${i}`, type: 'customer', revision: 1, createdAt: 'test', updatedAt: 'test', data: { private: 'x'.repeat(1024) } });
+        await ctx.db.insert('painterEvents', { tenantId: workspaceIds[0], eventId: `noise-${i}`, type: 'changed', entityId: `noise-${i}`, actorId: userId, occurredAt: 'test', payload: { private: 'x'.repeat(1024) } });
+      }
+    });
+    const first = await user.query(api.platformActivity.list, { cursor: null, limit: 2 });
+    const second = await user.query(api.platformActivity.list, { cursor: first.nextCursor, limit: 2 });
+    expect(first.items.map(item => item.occurredAt)).toEqual([199, 198]);
+    expect(second.items.map(item => item.occurredAt)).toEqual([197, 196]);
+    expect(first.nextCursor).toEqual(expect.any(String));
+    expect(JSON.stringify(first)).not.toMatch(/private|userId|requestKey|fingerprint/);
+  });
   it('denies anonymous and tenant owner callers before reading audit records or validating cursors', async () => {
     const { t, user } = await fixture();
     expect(await t.query(api.platformActivity.list, { cursor: null, limit: 2 })).toEqual({ state: 'unauthenticated' });
