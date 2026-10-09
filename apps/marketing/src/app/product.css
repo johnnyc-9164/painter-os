@@ -165,3 +165,4 @@ html:has(.product-landing){scroll-padding-top:24px;scrollbar-color:#8a9fb6 #f0f4
 .product-guide-links>div a,.product-editorial .product-footer nav a{color:var(--product-ink)}
 
 @media(max-width:760px){.product-nav[data-workspace="true"] .product-nav-actions{display:flex;flex-wrap:wrap;gap:18px;width:100%;margin-left:0;order:4;padding-bottom:18px}}
+@media(max-width:760px){.product-nav[data-workspace="true"] .product-signin{display:block}}
