@@ -7,7 +7,9 @@
     ".": {
       "types": "./index.d.mts",
       "default": "./index.mjs"
-    }
+    },
+    "./intake": "./intake.ts",
+    "./qualification": "./qualification.ts"
   },
   "dependencies": {
     "@painter-os-bts/backend": "*",
