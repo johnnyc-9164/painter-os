@@ -3,6 +3,7 @@ import { ConvexError } from 'convex/values';
 const query = vi.hoisted(() => vi.fn());
 vi.mock('convex/browser', () => ({ ConvexHttpClient: class { query = query; } }));
 import { readJournalArticles } from '../../../apps/marketing/src/lib/articles';
+import { readJournalArticles as readCompanyJournal } from '../../../apps/company-site/src/lib/articles';
 
 it('route loader maps only the exact typed workspace error to notFound', async () => {
   vi.stubEnv('NEXT_PUBLIC_CONVEX_URL', 'https://example.convex.cloud');
@@ -30,4 +31,17 @@ it('route loader preserves valid empty responses and configuration/DTO failures'
   await expect(readJournalArticles('valid', undefined, missing)).rejects.toThrow('PUBLIC_CONTENT_NOT_CONFIGURED');
   expect(missing).not.toHaveBeenCalled();
   vi.unstubAllEnvs();
+});
+
+it('company journal maps typed missing-workspace and malformed DTO errors consistently', async () => {
+  vi.stubEnv('NEXT_PUBLIC_CONVEX_URL', 'https://example.convex.cloud');
+  try {
+    const missing = vi.fn((): never => { throw new Error('COMPANY_ROUTE_404'); });
+    query.mockRejectedValueOnce(new ConvexError('PUBLIC_WORKSPACE_NOT_FOUND'));
+    await expect(readCompanyJournal('deleted-workspace', undefined, missing)).rejects.toThrow('COMPANY_ROUTE_404');
+    expect(missing).toHaveBeenCalledTimes(1);
+    query.mockResolvedValueOnce([{ title: 'Draft', privateNotes: 'never public' }]);
+    await expect(readCompanyJournal('workspace', undefined, missing)).rejects.toThrow('INVALID_PUBLIC_ARTICLE');
+    expect(missing).toHaveBeenCalledTimes(1);
+  } finally { vi.unstubAllEnvs(); }
 });

@@ -10,6 +10,7 @@ function unavailable(): PlatformUnavailable | null {
 }
 /** Existing Better Auth session bridge only. Never calls snapshot or creates a workspace. */
 export const platformReads: PlatformReads = {
+  activity: async args => unavailable() ?? await getConvexBridge().fetchAuthQuery(api.platformActivity.list, args),
   access: async () => unavailable() ?? await getConvexBridge().fetchAuthQuery(api.platformInventory.access, {}),
   list: async args => unavailable() ?? await getConvexBridge().fetchAuthQuery(api.platformInventory.list, args),
   get: async id => unavailable() ?? await getConvexBridge().fetchAuthQuery(api.platformInventory.get, { id }),

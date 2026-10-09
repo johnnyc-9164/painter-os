@@ -2,10 +2,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import type { PlatformReads } from '../apps/web/src/lib/platform-http.ts';
-const { platformAccessResponse, platformWorkspacesResponse, platformWorkspaceResponse } = createRequire(import.meta.url)('../apps/web/src/lib/platform-http.ts') as typeof import('../apps/web/src/lib/platform-http.ts');
+const { platformActivityResponse, platformAccessResponse, platformWorkspacesResponse, platformWorkspaceResponse } = createRequire(import.meta.url)('../apps/web/src/lib/platform-http.ts') as typeof import('../apps/web/src/lib/platform-http.ts');
 
 function reads(state: 'ready' | 'denied' | 'unauthenticated' = 'ready'): PlatformReads {
   return {
+    activity: async () => state === 'ready' ? { state, items: [], nextCursor: null } : { state },
     access: async () => ({ state }),
     list: async () => state === 'ready' ? { state, items: [], nextCursor: null } : { state },
     get: async () => state === 'ready' ? { state: 'not_found' } : { state },
@@ -43,4 +44,16 @@ test('backend failures remain unavailable and redact stack traces; known invalid
   const bad = await platformWorkspaceResponse('bad', { ...reads(), get: async () => { throw new Error('INVALID_PLATFORM_WORKSPACE'); } });
   assert.equal(bad.status, 400); assert.deepEqual(await bad.json(), { state: 'invalid_request' });
   assert.equal((await platformWorkspaceResponse('unknown', reads())).status, 404);
+});
+
+test('activity transport is bounded, private and preserves authorization and errors', async () => {
+  for (const [state, status] of [['ready', 200], ['denied', 403], ['unauthenticated', 401]] as const) {
+    const response = await platformActivityResponse(new Request('http://localhost/api/platform/activity'), reads(state));
+    assert.equal(response.status, status); assert.equal(response.headers.get('cache-control'), 'private, no-store'); assert.equal(response.headers.get('vary'), 'Cookie');
+  }
+  let called = false;
+  const service = { ...reads(), activity: async () => { called = true; throw new Error('private audit receipt'); } };
+  assert.equal((await platformActivityResponse(new Request('http://localhost/?limit=51'), service)).status, 400); assert.equal(called, false);
+  const failed = await platformActivityResponse(new Request('http://localhost/'), service);
+  assert.equal(failed.status, 503); assert.deepEqual(await failed.json(), { state: 'unavailable', reason: 'backend_unavailable' });
 });
