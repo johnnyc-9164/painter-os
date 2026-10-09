@@ -132,3 +132,28 @@ test('invalid grants and current capability/expiry/issuer revocation fail closed
   await f.t.mutation(api.platformAccess.revoke,{userId:f.a.userId,requestKey:'revoke-platform',operatorReceiptReference:'synthetic revoke approval'});
   await expect(f.t.mutation(api.syntheticStorage.reserve,request(f,f.b.userId,'issuer-revoked'))).rejects.toThrow('AI_REVOKED');
 });
+test('platform owner revokes disabled or deleted membership grants before later restoration',async()=>{
+  for(const mode of ['disabled','deleted'] as const){
+    const f=await enabled();
+    const member=await f.t.run(ctx=>ctx.db.query('painterMembers').withIndex('by_tenant_user',q=>q.eq('tenantId',f.tenantId).eq('userId',f.b.userId)).unique());
+    await f.t.run(async ctx=>{if(mode==='disabled')await ctx.db.patch(member!._id,{enabled:false});else await ctx.db.delete(member!._id);});
+    const revoke={workspaceId:f.tenantId,targetUserId:f.b.userId,requestKey:`revoke-${mode}`,reason:'Revoke removed internal staff access',expectedGrantRevision:1};
+    expect(await f.owner.mutation(api.aiEntitlements.revokeInternal,revoke)).toEqual({enabled:false,replayed:false});
+    expect(await f.owner.mutation(api.aiEntitlements.revokeInternal,revoke)).toEqual({enabled:false,replayed:true});
+    await f.t.run(async ctx=>{
+      if(mode==='disabled')await ctx.db.patch(member!._id,{enabled:true});
+      else await ctx.db.insert('painterMembers',{tenantId:f.tenantId,userId:f.b.userId,name:'Restored staff',email:'not-authority@example.test',role:'owner',enabled:true});
+    });
+    await expect(f.t.mutation(api.syntheticStorage.reserve,request(f,f.b.userId,`restored-${mode}`))).rejects.toThrow('AI_REVOKED');
+    expect(await f.owner.mutation(api.aiEntitlements.grantInternal,f.grant(f.b.userId,'grant-b',1))).toMatchObject({enabled:false,replayed:true});
+  }
+});
+test('dangling enabled membership cannot grant or reserve without the actual Better Auth target identity',async()=>{
+  const f=await enabled();
+  await f.t.runInComponent('betterAuth',ctx=>ctx.db.delete(f.b.userId));
+  expect(await f.t.run(ctx=>ctx.db.query('painterMembers').withIndex('by_tenant_user',q=>q.eq('tenantId',f.tenantId).eq('userId',f.b.userId)).unique())).toMatchObject({enabled:true});
+  await expect(f.owner.mutation(api.aiEntitlements.grantInternal,{...f.grant(f.b.userId,'deleted-identity',2),expectedGrantRevision:1})).rejects.toThrow('AI_TARGET_MEMBERSHIP_REQUIRED');
+  await expect(f.t.mutation(api.syntheticStorage.reserve,request(f,f.b.userId,'deleted-identity'))).rejects.toThrow('AI_MEMBERSHIP_REQUIRED');
+  expect(await f.t.mutation(api.syntheticStorage.reserve,request(f,f.a.userId,'valid-identity'))).toMatchObject({replayed:false});
+  expect(await f.owner.mutation(api.aiEntitlements.revokeInternal,{workspaceId:f.tenantId,targetUserId:f.b.userId,requestKey:'revoke-deleted-identity',reason:'Revoke deleted identity',expectedGrantRevision:1})).toEqual({enabled:false,replayed:false});
+});

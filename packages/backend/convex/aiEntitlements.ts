@@ -18,7 +18,8 @@ export const grantInternal = mutation({
     const now=Date.now();
     if(args.expiresAtMs<=now||args.expiresAtMs>now+90*86400000||!args.capabilities.length||new Set(args.capabilities).size!==args.capabilities.length)throw new Error('AI_INVALID_GRANT');
     const member=await ctx.db.query('painterMembers').withIndex('by_tenant_user',q=>q.eq('tenantId',args.workspaceId).eq('userId',args.targetUserId)).unique();
-    if(!member?.enabled||member.role==='customer'||!await ctx.db.get(args.workspaceId))throw new Error('AI_TARGET_MEMBERSHIP_REQUIRED');
+    const targetIdentity=await authComponent.getAnyUserById(ctx,args.targetUserId);
+    if(!member?.enabled||member.role==='customer'||!targetIdentity||!await ctx.db.get(args.workspaceId))throw new Error('AI_TARGET_MEMBERSHIP_REQUIRED');
     const grant=await ctx.db.query('aiInternalGrants').withIndex('by_tenant_user',q=>q.eq('tenantId',args.workspaceId).eq('userId',args.targetUserId)).unique();
     const entitlement=await ctx.db.query('aiWorkspaceEntitlements').withIndex('by_tenant',q=>q.eq('tenantId',args.workspaceId)).unique();
     const fingerprint=aiFingerprint({issuerId:user._id,action:'grant',...args});
@@ -43,8 +44,6 @@ export const revokeInternal = mutation({args:{...scope,expectedGrantRevision:v.n
   const user=(await authComponent.safeGetAuthUser(ctx))!;
   const owner=(await ctx.db.query('platformOwners').withIndex('by_user',q=>q.eq('userId',user._id)).unique())!;
   aiText(args.targetUserId);aiText(args.requestKey);aiText(args.reason,1000);aiPositive(args.expectedGrantRevision);
-  const member=await ctx.db.query('painterMembers').withIndex('by_tenant_user',q=>q.eq('tenantId',args.workspaceId).eq('userId',args.targetUserId)).unique();
-  if(!member?.enabled)throw new Error('AI_TARGET_MEMBERSHIP_REQUIRED');
   const grant=await ctx.db.query('aiInternalGrants').withIndex('by_tenant_user',q=>q.eq('tenantId',args.workspaceId).eq('userId',args.targetUserId)).unique();
   const fingerprint=aiFingerprint({issuerId:user._id,action:'revoke',...args});
   const prior=await ctx.db.query('aiGrantAudit').withIndex('by_tenant_request',q=>q.eq('tenantId',args.workspaceId).eq('requestKey',args.requestKey)).unique();

@@ -12,7 +12,8 @@ type Billing='billable'|'not_billable'|'unknown';
 export async function requireAiAccess(ctx:ReadCtx,tenantId:Id<'painterWorkspaces'>,userId:string,capability:Capability,now:number){
   aiCount(now);aiText(userId);
   const member=await ctx.db.query('painterMembers').withIndex('by_tenant_user',q=>q.eq('tenantId',tenantId).eq('userId',userId)).unique();
-  if(!member?.enabled||member.role==='customer'||!await ctx.db.get(tenantId))throw new Error('AI_MEMBERSHIP_REQUIRED');
+  const targetIdentity=await authComponent.getAnyUserById(ctx,userId);
+  if(!member?.enabled||member.role==='customer'||!targetIdentity||!await ctx.db.get(tenantId))throw new Error('AI_MEMBERSHIP_REQUIRED');
   const entitlement=await ctx.db.query('aiWorkspaceEntitlements').withIndex('by_tenant',q=>q.eq('tenantId',tenantId)).unique();
   const grant=await ctx.db.query('aiInternalGrants').withIndex('by_tenant_user',q=>q.eq('tenantId',tenantId).eq('userId',userId)).unique();
   if(!entitlement||!grant)throw new Error('AI_ENTITLEMENT_REQUIRED');
