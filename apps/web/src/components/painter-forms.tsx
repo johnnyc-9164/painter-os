@@ -51,7 +51,7 @@ export function CommandForm({spec,entities,onClose,onSubmit,busy}:{spec:FormSpec
  const existing=spec.entity?.data.lineItems as {description:string;quantity:number;unitPriceCents?:number;unitPrice?:number}[]|undefined;
  const [lines,setLines]=useState(existing?.map(l=>({description:l.description,quantity:l.quantity,unitPrice:Number(l.unitPriceCents ?? Number(l.unitPrice||0)*100)/100})) || [{description:'Interior painting — labor & materials',quantity:1,unitPrice:0}]);
  const scope=spec.entity?.data.paintingScope as Record<string,number>|undefined;
- const [area,setArea]=useState(scope?.area || 0), [coats,setCoats]=useState(scope?.coats || 2), [waste,setWaste]=useState(scope?.wastePercent || 10),[coverage,setCoverage]=useState(scope?.sqftPerGallon || 350);
+ const [area,setArea]=useState(scope?.area || 0), [coats,setCoats]=useState(scope?.coats || 2), [waste,setWaste]=useState(scope?.wastePercent ?? 10),[coverage,setCoverage]=useState(scope?.sqftPerGallon || 350);
  const [tax,setTax]=useState(Number(spec.entity?.data.taxRate || 0)),[deposit,setDeposit]=useState(Number(spec.entity?.data.depositPercent ?? 30));
  const set=(key:string,value:unknown)=>setValues(v=>({...v,[key]:value}));
  const fields=schemas[spec.action] || [];
