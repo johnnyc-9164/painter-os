@@ -35,7 +35,9 @@
     "agent:verify": "node scripts/agent-verify.mjs",
     "agent:garden": "node scripts/agent-check.mjs --garden",
     "agent:schema": "node scripts/agent-check.mjs --write-schema",
-    "test:agent": "node --test tests/agent-harness.test.mjs"
+    "test:agent": "node --test tests/agent-*.test.mjs",
+    "worktree:setup": "node scripts/worktree-setup.mjs",
+    "worktree:cleanup": "node scripts/worktree-cleanup.mjs"
   },
   "dependencies": {
     "zod": "^4.5.4"

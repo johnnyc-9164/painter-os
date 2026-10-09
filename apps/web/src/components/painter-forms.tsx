@@ -31,7 +31,7 @@ export const schemas: Record<string, Field[]> = {
  'expense.create':[relation('jobId','Job','job'),f('title','Expense description'),f('amount','Amount ($)','number'),choices('category','Category',['materials','labor','equipment','travel','other'])],
  'review.create':[relation('jobId','Completed job','job')], 'review.complete':[{...f('rating','Customer rating (1–5)','number'),min:1,max:5}],
  'referral.create':[relation('customerId','Referring customer','customer'),f('name','Referral name'),f('email','Email','email'),f('source','Source','text',false)],
- 'bid.create':[f('title','Bid title'),relation('customerId','Customer','customer'),f('value','Bid value ($)','number'),f('deadline','Submission deadline','date'),choices('status','Status',['draft','submitted','won','lost']),f('notes','Scope & requirements','textarea',false)],
+ 'bid.create':[f('title','Bid title'),relation('customerId','Customer','customer'),f('value','Bid value ($)','number'),f('deadline','Submission deadline','date'),choices('status','Status',['draft','submitted','won','lost','withdrawn']),f('notes','Scope & requirements','textarea',false)],
  'knowledge.create':[f('title','Document title'),f('content','Knowledge content','textarea')],
  'automation.create':[f('title','Rule name'),choices('trigger','Trigger',['lead.created','estimate.approved','job.completed','invoice.issued']),choices('action','Safe action',['task.create']),choices('status','Status',['draft','active','paused'])],
  'task.create':[f('title','Task title'),relation('jobId','Related job','job',false),f('dueAt','Due date','datetime-local',false)],
@@ -47,7 +47,7 @@ export const entityName = (entity: Entity) => String(entity.data.title || entity
 function datetime(value: unknown) { if (!value) return ''; const d = new Date(String(value)); return Number.isNaN(d.getTime()) ? String(value) : new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,16); }
 export function CommandForm({spec,entities,onClose,onSubmit,busy}:{spec:FormSpec;entities:Entity[];onClose:()=>void;onSubmit:(input:Record<string,unknown>)=>Promise<void>;busy:boolean}) {
  const [error,setError]=useState('');
- const [values,setValues]=useState<Record<string,unknown>>({...spec.entity?.data,...spec.initial});
+ const [values,setValues]=useState<Record<string,unknown>>({...spec.entity?.data,...(spec.action==='bid.update' && typeof spec.entity?.data.valueCents==='number'?{value:spec.entity.data.valueCents/100}:{}),...spec.initial});
  const estimate=spec.action.startsWith('estimate.') && ['create','update'].includes(spec.action.split('.')[1]);
  const existing=spec.entity?.data.lineItems as {description:string;quantity:number;unitPriceCents?:number;unitPrice?:number}[]|undefined;
  const [lines,setLines]=useState(existing?.map(l=>({description:l.description,quantity:l.quantity,unitPrice:Number(l.unitPriceCents ?? Number(l.unitPrice||0)*100)/100})) || [{description:'Interior painting — labor & materials',quantity:1,unitPrice:0}]);
