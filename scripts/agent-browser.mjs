@@ -1,3 +1,4 @@
+import { browserLaunchOptions, requestJsonLines } from './agent-browser-options.mjs';
 import { chromium } from '@playwright/test';
 import assert from 'node:assert/strict';
 import { join } from 'node:path';
@@ -10,12 +11,15 @@ await assertNoEnvFiles();
 const directory = await createRun('browser');
 const base = `http://127.0.0.1:${await unusedPort()}`;
 const log = createWriteStream(join(directory, 'server.log'), { mode: 0o600 });
-let server, state, browser;
+let server, state, browser, browserDetails;
 const interrupt = () => server?.kill('SIGTERM');
 process.once('SIGINT', interrupt); process.once('SIGTERM', interrupt);
 try {
   // Sandbox remains enabled; a runner limitation is a failure, never a reason to disable it.
-  browser = await chromium.launch({ headless: true, chromiumSandbox: true });
+  const options = await browserLaunchOptions();
+  browserDetails = { executablePath: options.executablePath ?? chromium.executablePath() };
+  browser = await chromium.launch(options);
+  browserDetails.version = browser.version();
   server = spawnNext('start', base, directory, ['ignore', 'pipe', 'pipe']); state = observe(server);
   server.stdout.pipe(log, { end: false }); server.stderr.pipe(log, { end: false });
   await waitForReady(base, state);
@@ -37,10 +41,10 @@ try {
   await page.screenshot({ path: join(directory, 'after-mobile.png'), fullPage: true });
   await context.close(); assert.deepEqual(errors, []); assert.deepEqual(failures, []);
   await appendFile(join(directory, 'requests.jsonl'), spans.map(span => JSON.stringify(span)).join('\n') + '\n', { mode: 0o600 });
-  await writeJson(join(directory, 'receipt.json'), { ...gitState(), status: 'passed', sandbox: true, runtime: 'local', scope: 'demo login, navigation, mobile layout; not cloud auth or full financial lifecycle', errors, failures });
+  await writeJson(join(directory, 'receipt.json'), { ...gitState(), status: 'passed', sandbox: true, browser: browserDetails, runtime: 'local', scope: 'demo login, navigation, mobile layout; not cloud auth or full financial lifecycle', errors, failures });
   console.log(`Browser smoke passed. Artifacts: ${directory}`);
 } catch (error) {
-  await writeJson(join(directory, 'receipt.json'), { ...gitState(), status: 'failed', sandbox: true, error: error.message });
+  await writeJson(join(directory, 'receipt.json'), { ...gitState(), status: 'failed', sandbox: true, browser: browserDetails, error: error.message });
   console.error(`Browser smoke failed. Artifacts: ${directory}`); throw error;
 } finally {
   process.removeListener('SIGINT', interrupt); process.removeListener('SIGTERM', interrupt);

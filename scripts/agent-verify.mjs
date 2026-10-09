@@ -1,3 +1,4 @@
+import { browserGateEnvironment } from './agent-browser-options.mjs';
 import { spawn } from 'node:child_process';
 import { createWriteStream } from 'node:fs';
 import { join } from 'node:path';
@@ -45,7 +46,7 @@ try {
     console.log(`Running ${name}; logs: ${directory}`);
     const log = createWriteStream(join(directory, `${name}.log`), { mode: 0o600 });
     const started = performance.now();
-    child = spawn(process.execPath, args, { cwd: root, env, stdio: ['ignore', 'pipe', 'pipe'], shell: false }); state = observe(child);
+    child = spawn(process.execPath, args, { cwd: root, env: browserGateEnvironment(name, env), stdio: ['ignore', 'pipe', 'pipe'], shell: false }); state = observe(child);
     child.stdout.pipe(log, { end: false }); child.stderr.pipe(log, { end: false });
     let timer;
     try {

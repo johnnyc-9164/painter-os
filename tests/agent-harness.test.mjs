@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp, mkdir, writeFile, rm } from 'node:fs/promises';
+import { mkdtemp, mkdir, writeFile, rm, chmod } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { importsIn, boundaryError, schemaInventory } from '../scripts/agent-check.mjs';
@@ -53,4 +53,41 @@ test('generated restoration accepts only known Next defaults and rejects weakene
   assert.equal(allowedNextRewrite('apps/marketing/tsconfig.json', before, after.replace('"strict":true', '"strict":false')), false);
   assert.equal(allowedNextRewrite('apps/web/next-env.d.ts', before, '// unexpected edit'), false);
   assert.equal(allowedNextRewrite('apps/web/src/lib/http.ts', before, after), false);
+});
+
+
+test('browser override accepts only explicit absolute executable files and retains sandbox', async () => {
+  const { browserLaunchOptions } = await import('../scripts/agent-browser-options.mjs');
+  assert.deepEqual(await browserLaunchOptions({}), { headless: true, chromiumSandbox: true });
+  for (const path of ['', 'chromium', './chromium', '/missing/painter-chromium']) {
+    await assert.rejects(browserLaunchOptions({ PAINTER_AGENT_CHROMIUM_EXECUTABLE: path }), /INVALID_CHROMIUM_EXECUTABLE/);
+  }
+  const fixture = await mkdtemp(join(tmpdir(), 'painter-browser-options-'));
+  try {
+    await assert.rejects(browserLaunchOptions({ PAINTER_AGENT_CHROMIUM_EXECUTABLE: fixture }), /INVALID_CHROMIUM_EXECUTABLE/);
+    const executable = join(fixture, 'chromium');
+    await writeFile(executable, '#!/bin/sh\nexit 0\n', { mode: 0o600 });
+    await assert.rejects(browserLaunchOptions({ PAINTER_AGENT_CHROMIUM_EXECUTABLE: executable }), /INVALID_CHROMIUM_EXECUTABLE/);
+    await chmod(executable, 0o700);
+    assert.deepEqual(await browserLaunchOptions({ PAINTER_AGENT_CHROMIUM_EXECUTABLE: executable }), { headless: true, chromiumSandbox: true, executablePath: executable });
+  } finally { await rm(fixture, { recursive: true }); }
+});
+
+test('request evidence is parseable newline-delimited JSON including multiple requests', async () => {
+  const { requestJsonLines } = await import('../scripts/agent-browser-options.mjs');
+  const spans = [{ route: '/overview', method: 'GET' }, { route: '/api/:redacted', method: 'POST' }];
+  const serialized = requestJsonLines(spans);
+  assert.ok(serialized.endsWith('\n'));
+  assert.deepEqual(serialized.trimEnd().split('\n').map(line => JSON.parse(line)), spans);
+  assert.equal(requestJsonLines([]), '');
+});
+
+
+test('browser executable selection is forwarded only to browser verification', async () => {
+  const { browserGateEnvironment } = await import('../scripts/agent-browser-options.mjs');
+  const source = { PAINTER_AGENT_CHROMIUM_EXECUTABLE: '/usr/bin/chromium', CONVEX_DEPLOY_KEY: 'secret' };
+  const env = verificationEnvironment(source);
+  assert.deepEqual(browserGateEnvironment('browser', env, source), { ...env, PAINTER_AGENT_CHROMIUM_EXECUTABLE: '/usr/bin/chromium' });
+  for (const gate of ['doctor', 'web-build', 'http', 'platform-http']) assert.deepEqual(browserGateEnvironment(gate, env, source), env);
+  assert.equal(agentEnvironment('http://127.0.0.1:4011', '/owned/run').PAINTER_AGENT_CHROMIUM_EXECUTABLE, undefined);
 });

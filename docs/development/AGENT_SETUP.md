@@ -41,6 +41,14 @@ npx playwright install chromium
 npm run agent:verify -- --browser
 ```
 
+If a trusted system Chromium is already installed, select it explicitly without downloading another browser:
+
+```sh
+PAINTER_AGENT_CHROMIUM_EXECUTABLE=/usr/bin/chromium npm run agent:verify -- --browser
+```
+
+The optional override must name an absolute, existing executable file. It is forwarded only to the browser gate, never the app server. The receipt records the resolved executable path and launched browser version; keep run artifacts private because paths can identify the local runner. The default remains Playwright's bundled Chromium. Both choices retain the sandbox, and an invalid override fails without falling back.
+
 Run from a clean committed checkout. Stop development first; Next dev can regenerate tracked next-env declarations. Inspect that generated-only diff before restoring it; never discard another owner’s source edits.
 
 The full command covers the root verify gates (types, lint, the same TS test files, marketing/Vercel tests, Convex tests and web build), Contractor OS verify:all, marketing build, compatibility, additional HTTP-runner/platform-render tests and three isolated HTTP suites, plus new harness checks. It invokes TS tests through Node’s supported `--import tsx` loader so the CLI’s optional Unix IPC server is not required. The existing npm test/verify commands remain intact. Next builds regenerate declaration/config scaffolding. The verifier captures the initially committed versions and restores only the installed Next’s exact declaration template or known allowJs/incremental/dev-type defaults, recording restored paths. An unexpected edit fails and is left for inspection. Python caches are suppressed. It writes each gate's logs and an exact-head/dirty-state JSON receipt in `.agent/runs/verify-*`, stops at failure and never retries silently. `--browser` adds a new sandbox-enabled smoke test with screenshots/video and navigation/mobile assertions. The existing browser acceptance script remains untouched; its sandbox bypass is tracked as debt. Browser smoke is not the full business lifecycle. If Chromium or its sandbox cannot run, report that gap; do not disable the sandbox.
