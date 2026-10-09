@@ -1,0 +1,75 @@
+{
+  "documents": [
+    {
+      "path": "AGENTS.md",
+      "owner": "agent-readiness maintainer",
+      "reviewed": "2026-10-07"
+    },
+    {
+      "path": "ARCHITECTURE.md",
+      "owner": "agent-readiness maintainer",
+      "reviewed": "2026-10-07"
+    },
+    {
+      "path": "docs/index.md",
+      "owner": "agent-readiness maintainer",
+      "reviewed": "2026-10-07"
+    },
+    {
+      "path": "docs/development/AGENT_SETUP.md",
+      "owner": "agent-readiness maintainer",
+      "reviewed": "2026-10-07"
+    },
+    {
+      "path": "docs/development/OBSERVABILITY.md",
+      "owner": "agent-readiness maintainer",
+      "reviewed": "2026-10-07"
+    },
+    {
+      "path": "docs/development/HARNESS_AUDIT.md",
+      "owner": "agent-readiness maintainer",
+      "reviewed": "2026-10-07"
+    },
+    {
+      "path": "docs/design-docs/core-beliefs.md",
+      "owner": "agent-readiness maintainer",
+      "reviewed": "2026-10-07"
+    },
+    {
+      "path": "docs/product-specs/index.md",
+      "owner": "agent-readiness maintainer",
+      "reviewed": "2026-10-07"
+    },
+    {
+      "path": "docs/QUALITY_SCORE.md",
+      "owner": "agent-readiness maintainer",
+      "reviewed": "2026-10-07"
+    },
+    {
+      "path": "docs/PLANS.md",
+      "owner": "agent-readiness maintainer",
+      "reviewed": "2026-10-07"
+    },
+    {
+      "path": "docs/exec-plans/TEMPLATE.md",
+      "owner": "agent-readiness maintainer",
+      "reviewed": "2026-10-07"
+    },
+    {
+      "path": "docs/exec-plans/active/agent-harness-readiness.md",
+      "owner": "agent-readiness maintainer",
+      "reviewed": "2026-10-07"
+    },
+    {
+      "path": "docs/exec-plans/tech-debt-tracker.md",
+      "owner": "agent-readiness maintainer",
+      "reviewed": "2026-10-07"
+    },
+    {
+      "path": "docs/exec-plans/completed/README.md",
+      "owner": "agent-readiness maintainer",
+      "reviewed": "2026-10-07"
+    }
+  ],
+  "legacySizeLimits": {}
+}

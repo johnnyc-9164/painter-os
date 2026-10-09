@@ -2,7 +2,13 @@
 
 A working full-stack implementation of the central painting-business lifecycle, built from Johnny's Painter OS IR, PaintPro references, and preserved Contractor OS 0.6.0 source.
 
-## Release status
+## Agent development setup
+
+Start with [agent setup](docs/development/AGENT_SETUP.md): `npm ci --ignore-scripts`, `npm run agent:doctor`, then `npm run agent:dev`. The [quality record](docs/QUALITY_SCORE.md) and fresh exact-head receipts distinguish local checks from live operation.
+
+## Historical source release status
+
+The following source-release report describes its original delivery, not the current hosting/CI state. Verify current deployments and authentication separately.
 
 The production Next.js build, domain tests, Convex product adapter tests, real local HTTP flows, and browser flows have passed. This is a source deliverable, not an already hosted application. No live Convex deployment, authentication/email provider delivery, payment charge, calendar synchronization, repository push, or production deployment has occurred.
 

@@ -26,7 +26,16 @@
     "test:browser": "node tests/browser.acceptance.mjs",
     "dev:local": "PAINTER_RUNTIME=local PAINTER_ALLOW_DEMO=true npm run dev --workspace web",
     "start:local": "PAINTER_RUNTIME=local PAINTER_ALLOW_DEMO=true PAINTER_COOKIE_SECURE=false npm run start --workspace web",
-    "test:forms": "vitest run --config vitest.forms.config.ts"
+    "test:forms": "vitest run --config vitest.forms.config.ts",
+    "agent:doctor": "node scripts/agent-doctor.mjs",
+    "agent:check": "node scripts/agent-check.mjs",
+    "agent:dev": "node scripts/agent-dev.mjs",
+    "agent:observe": "node scripts/agent-observe.mjs",
+    "agent:browser": "node scripts/agent-browser.mjs",
+    "agent:verify": "node scripts/agent-verify.mjs",
+    "agent:garden": "node scripts/agent-check.mjs --garden",
+    "agent:schema": "node scripts/agent-check.mjs --write-schema",
+    "test:agent": "node --test tests/agent-harness.test.mjs"
   },
   "dependencies": {
     "zod": "^4.5.4"
