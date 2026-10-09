@@ -22,4 +22,6 @@ expect(()=>render(rich,[{...asset,url:'javascript:alert(1)'}])).toThrow('UNRESOL
 });
 test('private preview is clearly labeled and contains the same authored sections',()=>{
 const html=renderToStaticMarkup(createElement(CompanyWebsite,{content,media:[],workspaceId:'fixture',preview:true}));expect(html).toContain('Private draft preview. This is not the published website.');expect(html).toContain('Authored service');
+const unresolved={...content,hero:{...content.hero,media:{mediaId:'absent',alt:'Selected owned image'}}};
+expect(renderToStaticMarkup(createElement(CompanyWebsite,{content:unresolved,media:[],workspaceId:'fixture',preview:true}))).toContain('Photo unavailable in this draft preview');
 });
