@@ -37,7 +37,7 @@ export async function loadPainterState(ctx: GenericQueryCtx<DataModel>, tenantId
 
 /** Sole painter aggregate writer, shared by authenticated commands and the
  * specialized anonymous lead capability. No shadow CRM entities are persisted. */
-export async function persistPainterState(ctx: GenericMutationCtx<DataModel>, tenantId: Id<'painterWorkspaces'>, before: State, after: State, requestKey?: string, transfer?: Transfer) {
+export async function persistPainterState(ctx: GenericMutationCtx<DataModel>, tenantId: Id<'painterWorkspaces'>, before: State, after: State, requestKey?: string, transfer?: Transfer, nativeKind?: 'estimate_slot'|'estimate_appointment') {
   const revisions = new Map(before.entities.map(entity=>[entity.id,entity.revision]));
   const changed = after.entities.filter(entity=>revisions.get(entity.id) !== entity.revision);
   const intakeLeads: IntakeReceipt[] = [];
@@ -80,7 +80,7 @@ export async function persistPainterState(ctx: GenericMutationCtx<DataModel>, te
     const originalKey = requestKey ?? decoded[1];
     const storedKey = intakeLeads.length ? await intakeCommandReceiptKey(String(tenantId),originalKey) : originalKey;
     const fingerprint = intakeLeads.length && !receipt.fingerprint.startsWith('sha256:') ? `sha256:${await intakeDigest(receipt.fingerprint)}` : receipt.fingerprint;
-    const commandReceiptId = await ctx.db.insert('painterReceipts', {tenantId, requestKey: storedKey, fingerprint, result: receipt.result});
+    const commandReceiptId = await ctx.db.insert('painterReceipts', {tenantId, requestKey: storedKey, fingerprint, result: receipt.result, ...(nativeKind ? {nativeKind} : {})});
     for (const intake of intakeLeads) await ctx.db.insert('painterIntakeReceiptLinks', {leadReceiptId: intake._id, commandReceiptId});
   }
 }

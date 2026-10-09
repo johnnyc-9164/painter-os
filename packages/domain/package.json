@@ -9,7 +9,8 @@
     "./seed": "./src/seed.ts",
     "./next-action-queue": "./src/next-action-queue.ts",
     "./review-follow-up": "./src/review-follow-up.ts",
-    "./company-website": "./src/company-website.ts"
+    "./company-website": "./src/company-website.ts",
+    "./estimate-appointments": "./src/estimate-appointments.ts"
   },
   "scripts": {
     "check-types": "tsc --noEmit"
