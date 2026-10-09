@@ -17,7 +17,7 @@ import {
   type EstimateAppointmentState,
 } from "../../domain/src/estimate-appointments";
 import { slotFields, appointmentFields } from "./estimateAppointmentValidators";
-import type { Entity } from "../../domain/src/contracts";
+import type { Entity, Actor } from "../../domain/src/contracts";
 import type { State } from "../../domain/src/engine";
 type QueryCtx = GenericQueryCtx<DataModel>;
 export const NATIVE_FLAGS = {
@@ -181,6 +181,21 @@ export async function verifiedSlot(
       },
     } satisfies EstimateSlotNormalization,
   };
+}
+export async function slotIntentFingerprint(
+  actor: Pick<Actor, "id" | "role">,
+  args: Record<string, unknown>,
+  key: string,
+) {
+  return intakeDigest(
+    JSON.stringify([
+      actor.id,
+      actor.role,
+      Object.entries({ ...args, requestKey: key }).sort(([a], [b]) =>
+        a < b ? -1 : a > b ? 1 : 0,
+      ),
+    ]),
+  );
 }
 export async function nativeRequestKey(
   tenantId: string,

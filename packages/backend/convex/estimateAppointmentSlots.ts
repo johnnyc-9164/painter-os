@@ -29,6 +29,7 @@ import {
   canonicalSlotInput,
   verifiedSlot,
   slotProof,
+  slotIntentFingerprint,
   persistNative,
   NATIVE_FLAGS,
 } from "./estimateAppointmentStore";
@@ -55,17 +56,61 @@ export const save = action({
       ctx.runAction(api.estimateAppointmentSlotNormalization.normalize, args),
     ),
 });
+/** Current office authority plus exact prior intent reconciliation precedes prospective checks. */
 export const authority = internalQuery({
-  args: {
-    workspaceId: v.optional(v.id("painterWorkspaces")),
-    resourceId: v.string(),
-  },
-  returns: v.object({ workspaceId: v.id("painterWorkspaces") }),
+  args: slotWriteArgs,
+  returns: v.object({
+    workspaceId: v.id("painterWorkspaces"),
+    replay: v.union(slotResultValidator, v.null()),
+  }),
   handler: async (ctx, args) =>
     appointmentBoundary(async () => {
-      const { workspace } = await appointmentAuthority(ctx, args.workspaceId);
+      const { actor, workspace } = await appointmentAuthority(
+        ctx,
+        args.workspaceId,
+      );
+      const key = await nativeRequestKey(
+        String(workspace._id),
+        "estimate_slot",
+        args.requestKey,
+      );
+      const prior = await nativeReceipt(
+        ctx,
+        workspace._id,
+        "estimate_slot",
+        key,
+      );
+      if (prior) {
+        const originalInstant = prior.result.entity?.data?.startAt;
+        if (
+          typeof originalInstant !== "string" ||
+          !Number.isFinite(Date.parse(originalInstant)) ||
+          new Date(originalInstant).toISOString() !== originalInstant
+        )
+          refuseAppointment("APPOINTMENT_INVALID_NORMALIZATION");
+        const fingerprint = await slotIntentFingerprint(
+          actor,
+          {
+            ...args,
+            workspaceId: workspace._id,
+            normalizedInstant: originalInstant,
+          },
+          key,
+        );
+        if (prior.fingerprint !== fingerprint)
+          refuseAppointment("APPOINTMENT_IDEMPOTENCY_CONFLICT");
+        const { slot } = await verifiedSlot(
+          ctx,
+          workspace._id,
+          String(prior.result.entity?.id),
+        );
+        return {
+          workspaceId: workspace._id,
+          replay: { slot, replayed: true, ...NATIVE_FLAGS },
+        };
+      }
       await appointmentResource(ctx, workspace._id, args.resourceId);
-      return { workspaceId: workspace._id };
+      return { workspaceId: workspace._id, replay: null };
     }),
 });
 /** Internal only: normalizedInstant is derived by authenticated Node action, never browser args. */
@@ -82,11 +127,6 @@ export const commitNormalized = internalMutation({
         ctx,
         args.workspaceId,
       );
-      const resource = await appointmentResource(
-        ctx,
-        workspace._id,
-        args.resourceId,
-      );
       if (
         !Number.isSafeInteger(args.expectedRevision) ||
         args.expectedRevision < 0 ||
@@ -98,15 +138,7 @@ export const commitNormalized = internalMutation({
         "estimate_slot",
         args.requestKey,
       );
-      const fingerprint = await intakeDigest(
-        JSON.stringify([
-          actor.id,
-          actor.role,
-          Object.entries({ ...args, requestKey: key }).sort(([a], [b]) =>
-            a < b ? -1 : a > b ? 1 : 0,
-          ),
-        ]),
-      );
+      const fingerprint = await slotIntentFingerprint(actor, args, key);
       const prior = await nativeReceipt(
         ctx,
         workspace._id,
@@ -123,6 +155,11 @@ export const commitNormalized = internalMutation({
         );
         return { slot, replayed: true, ...NATIVE_FLAGS };
       }
+      const resource = await appointmentResource(
+        ctx,
+        workspace._id,
+        args.resourceId,
+      );
       let before: DataModel["painterEntities"]["document"][] = [];
       let id = args.slotId;
       if (id) {

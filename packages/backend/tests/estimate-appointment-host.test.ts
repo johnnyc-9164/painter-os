@@ -315,9 +315,10 @@ describe("native appointment host with actual Better Auth", () => {
       workspaceId: f.company.id,
       normalizedInstant: "2026-10-12T14:00:00.000Z",
     };
-    await f.owner.client.query(api.estimateAppointmentSlots.authority, {
-      resourceId: f.estimator.userId,
-    });
+    await f.owner.client.query(
+      api.estimateAppointmentSlots.authority,
+      f.slotArgs(),
+    );
     await f.t.run((ctx) =>
       ctx.db.patch(f.company.ownerMember, { enabled: false }),
     );
@@ -926,6 +927,133 @@ describe("native appointment host with actual Better Auth", () => {
           .collect(),
       ),
     ).toHaveLength(2);
+  });
+  it("exact lost-response slot intent reconciles before disabled resource or advanced clock admission", async () => {
+    const f = await fixture();
+    const original = f.slotArgs("lost-response");
+    // The writer committed; caller intentionally discards its response to model uncertain delivery.
+    await f.owner.client.action(api.estimateAppointmentSlots.save, original);
+    const page = await f.owner.client.query(api.estimateAppointmentSlots.list, {
+      paginationOpts: { numItems: 25, cursor: null },
+    });
+    const slot = page.items[0]!;
+    await f.owner.client.mutation(api.estimateAppointmentSlots.close, {
+      slotId: slot.id,
+      expectedRevision: 1,
+      requestKey: "later-close",
+    });
+    await f.t.run((ctx) =>
+      ctx.db.patch(f.company.estimatorMember, { enabled: false }),
+    );
+    await f.t.runInComponent("betterAuth", (ctx) =>
+      ctx.db.patch(f.owner.sessionId, { expiresAt: Date.parse("2027-01-01") }),
+    );
+    vi.setSystemTime(new Date("2026-11-12T16:00:00Z"));
+    const intl = vi.spyOn(Intl, "DateTimeFormat").mockImplementation(() => {
+      throw new Error("must not renormalize recorded intent");
+    });
+    try {
+      expect(
+        await f.owner.client.action(
+          api.estimateAppointmentSlots.save,
+          original,
+        ),
+      ).toMatchObject({
+        slot: { id: slot.id, status: "closed", revision: 2 },
+        replayed: true,
+      });
+      await expect(
+        f.owner.client.action(api.estimateAppointmentSlots.save, {
+          ...original,
+          durationMinutes: 30,
+        }),
+      ).rejects.toThrow("APPOINTMENT_IDEMPOTENCY_CONFLICT");
+    } finally {
+      intl.mockRestore();
+    }
+    expect(
+      await f.t.run((ctx) =>
+        ctx.db
+          .query("painterReceipts")
+          .withIndex("by_tenant_native_kind", (q) =>
+            q.eq("tenantId", f.company.id).eq("nativeKind", "estimate_slot"),
+          )
+          .collect(),
+      ),
+    ).toHaveLength(2);
+  });
+  it("indexed proposed lead-slot duplicates and reschedule collisions ignore cancelled history", async () => {
+    const f = await fixture();
+    const a = await f.slot("a");
+    const b = await f.slot("b", "2026-10-12T12:00");
+    const first = await f.propose(a, "first");
+    const second = await f.propose(b, "second");
+    const row = await f.t.run((ctx) =>
+      ctx.db
+        .query("painterEntities")
+        .withIndex("by_tenant_entity", (q) =>
+          q.eq("tenantId", f.company.id).eq("entityId", second.appointment.id),
+        )
+        .unique(),
+    );
+    await f.t.run(async (ctx) => {
+      for (let i = 0; i < 300; i++)
+        await ctx.db.insert("painterEntities", {
+          tenantId: f.company.id,
+          entityId: `appointment:cancelled-duplicate${i}`,
+          type: "estimate_appointment",
+          revision: 1,
+          createdAt: "test",
+          updatedAt: "test",
+          data: {
+            ...row!.data,
+            status: "cancelled",
+            cancelledBy: f.owner.userId,
+          },
+        });
+    });
+    await expect(f.propose(a, "fresh-duplicate")).rejects.toThrow(
+      "APPOINTMENT_DUPLICATE_PROPOSAL",
+    );
+    const intent = {
+      appointmentId: first.appointment.id,
+      expectedRevision: 1,
+      requestKey: "reschedule-duplicate",
+      slotId: b.id,
+      slotRevision: b.revision,
+      leadRevision: 1,
+      customerRevision: 1,
+    };
+    await expect(
+      f.owner.client.mutation(api.estimateAppointments.reschedule, intent),
+    ).rejects.toThrow("APPOINTMENT_DUPLICATE_PROPOSAL");
+    expect(
+      await f.t.run((ctx) =>
+        ctx.db
+          .query("painterEntities")
+          .withIndex("by_tenant_entity", (q) =>
+            q.eq("tenantId", f.company.id).eq("entityId", first.appointment.id),
+          )
+          .unique(),
+      ),
+    ).toMatchObject({
+      revision: 1,
+      data: { slotId: a.id, status: "proposed" },
+    });
+    await f.owner.client.mutation(api.estimateAppointments.cancel, {
+      appointmentId: second.appointment.id,
+      expectedRevision: 1,
+      requestKey: "release-proposal",
+    });
+    expect(
+      await f.owner.client.mutation(
+        api.estimateAppointments.reschedule,
+        intent,
+      ),
+    ).toMatchObject({
+      appointment: { status: "proposed", slotId: b.id, revision: 2 },
+      replayed: false,
+    });
   });
   it("closes past slots without inventing a new future normalization", async () => {
     const f = await fixture();
