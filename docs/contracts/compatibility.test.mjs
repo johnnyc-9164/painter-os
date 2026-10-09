@@ -26,7 +26,7 @@ test('freeze links resolve to actual tracked source', () => {
 });
 test('source boundary remains mounted and explicitly unmirrored', () => {
   const config = source('packages/backend/convex/convex.config.ts');
-  assert.deepEqual([...config.matchAll(/app\.use\((\w+)\)/g)].map(m => m[1]), ['betterAuth', 'contractorOs', 'painting', 'agentmail']);
+  assert.deepEqual([...config.matchAll(/app\.use\((\w+)\)/g)].map(m => m[1]), ['betterAuth', 'contractorOs', 'painting', 'agentmail', 'rateLimiter']);
   const painter = source('packages/backend/convex/painter.ts');
   assert.match(painter, /not a projection of painterEntities/);
   assert.match(painter, /safeGetAuthUser/);

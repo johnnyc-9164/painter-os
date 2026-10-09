@@ -1,7 +1,7 @@
 import { ConvexError } from 'convex/values';
 import { ConvexHttpClient } from 'convex/browser';
 import { makeFunctionReference } from 'convex/server';
-import { decodePublishedArticles, publishedArticlesFunction } from '@painter-os-bts/backend/published-articles.mjs';
+import { decodePublishedArticles, publishedArticlesFunction, decodePublishedArticlePage, publishedArticlePageFunction, publicArticlePageSize } from '@painter-os-bts/backend/published-articles.mjs';
 
 const publishedArticles = makeFunctionReference(publishedArticlesFunction);
 
@@ -23,6 +23,25 @@ export async function readJournalArticles(url, workspaceId, slug, missing) {
   try {
     return await readPublishedArticles(url, workspaceId, slug);
   } catch (error) {
+    if (error instanceof ConvexError && error.data === 'PUBLIC_WORKSPACE_NOT_FOUND') missing();
+    throw error;
+  }
+}
+
+
+export function createPublishedArticlePageReader(query) {
+  return async (workspaceId, cursor = null) => decodePublishedArticlePage(await query({ workspaceId, cursor, limit: publicArticlePageSize }));
+}
+
+export async function readPublishedArticlePage(url, workspaceId, cursor = null) {
+  if (!url) throw new Error('PUBLIC_CONTENT_NOT_CONFIGURED');
+  const reference = makeFunctionReference(publishedArticlePageFunction);
+  return createPublishedArticlePageReader(args => new ConvexHttpClient(url).query(reference, args))(workspaceId, cursor);
+}
+
+export async function readJournalArticlePage(url, workspaceId, cursor, missing) {
+  try { return await readPublishedArticlePage(url, workspaceId, cursor); }
+  catch (error) {
     if (error instanceof ConvexError && error.data === 'PUBLIC_WORKSPACE_NOT_FOUND') missing();
     throw error;
   }
