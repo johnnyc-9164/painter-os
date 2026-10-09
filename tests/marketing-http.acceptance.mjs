@@ -59,6 +59,8 @@ export async function marketingHttpAcceptance(base, expectedAdminOrigin = null, 
     const title=body.match(/<title>(.*?)<\/title>/)?.[1];assert.ok(title,path);assert.ok(!titles.has(title),`Unique title ${path}`);titles.add(title);
     const description=body.match(/<meta name="description" content="([^"<>]+)"/)?.[1];assert.ok(description,path);assert.ok(!descriptions.has(description),`Unique description ${path}`);descriptions.add(description);
     assert.match(body,/aria-label="Product navigation"/);
+    if(origin){assert.ok(body.includes(`data-workspace="true"`),path);assert.ok(body.includes(`href="${origin}"`),path);assert.match(body,/Sign in/);}
+    if(path!=='/')assert.match(body,/class="product-skip-link" href="#product-content"/);
     if(expectedSiteOrigin){assert.ok(body.includes(`rel="canonical" href="${expectedSiteOrigin+path}"`),path);assert.match(body,/<meta name="robots" content="index, follow"/);assert.ok(body.includes(`property="og:url" content="${expectedSiteOrigin+path}"`));}
     else{assert.doesNotMatch(body,/rel="canonical"/);assert.match(body,/<meta name="robots" content="noindex, follow"/);}
   }
