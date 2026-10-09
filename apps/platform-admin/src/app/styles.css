@@ -1,0 +1,5 @@
+@import "@painter-os-bts/ui/globals.css";
+@import "@painter-os-bts/platform/styles.css";
+@source "../../../../packages/platform-admin-ui/src/**/*.{ts,tsx}";
+:root{--background:#f7f9fb;--foreground:#172033;--primary:#0052ff;--primary-foreground:#fff;--border:#e5eaf1;--input:#dfe5ef;--ring:#0052ff;--muted:#f2f5f9;--muted-foreground:#758197;--secondary:#edf2fb;color-scheme:light}
+*{box-sizing:border-box}body{margin:0;color:var(--foreground);background:var(--background);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:14px;line-height:1.5}a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}button,a{touch-action:manipulation}h1,h2,h3,p{margin:0}svg{flex-shrink:0}a:focus-visible,button:focus-visible{outline:3px solid #adc6ff;outline-offset:3px}
