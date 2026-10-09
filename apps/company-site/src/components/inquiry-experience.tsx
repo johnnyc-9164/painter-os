@@ -8,5 +8,5 @@ export function InquiryExperience({workspace,guidance,contactPolicy}:{workspace:
   const [pendingGuidance,setPendingGuidance]=useState<PublicIntake|null>(null);
   const policy=pendingGuidance ?? (guidance.state==='ready'?guidance.intake:null);
   if(!policy)return <section className="intake-conversation"><h1>Project guidance is unavailable.</h1><p>This company has not enabled its project guide. Contact the company directly to discuss your project.</p></section>;
-  return <IntakeQuestionnaire policy={policy} workspace={workspace} contactPolicy={guidance.state==='ready'?contactPolicy:undefined} onInquiryLock={()=>setPendingGuidance(policy)}/>;
+  return <>{pendingGuidance && (guidance.state==='unavailable'||!contactPolicy) && <p role="status">New project requests are unavailable. You can still check the receipt for your original request.</p>}<IntakeQuestionnaire policy={policy} workspace={workspace} contactPolicy={guidance.state==='ready'?contactPolicy:undefined} onInquiryLock={()=>setPendingGuidance(policy)}/></>;
 }
