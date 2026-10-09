@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
+  validateCompanyWebsitePublication,
   decodePublicCompanyWebsite,
   emptyCompanyWebsiteContent,
   normalizeCompanyWebsiteContent,
@@ -118,5 +119,25 @@ test("canonical bounds reject duplicated section IDs, unsupported currencies and
         alt: "Project",
       })),
     }),
+  );
+});
+
+test("draft empty rows cannot become published claims", () => {
+  const content = emptyCompanyWebsiteContent("Company");
+  const draft = {
+    ...content,
+    testimonials: [{ id: "draft", quote: "", attribution: "" }],
+  };
+  assert.equal(normalizeCompanyWebsiteContent(draft).testimonials.length, 1);
+  assert.throws(
+    () => validateCompanyWebsitePublication(draft),
+    /WEBSITE_INCOMPLETE_SECTION/,
+  );
+  assert.deepEqual(
+    normalizeCompanyWebsiteContent({
+      ...content,
+      contacts: { ...content.contacts, address: { lines: [""] } },
+    }),
+    content,
   );
 });

@@ -343,11 +343,18 @@ export function normalizeCompanyWebsiteContent(
       ["lines"],
       ["city", "region", "postalCode", "country"],
     );
-    contactResult.address = { lines: list(a.lines, 3, (x) => text(x, 200)) };
+    contactResult.address = {
+      lines: list(a.lines, 3, (x) => text(x, 200)).filter(Boolean),
+    };
     for (const key of ["city", "region", "postalCode", "country"] as const) {
       const v = optionalText(a[key], 100);
       if (v) contactResult.address[key] = v;
     }
+    if (
+      !contactResult.address.lines.length &&
+      Object.keys(contactResult.address).length === 1
+    )
+      delete contactResult.address;
   }
   const result: CompanyWebsiteContent = {
     template: o.template,
@@ -602,4 +609,21 @@ export function decodeWebsiteMediaPage(value: unknown): WebsiteMediaPage {
     cursor: o.cursor === null ? null : text(o.cursor, 2000),
     done: o.done,
   };
+}
+
+/** Drafts may contain empty in-progress section rows; publishing must be usable. */
+export function validateCompanyWebsitePublication(
+  value: unknown,
+): CompanyWebsiteContent {
+  const content = normalizeCompanyWebsiteContent(value);
+  if (!content.companyName) throw new Error("WEBSITE_COMPANY_NAME_REQUIRED");
+  if (
+    content.services.some((item) => !item.title) ||
+    content.projects.some((item) => !item.title) ||
+    content.pricing.some((item) => !item.title) ||
+    content.testimonials.some((item) => !item.quote || !item.attribution) ||
+    content.contacts.hours.some((item) => !item.label || !item.value)
+  )
+    throw new Error("WEBSITE_INCOMPLETE_SECTION");
+  return content;
 }

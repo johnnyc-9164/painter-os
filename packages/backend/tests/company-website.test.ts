@@ -124,6 +124,27 @@ describe("company-authored website authority and owned media", () => {
       }),
     ).toEqual({ state: "unavailable" });
   });
+  it("retains incomplete authoring rows in draft but prevents publishing empty testimonial claims", async () => {
+    const { owner } = await fixture();
+    const content = {
+      ...emptyCompanyWebsiteContent("Company"),
+      testimonials: [{ id: "draft", quote: "", attribution: "" }],
+    };
+    await owner.mutation(api.companyWebsite.saveDraft, {
+      expectedRevision: 0,
+      requestKey: "incomplete",
+      content,
+    });
+    await expect(
+      owner.mutation(api.companyWebsite.publish, {
+        expectedRevision: 1,
+        requestKey: "publish",
+      }),
+    ).rejects.toThrow("WEBSITE_INCOMPLETE_SECTION");
+    expect((await owner.query(api.companyWebsite.current, {})).revision).toBe(
+      1,
+    );
+  });
   it("enforces actual Better Auth and current membership before writes/replays/preview", async () => {
     const { t, owner, company, userId, sessionId } = await fixture();
     await expect(t.query(api.companyWebsite.current, {})).rejects.toThrow(

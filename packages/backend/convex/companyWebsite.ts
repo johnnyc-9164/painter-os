@@ -11,6 +11,7 @@ import { mutation, query, type DataModel, type Id } from "./runtime";
 import { resolvePainterMembership } from "./painter";
 import { intakeDigest } from "./intakeCrypto";
 import {
+  validateCompanyWebsitePublication,
   emptyCompanyWebsiteContent,
   normalizeCompanyWebsiteContent,
   websiteMediaReferences,
@@ -194,8 +195,7 @@ function write(operation: "saveDraft" | "publish" | "unpublish") {
       const now = new Date().toISOString();
       let published = row?.published;
       if (operation === "publish") {
-        if (!content.companyName)
-          throw new Error("WEBSITE_COMPANY_NAME_REQUIRED");
+        validateCompanyWebsitePublication(content);
         await resolveWebsiteMedia(ctx, workspace._id, content, revision, true);
         published = { revision, publishedAt: now, content };
       }
