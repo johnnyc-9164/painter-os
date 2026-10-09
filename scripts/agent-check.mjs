@@ -4,20 +4,38 @@ import { fileURLToPath } from 'node:url';
 import ts from 'typescript';
 import { root } from './agent-common.mjs';
 
-export function importsIn(source, path = 'source.ts') {
+/** Preserve syntax/erasure metadata for narrowly approved type boundaries. */
+export function importReferencesIn(source, path = 'source.ts') {
   const tree = ts.createSourceFile(path, source, ts.ScriptTarget.Latest, true);
   const imports = [];
   function visit(node) {
-    let value;
-    if ((ts.isImportDeclaration(node) || ts.isExportDeclaration(node)) && node.moduleSpecifier) value = node.moduleSpecifier;
-    if (ts.isCallExpression(node) && (node.expression.kind === ts.SyntaxKind.ImportKeyword || ts.isIdentifier(node.expression) && node.expression.text === 'require')) value = node.arguments[0];
-    if (value && ts.isStringLiteralLike(value)) imports.push(value.text);
+    let value, kind, typeOnly = false;
+    if (ts.isImportDeclaration(node)) {
+      value = node.moduleSpecifier; kind = 'import';
+      // Only explicit whole-declaration `import type` gets the exception.
+      // Parse errors cannot turn malformed source into an approved seam.
+      typeOnly = tree.parseDiagnostics.length === 0 && node.importClause?.isTypeOnly === true;
+    } else if (ts.isExportDeclaration(node)) {
+      value = node.moduleSpecifier; kind = 'export'; typeOnly = node.isTypeOnly;
+    } else if (ts.isImportEqualsDeclaration(node) && ts.isExternalModuleReference(node.moduleReference)) {
+      value = node.moduleReference.expression; kind = 'import-equals';
+    } else if (ts.isImportTypeNode(node) && ts.isLiteralTypeNode(node.argument)) {
+      value = node.argument.literal; kind = 'type-query';
+    } else if (ts.isCallExpression(node) && (node.expression.kind === ts.SyntaxKind.ImportKeyword || ts.isIdentifier(node.expression) && node.expression.text === 'require')) {
+      value = node.arguments[0]; kind = node.expression.kind === ts.SyntaxKind.ImportKeyword ? 'dynamic' : 'require';
+    }
+    if (value && ts.isStringLiteralLike(value)) imports.push({specifier: value.text, kind, typeOnly});
     ts.forEachChild(node, visit);
   }
   visit(tree); return imports;
 }
 
-export function boundaryError(path, specifier) {
+/** Existing callers retain the string-only API; policy uses full AST metadata. */
+export function importsIn(source, path = 'source.ts') {
+  return importReferencesIn(source, path).map(reference => reference.specifier);
+}
+
+export function boundaryError(path, specifier, reference = undefined) {
   const owner = path.split('/').slice(0, 2).join('/');
   const target = specifier.startsWith('.') ? relative(root, resolve(root, dirname(path), specifier)).replaceAll('\\', '/') : specifier;
   if (owner === 'apps/marketing' && /^web(?:\/|$)/.test(target) || owner.startsWith('packages/') && /^(?:web|marketing)(?:\/|$)/.test(target)) return 'Application workspace imports are forbidden across this boundary. Use a typed shared package.';
@@ -28,7 +46,8 @@ export function boundaryError(path, specifier) {
   if (owner.startsWith('packages/') && target.startsWith('apps/')) return 'Shared packages cannot depend on application code. Move the typed seam into an existing shared package.';
   if (owner === 'packages/domain' && /^(?:packages\/(?:backend|ui)|@painter-os-bts\/(?:backend|ui))(?:\/|$)/.test(target)) return 'Domain rules cannot depend on backend or UI adapters.';
   if (owner === 'packages/backend' && /^(?:packages\/ui|@painter-os-bts\/ui)(?:\/|$)/.test(target)) return 'Backend cannot depend on UI.';
-  if (owner === 'packages/ui' && /^(?:packages\/(?:backend|domain)|@painter-os-bts\/(?:backend|domain))(?:\/|$)/.test(target)) return 'UI primitives cannot depend on business or backend authority. Accept typed props.';
+  const approvedPublicDto = path === 'packages/ui/src/components/company-website.tsx' && specifier === '@painter-os-bts/domain/company-website' && reference?.kind === 'import' && reference.typeOnly === true;
+  if (!approvedPublicDto && owner === 'packages/ui' && /^(?:packages\/(?:backend|domain)|@painter-os-bts\/(?:backend|domain))(?:\/|$)/.test(target)) return 'UI primitives cannot depend on business or backend authority. Accept typed props.';
   return null;
 }
 
@@ -79,8 +98,9 @@ export async function checkRepository({ garden = false, writeSchema = false } = 
   for (const absolute of sources.filter(path => /\.(?:tsx?|mjs|mts)$/.test(path) && !relative(root, path).replaceAll('\\', '/').includes('/tests/'))) {
     const path = relative(root, absolute).replaceAll('\\', '/');
     const source = await readFile(absolute, 'utf8');
-    for (const specifier of importsIn(source, path)) {
-      const error = boundaryError(path, specifier); if (error) failures.push(`${path}: ${specifier}: ${error}`);
+    for (const reference of importReferencesIn(source, path)) {
+      const { specifier } = reference;
+      const error = boundaryError(path, specifier, reference); if (error) failures.push(`${path}: ${specifier}: ${error}`);
     }
     const lines = source.split('\n').length;
     const limit = manifest.legacySizeLimits[path] || 800;
