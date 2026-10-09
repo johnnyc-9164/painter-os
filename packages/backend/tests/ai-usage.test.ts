@@ -61,7 +61,7 @@ test('actual Better Auth/platform owner/current target membership authorize gran
 });
 test('audited idempotent internal grants preserve revoked state; production provider remains unavailable',async()=>{
   const f=await enabled();
-  expect(await f.owner.query(api.aiEntitlements.eligibility,{workspaceId:f.tenantId,capability:'recommendation_draft'})).toEqual({allowed:false,reason:'provider_not_authorized'});
+  expect(await f.owner.mutation(api.aiEntitlements.eligibility,{workspaceId:f.tenantId,capability:'recommendation_draft'})).toEqual({allowed:false,reason:'provider_not_authorized'});
   await expect(f.t.mutation(api.aiUsage.reserve,{workspaceId:f.tenantId,userId:f.a.userId,operationId:'live-held',capability:'recommendation_draft',maxAttempts:1})).rejects.toThrow('AI_PROVIDER_NOT_AUTHORIZED');
   const usageModule=await import('../convex/aiUsage');expect(usageModule.reserve.isInternal).toBe(true);expect(usageModule.claimAttempt.isInternal).toBe(true);expect(usageModule.settle.isInternal).toBe(true);
   const revoke={workspaceId:f.tenantId,targetUserId:f.a.userId,requestKey:'revoke-a',reason:'Synthetic revocation',expectedGrantRevision:1};
@@ -128,7 +128,7 @@ test('invalid grants and current capability/expiry/issuer revocation fail closed
   const grant=await f.t.run(ctx=>ctx.db.query('aiInternalGrants').withIndex('by_tenant_user',q=>q.eq('tenantId',f.tenantId).eq('userId',f.a.userId)).unique());
   await f.t.run(ctx=>ctx.db.patch(grant!._id,{expiresAtMs:0}));
   await expect(f.t.mutation(api.syntheticStorage.reserve,request(f))).rejects.toThrow('AI_EXPIRED');
-  expect(await f.owner.query(api.aiEntitlements.eligibility,{workspaceId:f.tenantId,capability:'recommendation_draft'})).toEqual({allowed:false,reason:'expired'});
+  expect(await f.owner.mutation(api.aiEntitlements.eligibility,{workspaceId:f.tenantId,capability:'recommendation_draft'})).toEqual({allowed:false,reason:'expired'});
   await f.t.mutation(api.platformAccess.revoke,{userId:f.a.userId,requestKey:'revoke-platform',operatorReceiptReference:'synthetic revoke approval'});
   await expect(f.t.mutation(api.syntheticStorage.reserve,request(f,f.b.userId,'issuer-revoked'))).rejects.toThrow('AI_REVOKED');
 });
@@ -156,4 +156,13 @@ test('dangling enabled membership cannot grant or reserve without the actual Bet
   await expect(f.t.mutation(api.syntheticStorage.reserve,request(f,f.b.userId,'deleted-identity'))).rejects.toThrow('AI_MEMBERSHIP_REQUIRED');
   expect(await f.t.mutation(api.syntheticStorage.reserve,request(f,f.a.userId,'valid-identity'))).toMatchObject({replayed:false});
   expect(await f.owner.mutation(api.aiEntitlements.revokeInternal,{workspaceId:f.tenantId,targetUserId:f.b.userId,requestKey:'revoke-deleted-identity',reason:'Revoke deleted identity',expectedGrantRevision:1})).toEqual({enabled:false,replayed:false});
+});
+test('bounded attempt history rejects overflow before dispatch or settlement and preserves counters',async()=>{
+  const f=await enabled();const reservation=await f.t.mutation(api.syntheticStorage.reserve,request(f));
+  await f.t.run(async ctx=>{for(let index=0;index<257;index++)await ctx.db.insert('aiUsageAttempts',{reservationId:reservation.reservationId,attemptId:`synthetic-overflow-${index}`,kind:'initial',billing:'unknown'});});
+  const before=await f.t.run(ctx=>ctx.db.query('aiUsageBudgets').unique());
+  await expect(f.t.mutation(api.syntheticStorage.claim,{reservationId:reservation.reservationId,userId:f.a.userId,attemptId:'new-dispatch',kind:'initial'})).rejects.toThrow('AI_INVALID_SETTLEMENT');
+  await expect(f.t.mutation(api.aiUsage.settle,{reservationId:reservation.reservationId,userId:f.a.userId,settlementId:'overflow',attempts:[]})).rejects.toThrow('AI_INVALID_SETTLEMENT');
+  expect(await f.t.run(ctx=>ctx.db.query('aiUsageBudgets').unique())).toEqual(before);
+  expect(await f.t.run(ctx=>ctx.db.query('aiUsageSettlements').collect())).toEqual([]);
 });

@@ -61,7 +61,8 @@ export async function claimStoredAttempt(ctx:WriteCtx,args:{reservationId:Id<'ai
   if(reservation.state!=='reserved')throw new Error('AI_RESERVATION_CLOSED');
   const budget=await ctx.db.get(reservation.budgetId);
   if(!budget||budget.periodStartsAtMs>now||budget.periodEndsAtMs<=now)throw new Error('AI_EXPIRED');
-  const attempts=await ctx.db.query('aiUsageAttempts').withIndex('by_reservation',q=>q.eq('reservationId',reservation._id)).collect();
+  const attempts=await ctx.db.query('aiUsageAttempts').withIndex('by_reservation',q=>q.eq('reservationId',reservation._id)).take(257);
+  if(attempts.length>256)throw new Error('AI_INVALID_SETTLEMENT');
   const prior=attempts.find(attempt=>attempt.attemptId===args.attemptId);
   if(prior){if(prior.kind!==args.kind)throw new Error('AI_ATTEMPT_CONFLICT');return {dispatch:false,replayed:true};}
   if(attempts.length>=reservation.maxAttempts)throw new Error('AI_ATTEMPT_CAP');
@@ -79,12 +80,14 @@ export async function settleStoredUsage(ctx:WriteCtx,args:{reservationId:Id<'aiU
   const fingerprint=aiFingerprint(args);
   const prior=await ctx.db.query('aiUsageSettlements').withIndex('by_reservation_settlement',q=>q.eq('reservationId',reservation._id).eq('settlementId',args.settlementId)).unique();
   if(prior){if(prior.fingerprint!==fingerprint)throw new Error('AI_SETTLEMENT_CONFLICT');return {replayed:true,chargedAttempts:prior.chargedAttempts,heldAttempts:prior.heldAttempts};}
+  const history=await ctx.db.query('aiUsageAttempts').withIndex('by_reservation',q=>q.eq('reservationId',reservation._id)).take(257);
+  if(history.length>256)throw new Error('AI_INVALID_SETTLEMENT');
   for(const supplied of args.attempts){
     const stored=await ctx.db.query('aiUsageAttempts').withIndex('by_reservation_attempt',q=>q.eq('reservationId',reservation._id).eq('attemptId',supplied.attemptId)).unique();
     if(stored){if(stored.kind!==supplied.kind||(stored.billing!=='unknown'&&stored.billing!==supplied.billing))throw new Error('AI_ATTEMPT_CONFLICT');await ctx.db.patch(stored._id,{billing:supplied.billing});}
     else await ctx.db.insert('aiUsageAttempts',{reservationId:reservation._id,...supplied}); // Reconcile unexpected real billable attempts too.
   }
-  const all=await ctx.db.query('aiUsageAttempts').withIndex('by_reservation',q=>q.eq('reservationId',reservation._id)).collect();
+  const all=await ctx.db.query('aiUsageAttempts').withIndex('by_reservation',q=>q.eq('reservationId',reservation._id)).take(257);
   if(all.length>256)throw new Error('AI_INVALID_SETTLEMENT');
   const chargedAttempts=all.filter(a=>a.billing==='billable').length;
   const heldAttempts=all.filter(a=>a.billing==='unknown').length;

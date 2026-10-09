@@ -1,5 +1,5 @@
 import { v } from 'convex/values';
-import { mutation, query } from './runtime';
+import { mutation } from './runtime';
 import { authComponent } from './auth';
 import { resolvePlatformAccess } from './platformAccess';
 import { resolvePainterMembership } from './painter';
@@ -9,6 +9,7 @@ import { requireAiAccess } from './aiUsageStore';
 const scope = {workspaceId:v.id('painterWorkspaces'),targetUserId:v.string(),requestKey:v.string(),reason:v.string()};
 export const grantInternal = mutation({
   args:{...scope,capabilities:v.array(aiCapability),expiresAtMs:v.number(),limitAttempts:v.number(),expectedGrantRevision:v.optional(v.number()),expectedEntitlementRevision:v.optional(v.number())},
+  returns:v.object({revision:v.number(),entitlementRevision:v.optional(v.number()),enabled:v.boolean(),replayed:v.boolean()}),
   handler:async(ctx,args)=>{
     if(await resolvePlatformAccess(ctx)!=='ready')throw new Error('AI_PLATFORM_OWNER_REQUIRED');
     const user=(await authComponent.safeGetAuthUser(ctx))!;
@@ -39,7 +40,7 @@ export const grantInternal = mutation({
     return {revision:nextRevision,entitlementRevision,enabled:true,replayed:false};
   },
 });
-export const revokeInternal = mutation({args:{...scope,expectedGrantRevision:v.number()},handler:async(ctx,args)=>{
+export const revokeInternal = mutation({args:{...scope,expectedGrantRevision:v.number()},returns:v.object({enabled:v.boolean(),replayed:v.boolean()}),handler:async(ctx,args)=>{
   if(await resolvePlatformAccess(ctx)!=='ready')throw new Error('AI_PLATFORM_OWNER_REQUIRED');
   const user=(await authComponent.safeGetAuthUser(ctx))!;
   const owner=(await ctx.db.query('platformOwners').withIndex('by_user',q=>q.eq('userId',user._id)).unique())!;
@@ -53,9 +54,11 @@ export const revokeInternal = mutation({args:{...scope,expectedGrantRevision:v.n
   const auditId=await ctx.db.insert('aiGrantAudit',{tenantId:args.workspaceId,requestKey:args.requestKey,fingerprint,issuerId:user._id,targetUserId:args.targetUserId,action:'revoke',reason:args.reason,occurredAtMs:Date.now(),beforeRevision:grant.revision,afterRevision:revision,platformOwnerId:owner._id});
   await ctx.db.patch(grant._id,{enabled:false,revision,auditId});return {enabled:false,replayed:false};
 }});
-/** No paid writer or active provider permission exists in this slice. */
-export const eligibility=query({args:{workspaceId:v.id('painterWorkspaces'),capability:aiCapability},handler:async(ctx,args)=>{
+/** Point-in-time status mutation: server time is authoritative, never a reactive expiry timer.
+ * No paid writer or active provider permission exists in this slice.
+ */
+export const eligibility=mutation({args:{workspaceId:v.id('painterWorkspaces'),capability:aiCapability},returns:v.object({allowed:v.literal(false),reason:v.union(v.literal('provider_not_authorized'),v.literal('entitlement_required'),v.literal('revoked'),v.literal('expired'),v.literal('unsupported'))}),handler:async(ctx,args)=>{
   const {actor}=await resolvePainterMembership(ctx,args.workspaceId);
-  try{await requireAiAccess(ctx,args.workspaceId,actor.id,args.capability,Date.now());return {allowed:false,reason:'provider_not_authorized' as const};}
-  catch(cause){const code=cause instanceof Error?cause.message:'';const reason=code==='AI_REVOKED'?'revoked':code==='AI_EXPIRED'?'expired':code==='AI_UNSUPPORTED'?'unsupported':'entitlement_required';return {allowed:false,reason};}
+  try{await requireAiAccess(ctx,args.workspaceId,actor.id,args.capability,Date.now());return {allowed:false as const,reason:'provider_not_authorized' as const};}
+  catch(cause){const code=cause instanceof Error?cause.message:'';const reason:'revoked'|'expired'|'unsupported'|'entitlement_required'=code==='AI_REVOKED'?'revoked':code==='AI_EXPIRED'?'expired':code==='AI_UNSUPPORTED'?'unsupported':'entitlement_required';return {allowed:false as const,reason};}
 }});
