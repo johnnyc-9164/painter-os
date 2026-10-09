@@ -6,7 +6,8 @@
   "exports": {
     "./contracts": "./src/contracts.ts",
     "./engine": "./src/engine.ts",
-    "./seed": "./src/seed.ts"
+    "./seed": "./src/seed.ts",
+    "./next-action-queue": "./src/next-action-queue.ts"
   },
   "scripts": {
     "check-types": "tsc --noEmit"
