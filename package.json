@@ -18,14 +18,15 @@
     "dev:server": "turbo run dev -F @painter-os-bts/backend --",
     "dev:setup": "turbo run dev:setup -F @painter-os-bts/backend --",
     "env:generate": "varlock codegen --path ./apps/web/",
-    "test": "tsx --test tests/*.test.ts && npm run test:marketing && npm run test:vercel-build",
+    "test": "tsx --test tests/*.test.ts && npm run test:marketing && npm run test:vercel-build && npm run test:forms",
     "lint": "eslint apps/web/src apps/marketing/src packages/domain/src tests",
     "verify": "npm run check-types && npm run lint && npm test && npm run test:convex && npm run build",
     "test:convex": "vitest run --config vitest.product.config.ts",
     "test:http": "node tests/http.acceptance.mjs",
     "test:browser": "node tests/browser.acceptance.mjs",
     "dev:local": "PAINTER_RUNTIME=local PAINTER_ALLOW_DEMO=true npm run dev --workspace web",
-    "start:local": "PAINTER_RUNTIME=local PAINTER_ALLOW_DEMO=true PAINTER_COOKIE_SECURE=false npm run start --workspace web"
+    "start:local": "PAINTER_RUNTIME=local PAINTER_ALLOW_DEMO=true PAINTER_COOKIE_SECURE=false npm run start --workspace web",
+    "test:forms": "vitest run --config vitest.forms.config.ts"
   },
   "dependencies": {
     "zod": "^4.5.4"
