@@ -104,6 +104,19 @@ describe('private intake admission with actual installed RateLimiter component',
   expect(results.filter(result=>result.reason==='global_limit')).toHaveLength(10);
   for(const id of ids)expect((await t.run(ctx=>intakeRateLimiter.getValue(ctx,'intakeTenantAttempts',{key:String(id)}))).value).toBe(0);
  });
+ it('writes no receipts for unique keys when both dimensions are saturated, then retries with fresh capacity',async()=>{
+  const {t,ids:[id]}=await fixture();
+  for(let i=0;i<30;i++)await t.mutation(anyApi.intakeAdmission.admit,args(id,i));
+  const receiptIds=async()=>{let cursor:string|null=null;const ids=[];for(;;){const page=await t.run(ctx=>ctx.db.query('painterIntakeAdmissionReceipts').withIndex('by_tenant_and_request',q=>q.eq('tenantId',id)).paginate({numItems:10,cursor}));ids.push(...page.page.map(row=>row._id));if(page.isDone)return ids;cursor=page.continueCursor;}};
+  const before=await receiptIds();expect(before).toHaveLength(30);
+  const counters=()=>t.run(async ctx=>({global:await intakeRateLimiter.getValue(ctx,'intakeGlobalAttempts'),tenant:await intakeRateLimiter.getValue(ctx,'intakeTenantAttempts',{key:String(id)})}));
+  const saturated=await counters();
+  for(let i=100;i<200;i++)expect(await t.mutation(anyApi.intakeAdmission.admit,args(id,i))).toMatchObject({state:'denied',reason:'global_limit',replayed:false});
+  expect(await receiptIds()).toEqual(before);expect(await counters()).toEqual(saturated);
+  clock+=60_000;
+  expect(await t.mutation(anyApi.intakeAdmission.admit,args(id,100))).toEqual({state:'admitted',policyRevision:1,replayed:false});
+  expect(await t.mutation(anyApi.intakeAdmission.admit,args(id,100))).toEqual({state:'admitted',policyRevision:1,replayed:true});
+ });
  it('admits only final tenant capacity under concurrent calls and replays concurrent same-key once',async()=>{
   const {t,ids:[id,other]}=await fixture(2);
   const results=await Promise.all(Array.from({length:8},(_,i)=>t.mutation(anyApi.intakeAdmission.admit,args(id,i))));

@@ -42,6 +42,10 @@ export async function admitIntake(ctx: GenericMutationCtx<DataModel>, args: Inta
   const result: AdmissionOutcome = !global.ok || !tenant.ok
     ? {state: 'denied', reason: !global.ok ? 'global_limit' : 'tenant_limit', retryAfterMs: Math.ceil(Math.max(global.retryAfter ?? 0,tenant.retryAfter ?? 0)), policyRevision: policy.revision}
     : {state: 'admitted', policyRevision: policy.revision};
+  // Neither dimension consumed capacity: do not let unique rejected keys
+  // create unbounded receipts. Without a durable receipt, a later window may
+  // freshly admit this key. Partial debits still require durable deduplication.
+  if (!global.ok && !tenant.ok) return {...result,replayed: false};
   // Structured denial deliberately commits quota updates and its small receipt.
   // Throwing from a parent mutation instead would roll back both components.
   await ctx.db.insert('painterIntakeAdmissionReceipts',{tenantId: workspace._id, requestKey: args.requestKey, payloadDigest: args.payloadDigest, policyRevision: policy.revision, result, createdAt: now, expiresAt: now + INTAKE_ADMISSION.receiptTtlMs});
