@@ -25,3 +25,9 @@ The optional admin destination uses the existing `publicAdminOrigin` validator a
 The actual production HTTP harness checks content, all eight features, link destinations and roles, both image payloads, actual image optimization, headers, no auth cookies, and six absent admin/portal routes. A separate build checks a configured nonsecret synthetic admin origin without contacting that destination.
 
 Browser comparison is a release gate. Native Chromium's sandbox limitation and cloud browser `ERR_BLOCKED_BY_CLIENT` for loopback prevent a real visual/keyboard/overflow pass in this environment. Source geometry and HTTP success do not substitute for that pass. No claim of exact pixel match, deployed visual acceptance, or production readiness is permitted until desktop, tablet, and mobile screenshots of the exact head are reviewed.
+
+## Product site pages (issue 124)
+
+The incumbent photo/dashboard landing remains the visual benchmark. Product, workflow, resources and workspace-options routes use the same blue/white/navy tokens, typography and shared native-link button variants. Interior pages use an editorial heading, useful section contents, open reading rows and two practical guide links; they do not repeat the landing hero or fabricate product results. Navigation wraps at tablet widths and remains visible on narrow screens. Product-specific Tailwind semantic color mappings resolve shared default button/focus classes against existing product tokens; no shared global reset or journal token rewrite is introduced.
+
+MARKETING_SITE_URL accepts only the observed existing marketing Vercel HTTPS origin. Without it, product routes omit canonical metadata and use noindex. Tenant journals retain their routes and crawler behavior; the static product sitemap does not enumerate tenant records. No prices, contact address, testimonials or provider activation are inferred.

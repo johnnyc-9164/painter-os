@@ -4,6 +4,7 @@ import { productFeatures } from './content';
 import ActionLink from './action-link';
 import { productImagery } from './imagery';
 import WorkspacePreview from './workspace-preview';
+import SiteNav from './site-nav';
 
 const featureIcons = [Users, FileText, Paintbrush, CalendarDays, HardHat, Receipt, BookOpen, ShieldCheck];
 const workflow = [
@@ -18,11 +19,7 @@ export default function ProductLanding({ adminOrigin }: { adminOrigin: string | 
     <a className="product-skip-link" href="#product-title">Skip to content</a>
     <div className="product-masthead">
       {productImagery.hero && <div className="product-hero-background" aria-hidden="true"><Image {...productImagery.hero} alt={productImagery.hero.alt} preload sizes="(max-width: 760px) 100vw, 70vw"/></div>}
-      <header className="product-nav product-container">
-        <a href="/" className="product-brand"><span className="product-brand-mark" aria-hidden="true"><Paintbrush size={21} strokeWidth={2.5}/></span>Painter OS</a>
-        <nav aria-label="Product navigation"><a href="#features">Product</a><a href="#workflow">How it works</a><a href="#ownership">Your workspace</a></nav>
-        <div className="product-nav-actions">{adminOrigin && <a className="product-signin" href={adminOrigin}>Sign in</a>}<ActionLink href={adminOrigin || '#features'}>{adminOrigin ? 'Open workspace' : 'Explore product'}</ActionLink></div>
-      </header>
+      <SiteNav adminOrigin={adminOrigin}/>
       <section className="product-hero product-container" aria-labelledby="product-title">
         <div className="product-hero-copy">
           <p className="product-eyebrow">BUILT FOR PAINTING PROS</p>
