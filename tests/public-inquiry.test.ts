@@ -27,21 +27,25 @@ test('unknown and unavailable status preserve exact key, contact and policy revi
  assert.equal(reconcileInquiry(unknown,{state:'denied',reason:'policy_changed'}).phase,'denied');
  assert.equal(reconcileInquiry(unknown,{state:'unavailable',contact:'private'},true).phase,'unknown');
 });
-const request=(body:unknown,origin='http://company.test')=>new Request('http://company.test/api/inquiry/company-a',{method:'POST',headers:{Origin:origin,'Content-Type':'application/json'},body:JSON.stringify(body)});
+const request=(body:unknown,origin='http://company.test')=>new Request('http://company.test/api/inquiry/company-a',{method:'POST',headers:{Host:'company.test',Origin:origin,'Content-Type':'application/json'},body:JSON.stringify(body)});
 test('same-origin POST body closes action and workspace overrides before transport',async()=>{
  assert.deepEqual(await parseInquiryRequest(request({action:'submit',submission})),{action:'submit',submission:validatePublicInquiry(submission)});
  assert.deepEqual(await parseInquiryRequest(request({action:'status',requestKey:submission.requestKey})),{action:'status',requestKey:submission.requestKey});
  for(const body of [{action:'submit',submission,workspaceId:'other'},{action:'arbitrary',function:'painter:dispatch'},{action:'status',requestKey:'short'}])await assert.rejects(parseInquiryRequest(request(body)));
  await assert.rejects(parseInquiryRequest(request({action:'submit',submission},'http://foreign.test')));
+ await assert.rejects(parseInquiryRequest(request({action:'submit',submission},'http://company.test/path')));
+ await assert.rejects(parseInquiryRequest(request({action:'submit',submission},'https://company.test')));
+ const internal=new Request('http://localhost/api/inquiry/company-a',{method:'POST',headers:{Host:'company.test',Origin:'http://company.test','Content-Type':'application/json'},body:JSON.stringify({action:'status',requestKey:submission.requestKey})});
+ assert.equal((await parseInquiryRequest(internal)).action,'status');
 });
 test('actual streamed bytes are bounded even with a misleading content length',async()=>{
  let cancelled=false;const stream=new ReadableStream<Uint8Array>({start(controller){controller.enqueue(new TextEncoder().encode('x'.repeat(16_385)));},cancel(){cancelled=true;}});
- const req=new Request('http://company.test/api/inquiry/a',{method:'POST',headers:{Origin:'http://company.test','Content-Type':'application/json','Content-Length':'1'},body:stream,duplex:'half'} as RequestInit);
+ const req=new Request('http://company.test/api/inquiry/a',{method:'POST',headers:{Host:'company.test',Origin:'http://company.test','Content-Type':'application/json','Content-Length':'1'},body:stream,duplex:'half'} as RequestInit);
  await assert.rejects(parseInquiryRequest(req));assert.equal(cancelled,true);
 });
 test('stalled body containing a valid prefix still times out and cancels without admission',{timeout:7000},async()=>{
  let cancelled=false;const stream=new ReadableStream<Uint8Array>({start(controller){controller.enqueue(new TextEncoder().encode(JSON.stringify({action:'status',requestKey:submission.requestKey})));},cancel(){cancelled=true;}});
- const req=new Request('http://company.test/api/inquiry/a',{method:'POST',headers:{Origin:'http://company.test','Content-Type':'application/json'},body:stream,duplex:'half'} as RequestInit);
+ const req=new Request('http://company.test/api/inquiry/a',{method:'POST',headers:{Host:'company.test',Origin:'http://company.test','Content-Type':'application/json'},body:stream,duplex:'half'} as RequestInit);
  await assert.rejects(parseInquiryRequest(req));assert.equal(cancelled,true);
 });
 test('actual Convex HTTP client exposes only fixed anonymous capabilities and strict safe results',async()=>{

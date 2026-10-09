@@ -2,7 +2,11 @@ import {validateInquiryKey,validatePublicInquiry} from '@painter-os-bts/public-c
 const MAX_BYTES = 16_384;
 export type InquiryAction = {action:'submit';submission:ReturnType<typeof validatePublicInquiry>}|{action:'status';requestKey:string};
 export async function parseInquiryRequest(request:Request):Promise<InquiryAction> {
-  if (request.headers.get('origin') !== new URL(request.url).origin || request.headers.get('content-type')?.split(';')[0]?.trim().toLowerCase() !== 'application/json') throw new Error('INVALID_REQUEST');
+  const origin=request.headers.get('origin');
+  let parsed:URL;try{parsed=new URL(origin ?? '');}catch{throw new Error('INVALID_REQUEST');}
+  // Next's internal Request URL may use localhost; Host is the actual HTTP authority.
+  // Browser JavaScript cannot override Host. Never use forwarded headers or reflect Origin.
+  if(origin!==parsed.origin || !['http:','https:'].includes(parsed.protocol) || parsed.protocol!==new URL(request.url).protocol || parsed.host!==request.headers.get('host') || request.headers.get('content-type')?.split(';')[0]?.trim().toLowerCase() !== 'application/json')throw new Error('INVALID_REQUEST');
   if (!request.body) throw new Error('INVALID_REQUEST');
   const reader = request.body.getReader(); let bytes = 0; const chunks:Uint8Array[]=[];
   let expired=false;
