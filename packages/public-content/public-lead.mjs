@@ -1,7 +1,7 @@
 import { ConvexHttpClient } from 'convex/browser';
 import { makeFunctionReference } from 'convex/server';
 import * as contract from '@painter-os-bts/backend/public-lead-contract';
-const validateSubmission = contract.validatePublicContactSubmission ?? contract.default?.validatePublicContactSubmission;
+const validateSubmission = Reflect.get(contract,'validatePublicContactSubmission') ?? Reflect.get(Reflect.get(contract,'default') ?? {},'validatePublicContactSubmission');
 const reasons = ['unavailable','policy_changed','request_conflict','receipt_expired','global_limit','tenant_limit'];
 const states = ['received','deletion_pending','deleted','converted_preserved'];
 const record = value => value && typeof value === 'object' && !Array.isArray(value);
