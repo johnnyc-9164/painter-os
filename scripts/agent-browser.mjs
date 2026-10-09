@@ -40,7 +40,7 @@ try {
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth), 390, 'mobile overflow');
   await page.screenshot({ path: join(directory, 'after-mobile.png'), fullPage: true });
   await context.close(); assert.deepEqual(errors, []); assert.deepEqual(failures, []);
-  await appendFile(join(directory, 'requests.jsonl'), spans.map(span => JSON.stringify(span)).join('\n') + '\n', { mode: 0o600 });
+  await appendFile(join(directory, 'requests.jsonl'), requestJsonLines(spans), { mode: 0o600 });
   await writeJson(join(directory, 'receipt.json'), { ...gitState(), status: 'passed', sandbox: true, browser: browserDetails, runtime: 'local', scope: 'demo login, navigation, mobile layout; not cloud auth or full financial lifecycle', errors, failures });
   console.log(`Browser smoke passed. Artifacts: ${directory}`);
 } catch (error) {

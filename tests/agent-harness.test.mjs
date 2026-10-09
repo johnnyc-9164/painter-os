@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp, mkdir, writeFile, rm, chmod } from 'node:fs/promises';
+import { mkdtemp, mkdir, writeFile, rm, chmod, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { importsIn, boundaryError, schemaInventory } from '../scripts/agent-check.mjs';
@@ -80,6 +80,8 @@ test('request evidence is parseable newline-delimited JSON including multiple re
   assert.ok(serialized.endsWith('\n'));
   assert.deepEqual(serialized.trimEnd().split('\n').map(line => JSON.parse(line)), spans);
   assert.equal(requestJsonLines([]), '');
+  const runner = await readFile(new URL('../scripts/agent-browser.mjs', import.meta.url), 'utf8');
+  assert.match(runner, /appendFile\(join\(directory, 'requests\.jsonl'\), requestJsonLines\(spans\)/);
 });
 
 
