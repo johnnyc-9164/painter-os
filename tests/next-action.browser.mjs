@@ -21,7 +21,7 @@ try {
   await page.goto(base); await page.getByRole('button',{name:'Explore demo workspace',exact:true}).click(); await page.locator('.app-shell').waitFor();
   const read = async()=>{const response=await page.request.get(`${base}/api/snapshot`);assert.equal(response.status(),200);return response.json();};
   let initial=await read(); const customer=initial.entities.find(entity=>entity.type==='customer');
-  const write = async(body)=>{const response=await page.request.post(`${base}/api/command`,{data:body});assert.equal(response.status(),200);return response.json();};
+  const write = async(body)=>{const response=await page.request.post(`${base}/api/command`,{data:body,headers:{Origin:base}});assert.equal(response.status(),200);return response.json();};
   const created=await write({action:'estimate.create',requestKey:'browser-queue-estimate',input:{customerId:customer.id,title:'Browser queue estimate',lineItems:[{description:'Actual test scope',quantity:1,unitPrice:100}]}});
   const source=created.entity; const tasksBefore=initial.entities.filter(entity=>entity.type==='task').length;
   await page.getByRole('button',{name:'Refresh workspace',exact:true}).click();
