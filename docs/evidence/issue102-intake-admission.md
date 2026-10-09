@@ -1,0 +1,35 @@
+# Private transactional intake admission
+
+Issue: https://github.com/johnnyc-9164/painter-os/issues/102. Branch: `feature/intake-admission`. Prepared base `04faa260d198bbecbc5462305e70e6557e11ffa1`; normally integrated AI persistence main `d37f54240e9aa618f96f772bd8f3298c20363189` before editing the released schema/inventory. All seven AI tables are preserved.
+
+## Authority and bounded contract
+
+This is an internal-only capacity foundation. `intakeAdmission.admit` resolves the actual workspace and its indexed enabled intake configuration on every invocation, before receipt replay or quota access. Missing/deleted workspace, missing/disabled policy, malformed enabled policy and ambiguous policy fail closed. No browser actor/IP dimension, public endpoint, lead writer, customer PII, provider request, paid-model allowance, financial ledger or new identity authority is introduced. Digest format is verified; a future trusted dispatcher must derive the digest from actual bounded input and resolve the public site's workspace. A submitted digest cannot establish authority.
+
+Request keys are 8–80 opaque ASCII identifier characters; payload digests are 64 lowercase hexadecimal characters. Receipt fields contain only that metadata, workspace/policy revision, small result and numeric timestamps. No underlying intake payload is stored. Current policy is checked before any replay; revision changes require fresh admission with a new key. Same-key/different-digest conflicts deny without another debit.
+
+## Actual component semantics
+
+Pinned installed `@convex-dev/rate-limiter` 0.4.1 is an additive mount; Better Auth, Contractor OS, painting and AgentMail remain. Hand-authored runtime bindings add its actual installed `ComponentApi` type. Existing auth-email budget and AI money/reservation stores remain separate.
+
+Two unsharded synchronous transactional fixed windows start at Unix epoch: 30 deployment-wide attempts/minute and 5 attempts/minute per enabled tenant. Both dimensions are called in one parent mutation. They count unique valid enabled-policy attempts while capacity remains, including an attempt rejected by the other dimension. Upstream saturated dimensions return denial without decrementing further. This is deliberately attempted-request accounting, **not** atomic admitted-only fairness. A returned structured quota denial commits any successful dimension debit plus its receipt; a thrown parent error rolls back nested component debits and host receipt. No reservation debt, asynchronous updates or extra host queue is used. The package's required `batch-worker` 0.3.5 child is upstream implementation support; this synchronous path never enqueues it or replaces Pi lifecycle.
+
+Rate admission is not comprehensive bot protection. Malicious traffic may still exhaust a shared global quota, contend on the global row, or create denial receipt/maintenance load; no global denial-of-service or dollar-spend protection is claimed.
+
+## Receipt horizon and maintenance
+
+Receipts deduplicate admission for ten minutes. Both admitted and quota-denied outcomes replay without a second debit while policy is unchanged; denied replay adjusts the remaining retry interval but stays denied. Retrying a denied logical attempt requires a new key. Expired receipts explicitly deny until removed; there is no silent expired allow. `cleanupExpired` is an internal indexed, bounded maintenance mutation that deletes at most 100 expired records, reporting more work. Fresh receipts are preserved. After expiry and explicit cleanup, the same key is a new capacity attempt. This finite horizon is **not** eternal business/effect idempotency; the future lead/effect writer must own that separately. Cleanup is prepared, not scheduled or remotely run in this slice. TTL bounds dedup duration, not a hard bound on total storage under unlimited rejected traffic.
+
+## Local validation and release truth
+
+- Actual pinned package and transitive installed component test registration were used, including its upstream child schema. Installed peer Convex ^1.43.0 is compatible with repository Convex 1.46.0.
+- npm 11.16.0 isolated install/refresh passed (872 packages). Lock changes preserve all preexisting entries/versions; only backend dependency metadata plus three installed package entries are added, avoiding npm's unrelated full-file ordering rewrite. Root package manifest is unchanged.
+- Nine actual `convexTest` regressions passed: replay/no double debit, digest conflict, committed multi-limit rejection, parent rollback, fresh policy/disabled/missing/deleted denial, malformed/ambiguous policy, bounded malformed input and actor/IP rejection, concurrent global and tenant final capacity, concurrent same-key dedup, ten-minute expiry and bounded cleanup preserving fresh receipts.
+- Admission fixtures enforce 20 document/32 KiB transaction limits including nested component calls. Cleanup separately uses 300 document/128 KiB fixture limits for 100 deletion reads plus its indexed page; an initial cleanup test using the smaller admission byte budget correctly failed, and its distinct maintenance budget was corrected without relaxing admission checks.
+- Full actual backend suite passed 18 files / 86 tests before adding the ninth admission regression; final committed-head refresh accompanies the PR.
+- Backend TypeScript, root lint plus targeted new backend-module/test lint, pinned doctor, generated schema inventory and repository checks passed. `git diff --check` passed.
+- Applied Convex Expert and Reviewer skills for args/returns validators, internal surface, indexed/bounded reads, host policy resolution, actual transactional component tests and compatibility review. Reused `docs/skills/painter-pr-evidence/SKILL.md`; no additional reusable procedure was needed.
+
+Independent root review and fresh exact-head CI remain pending. No manual cloud/deployment command or provider/account activation was performed. **Merging into main authorizes the existing production pipeline, whose `scripts/vercel-build.mjs` runs `convex deploy` before the web build; it can automatically deploy the additive RateLimiter component and receipt schema.** Post-merge evidence must observe that actual rollout rather than claim no deployed-component changes. Existing deployment key requirements and gates are untouched. This local component needs no new external paid-provider account. Public ingress/PII capture and live intake activation remain separate follow-ons.
+
+Rollback the scoped mount/type/dependency/receipt/helper/test source together; no migration or existing writer cutover is included. Newly created commits use the owner's requested `johnnyc@agentmail.to` identity.
