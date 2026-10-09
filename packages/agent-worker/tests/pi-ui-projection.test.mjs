@@ -47,3 +47,25 @@ test('neutral direct encoder keeps core runtime out of its bundle; compare ident
  assert.equal(results[0].dependencyModules,0);assert.ok(results[1].dependencyModules>0);
  const value=frame();console.log('Local encoder comparison',JSON.stringify({bundles:results,wire:{directBytes:Buffer.byteLength(directSse(value)),agUiBytes:Buffer.byteLength(agUiSse(value))}}));
 });
+
+test('empty or ambiguous identifiers fail while empty text/output remains valid',()=>{
+ const value=frame();
+ for(const attachment of ['', '  '])assert.throws(()=>agUiEvents({...value,attachment}),/INVALID_VIEW_FRAME/);
+ assert.throws(()=>agUiEvents({...value,view:{...value.view,messages:[{id:'',role:'user',text:''}]}}),/INVALID_VIEW_FRAME/);
+ assert.throws(()=>agUiEvents({...value,view:{...value.view,provisional:{id:'',text:''}}}),/INVALID_VIEW_FRAME/);
+ const tool={id:'t',name:'fixture',status:'running',output:''};
+ assert.throws(()=>agUiEvents({...value,view:{...value.view,tools:[{...tool,id:''}]}}),/INVALID_VIEW_FRAME/);
+ assert.throws(()=>agUiEvents({...value,view:{...value.view,tools:[tool,tool]}}),/DUPLICATE_VIEW_TOOL/);
+ assert.doesNotThrow(()=>agUiEvents({...value,view:{...value.view,messages:[{id:'m',role:'user',text:''}],provisional:{id:'p',text:''},tools:[tool]}}));
+});
+
+test('actual failure/end order preserves failure; indexed partial text requires authoritative Pi snapshot',()=>{
+ const initial=projectSnapshot(snapshot());
+ const failed=projectEvents(initial,[{type:'task_failed'},{type:'run_end'}]);assert.equal(failed.status,'failed');
+ assert.equal(projectEvents(failed,[{type:'run_start'}]).status,'running');
+ const updates=[{type:'message_update',changes:[{type:'text_start',contentIndex:0,content:'prefix'},{type:'text_delta',contentIndex:0,delta:' suffix'},{type:'block',contentIndex:1,block:{type:'text',text:' second'}}]}];
+ assert.throws(()=>projectEvents(initial,updates),/PI_PARTIAL_SNAPSHOT_REQUIRED/);
+ const current={...snapshot(),generation:{attempt:1,message:{role:'assistant',content:[{type:'text',text:'replacement suffix'},{type:'thinking',thinking:'hidden'},{type:'text',text:' second'}]}}};
+ assert.equal(projectEvents(initial,updates,current).provisional.text,'replacement suffix second');
+ assert.equal(JSON.stringify(projectEvents(initial,updates,current)).includes('hidden'),false);
+});

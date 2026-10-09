@@ -18,19 +18,22 @@ export function projectSnapshot(snapshot: SnapshotEvent): PiView {
   const tools: PiView['tools'] = snapshot.tools.map(slot=>({id:slot.callId,name:slot.name,status:slot.status==='done' ? slot.entry ? 'recorded' : 'uncertain' : slot.status,...(slot.output ? {output:slot.output} : {})}));
   return {status:tools.some(tool=>tool.status==='uncertain') ? 'uncertain' : snapshot.run ? 'running' : 'idle',messages:snapshot.entries.flatMap(entryMessages),tools,queued:snapshot.inbox.length,...(snapshot.generation?.message ? {provisional:{id:`provisional:${snapshot.generation.attempt}`,text:text(snapshot.generation.message)}} : {})};
 }
-export function projectEvents(previous: PiView, events: readonly AgentEvent[]): PiView {
+export function projectEvents(previous: PiView, events: readonly AgentEvent[], partialSnapshot?: SnapshotEvent): PiView {
   let view: PiView = structuredClone(previous);
   for (const event of events) {
     if(event.type==='snapshot'){view=projectSnapshot(event);continue;}
     if(event.type==='run_start')view.status='running';
-    if(event.type==='run_end')view.status=view.tools.some(tool=>tool.status==='uncertain')?'uncertain':'idle';
+    if(event.type==='run_end'&&view.status!=='failed')view.status=view.tools.some(tool=>tool.status==='uncertain')?'uncertain':'idle';
     if(event.type==='task_failed')view.status='failed';
     if(event.type==='inbox_update')view.queued=event.items.length;
     if(event.type==='message_start'&&event.message.role==='assistant')view.provisional={id:`provisional:${view.messages.length}`,text:text(event.message)};
-    if(event.type==='message_update')for(const change of event.changes){
-      if(change.type==='message'&&view.provisional)view.provisional.text=text(change.message);
-      if(change.type==='text_delta'&&view.provisional)view.provisional.text+=change.delta;
-      // Thinking, args, model/provider metadata and arbitrary details stay out.
+    if(event.type==='message_update') {
+      if(!partialSnapshot)throw new Error('PI_PARTIAL_SNAPSHOT_REQUIRED');
+      // Pi owns indexed blocks. Re-read its authoritative full text rather than
+      // maintaining a competing reasoning/tool-argument/block transcript cache.
+      const current=projectSnapshot(partialSnapshot);
+      view.messages=current.messages;
+      if(current.provisional)view.provisional=current.provisional;else delete view.provisional;
     }
     if(event.type==='message_end'||event.type==='entry_appended'){
       const messages=entryMessages(event.entry);

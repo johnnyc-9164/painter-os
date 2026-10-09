@@ -29,7 +29,9 @@ export class FixtureAgent extends Agent<Env> {
     capture.stream.start(async events => {
       try {
       if (capture.frames.length >= 256) throw new Error('FIXTURE_CAPTURE_LIMIT_EXCEEDED');
-      capture.view = projectEvents(capture.view, events);
+      const refresh = events.some(event=>event.type==='message_update') ? await this.fixtureHarness.session().events() : undefined;
+      if(refresh)await refresh.stop();
+      capture.view = projectEvents(capture.view, events, refresh?.snapshot);
       const frame = {attachment:'local-fixture', sequence:++capture.sequence, reset:events.some(event=>event.type==='snapshot'), view:capture.view};
       capture.frames.push(frame);
       // Exercise installed core schemas inside the actual Worker runtime.

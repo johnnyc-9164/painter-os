@@ -19,14 +19,21 @@ worker dependency and the new core artifact.
 
 Core's `STATE_SNAPSHOT.snapshot` accepts arbitrary data; core validation alone
 is not authority validation. The neutral DTO rejects unexpected keys,
-malformed IDs/statuses, duplicate message IDs and oversized local values.
+malformed IDs/statuses, duplicate message/tool IDs empty identifiers and oversized local values.
 This experiment explicitly rejects over 128 messages/tools or 65,536-character
 text values; these are local fixture limits, not a production pagination
 contract. No silent truncation is claimed.
 
 Persisted message IDs derive from Pi entry IDs and message indexes. Partial
 assistant text uses provisional IDs and is replaced by persisted message end
-or an authoritative reset. IDs and sequence numbers for partial delivery are
+or an authoritative reset. On each message-update batch, the test collector
+obtains a fresh atomic Pi snapshot and projects its full visible text; the
+projector requires that snapshot and rejects unsupported delta-only mapping.
+Pi owns indexed text blocks and replacements. This extra snapshot work avoids
+a separate block/transcript cache; partial snapshots may already include newer
+commits than the triggering batch. This prototype is not a precise token-event
+replay or latency benchmark. Failure survives a subsequent run-end event until
+a new run-start or authoritative reset. IDs and sequence numbers for partial delivery are
 attachment-local, not a durable replay cursor. Duplicate frames are ignored;
 gaps or backward delivery require a fresh snapshot. A new attachment starts
 with a snapshot at sequence zero. Installed Pi supplies atomic snapshot and
@@ -41,7 +48,7 @@ projected. No approval object is inferred from a tool or run event.
 ## Executed local evidence
 
 Worker TypeScript checking, `node scripts/agent-check.mjs`, and both Wrangler
-dry-run builds pass. All 28 worker tests pass using the existing
+dry-run builds pass. All 30 worker tests pass using the existing
 `workerGateEnvironment` and pinned npm CLI to run
 `npm run test --workspace @painter-os-bts/agent-worker`. Real Miniflare/SQLite
 Pi tests exercise atomic attachment, stream projection, stable persisted IDs
@@ -61,7 +68,7 @@ in-memory capture surfaces errors and is not another persistent event journal.
 The `neutral direct encoder keeps core runtime out of its bundle` test in
 `pi-ui-projection.test.mjs` reproduces these bundle and wire measurements.
 With esbuild browser bundling, minification, and a single encoder entry:
-direct SSE is 1,470 bytes with zero dependency modules; AG-UI SSE is 472,991
+direct SSE is 1,635 bytes with zero dependency modules; AG-UI SSE is 473,156
 bytes with 99 dependency modules. These are isolated encoder measurements,
 not an app bundle benchmark. The same two-message snapshot is 240 wire bytes
 for direct SSE and 426 for AG-UI. Sending both state and messages snapshots
@@ -69,7 +76,7 @@ duplicates transcript text. This bounded experiment gains a standard schema
 and message envelope, but direct SSE is substantially lighter. It deliberately
 does not manufacture fine-grained AG-UI token IDs or completion semantics.
 Production dry-run upload remains 3,192.14 KiB; the test fixture including the
-projection is about 3,327.15 KiB. No production import of the adapter exists.
+projection is about 3,327.75 KiB. No production import of the adapter exists.
 
 ## Proposed phase 2 — not implemented
 
