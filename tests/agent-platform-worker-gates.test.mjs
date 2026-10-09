@@ -31,6 +31,9 @@ test('stable CI build verifies fourth app separately while domain-tests retain w
  assert.ok(build.indexOf('- run: node scripts/run-platform-admin-http-acceptance.mjs\n')>build.indexOf('- run: npm run build:platform-admin\n'));
  assert.match(ci,/domain-tests:[\s\S]*?name: domain-tests[\s\S]*?- run: npm test/);
  assert.ok(!ci.includes('npm run build:agent-worker'));
+ const scripts=JSON.parse(await readFile(new URL('../package.json',import.meta.url),'utf8')).scripts;
+ assert.ok(scripts.test.includes('npm run test:agent-worker'));
+ assert.equal(scripts['test:agent-worker'],'npm run test --workspace @painter-os-bts/agent-worker');
 });
 
 test('fourth app and production/fixture Worker config filenames are rejected without reading values',async()=>{
