@@ -1,4 +1,12 @@
 /** Canonical company-authored website content. No storage IDs or private CRM data. */
+export const WEBSITE_CURRENCIES = [
+  "USD",
+  "CAD",
+  "GBP",
+  "EUR",
+  "AUD",
+  "NZD",
+] as const;
 export type CompanyWebsiteTemplate = "studio" | "editorial" | "direct";
 export interface WebsiteMediaReference {
   mediaId: string;
@@ -254,7 +262,11 @@ function price(value: unknown): WebsitePrice {
     ["unit", "qualifier"],
   );
   const currency = text(o.currency, 3);
-  if (!/^[A-Z]{3}$/.test(currency) || !Intl.supportedValuesOf("currency").includes(currency)) throw new Error("Invalid pricing currency");
+  if (
+    !/^[A-Z]{3}$/.test(currency) ||
+    !(WEBSITE_CURRENCIES as readonly string[]).includes(currency)
+  )
+    throw new Error("Invalid pricing currency");
   const common = {
     currency,
     ...(optionalText(o.unit, 100) ? { unit: optionalText(o.unit, 100) } : {}),
@@ -405,6 +417,7 @@ export function websiteMediaReferences(
 }
 export function decodePublicCompanyWebsite(
   value: unknown,
+  expectedWorkspaceId?: string,
 ): PublicCompanyWebsiteResult {
   const o = object(value, ["state"], ["website"]);
   if (o.state === "unavailable") {
@@ -416,6 +429,7 @@ export function decodePublicCompanyWebsite(
   const revision = integer(w.revision, 1);
   const content = normalizeCompanyWebsiteContent(w.content);
   const refs = new Set(websiteMediaReferences(content).map((r) => r.mediaId));
+  let mediaWorkspaceId: string | undefined;
   const media = list<WebsiteResolvedMedia>(w.media, 50, (x) => {
     const m = object(x, ["mediaId", "url", "width", "height", "contentType"]);
     const mediaId = id(m.mediaId);
@@ -425,6 +439,16 @@ export function decodePublicCompanyWebsite(
       throw new Error("Unsafe website media URL");
     const parsed = new URL(url, "https://website.invalid");
     const params = parsed.searchParams;
+    const workspaceId = params.get("workspaceId");
+    if (
+      parsed.hash ||
+      parsed.pathname !== "/api/company-website-media" ||
+      url !== `${parsed.pathname}?${params}` ||
+      (expectedWorkspaceId && workspaceId !== expectedWorkspaceId) ||
+      (mediaWorkspaceId && workspaceId !== mediaWorkspaceId)
+    )
+      throw new Error("Invalid website media association");
+    mediaWorkspaceId = workspaceId ?? undefined;
     if (
       [...params.keys()].sort().join(",") !== "mediaId,revision,workspaceId" ||
       params.get("mediaId") !== mediaId ||
@@ -488,7 +512,14 @@ export function decodeCompanyWebsitePreview(
       url = text(m.url, 1000);
     if (!refs.has(mediaId) || !url.startsWith("/api/website/media?"))
       throw new Error("Invalid private preview media");
-    const p = new URL(url, "https://website.invalid").searchParams;
+    const parsed = new URL(url, "https://website.invalid");
+    const p = parsed.searchParams;
+    if (
+      parsed.hash ||
+      parsed.pathname !== "/api/website/media" ||
+      url !== `${parsed.pathname}?${p}`
+    )
+      throw new Error("Invalid preview URL");
     if (
       [...p.keys()].sort().join(",") !== "mediaId,revision,workspaceId" ||
       p.get("mediaId") !== mediaId ||
