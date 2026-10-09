@@ -744,6 +744,32 @@ describe("native appointment host with actual Better Auth", () => {
     const created = await g.slot();
     expect(created.status).toBe("offered");
     expect(
+      await g.owner.client.mutation(api.estimateAppointmentSlots.close, {
+        slotId: created.id,
+        expectedRevision: 1,
+        requestKey: "history-close",
+      }),
+    ).toMatchObject({ slot: { status: "closed" }, replayed: false });
+    expect(
+      await g.owner.client.action(
+        api.estimateAppointmentSlots.save,
+        g.slotArgs(),
+      ),
+    ).toMatchObject({
+      slot: { status: "closed", revision: 2 },
+      replayed: true,
+    });
+    expect(
+      await g.t.run((ctx) =>
+        ctx.db
+          .query("painterReceipts")
+          .withIndex("by_tenant_native_kind", (q) =>
+            q.eq("tenantId", g.company.id).eq("nativeKind", "estimate_slot"),
+          )
+          .collect(),
+      ),
+    ).toHaveLength(515);
+    expect(
       await g.t.run((ctx) =>
         ctx.db
           .query("painterEntities")
