@@ -18,9 +18,17 @@ export function gitState() {
 
 export async function assertNoEnvFiles(base = root) {
   const found = [];
-  for (const directory of [base, join(base, 'apps/web'), join(base, 'apps/marketing'), join(base, 'apps/company-site')]) {
-    for (const name of await readdir(directory)) {
-      if (/^\.env(?:\.(?:local|development|production|test)(?:\.local)?)?$/.test(name)) found.push(relative(base, join(directory, name)));
+  const directories = [base, join(base, 'apps/web'), join(base, 'apps/marketing'), join(base, 'apps/company-site'), join(base, 'apps/platform-admin')];
+  const workerDirectories = [join(base, 'packages/agent-worker'), join(base, 'packages/agent-worker/tests/fixtures')];
+  for (const directory of [...directories, ...workerDirectories]) {
+    let names;
+    try { names = await readdir(directory); }
+    catch (error) { if (error.code === 'ENOENT' && workerDirectories.includes(directory)) continue; throw error; }
+    for (const name of names) {
+      const nextEnv = /^\.env(?:\.(?:local|development|production|test)(?:\.local)?)?$/.test(name);
+      // Wrangler can load named environments and fixture-local .dev.vars files.
+      const workerEnv = workerDirectories.includes(directory) && /^(?:\.env|\.dev\.vars)(?:\..+)?$/.test(name) && !name.endsWith('.example');
+      if (nextEnv || workerEnv) found.push(relative(base, join(directory, name)));
     }
   }
   if (found.length) throw new Error(`LOCAL_ENV_FILES_PRESENT: use a fresh worktree without provider configuration (${found.join(', ')}). Files were not read or changed.`);

@@ -33,7 +33,7 @@ test('local environment ignores credentials and request labels omit token/query 
 test('Next env files are rejected by filename without reading or deleting them', async () => {
   const fixture = await mkdtemp(join(tmpdir(), 'painter-agent-test-'));
   try {
-    await mkdir(join(fixture, 'apps/web'), { recursive: true }); await mkdir(join(fixture, 'apps/marketing'), { recursive: true }); await mkdir(join(fixture, 'apps/company-site'), { recursive: true });
+    await mkdir(join(fixture, 'apps/web'), { recursive: true }); await mkdir(join(fixture, 'apps/marketing'), { recursive: true }); await mkdir(join(fixture, 'apps/company-site'), { recursive: true }); await mkdir(join(fixture, 'apps/platform-admin'), { recursive: true });
     await writeFile(join(fixture, 'apps/web/.env.example'), 'example'); await assertNoEnvFiles(fixture);
     await writeFile(join(fixture, 'apps/web/.env.local'), 'SECRET=untouched');
     await assert.rejects(assertNoEnvFiles(fixture), /LOCAL_ENV_FILES_PRESENT.*\.env.local/);
