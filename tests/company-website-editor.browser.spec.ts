@@ -5,6 +5,7 @@ import {emptyCompanyWebsiteContent, type CompanyWebsiteState} from '@painter-os-
 // Existing lifecycle owns loopback server, secret-free environment and private receipt directories.
 import {assertNoEnvFiles, createRun, unusedPort, spawnNext, observe, stop, waitForReady, gitState, writeJson} from '../scripts/agent-common.mjs';
 const outcomes: {title: string; status: string}[] = [];
+const captures: string[] = [];
 let browserVersion = '';
 let server: ReturnType<typeof spawnNext>, processState: ReturnType<typeof observe>, log: ReturnType<typeof createWriteStream>, directory: string, base: string;
 test.beforeAll(async () => {
@@ -15,7 +16,7 @@ test.beforeAll(async () => {
   server.stdout!.pipe(log, {end: false}); server.stderr!.pipe(log, {end: false}); await waitForReady(base, processState);
 });
 test.afterEach(async ({}, info) => {outcomes.push({title: info.title, status: info.status ?? 'unknown'});});
-test.afterAll(async () => {if (directory) await writeJson(join(directory, 'receipt.json'), {...gitState(), status: outcomes.every(item => item.status === 'passed') ? 'passed' : 'failed', sandbox: true, browser: browserVersion, outcomes, scope: 'actual production-built editor with intercepted synthetic authenticated API; no live BetterAuth, storage or provider proof', captures: ['desktop.png', 'mobile.png']}); try {if (server) await stop(server, processState);} finally {if (log) await new Promise<void>(resolve => log.end(resolve));}});
+test.afterAll(async () => {if (directory) await writeJson(join(directory, 'receipt.json'), {...gitState(), status: outcomes.every(item => item.status === 'passed') ? 'passed' : 'failed', sandbox: true, browser: browserVersion, outcomes, scope: 'actual production-built editor with intercepted synthetic authenticated API; no live BetterAuth, storage or provider proof', captures}); try {if (server) await stop(server, processState);} finally {if (log) await new Promise<void>(resolve => log.end(resolve));}});
 function fixture() {
   const content = emptyCompanyWebsiteContent('Fixture Painting Co.'); content.hero.heading = 'Your home, thoughtfully painted.'; content.hero.summary = 'Synthetic editor fixture. No provider or real company account.';
   return {revision: 1, draft: content, published: null} satisfies CompanyWebsiteState;
@@ -141,8 +142,8 @@ test('real form controls and shared preview render on desktop/mobile without ove
   await page.getByRole('button', {name: 'Preview website'}).click(); await expect(page.locator('.company-website')).toHaveAttribute('data-template', 'editorial');
   await expect(page.locator('.company-website').getByRole('link', {name: 'Explore your painting project'})).toHaveCount(0);
   await expect(page.locator('.company-website')).toContainText('250.50'); await expect(page.locator('.company-website')).toContainText('Synthetic review fixture.');
-  await page.screenshot({path: join(directory, 'desktop.png'), fullPage: true});
-  await page.setViewportSize({width: 390, height: 844}); await expect.poll(() => page.locator('.sidebar').evaluate(element => element.getBoundingClientRect().right)).toBeLessThanOrEqual(0); await page.screenshot({path: join(directory, 'mobile.png'), fullPage: true});
+  await page.screenshot({path: join(directory, 'desktop.png'), fullPage: true}); captures.push('desktop.png');
+  await page.setViewportSize({width: 390, height: 844}); await expect.poll(() => page.locator('.sidebar').evaluate(element => element.getBoundingClientRect().right)).toBeLessThanOrEqual(0); await page.screenshot({path: join(directory, 'mobile.png'), fullPage: true}); captures.push('mobile.png');
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(390);
   browserVersion = browser.version();
 });
