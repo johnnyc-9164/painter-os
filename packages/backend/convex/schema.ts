@@ -2,8 +2,10 @@ import { defineSchema, defineTable } from 'convex/server';
 import { v } from 'convex/values';
 import { aiCapability, aiAttemptKind, aiBilling } from './aiValidators';
 import { intakeSettingsFields } from './intakeValidators';
+import { intakeAdmissionReceiptFields } from './intakeAdmissionValidators';
 const role=v.union(v.literal('owner'),v.literal('office_admin'),v.literal('estimator'),v.literal('project_manager'),v.literal('salesperson'),v.literal('crew_lead'),v.literal('crew_member'),v.literal('accountant'),v.literal('customer'));
 export default defineSchema({
+ painterIntakeAdmissionReceipts:defineTable(intakeAdmissionReceiptFields).index('by_tenant_and_request',['tenantId','requestKey']).index('by_expires_at',['expiresAt']),
   aiWorkspaceEntitlements: defineTable({tenantId:v.id('painterWorkspaces'),kind:v.literal('internal'),revision:v.number(),expiresAtMs:v.number(),capabilities:v.array(aiCapability),limitAttempts:v.number(),auditId:v.id('aiGrantAudit')}).index('by_tenant',['tenantId']),
   aiInternalGrants: defineTable({tenantId:v.id('painterWorkspaces'),userId:v.string(),revision:v.number(),enabled:v.boolean(),expiresAtMs:v.number(),capabilities:v.array(aiCapability),auditId:v.id('aiGrantAudit')}).index('by_tenant_user',['tenantId','userId']),
   aiGrantAudit: defineTable({tenantId:v.id('painterWorkspaces'),requestKey:v.string(),fingerprint:v.string(),issuerId:v.string(),targetUserId:v.string(),action:v.union(v.literal('grant'),v.literal('revoke')),reason:v.string(),occurredAtMs:v.number(),beforeRevision:v.number(),afterRevision:v.number(),platformOwnerId:v.id('platformOwners')}).index('by_tenant_request',['tenantId','requestKey']),
