@@ -11,6 +11,7 @@ This lists host tables only; mounted components own separate schemas. It contain
 | painterEmailBindings | schema.ts |
 | painterEntities | schema.ts |
 | painterEvents | schema.ts |
+| painterIntakeConfigs | schema.ts |
 | painterInvites | schema.ts |
 | painterMembers | schema.ts |
 | painterPortals | schema.ts |
