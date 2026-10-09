@@ -9,7 +9,11 @@
       "default": "./index.mjs"
     },
     "./intake": "./intake.ts",
-    "./qualification": "./qualification.ts"
+    "./qualification": "./qualification.ts",
+    "./company-pages": {
+      "types": "./company-pages.d.mts",
+      "default": "./company-pages.mjs"
+    }
   },
   "dependencies": {
     "@painter-os-bts/backend": "*",
