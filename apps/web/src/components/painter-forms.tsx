@@ -31,7 +31,7 @@ export const schemas: Record<string, Field[]> = {
  'expense.create':[relation('jobId','Job','job'),f('title','Expense description'),f('amount','Amount ($)','number'),choices('category','Category',['materials','labor','equipment','travel','other'])],
  'review.create':[relation('jobId','Completed job','job')], 'review.complete':[{...f('rating','Customer rating (1–5)','number'),min:1,max:5}],
  'referral.create':[relation('customerId','Referring customer','customer'),f('name','Referral name'),f('email','Email','email'),f('source','Source','text',false)],
- 'bid.create':[f('title','Bid title'),relation('customerId','Customer','customer'),f('value','Bid value ($)','number'),f('deadline','Submission deadline','date'),choices('status','Status',['draft','submitted','won','lost']),f('notes','Scope & requirements','textarea',false)],
+ 'bid.create':[f('title','Bid title'),relation('customerId','Customer','customer'),f('value','Bid value ($)','number'),f('deadline','Submission deadline','date'),choices('status','Status',['draft','submitted','won','lost','withdrawn']),f('notes','Scope & requirements','textarea',false)],
  'knowledge.create':[f('title','Document title'),f('content','Knowledge content','textarea')],
  'automation.create':[f('title','Rule name'),choices('trigger','Trigger',['lead.created','estimate.approved','job.completed','invoice.issued']),choices('action','Safe action',['task.create']),choices('status','Status',['draft','active','paused'])],
  'task.create':[f('title','Task title'),relation('jobId','Related job','job',false),f('dueAt','Due date','datetime-local',false)],
