@@ -93,3 +93,20 @@ test('browser executable selection is forwarded only to browser verification', a
   for (const gate of ['doctor', 'web-build', 'http', 'platform-http']) assert.deepEqual(browserGateEnvironment(gate, env, source), env);
   assert.equal(agentEnvironment('http://127.0.0.1:4011', '/owned/run').PAINTER_AGENT_CHROMIUM_EXECUTABLE, undefined);
 });
+
+
+test('combined verification includes forms JSX and factory policy suites with supported runners', async () => {
+  const verifier = await readFile(new URL('../scripts/agent-verify.mjs', import.meta.url), 'utf8');
+  const manifest = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'));
+  assert.match(verifier, /\['forms-tests', \[npmCli, 'run', 'test:forms'\]\]/);
+  assert.equal(manifest.scripts['test:forms'], 'vitest run --config vitest.forms.config.ts');
+  const forms = await readFile(new URL('../vitest.forms.config.ts', import.meta.url), 'utf8');
+  assert.match(forms, /jsx: 'automatic'/);
+  for (const file of ['estimate-form.test.tsx', 'deadline-form.test.tsx']) assert.ok(forms.includes(file));
+  assert.match(verifier, /\['factory-tests', \['--test', '\.github\/factory\/contract.test.mjs'\]\]/);
+  // Both suites must run in the existing fail-fast/receipt loop, before builds.
+  for (const gate of ['forms-tests', 'factory-tests']) {
+    assert.ok(verifier.indexOf(`['${gate}'`) < verifier.indexOf("['web-build'"));
+    assert.ok(verifier.indexOf(`['${gate}'`) < verifier.indexOf('for (const [name, args] of gates)'));
+  }
+});

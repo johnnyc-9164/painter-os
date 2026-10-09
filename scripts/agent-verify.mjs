@@ -25,6 +25,10 @@ const gates = [
   // Same root TS test files as npm test; Node's loader avoids the CLI's optional Unix IPC server.
   ['domain-tests', ['--import', 'tsx', '--test', ...(await readdir(join(root, 'tests'))).filter(name => name.endsWith('.test.ts')).sort().map(name => `tests/${name}`)]],
   ['node-tests', ['--test', ...(await readdir(join(root, 'tests'))).filter(name => name.endsWith('.test.mjs') && name !== 'agent-harness.test.mjs').sort().map(name => `tests/${name}`)]],
+  // JSX form suites use their existing automatic-JSX Vitest runner.
+  ['forms-tests', [npmCli, 'run', 'test:forms']],
+  // Repository policy tests live outside the root tests directory.
+  ['factory-tests', ['--test', '.github/factory/contract.test.mjs']],
   ['convex-tests', [npmCli, 'run', 'test:convex']],
   ['web-build', [npmCli, 'run', 'build']],
   ['compatibility', ['--test', 'docs/contracts/compatibility.test.mjs']],
