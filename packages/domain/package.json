@@ -7,7 +7,8 @@
     "./contracts": "./src/contracts.ts",
     "./engine": "./src/engine.ts",
     "./seed": "./src/seed.ts",
-    "./next-action-queue": "./src/next-action-queue.ts"
+    "./next-action-queue": "./src/next-action-queue.ts",
+    "./review-follow-up": "./src/review-follow-up.ts"
   },
   "scripts": {
     "check-types": "tsc --noEmit"
