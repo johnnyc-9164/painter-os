@@ -6,6 +6,7 @@ import { components } from "./runtime";
 import type { DataModel } from "./runtime";
 import { query } from "./runtime";
 import authConfig from "./auth.config";
+import { painterAuthOrigins } from "./authOrigins";
 
 
 
@@ -18,7 +19,7 @@ function createAuth(ctx: GenericCtx<DataModel>) {
   return betterAuth({
     secret,
     baseURL: siteUrl,
-    trustedOrigins: [siteUrl],
+    trustedOrigins: painterAuthOrigins(siteUrl, process.env.PAINTER_AUTH_ADDITIONAL_ORIGINS),
     database: authComponent.adapter(ctx),
     emailAndPassword: {
       enabled: true,
