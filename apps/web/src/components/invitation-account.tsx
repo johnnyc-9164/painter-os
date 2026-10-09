@@ -1,0 +1,17 @@
+'use client';
+import {Button} from '@painter-os-bts/ui/components/button';
+import {Input} from '@painter-os-bts/ui/components/input';
+import {Label} from '@painter-os-bts/ui/components/label';
+import {useEffect,useState} from 'react';
+import {invitationReturn} from '../lib/invitation-return';
+export function InvitationAccount({local=false}:{local?:boolean}){
+ const [mode,setMode]=useState<'signup'|'signin'>('signup'),[returnTo,setReturnTo]=useState<string|null>(null),[ready,setReady]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState(''),[complete,setComplete]=useState(false);
+ useEffect(()=>{setReturnTo(invitationReturn(new URLSearchParams(window.location.search).get('returnTo')));setReady(true);},[]);
+ async function submit(event:React.FormEvent<HTMLFormElement>){event.preventDefault();if(busy||local)return;setBusy(true);setError('');try{
+  const input=Object.fromEntries(new FormData(event.currentTarget));const response=await fetch('/api/auth',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({...input,action:mode})});
+  const data=await response.json();if(!response.ok)throw new Error(data.error||'Unable to finish account setup.');setComplete(true);
+ }catch(err){setError(err instanceof Error?err.message:'Unable to finish account setup.');}finally{setBusy(false);}}
+ return <main className="card invite-form"><span className="eyebrow">JOIN AN EXISTING PAINTING TEAM</span><h1>Your account, their workspace</h1><p>Create your personal account or sign in using the exact email on your invitation. This step creates no company and accepts no invitation.</p><p>The cloud invitation requires a verified email. If verification delivery is unavailable, ask the workspace owner for help; access is not granted by this page.</p>
+ {!ready?<p>Checking invitation return…</p>:!returnTo?<p role="alert">Open this page from your original invitation. No valid invitation return link was supplied.</p>:local?<section role="status"><h2>Local invitation test mode</h2><p>Personal account setup is unavailable here because local signup also creates a synthetic company. Return to the invitation to test joining; no account has been created by this page.</p><a href={returnTo}>Return to invitation</a></section>:complete?<section role="status"><h2>Account step complete</h2><p>Return to your invitation to finish joining. Your email must be verified before cloud acceptance.</p><a href={returnTo}>Return to invitation</a></section>:<><div className="tabs"><Button type="button" aria-pressed={mode==='signup'} onClick={()=>{setMode('signup');setError('');}}>Create personal account</Button><Button type="button" aria-pressed={mode==='signin'} onClick={()=>{setMode('signin');setError('');}}>Sign in instead</Button></div><form onSubmit={submit}>{mode==='signup'&&<Label>Your name<Input name="name" required maxLength={120} autoComplete="name"/></Label>}<Label>Invitation email<Input type="email" name="email" required autoComplete="email"/></Label><Label>Password<Input type="password" name="password" required minLength={mode==='signup'?8:1} autoComplete={mode==='signup'?'new-password':'current-password'}/></Label>{error&&<p role="alert">{error}</p>}<Button type="submit" disabled={busy}>{busy?'Please wait…':mode==='signup'?'Create personal account':'Sign in'}</Button></form><a href={returnTo}>Back to invitation</a></>}
+ </main>;
+}
