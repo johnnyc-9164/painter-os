@@ -13,7 +13,7 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
 export function marketingEnvironment(source, directory) {
   const env = {};
   for (const key of ['PATH', 'Path', 'SystemRoot', 'WINDIR', 'TEMP', 'TMP', 'CI', 'TZ']) if (source[key] !== undefined) env[key] = source[key];
-  return { ...env, NODE_ENV: 'production', NEXT_TELEMETRY_DISABLED: '1', HOME: directory, USERPROFILE: directory };
+  return { ...env, NODE_ENV: 'production', NEXT_TELEMETRY_DISABLED: '1' };
 }
 async function unusedPort() {
   const reservation = createServer();
@@ -22,7 +22,7 @@ async function unusedPort() {
   await new Promise((resolve, reject) => reservation.close(error => error ? reject(error) : resolve()));
   return port;
 }
-async function ready(base, state) {
+export async function marketingReady(base, state) {
   const deadline = Date.now() + 45_000;
   while (Date.now() < deadline) {
     if (state.ended) throw new Error('MARKETING_EXITED_BEFORE_READY', { cause: state.result?.error });
@@ -34,7 +34,8 @@ async function ready(base, state) {
   }
   throw new Error('MARKETING_READINESS_TIMEOUT');
 }
-export async function runMarketingHttpAcceptance(expectedAdminOrigin = null) {
+export async function runMarketingHttpAcceptance(expectedAdminOrigin = null, expectedSiteOrigin = null) {
+  if(expectedSiteOrigin!==null && expectedSiteOrigin!=="https://painter-os-marketing.vercel.app")throw new Error("INVALID_EXPECTED_MARKETING_ORIGIN");
   const expected = publicAdminOrigin(expectedAdminOrigin ?? undefined);
   const parent = resolve(process.env.RUNNER_TEMP || tmpdir());
   const directory = await mkdtemp(join(parent, 'painter-http-marketing-'));
@@ -49,9 +50,9 @@ export async function runMarketingHttpAcceptance(expectedAdminOrigin = null) {
     const nextBin = createRequire(import.meta.url).resolve('next/dist/bin/next', { paths: [marketing] });
     server = spawn(process.execPath, [nextBin, 'start', '--hostname', '127.0.0.1', '--port', new URL(base).port], { cwd: marketing, env, stdio: 'inherit', shell: false });
     serverState = observe(server);
-    await ready(base, serverState);
+    await marketingReady(base, serverState);
     if (interrupted) throw new Error('MARKETING_ACCEPTANCE_INTERRUPTED');
-    harness = spawn(process.execPath, [join(root, 'tests', 'marketing-http.acceptance.mjs')], { cwd: root, env: { ...env, PAINTER_MARKETING_TEST_URL: base, PAINTER_EXPECTED_BUILD_ADMIN_ORIGIN: expected || '' }, stdio: 'inherit', shell: false });
+    harness = spawn(process.execPath, [join(root, 'tests', 'marketing-http.acceptance.mjs')], { cwd: root, env: { ...env, PAINTER_MARKETING_TEST_URL: base, PAINTER_EXPECTED_BUILD_ADMIN_ORIGIN: expected || '', PAINTER_EXPECTED_BUILD_MARKETING_ORIGIN: expectedSiteOrigin || '' }, stdio: 'inherit', shell: false });
     harnessState = observe(harness);
     await waitForHarness(harnessState, 90_000);
     if (interrupted) throw new Error('MARKETING_ACCEPTANCE_INTERRUPTED');
@@ -63,6 +64,6 @@ export async function runMarketingHttpAcceptance(expectedAdminOrigin = null) {
   }
 }
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  if (process.argv.length > 3) throw new Error('EXPECTED_ONLY_OPTIONAL_BUILD_ADMIN_ORIGIN');
-  runMarketingHttpAcceptance(process.argv[2] || null).catch(error => { console.error(error.message); process.exitCode = 1; });
+  if (process.argv.length > 4) throw new Error('EXPECTED_ONLY_OPTIONAL_BUILD_ADMIN_ORIGIN');
+  runMarketingHttpAcceptance(process.argv[2] || null, process.argv[3] || null).catch(error => { console.error(error.message); process.exitCode = 1; });
 }
