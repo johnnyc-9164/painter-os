@@ -26,17 +26,19 @@ it('invalid public workspace input has an explicit application error instead of 
   expect(error.data, String(error)).toBe('PUBLIC_WORKSPACE_NOT_FOUND');
 });
 
-it('wrong-table IDs are invalid while valid empty and deleted workspace IDs stay empty', async () => {
+it('wrong-table and deleted workspace IDs are missing while existing empty workspaces stay empty', async () => {
   const t = convexTest(schema, modules);
   const ids = await t.run(async ctx => {
     const empty = await ctx.db.insert('painterWorkspaces', { name: 'Empty', ownerId: 'owner', demo: false, createdAt: '2026-10-04' });
     const deleted = await ctx.db.insert('painterWorkspaces', { name: 'Deleted', ownerId: 'owner', demo: false, createdAt: '2026-10-04' });
     const wrongTable = await ctx.db.insert('painterMembers', { tenantId: empty, userId: 'owner', name: 'Owner', email: 'owner@example.test', role: 'owner', enabled: true });
+    await ctx.db.insert('painterEntities', { tenantId: deleted, entityId: 'orphan', type: 'article', revision: 1, createdAt: '2026-10-04', updatedAt: '2026-10-04', data: { title: 'Orphan', slug: 'orphan', content: 'Not public after deletion', publishedAt: '2026-10-04', status: 'published', public: true } });
     await ctx.db.delete(deleted);
     return { empty, deleted, wrongTable };
   });
   const error = await t.query(api.painter.articles, { workspaceId: ids.wrongTable }).then(() => null, error => error);
   expect(error.data).toBe('PUBLIC_WORKSPACE_NOT_FOUND');
   expect(await t.query(api.painter.articles, { workspaceId: ids.empty })).toEqual([]);
-  expect(await t.query(api.painter.articles, { workspaceId: ids.deleted })).toEqual([]);
+  const deletedError = await t.query(api.painter.articles, { workspaceId: ids.deleted }).then(() => null, error => error);
+  expect(deletedError.data).toBe('PUBLIC_WORKSPACE_NOT_FOUND');
 });
