@@ -1,5 +1,6 @@
 import type { Actor, Entity } from './contracts';
 import { canCommand, visibleEntities } from './engine';
+import { PUBLIC_INTAKE_LEAD_ID_PREFIX } from './lead-aggregate';
 
 export interface NextActionProposal {
   key: string;
@@ -34,6 +35,9 @@ export function nextActionQueue(actor: Actor, entities: Entity[], now: string): 
   const proposals: NextActionProposal[] = [];
   for (const entity of visible) {
     if (entity.type !== 'lead' && entity.type !== 'estimate') continue;
+    // A task title/receipt would otherwise copy unconverted visitor PII outside
+    // its retention aggregate. Conversion is an explicit company decision first.
+    if (entity.type === 'lead' && entity.id.startsWith(PUBLIC_INTAKE_LEAD_ID_PREFIX)) continue;
     if (!canCommand(actor, `${entity.type}.update`)) continue;
     const status = entity.data.status;
     const title = entity.data.title ?? entity.data.name;

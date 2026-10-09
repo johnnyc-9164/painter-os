@@ -1,7 +1,7 @@
 import {intakeProjectTypes, type IntakeProjectType} from './intake-contract';
 
 export const CONTACT_RETENTION_DAYS = 30 as const;
-export const CONTACT_RETENTION_DISCLOSURE = 'Unprocessed requests are deleted after 30 days. If the company converts your request into a customer record, it manages the retention of that customer record separately.';
+export const CONTACT_RETENTION_DISCLOSURE = 'Unprocessed requests are deleted after 30 days. Editing, contacting or closing a request does not extend this period. If the company converts your request into a customer record, it manages the retention of that customer record separately.';
 export interface ContactIntakeSettings {enabled: boolean; consentText: string; acknowledgeRetention: boolean}
 export interface PublicContactSubmission {
   requestKey: string; contactPolicyRevision: number; guidanceRevision: number; consent: true;

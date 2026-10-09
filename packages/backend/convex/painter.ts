@@ -5,7 +5,10 @@ import { v, ConvexError } from 'convex/values';
 import { authComponent } from './auth';
 import type { DataModel, Id } from './runtime';
 import { components } from './runtime';
-import { applyCommand, canCommand, emptyState, visibleEntities, type State } from '../../domain/src/engine';
+import { applyCommand, canCommand, commandFingerprint, emptyState, visibleEntities, type State } from '../../domain/src/engine';
+import {loadPainterState as load, persistPainterState as persist} from './painterStore';
+import {intakeDigest} from './intakeCrypto';
+import {intakeCommandContext} from './intakePrivacyHooks';
 import { seedState } from '../../domain/src/seed';
 import type { Actor, Command, Entity, Snapshot } from '../../domain/src/contracts';
 import { ContractorBackend } from '../../contractor-os-core/src/backendClient';
@@ -25,19 +28,6 @@ async function resolve(ctx:Ctx,workspaceId?:Id<'painterWorkspaces'>) {
 }
 // Shared host authority seam; consumers reuse the exact existing membership resolution.
 export { resolve as resolvePainterMembership };
-async function load(ctx:Ctx,tenantId:Id<'painterWorkspaces'>,requestKey?:string):Promise<State> {
- const [rows,events,receipts]=await Promise.all([
- ctx.db.query('painterEntities').withIndex('by_tenant',q=>q.eq('tenantId',tenantId)).collect(),
- ctx.db.query('painterEvents').withIndex('by_tenant',q=>q.eq('tenantId',tenantId)).collect(),
- requestKey?ctx.db.query('painterReceipts').withIndex('by_tenant_request',q=>q.eq('tenantId',tenantId).eq('requestKey',requestKey)).collect():Promise.resolve([]),
- ]);
- return {entities:rows.map(({_id,_creationTime,entityId,...e})=>({...e,id:entityId,type:e.type as Entity['type']})),events:events.map(({_id,_creationTime,tenantId,eventId,...e})=>({...e,id:eventId})),receipts:Object.fromEntries(receipts.map(r=>[JSON.stringify([tenantId,r.requestKey]),{fingerprint:r.fingerprint,result:r.result}]))};
-}
-async function persist(ctx:GenericMutationCtx<DataModel>,tenantId:Id<'painterWorkspaces'>,before:State,after:State,requestKey?:string) {
- for(const e of after.entities){const old=before.entities.find(x=>x.id===e.id);if(old?.revision===e.revision)continue;const {id,...fields}=e;const row=await ctx.db.query('painterEntities').withIndex('by_tenant_entity',q=>q.eq('tenantId',tenantId).eq('entityId',id)).unique();const value={...fields,tenantId,entityId:id};if(row)await ctx.db.replace(row._id,value);else await ctx.db.insert('painterEntities',value);}
- const ids=new Set(before.events.map(e=>e.id));for(const event of after.events)if(!ids.has(event.id)){const {id,...fields}=event;await ctx.db.insert('painterEvents',{...fields,tenantId,eventId:id});}
- for(const [key,receipt] of Object.entries(after.receipts)){if(before.receipts[key])continue;const decoded=JSON.parse(key) as [string,string];await ctx.db.insert('painterReceipts',{tenantId,requestKey:requestKey??decoded[1],...receipt});}
-}
 export const workspaces=query({args:{},handler:async ctx=>{const user=await authComponent.safeGetAuthUser(ctx);if(!user)return [];const members=await ctx.db.query('painterMembers').withIndex('by_user',q=>q.eq('userId',String(user._id))).collect();return Promise.all(members.filter(m=>m.enabled).map(async m=>({workspace:await ctx.db.get(m.tenantId),role:m.role})));}});
 export const createWorkspace=mutation({args:{name:v.string(),demo:v.optional(v.boolean()),onlyIfNone:v.optional(v.boolean())},handler:async(ctx,args)=>{
  const user=await authComponent.safeGetAuthUser(ctx);if(!user)throw new Error('UNAUTHENTICATED');if(args.onlyIfNone){const memberships=await ctx.db.query('painterMembers').withIndex('by_user',q=>q.eq('userId',String(user._id))).collect();const active=memberships.find(m=>m.enabled);if(active){const existing=await ctx.db.get(active.tenantId);if(existing)return {id:existing._id,name:existing.name};}}if(args.demo && process.env.PAINTER_ALLOW_DEMO!=='true')throw new Error('DEMO_DISABLED');const name=args.name.trim();if(!name||name.length>120)throw new Error('INVALID_NAME');const now=new Date().toISOString();
@@ -54,7 +44,8 @@ export const command=mutation({args:{workspaceId:v.optional(v.id('painterWorkspa
  if(c.action.startsWith('member.')||c.action==='workspace.update')return hostCommand(ctx,actor,workspace._id,c);
  const state=await load(ctx,workspace._id,c.requestKey);const before=JSON.parse(JSON.stringify(state)) as State;let index=0;const requestHash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(JSON.stringify([actor.tenantId,c.requestKey])))),b=>b.toString(16).padStart(2,'0')).join('');
  // No randomness unsupported by Convex. Request key + transactional duplicate check guarantees stable IDs.
- const result=applyCommand(state,actor,c,{now:new Date().toISOString(),id:()=>`${actor.tenantId}:${requestHash}:${++index}`});if(!result.replayed)await persist(ctx,workspace._id,before,state,c.requestKey);return actor.role==='customer'?{...result,...(result.entity?{entity:customerSafe(result.entity)}:{}),entities:result.entities?.map(customerSafe)}:result;
+ const prior=state.receipts[JSON.stringify([actor.tenantId,c.requestKey])];const intake=await intakeCommandContext(ctx,workspace._id,c,Boolean(prior),actor.role);const receiptDigest=intake||prior?.fingerprint.startsWith('sha256:')?`sha256:${await intakeDigest(commandFingerprint(actor,c))}`:undefined;
+ const result=applyCommand(state,actor,c,{now:new Date().toISOString(),id:()=>`${actor.tenantId}:${requestHash}:${++index}`,...(receiptDigest?{transformReceiptFingerprint:()=>receiptDigest}:{})});if(!result.replayed)await persist(ctx,workspace._id,before,state,c.requestKey,intake?{action:c.action,userId:actor.id,role:actor.role}:undefined);return actor.role==='customer'?{...result,...(result.entity?{entity:customerSafe(result.entity)}:{}),entities:result.entities?.map(customerSafe)}:result;
 }});
 const roles=['owner','office_admin','estimator','project_manager','salesperson','crew_lead','crew_member','accountant','customer'] as const;
 function stable(v:unknown):string {if(Array.isArray(v))return '['+v.map(stable).join(',')+']';if(v&&typeof v==='object')return '{'+Object.keys(v).sort().map(k=>JSON.stringify(k)+':'+stable((v as any)[k])).join(',')+'}';return JSON.stringify(v);}

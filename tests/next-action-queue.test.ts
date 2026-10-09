@@ -77,3 +77,11 @@ test('ambiguous source IDs and malformed revisions cannot create false duplicate
   assert.equal(nextActionQueue(actor, [source, task], now).length, 1);
   for (const revision of [0, -1, 1.5, NaN]) assert.deepEqual(nextActionQueue(actor, [{ ...source, revision }], now), []);
 });
+
+test('immutable public intake namespace prevents task copies even when editable source is changed',()=>{
+  const intake=entity('lead','intake-lead:'+ 'a'.repeat(64),{data:{title:'Private visitor',name:'Private visitor',status:'new',source:'manual'}});
+  const manual=entity('lead','manual-lead',{data:{title:'Manual lead',status:'new',source:'consented_public_intake'}});
+  const queue=nextActionQueue(actor,[intake,manual],now);
+  assert.equal(queue.length,1);assert.equal(queue[0]!.source.id,manual.id);
+  assert.doesNotMatch(JSON.stringify(queue),/Private visitor/);
+});

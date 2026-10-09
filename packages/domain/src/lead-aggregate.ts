@@ -1,4 +1,6 @@
 import type { Entity } from './contracts';
+/** Host-generated immutable namespace; editable source text is not provenance. */
+export const PUBLIC_INTAKE_LEAD_ID_PREFIX = 'intake-lead:';
 
 const contactFields = ['name', 'email', 'phone', 'address', 'source', 'notes'] as const;
 
