@@ -51,6 +51,7 @@ it('large stored bodies cause byte-limited continuation rather than silently tru
     for (let i = 0; i < 20; i++) await ctx.db.insert('painterEntities', { tenantId: id, entityId: `large-${i}`, type: 'article', revision: 1, createdAt: '2026-10-09', updatedAt: '2026-10-09', data: { title: 'Large', slug: `large-${i}`, content: 'x'.repeat(100000), publishedAt: '2026-10-09', status: 'published', public: true } });
     return id;
   });
+  await expect(t.query(api.painter.articles, { workspaceId })).rejects.toThrow('PUBLIC_ARTICLES_PAGINATION_REQUIRED');
   const first = await t.query(api.painter.articlesPage, { workspaceId, cursor: null, limit: 20 });
   // The read threshold is checked after each document: at most one document crosses it.
   expect(first.page.length).toBeLessThan(20); expect(first.isDone).toBe(false);

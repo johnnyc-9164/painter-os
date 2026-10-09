@@ -48,9 +48,9 @@ export const articles = query({
       if (rows.length > 1) throw new ConvexError('DUPLICATE_PUBLIC_ARTICLE_SLUG');
       return rows.map(project);
     }
-    const rows = await publicRows(ctx, tenantId).take(LEGACY_LIMIT + 1);
-    if (rows.length > LEGACY_LIMIT) throw new ConvexError('PUBLIC_ARTICLES_PAGINATION_REQUIRED');
-    return rows.map(project);
+    const result = await publicRows(ctx, tenantId).paginate({ numItems: LEGACY_LIMIT + 1, cursor: null, maximumRowsRead: LEGACY_LIMIT + 1, maximumBytesRead: 1024 * 1024 });
+    if (!result.isDone || result.page.length > LEGACY_LIMIT) throw new ConvexError('PUBLIC_ARTICLES_PAGINATION_REQUIRED');
+    return result.page.map(project);
   }
 });
 
