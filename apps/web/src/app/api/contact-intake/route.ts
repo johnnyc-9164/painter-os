@@ -1,0 +1,26 @@
+import { NextRequest } from 'next/server';
+import { body, error, reply, requireOrigin } from '@/lib/http';
+import { localEnabled } from '@/lib/local-runtime';
+import { contactIntakeReads, contactIntakeSave } from '@/lib/contact-intake-server';
+import { decodeContactPolicy, decodeContactWrite, parseContactIntakeSave } from '@/lib/contact-intake-http';
+/** Disabled membership and foreign tenants are denials, not malformed requests. */
+const fail = (e: unknown) => e instanceof Error && /WORKSPACE_MEMBERSHIP_REQUIRED/.test(e.message) ? reply({error: 'FORBIDDEN'}, 403) : error(e);
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+export async function GET(request: NextRequest) {
+  try {
+    if (localEnabled()) return reply({error: 'CONTACT_INTAKE_LOCAL_UNAVAILABLE'}, 503);
+    if ([...request.nextUrl.searchParams.keys()].some(key => key !== 'workspaceId')) throw new Error('INVALID_CONTACT_CONFIG_REQUEST');
+    const workspaceId = request.nextUrl.searchParams.get('workspaceId');
+    if (!workspaceId || workspaceId.length > 200) throw new Error('INVALID_CONTACT_CONFIG_REQUEST');
+    return reply({settings: decodeContactPolicy(await contactIntakeReads(workspaceId))});
+  } catch (e) { return fail(e); }
+}
+export async function POST(request: NextRequest) {
+  try {
+    requireOrigin(request);
+    const args = parseContactIntakeSave(await body(request));
+    if (localEnabled()) return reply({error: 'CONTACT_INTAKE_LOCAL_UNAVAILABLE'}, 503);
+    return reply(decodeContactWrite(await contactIntakeSave(args)));
+  } catch (e) { return fail(e); }
+}

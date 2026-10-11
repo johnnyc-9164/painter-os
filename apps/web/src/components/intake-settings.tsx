@@ -4,6 +4,7 @@ import { Button } from '@painter-os-bts/ui/components/button';
 import { validateIntakeSettings, type IntakeProjectType, type SavedIntakeSettings } from '@painter-os-bts/backend/intake-contract';
 import { createIntentKeys } from '../lib/command-intent';
 import { decodeIntakeRead, decodeIntakeWrite } from '../lib/intake-http';
+import { ContactIntakeSettings } from './contact-intake-settings';
 import './intake-settings.css';
 const empty = {enabled: false, servicePostalCodes: [], supportedProjectTypes: [], consentText: '', revision: 0};
 async function call(path: string, init?: RequestInit) {
@@ -43,7 +44,7 @@ export function IntakeSettings({role, cloud, workspaceId}: {role: string; cloud:
   }
   if (!allowed) return <section className="intake-settings"><h2>Company intake</h2><p>Only company owners and office administrators can manage project guidance.</p></section>;
   if (!cloud) return <section className="intake-settings"><h2>Company intake</h2><p>The local demo does not publish intake settings. Open your cloud company workspace to manage project guidance.</p></section>;
-  return <section className="intake-settings" aria-labelledby="intake-heading">
+  return <><section className="intake-settings" aria-labelledby="intake-heading">
     <div className="intake-settings-intro"><h2 id="intake-heading">Help visitors find the right next step</h2><p>Set the work and ZIP codes your company serves. Visitors get project guidance; no contact details are collected and no appointment is booked.</p></div>
     {loading ? <p role="status">Loading saved settings…</p> : <form onSubmit={submit}>
       <fieldset disabled={busy}><legend>Public guidance</legend><label className="intake-toggle"><input type="checkbox" checked={enabled} onChange={e => setEnabled(e.target.checked)}/> Enable project guidance on the company site</label><p>Off until you choose to enable it.</p></fieldset>
@@ -53,5 +54,5 @@ export function IntakeSettings({role, cloud, workspaceId}: {role: string; cloud:
       {error && <p className="intake-form-error" role="alert">{error}</p>}{notice && <p role="status" className="intake-form-success">{notice}</p>}
       <div className="intake-settings-actions"><Button type="submit" disabled={busy || !loaded}>{busy ? 'Saving…' : 'Save intake settings'}</Button><Button type="button" variant="outline" disabled={busy} onClick={() => void load()}>Reload saved settings</Button><span>Saved version {saved.revision}</span></div>
     </form>}
-  </section>;
+  </section><ContactIntakeSettings key={workspaceId} workspaceId={workspaceId}/></>;
 }
