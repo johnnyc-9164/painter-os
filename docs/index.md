@@ -13,6 +13,7 @@ Start with [agent setup](development/AGENT_SETUP.md) and the [repository map](..
 | What tables exist? | [Generated host schema](generated/schema.md) and [component source](../packages/contractor-os-core/src/component/schema.ts) |
 | What are the design rules? | [Core beliefs](design-docs/core-beliefs.md), [Artisan reference](references/ARTISAN_CORE.md), [marketing design](../apps/marketing/DESIGN.md) |
 | What currently holds production cutover? | [Dated release holds](evidence/current-release-holds-2026-10-09.md), [Vercel quota research](research/VERCEL_QUOTA_2026_10_09.md); source evidence is separate from live rollout |
+| What are the browser automation research limits? | [Stagehand/Clef research record](research/STAGEHAND_CLEF_RESEARCH_RECORD_2026_10_11.md) (issue #103); detailed source in [Jev/Clef research](research/JEV_CLEF_BROWSER_2026_10_09.md) |
 | How is cloud deployment configured? | [Deployment guide](CONVEX_DEPLOYMENT.md); requires separate live acceptance |
 
 `docs/harness.json` records owners/review dates for the current agent entry points. `agent:check` validates their links, freshness, schema inventory and source dependency rules. Historical evidence and imported documentation are not silently re-dated or rewritten. The weekly hygiene workflow reports debt/check failures; a human or assigned agent reviews proposed repairs.
