@@ -1,0 +1,16 @@
+.contact-intake-settings{max-width:800px;background:#fff;padding:28px;border:1px solid #e5eaf1;border-radius:12px;color:#172033;margin-top:24px}
+.contact-intake-settings h2{font-size:23px;line-height:1.3}
+.contact-intake-settings p{max-width:70ch;color:#4c5d74;margin-top:10px}
+.contact-intake-settings fieldset{border:0;padding:0;margin:24px 0}
+.contact-intake-settings legend{font-size:15px;font-weight:650;margin-bottom:12px}
+.contact-intake-toggle{display:flex;align-items:center;gap:10px;min-height:44px;color:#243750}
+.contact-intake-settings input[type=checkbox]{width:18px;height:18px;accent-color:#0052ff}
+.contact-intake-field{display:block;margin:22px 0;font-weight:600;color:#243750}
+.contact-intake-field textarea{display:block;margin-top:10px;width:100%;box-sizing:border-box;border:1px solid #c4cedd;border-radius:7px;padding:12px;font:inherit;color:#172033;resize:vertical;background:#fff;min-height:90px}
+.contact-intake-field span,.contact-intake-actions span{display:block;font-size:12px;font-weight:400;color:#4c5d74;margin-top:8px}
+.contact-intake-disclosure{border-left:3px solid #0052ff;padding-left:12px}
+.contact-intake-settings :focus-visible{outline:3px solid #0052ff;outline-offset:3px}
+.contact-intake-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:24px}
+.contact-intake-settings .contact-intake-error{color:#9a2424}
+.contact-intake-settings .contact-intake-success{color:#246038}
+@media(max-width:760px){.contact-intake-settings{padding:20px}.contact-intake-actions span{width:100%}}
