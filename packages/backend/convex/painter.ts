@@ -17,10 +17,13 @@ import { businessCommand, businessResult, commandOptions } from '../../contracto
 const mutation=mutationGeneric as MutationBuilder<DataModel,'public'>;
 const query=queryGeneric as QueryBuilder<DataModel,'public'>;
 type Ctx=GenericQueryCtx<DataModel>;
+// Documented read bounds. Authoritative reads fetch limit+1 rows and deny with READ_LIMIT_EXCEEDED instead of silently truncating.
+export const READ_LIMITS={membershipsPerUser:100,membersPerWorkspace:500,jobsPerPortal:200,relatedPerJob:500} as const;
+async function boundedAll<T>(rows:Promise<T[]>,limit:number):Promise<T[]>{const r=await rows;if(r.length>limit)throw new Error('READ_LIMIT_EXCEEDED');return r;}
+const userMemberships=(ctx:Ctx,userId:string)=>boundedAll(ctx.db.query('painterMembers').withIndex('by_user',q=>q.eq('userId',userId)).take(READ_LIMITS.membershipsPerUser+1),READ_LIMITS.membershipsPerUser);
 async function resolve(ctx:Ctx,workspaceId?:Id<'painterWorkspaces'>) {
  const user=await authComponent.safeGetAuthUser(ctx);if(!user)throw new Error('UNAUTHENTICATED');
- const memberships=await ctx.db.query('painterMembers').withIndex('by_user',q=>q.eq('userId',String(user._id))).collect();
- const member=memberships.find(m=>m.enabled&&(!workspaceId||m.tenantId===workspaceId));if(!member)throw new Error('WORKSPACE_MEMBERSHIP_REQUIRED');
+ const member=workspaceId?await ctx.db.query('painterMembers').withIndex('by_tenant_user',q=>q.eq('tenantId',workspaceId).eq('userId',String(user._id))).unique().then(m=>m?.enabled?m:undefined):(await userMemberships(ctx,String(user._id))).find(m=>m.enabled);if(!member)throw new Error('WORKSPACE_MEMBERSHIP_REQUIRED');
  const workspace=await ctx.db.get(member.tenantId);if(!workspace)throw new Error('WORKSPACE_NOT_FOUND');
  // Verified authentication user email, never browser or mutable member metadata, binds customer access.
  const actor:Actor={id:String(user._id),tenantId:String(workspace._id),name:user.name,email:user.email,role:member.role};
@@ -28,9 +31,9 @@ async function resolve(ctx:Ctx,workspaceId?:Id<'painterWorkspaces'>) {
 }
 // Shared host authority seam; consumers reuse the exact existing membership resolution.
 export { resolve as resolvePainterMembership };
-export const workspaces=query({args:{},handler:async ctx=>{const user=await authComponent.safeGetAuthUser(ctx);if(!user)return [];const members=await ctx.db.query('painterMembers').withIndex('by_user',q=>q.eq('userId',String(user._id))).collect();return Promise.all(members.filter(m=>m.enabled).map(async m=>({workspace:await ctx.db.get(m.tenantId),role:m.role})));}});
+export const workspaces=query({args:{},handler:async ctx=>{const user=await authComponent.safeGetAuthUser(ctx);if(!user)return [];const members=await userMemberships(ctx,String(user._id));return Promise.all(members.filter(m=>m.enabled).map(async m=>({workspace:await ctx.db.get(m.tenantId),role:m.role})));}});
 export const createWorkspace=mutation({args:{name:v.string(),demo:v.optional(v.boolean()),onlyIfNone:v.optional(v.boolean())},handler:async(ctx,args)=>{
- const user=await authComponent.safeGetAuthUser(ctx);if(!user)throw new Error('UNAUTHENTICATED');if(args.onlyIfNone){const memberships=await ctx.db.query('painterMembers').withIndex('by_user',q=>q.eq('userId',String(user._id))).collect();const active=memberships.find(m=>m.enabled);if(active){const existing=await ctx.db.get(active.tenantId);if(existing)return {id:existing._id,name:existing.name};}}if(args.demo && process.env.PAINTER_ALLOW_DEMO!=='true')throw new Error('DEMO_DISABLED');const name=args.name.trim();if(!name||name.length>120)throw new Error('INVALID_NAME');const now=new Date().toISOString();
+ const user=await authComponent.safeGetAuthUser(ctx);if(!user)throw new Error('UNAUTHENTICATED');if(args.onlyIfNone){const memberships=await userMemberships(ctx,String(user._id));const active=memberships.find(m=>m.enabled);if(active){const existing=await ctx.db.get(active.tenantId);if(existing)return {id:existing._id,name:existing.name};}}if(args.demo && process.env.PAINTER_ALLOW_DEMO!=='true')throw new Error('DEMO_DISABLED');const name=args.name.trim();if(!name||name.length>120)throw new Error('INVALID_NAME');const now=new Date().toISOString();
  // Atomic initial owner. No default password, anonymous demo credential, or role argument.
  const tenantId=await ctx.db.insert('painterWorkspaces',{name,ownerId:String(user._id),createdAt:now,demo:args.demo??false});await ctx.db.insert('painterMembers',{tenantId,userId:String(user._id),name:user.name,email:user.email,role:'owner',enabled:true});
  if(args.demo)await persist(ctx,tenantId,emptyState(),seedState(String(tenantId),String(user._id)));
@@ -55,7 +58,7 @@ async function hostCommand(ctx:GenericMutationCtx<DataModel>,actor:Actor,tenantI
  const input=c.input;if(!input||typeof input!=='object'||Array.isArray(input))throw new Error('INVALID_INPUT');const allowed=c.action==='workspace.update'?['name']:c.action==='member.role'?['userId','role']:['userId','name','email','role'];for(const key of Object.keys(input))if(!allowed.includes(key))throw new Error(`UNKNOWN_FIELD:${key}`);
  let message:string;
  if(c.action==='workspace.update'){if(typeof input.name!=='string'||!input.name.trim()||input.name.length>120)throw new Error('INVALID_NAME');await ctx.db.patch(tenantId,{name:input.name.trim()});message='Workspace updated';}
- else {if(!roles.includes(input.role as any)||typeof input.userId!=='string'||!input.userId.trim())throw new Error('INVALID_MEMBER');const member=await ctx.db.query('painterMembers').withIndex('by_tenant_user',q=>q.eq('tenantId',tenantId).eq('userId',input.userId as string)).unique();if(!member)throw new Error('MEMBER_NOT_FOUND');if(member.role==='owner'&&input.role!=='owner'){const owners=await ctx.db.query('painterMembers').withIndex('by_tenant',q=>q.eq('tenantId',tenantId)).collect();if(owners.filter(m=>m.enabled&&m.role==='owner').length<=1)throw new Error('LAST_OWNER_REQUIRED');}await ctx.db.patch(member._id,{role:input.role as typeof roles[number]});message='Member role updated';}
+ else {if(!roles.includes(input.role as any)||typeof input.userId!=='string'||!input.userId.trim())throw new Error('INVALID_MEMBER');const member=await ctx.db.query('painterMembers').withIndex('by_tenant_user',q=>q.eq('tenantId',tenantId).eq('userId',input.userId as string)).unique();if(!member)throw new Error('MEMBER_NOT_FOUND');if(member.role==='owner'&&input.role!=='owner'){const owners=await ctx.db.query('painterMembers').withIndex('by_tenant_role_enabled',q=>q.eq('tenantId',tenantId).eq('role','owner').eq('enabled',true)).take(2);if(owners.length<=1)throw new Error('LAST_OWNER_REQUIRED');}await ctx.db.patch(member._id,{role:input.role as typeof roles[number]});message='Member role updated';}
  const result={message};await ctx.db.insert('painterReceipts',{tenantId,requestKey:c.requestKey,fingerprint,result});await ctx.db.insert('painterEvents',{tenantId,eventId:JSON.stringify([tenantId,c.requestKey,'host']),type:c.action,entityId:c.entityId??String(tenantId),actorId:actor.id,occurredAt:new Date().toISOString(),payload:{schemaVersion:1,tenantId,input}});return result;
 }
 /** Explicit seam: original Contractor OS component has its OWN store and policy. It is not a projection of painterEntities and writes here do not mirror into Painter OS. */
@@ -78,7 +81,7 @@ export const completeFileUpload=mutation({args:{workspaceId:v.optional(v.id('pai
  if(file.data.verified===true){if(file.data.storageId!==args.storageId)throw new Error('FILE_IMMUTABLE');return {fileId:file.entityId,verified:true};}
  const stored=await ctx.db.system.get(args.storageId);if(!stored||stored.size>20*1024*1024||!['image/jpeg','image/png','image/webp','image/heic'].includes(stored.contentType??''))throw new Error('IMAGE_FILE_REQUIRED_MAX_20_MB');
  // Storage IDs become tenant-owned on registration; refuse adopting an already registered file across jobs/tenants.
- const registrations=await ctx.db.query('painterEntities').filter(q=>q.and(q.eq(q.field('type'),'file'),q.eq(q.field('data.storageId'),args.storageId))).collect();if(registrations.some(r=>r.entityId!==file.entityId))throw new Error('STORAGE_ALREADY_REGISTERED');const now=new Date().toISOString();
+ const registrations=await ctx.db.query('painterEntities').withIndex('by_type_storage',q=>q.eq('type','file').eq('data.storageId',args.storageId)).take(2);if(registrations.some(r=>r.entityId!==file.entityId))throw new Error('STORAGE_ALREADY_REGISTERED');const now=new Date().toISOString();
  await ctx.db.patch(file._id,{revision:file.revision+1,updatedAt:now,data:{...file.data,status:'ready',verified:true,storageId:args.storageId,contentType:stored.contentType,size:stored.size}});await ctx.db.insert('painterEvents',{tenantId:workspace._id,eventId:`${file._id}:verified`,entityId:file.entityId,actorId:actor.id,type:'file.verified',occurredAt:now,payload:{schemaVersion:1,tenantId:actor.tenantId,jobId:file.data.jobId,storageId:args.storageId}});return {fileId:file.entityId,verified:true};
 }});
 export const fileUrl=query({args:{workspaceId:v.optional(v.id('painterWorkspaces')),fileId:v.string()},handler:async(ctx,args)=>{const {actor,workspace}=await resolve(ctx,args.workspaceId);if(actor.role==='customer'||!canCommand(actor,'field.photo'))throw new Error('FORBIDDEN');const file=await ctx.db.query('painterEntities').withIndex('by_tenant_entity',q=>q.eq('tenantId',workspace._id).eq('entityId',args.fileId)).unique();if(!file||file.type!=='file'||file.data.verified!==true)throw new Error('FILE_NOT_FOUND_OR_FORBIDDEN');return ctx.storage.getUrl(file.data.storageId);}});
@@ -126,13 +129,14 @@ export const portalView=query({args:{token:v.string()},handler:async(ctx,args)=>
  const portal=await portalContext(ctx,args.token);
  const estimate=await ctx.db.query('painterEntities').withIndex('by_tenant_entity',q=>q.eq('tenantId',portal.tenantId).eq('entityId',portal.estimateId)).filter(q=>q.and(q.eq(q.field('type'),'estimate'),q.eq(q.field('data.customerId'),portal.customerId))).first();
  if(!estimate||estimate.type!=='estimate'||estimate.data.customerId!==portal.customerId)throw new Error('PORTAL_INVALID');
- const jobs=await ctx.db.query('painterEntities').withIndex('by_tenant_type_estimate_customer',q=>q.eq('tenantId',portal.tenantId).eq('type','job').eq('data.estimateId',portal.estimateId).eq('data.customerId',portal.customerId)).collect();
+ const jobs=await ctx.db.query('painterEntities').withIndex('by_tenant_type_estimate_customer',q=>q.eq('tenantId',portal.tenantId).eq('type','job').eq('data.estimateId',portal.estimateId).eq('data.customerId',portal.customerId)).take(READ_LIMITS.jobsPerPortal+1);
+ if(jobs.length>READ_LIMITS.jobsPerPortal)throw new Error('READ_LIMIT_EXCEEDED');
  // Domain schedule/invoice writers persist resolved job IDs as strings.
  // This typed read seam excludes nonstring links; the owner confirms no existing company data.
  // Only related records are read; native transaction quotas remain the limit.
  // Merge per-job index results back into the original tenant creation order.
  const related=async(type:'schedule'|'invoice')=>{
-  const groups=await Promise.all([...new Set(jobs.map(job=>job.entityId))].map(jobId=>ctx.db.query('painterEntities').withIndex('by_tenant_type_job_customer',q=>q.eq('tenantId',portal.tenantId).eq('type',type).eq('data.jobId',jobId).eq('data.customerId',portal.customerId)).collect()));
+  const groups=await Promise.all([...new Set(jobs.map(job=>job.entityId))].map(jobId=>ctx.db.query('painterEntities').withIndex('by_tenant_type_job_customer',q=>q.eq('tenantId',portal.tenantId).eq('type',type).eq('data.jobId',jobId).eq('data.customerId',portal.customerId)).take(READ_LIMITS.relatedPerJob+1).then(rows=>{if(rows.length>READ_LIMITS.relatedPerJob)throw new Error('READ_LIMIT_EXCEEDED');return rows;})));
   return groups.flat().sort((a,b)=>a._creationTime-b._creationTime || (a._id<b._id?-1:a._id>b._id?1:0));
  };
  const [schedules,invoices]=await Promise.all([related('schedule'),related('invoice')]);
@@ -146,4 +150,4 @@ export const portalCommand=mutation({args:{token:v.string(),action:v.union(v.lit
 
 function customerSafe(e:Entity):Entity {const fields=e.type==='estimate'?publicEstimate(e):e.type==='customer'?{name:e.data.name,email:e.data.email,address:e.data.address}:e.type==='invoice'?{title:e.data.title,status:e.data.status,totalCents:e.data.totalCents,balanceCents:e.data.balanceCents}:{title:e.data.title,status:e.data.status};return {...e,data:fields};}
 /** Administrative roster. UI uses authenticated user IDs for cloud role assignments. */
-export const members=query({args:{},handler:async ctx=>{const {actor,workspace}=await resolve(ctx);if(!['owner','office_admin'].includes(actor.role))throw new Error('FORBIDDEN');const rows=await ctx.db.query('painterMembers').withIndex('by_tenant',q=>q.eq('tenantId',workspace._id)).collect();return rows.filter(m=>m.enabled).map(m=>({id:m.userId,name:m.name,email:m.email,role:m.role}));}});
+export const members=query({args:{},handler:async ctx=>{const {actor,workspace}=await resolve(ctx);if(!['owner','office_admin'].includes(actor.role))throw new Error('FORBIDDEN');const rows=await boundedAll(ctx.db.query('painterMembers').withIndex('by_tenant',q=>q.eq('tenantId',workspace._id)).take(READ_LIMITS.membersPerWorkspace+1),READ_LIMITS.membersPerWorkspace);return rows.filter(m=>m.enabled).map(m=>({id:m.userId,name:m.name,email:m.email,role:m.role}));}});
