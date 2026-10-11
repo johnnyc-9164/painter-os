@@ -1,5 +1,7 @@
 # Painter OS: real Convex deployment gates
 
+Production promotion: the root Vercel project (`painter-os`, `/vercel.json`) no longer auto-deploys `main` to production (`git.deploymentEnabled.main: false`); production promotion is an explicit owner action. PR branch previews remain enabled.
+
 ## Status / evidence
 
 The production source uses the installed Convex `queryGeneric`, `mutationGeneric`, `anyApi`, and `componentsGeneric()` APIs. `runtime.ts` is hand-authored and infers `DataModelFromSchemaDefinition<typeof schema>`; it is **not generated code**. All temporary backend `_generated` shims were removed. Original Contractor OS component bindings belong to that component and are unchanged. Better Auth, Contractor OS core, and painting component mounts remain intact.
