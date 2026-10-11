@@ -1,3 +1,8 @@
+import {
+  EstimateAppointmentPolicyError,
+  type EstimateAppointmentRefusalCode,
+} from "./estimate-appointment-contract";
+export * from "./estimate-appointment-contract";
 import type { Actor, Role } from "./contracts";
 
 /** Pure policy only. The host resolves current Better Auth membership,
@@ -119,8 +124,8 @@ export interface EstimateAppointmentResult {
   customerNotified: false;
   externalCalendarsChecked: false;
 }
-function fail(code: string): never {
-  throw new Error(code);
+function fail(code: EstimateAppointmentRefusalCode): never {
+  throw new EstimateAppointmentPolicyError(code);
 }
 function identifier(value: string) {
   if (typeof value !== "string" || !/^[-A-Za-z0-9_:]{1,200}$/.test(value))
@@ -757,25 +762,6 @@ export function stageEstimateAppointment(
   return result(next, appointment, false);
 }
 
-export interface EstimateSlotWriteResult {
-  slot: EstimateSlot;
-  replayed: boolean;
-  nativeOnly: true;
-  customerNotified: false;
-  externalCalendarsChecked: false;
-}
-export type EstimateAppointmentWriteResult = Omit<
-  EstimateAppointmentResult,
-  "state"
->;
-export interface EstimateNativePage<T> {
-  items: T[];
-  nextCursor: string | null;
-  done: boolean;
-  nativeOnly: true;
-  customerNotified: false;
-  externalCalendarsChecked: false;
-}
 export function closeEstimateSlot(
   context: AppointmentContext,
   slot: EstimateSlot,
@@ -792,8 +778,3 @@ export function closeEstimateSlot(
     fail("APPOINTMENT_REVISION_EXHAUSTED");
   return { ...slot, status: "closed", revision: slot.revision + 1 };
 }
-
-export type EstimateQualifiedSource = Pick<
-  SourceSelection,
-  "leadId" | "leadRevision" | "customerId" | "customerRevision"
->;
