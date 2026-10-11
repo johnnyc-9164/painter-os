@@ -44,6 +44,7 @@
     "build:platform-admin": "npm run build --workspace platform-admin",
     "test:platform-admin": "node --test tests/platform-admin-boundary.test.mjs",
     "build:agent-worker": "npm run build --workspace @painter-os-bts/agent-worker",
+    "test:local-pi-viewer": "node scripts/run-pi-run-viewer.mjs",
     "test:agent-worker": "npm run test --workspace @painter-os-bts/agent-worker"
   },
   "dependencies": {
