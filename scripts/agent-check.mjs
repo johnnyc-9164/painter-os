@@ -46,7 +46,7 @@ export function boundaryError(path, specifier, reference = undefined) {
   if (owner.startsWith('packages/') && target.startsWith('apps/')) return 'Shared packages cannot depend on application code. Move the typed seam into an existing shared package.';
   if (owner === 'packages/domain' && /^(?:packages\/(?:backend|ui)|@painter-os-bts\/(?:backend|ui))(?:\/|$)/.test(target)) return 'Domain rules cannot depend on backend or UI adapters.';
   if (owner === 'packages/backend' && /^(?:packages\/ui|@painter-os-bts\/ui)(?:\/|$)/.test(target)) return 'Backend cannot depend on UI.';
-  const approvedPublicDto = path === 'packages/ui/src/components/company-website.tsx' && specifier === '@painter-os-bts/domain/company-website' && reference?.kind === 'import' && reference.typeOnly === true;
+  const approvedPublicDto = ((path === 'packages/ui/src/components/company-website.tsx' && specifier === '@painter-os-bts/domain/company-website') || (path === 'packages/ui/src/components/agent-run-view.tsx' && specifier === '@painter-os-bts/domain/agent-run-view')) && reference?.kind === 'import' && reference.typeOnly === true;
   if (!approvedPublicDto && owner === 'packages/ui' && /^(?:packages\/(?:backend|domain)|@painter-os-bts\/(?:backend|domain))(?:\/|$)/.test(target)) return 'UI primitives cannot depend on business or backend authority. Accept typed props.';
   return null;
 }

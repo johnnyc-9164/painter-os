@@ -13,6 +13,10 @@
     "./company-website": {
       "types": "./company-website.d.mts",
       "default": "./company-website.mjs"
+    },
+    "./public-lead": {
+      "types": "./public-lead.d.mts",
+      "default": "./public-lead.mjs"
     }
   },
   "dependencies": {
