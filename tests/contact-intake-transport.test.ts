@@ -48,3 +48,13 @@ test('unknown outcome replays the same intent key; changed edits or a confirmed 
   // Authority change: a fresh journal cannot replay a stale key.
   assert.notEqual(createIntentKeys(() => 'fresh').begin('contact-intake:c', cmd(settings)).requestKey, first.requestKey);
 });
+
+test('preview decoder is strict and state mirrors the both-policies rule', () => {
+  const policy = {companyName: 'Acme', contactPolicyRevision: 1, guidanceRevision: 1, consentText: 'Consent', retentionDays: 30, retentionDisclosure: CONTACT_RETENTION_DISCLOSURE};
+  const guidance = {state: 'ready', intake: {companyName: 'Acme', enabled: true, servicePostalCodes: ['55401'], supportedProjectTypes: ['interior'], consentText: 'g', revision: 1}};
+  const off = {state: 'unavailable'};
+  assert.equal(http.previewState(http.decodeContactPreview({guidance, contact: {state: 'ready', policy}})), 'public');
+  assert.equal(http.previewState(http.decodeContactPreview({guidance, contact: off})), 'contact_off');
+  assert.equal(http.previewState(http.decodeContactPreview({guidance: off, contact: off})), 'guidance_off');
+  for (const bad of [{guidance}, {guidance, contact: {state: 'ready', policy: {...policy, retentionDays: 90}}}, {guidance, contact: {state: 'ready', policy: {...policy, secret: 1}}}, {guidance, contact: {state: 'ready', policy: {...policy, consentText: ' '}}}, {guidance, contact: {state: 'unavailable', policy}}, {guidance: {state: 'ready'}, contact: off}]) assert.throws(() => http.decodeContactPreview(bad));
+});

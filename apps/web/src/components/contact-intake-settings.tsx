@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Button } from '@painter-os-bts/ui/components/button';
 import { createIntentKeys } from '../lib/command-intent';
 import { CONTACT_RETENTION_DISCLOSURE, classifyContactFailure, decodeContactRead, decodeContactWrite, type ContactFailure, type SavedContactIntake } from '../lib/contact-intake-http';
+import { ContactIntakePreview } from './contact-intake-preview';
 import './contact-intake-settings.css';
 
 class ContactCallError extends Error { constructor(message: string, readonly failure: ContactFailure) { super(message); } }
@@ -74,5 +75,6 @@ export function ContactIntakeSettings({workspaceId}: {workspaceId: string}) {
       {error && <p className="contact-intake-error" role="alert">{error}</p>}{notice && <p role="status" className="contact-intake-success">{notice}</p>}
       <div className="contact-intake-actions"><Button type="submit" disabled={busy || !loaded}>{busy ? 'Saving…' : enabled ? 'Save and enable contact collection' : 'Save contact settings (off)'}</Button><Button type="button" variant="outline" disabled={busy} onClick={() => void load()}>Reload saved settings</Button><span>Saved version {saved.revision}</span></div>
     </form>}
+    {loaded && <ContactIntakePreview workspaceId={workspaceId} revision={saved.revision}/>}
   </section>;
 }
