@@ -8,7 +8,7 @@ import {intakeAuditMetadata} from './intakePrivacyProjection';
 type IntakeReceipt = DataModel['painterPublicLeadReceipts']['document'];
 type Transfer = {action: string; userId: string; role: Role};
 
-async function loadCommandReceipt(ctx: GenericQueryCtx<DataModel>, tenantId: Id<'painterWorkspaces'>, requestKey?: string) {
+export async function loadCommandReceipt(ctx: GenericQueryCtx<DataModel>, tenantId: Id<'painterWorkspaces'>, requestKey?: string) {
   if (!requestKey) return [];
   const hashedKey = await intakeCommandReceiptKey(String(tenantId), requestKey);
   const [legacy, hashed] = await Promise.all([
@@ -19,8 +19,14 @@ async function loadCommandReceipt(ctx: GenericQueryCtx<DataModel>, tenantId: Id<
   return legacy ? [legacy] : hashed ? [hashed] : [];
 }
 
-/** Existing authenticated snapshot boundary. Anonymous ingress passes a small
- * creation delta directly to persist and never calls this whole-tenant loader. */
+type EntityRow = DataModel['painterEntities']['document'];
+type EventRow = DataModel['painterEvents']['document'];
+export const painterEntityFromRow = ({_id, _creationTime, entityId, ...entity}: EntityRow): Entity => ({...entity, id: entityId, type: entity.type as Entity['type']});
+export const painterEventFromRow = ({_id, _creationTime, tenantId: _tenantId, eventId, ...event}: EventRow) => ({...event, id: eventId});
+
+/** Whole-tenant loader, retained ONLY as the parity oracle for tests (bounded
+ * command/snapshot readsets must match it). Production authenticated paths use
+ * painterReadsets.ts; do not call this from a Convex function. */
 export async function loadPainterState(ctx: GenericQueryCtx<DataModel>, tenantId: Id<'painterWorkspaces'>, requestKey?: string): Promise<State> {
   const [rows, events, receipts] = await Promise.all([
     ctx.db.query('painterEntities').withIndex('by_tenant', q=>q.eq('tenantId',tenantId)).collect(),
@@ -28,8 +34,8 @@ export async function loadPainterState(ctx: GenericQueryCtx<DataModel>, tenantId
     loadCommandReceipt(ctx, tenantId, requestKey),
   ]);
   return {
-    entities: rows.map(({_id, _creationTime, entityId, ...entity})=>({...entity, id: entityId, type: entity.type as Entity['type']})),
-    events: events.map(({_id, _creationTime, tenantId: _tenantId, eventId, ...event})=>({...event, id: eventId})),
+    entities: rows.map(painterEntityFromRow),
+    events: events.map(painterEventFromRow),
     // Only the current invocation uses raw addressing; persisted keys stay hashed.
     receipts: Object.fromEntries(receipts.map(receipt=>[JSON.stringify([tenantId,requestKey ?? receipt.requestKey]), {fingerprint: receipt.fingerprint, result: receipt.result}])),
   };
@@ -59,6 +65,8 @@ export async function persistPainterState(ctx: GenericMutationCtx<DataModel>, te
     const {id, ...fields} = entity;
     const row = await ctx.db.query('painterEntities').withIndex('by_tenant_entity', q=>q.eq('tenantId',tenantId).eq('entityId',id)).unique();
     const value = {...fields, tenantId, entityId: id};
+    // Bounded command state no longer proves global ID uniqueness in memory; the indexed row is the authority.
+    if (row && !revisions.has(id)) throw new Error('ID_COLLISION');
     if (row) await ctx.db.replace(row._id, value); else await ctx.db.insert('painterEntities', value);
   }
   const eventIds = new Set(before.events.map(event=>event.id));
