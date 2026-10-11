@@ -1,3 +1,5 @@
+import { ConvexError } from "convex/values";
+import { decodeEstimateAppointmentRefusal } from "../../domain/src/estimate-appointments";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { convexTest } from "convex-test";
 import betterAuthTest from "@convex-dev/better-auth/test";
@@ -177,6 +179,58 @@ async function fixture() {
   };
 }
 describe("native appointment host with actual Better Auth", () => {
+  it("actual missing slot refusal has structured closed data", async () => {
+    const f = await fixture();
+    let failure: unknown;
+    try {
+      await f.owner.client.mutation(api.estimateAppointmentSlots.close, {
+        slotId: "slot:missing",
+        expectedRevision: 1,
+        requestKey: "missing",
+      });
+    } catch (error) {
+      failure = error;
+    }
+    expect(failure).toBeInstanceOf(ConvexError);
+    expect(
+      decodeEstimateAppointmentRefusal((failure as ConvexError<unknown>).data),
+    ).toEqual({
+      kind: "estimate_appointment_refusal",
+      version: 1,
+      code: "APPOINTMENT_SLOT_NOT_FOUND",
+    });
+  });
+  it("actual registered Node action and mutations expose closed refusal data", async () => {
+    const f = await fixture();
+    for (const operation of [
+      () =>
+        f.owner.client.action(api.estimateAppointmentSlots.save, {
+          ...f.slotArgs(),
+          localStart: "2027-03-14T02:30",
+          timeZone: "America/New_York",
+          offset: "-05:00",
+        }),
+      () =>
+        f.estimator.client.mutation(api.estimateAppointments.cancel, {
+          appointmentId: "appointment:missing",
+          expectedRevision: 1,
+          requestKey: "deny",
+        }),
+    ]) {
+      let failure: unknown;
+      try {
+        await operation();
+      } catch (error) {
+        failure = error;
+      }
+      expect(failure).toBeInstanceOf(ConvexError);
+      expect(
+        decodeEstimateAppointmentRefusal(
+          (failure as ConvexError<unknown>).data,
+        ),
+      ).toMatchObject({ kind: "estimate_appointment_refusal", version: 1 });
+    }
+  });
   it("normalizes DST explicitly and commits through the sole writer without contact copies", async () => {
     const f = await fixture();
     const slot = await f.slot();
