@@ -122,3 +122,12 @@ test('browser executable selection is forwarded only to browser verification', a
   for (const gate of ['doctor', 'web-build', 'http', 'platform-http']) assert.deepEqual(browserGateEnvironment(gate, env, source), env);
   assert.equal(agentEnvironment('http://127.0.0.1:4011', '/owned/run').PAINTER_AGENT_CHROMIUM_EXECUTABLE, undefined);
 });
+
+test('agent run renderer accepts only exact erased neutral DTO imports',()=>{
+ const path='packages/ui/src/components/agent-run-view.tsx';const target='@painter-os-bts/domain/agent-run-view';
+ const scan=(source,file=path)=>importReferencesIn(source,file).map(reference=>boundaryError(file,reference.specifier,reference));
+ assert.deepEqual(scan(`import type { PiView } from '${target}';`),[null]);
+ for(const source of [`import { PiView } from '${target}';`,`import {type PiView} from '${target}';`,`import type { PiView } from '${target}'; import { value } from '${target}';`,`import '${target}';`,`export type { PiView } from '${target}';`,`const view=import('${target}');`,`const view=require('${target}');`,`type View=import('${target}').PiView;`])assert.ok(scan(source).some(Boolean),source);
+ for(const other of ['../../../domain/src/agent-run-view','@painter-os-bts/domain/engine','@painter-os-bts/domain/company-website','@painter-os-bts/backend'])assert.ok(scan(`import type { View } from '${other}';`).every(Boolean));
+ assert.ok(scan(`import type { PiView } from '${target}';`,'packages/ui/src/components/another.tsx').every(Boolean));
+});

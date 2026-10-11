@@ -1,8 +1,5 @@
 "use node";
-import {
-  appointmentBoundary,
-  refuseAppointment,
-} from "./estimateAppointmentErrors";
+import { appointmentBoundary } from "./estimateAppointmentErrors";
 import { internalActionGeneric, type ActionBuilder } from "convex/server";
 import { api, type DataModel } from "./runtime";
 import {
@@ -25,8 +22,9 @@ export const normalize = internalAction({
     appointmentBoundary(async () => {
       const authority = await ctx.runQuery(
         api.estimateAppointmentSlots.authority,
-        { workspaceId: args.workspaceId, resourceId: args.resourceId },
+        args,
       );
+      if (authority.replay) return authority.replay;
       validateEstimateSlotTiming(args);
       const normalizedInstant = estimateSlotInstant(
         args.localStart,
