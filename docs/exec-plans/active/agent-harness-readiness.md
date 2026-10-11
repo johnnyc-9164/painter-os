@@ -1,6 +1,6 @@
 # Plan: prepare Painter OS for coding agents
 
-- Status: implementation; validation and distinct review pending
+- Status: implemented on main; exact-head local `agent:verify -- --browser` passed (24/24 gates) at 52c96bb on 2026-10-11, see [receipt](../../evidence/verification/agent-readiness-browser-2026-10-11.md); distinct review of that head and CI on the PR remain pending
 - Baseline: main 6cd31b871188c02602a81b2a40bef61b570a65a3 (all downloaded source blobs hash-verified)
 - Executor: Codex /root in the current ChatGPT Work Mode session
 - Reviewer: Codex /root/harness_review, read-only independent session
@@ -23,7 +23,7 @@ Prerequisite doctor reflects Node/npm lock requirements. Isolated local app boot
 
 ## Evidence
 
-Fresh results and exact remote-head/CI links will be in the PR description and session receipt. This plan intentionally contains no invented final SHA or pass.
+Local exact-head verification: [2026-10-11 receipt](../../evidence/verification/agent-readiness-browser-2026-10-11.md) (passed after one verifier environment repair). Remote-head/CI links and the independent reviewer verdict belong to the PR; this plan records no review or CI pass that has not happened.
 
 ## Rollback
 
