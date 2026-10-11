@@ -15,6 +15,13 @@ try {
     const primary = records[0]?.find((line) => line.startsWith('worktree '))?.slice(9);
     if (!registered || target === primary || target === repository) throw new Error('Only another registered linked worktree can be removed.');
     if (registered.some((line) => line.startsWith('locked'))) throw new Error('Worktree is locked.');
+    const attempt = (args) => { try { return run('git', args, target, true); } catch { return null; } };
+    const branch = attempt(['symbolic-ref', '--short', '-q', 'HEAD']);
+    if (!branch) throw new Error('Worktree has a detached HEAD; create or push a branch first.');
+    const originHead = attempt(['symbolic-ref', '--short', '-q', 'refs/remotes/origin/HEAD'])?.replace(/^origin\//, '');
+    if (branch === originHead || (!originHead && ['main', 'master'].includes(branch))) throw new Error(`Refusing the repository default branch ${branch}.`);
+    if (attempt(['rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{upstream}']) === null) throw new Error(`Branch ${branch} has no upstream; push it first.`);
+    if (attempt(['rev-list', '--count', '@{upstream}..HEAD']) !== '0') throw new Error(`Branch ${branch} has commits not on its upstream; push them first.`);
     if (run('git', ['status', '--porcelain', '--untracked-files=all'], target, true)) throw new Error('Worktree has tracked changes or untracked files; preserve them first.');
     const ignored = run('git', ['ls-files', '--others', '--ignored', '--exclude-standard', '-z'], target, true).split('\0').filter(Boolean);
     const disposable = /(^|\/)(node_modules|\.next|\.turbo)\//;
