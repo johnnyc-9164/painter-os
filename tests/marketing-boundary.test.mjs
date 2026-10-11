@@ -93,5 +93,6 @@ test('marketing holds main Git deployments while unspecified preview branches st
     assert.equal(rules[branch] ?? true, expected, branch);
   }
   const adminConfig = JSON.parse(readFileSync(new URL('../vercel.json', import.meta.url)));
-  assert.equal(adminConfig.git?.deploymentEnabled, undefined);
+  // Owner policy (#218): main no longer auto-deploys the admin app to production either.
+  assert.deepEqual(adminConfig.git?.deploymentEnabled, { main: false });
 });
