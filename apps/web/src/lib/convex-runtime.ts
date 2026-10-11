@@ -5,6 +5,7 @@ import { ConvexHttpClient } from 'convex/browser';
 import { api } from '@painter-os-bts/backend/convex/runtime';
 import type { Command } from '@painter-os-bts/domain/contracts';
 import { getConvexBridge } from './auth-server';
+import { mapHttpError } from './http-error';
 async function linkToken(command:Command){if(!command.requestKey||command.requestKey.length>200)throw new Error('INVALID_REQUEST_KEY');const secret=process.env.PAINTER_LINK_SECRET;if(!secret||secret.length<32)throw new Error('LINK_SIGNING_NOT_CONFIGURED');const user=await getConvexBridge().fetchAuthQuery(api.auth.getCurrentUser,{});if(!user)throw new Error('UNAUTHENTICATED');return createHmac('sha256',secret).update(JSON.stringify([user._id,command.action,command.requestKey])).digest('hex');}
 const hash = (token: string) => createHash('sha256').update(token).digest('hex');
 function publicClient() { const url=process.env.NEXT_PUBLIC_CONVEX_URL;if(!url)throw new Error('CONVEX_DEPLOYMENT_NOT_CONFIGURED');return new ConvexHttpClient(url); }
@@ -28,7 +29,14 @@ export async function commandCloud(command: Command) {
   const token=await linkToken(command);const result=await bridge.fetchAuthMutation(api.painter.createInvite,{email:command.input.email,role:command.input.role,tokenHash:hash(token)});
   return {...result,inviteUrl:`/i/${token}`};
  }
- const translated=command.action==='member.role'?{...command,input:{userId:command.input.memberId,role:command.input.role}}:command;return bridge.fetchAuthMutation(api.painter.command,{command:translated});
+ const translated=command.action==='member.role'?{...command,input:{userId:command.input.memberId,role:command.input.role}}:command;
+ try{return await bridge.fetchAuthMutation(api.painter.command,{command:translated});}catch(e){throw await restoreUnauthenticated(bridge,e);}
+}
+/** Convex redacts thrown messages to "Server Error" in deployed environments, hiding the backend UNAUTHENTICATED code. Only a message carrying no application code is probed; a real session keeps its original error and mapping. */
+async function restoreUnauthenticated(bridge:ReturnType<typeof getConvexBridge>,e:unknown){
+ if(!(e instanceof Error)||mapHttpError(e).error!=='INTERNAL_ERROR')return e;
+ try{if(!await bridge.fetchAuthQuery(api.auth.getCurrentUser,{}))return new Error('UNAUTHENTICATED');}catch{/* keep the original failure */}
+ return e;
 }
 /** /api/auth JSON compatibility. Real Better Auth HTTP receives cookie + origin headers. */
 export async function authCloud(action: string, data: Record<string, unknown>, request: NextRequest): Promise<NextResponse> {
