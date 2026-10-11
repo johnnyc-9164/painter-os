@@ -179,6 +179,27 @@ async function fixture() {
   };
 }
 describe("native appointment host with actual Better Auth", () => {
+  it("actual missing slot refusal has structured closed data", async () => {
+    const f = await fixture();
+    let failure: unknown;
+    try {
+      await f.owner.client.mutation(api.estimateAppointmentSlots.close, {
+        slotId: "slot:missing",
+        expectedRevision: 1,
+        requestKey: "missing",
+      });
+    } catch (error) {
+      failure = error;
+    }
+    expect(failure).toBeInstanceOf(ConvexError);
+    expect(
+      decodeEstimateAppointmentRefusal((failure as ConvexError<unknown>).data),
+    ).toEqual({
+      kind: "estimate_appointment_refusal",
+      version: 1,
+      code: "APPOINTMENT_SLOT_NOT_FOUND",
+    });
+  });
   it("actual registered Node action and mutations expose closed refusal data", async () => {
     const f = await fixture();
     for (const operation of [

@@ -139,7 +139,7 @@ export async function readNativeRow(
     )
     .unique();
   if (!row || row.type !== kind)
-    throw new Error(
+    refuseAppointment(
       kind === "estimate_slot"
         ? "APPOINTMENT_SLOT_NOT_FOUND"
         : "APPOINTMENT_NOT_FOUND",

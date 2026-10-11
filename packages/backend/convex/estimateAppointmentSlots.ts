@@ -1,5 +1,6 @@
 import {
   appointmentBoundary,
+  isAppointmentRefusal,
   refuseAppointment,
 } from "./estimateAppointmentErrors";
 import {
@@ -353,8 +354,7 @@ export const resources = query({
             });
           } catch (error) {
             if (
-              !(error instanceof Error) ||
-              !error.message.includes("APPOINTMENT_RESOURCE_UNAVAILABLE")
+              !isAppointmentRefusal(error, ["APPOINTMENT_RESOURCE_UNAVAILABLE"])
             )
               throw error;
           }
