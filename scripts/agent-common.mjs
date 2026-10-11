@@ -69,6 +69,11 @@ export function verificationEnvironment(source = process.env) {
   return { ...env, NODE_ENV: 'production', NEXT_TELEMETRY_DISABLED: '1', PYTHONDONTWRITEBYTECODE: '1' };
 }
 
+/** Vitest Convex tests must not inherit NODE_ENV=production: Better Auth then enables its rate limiter and the HTTP-boundary auth test sees 429 instead of 403 (observed 2026-10-11). Build and HTTP gates keep production. */
+export function testGateEnvironment(name, env) {
+  return name === 'convex-tests' ? { ...env, NODE_ENV: 'test' } : env;
+}
+
 export function spawnNext(mode, base, directory, stdio) {
   const args = [nextBin(), mode, '--hostname', '127.0.0.1', '--port', new URL(base).port];
   if (mode === 'dev') args.push('--webpack');

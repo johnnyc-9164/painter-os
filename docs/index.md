@@ -18,6 +18,7 @@ Start with [agent setup](development/AGENT_SETUP.md) and the [repository map](..
 | What is the archived Pi durability and Convex component research? | [Convex Pi research](research/CONVEX_PI_2026_10_09.md), [Convex components research](research/CONVEX_COMPONENTS_2026_10_09.md); tracking records, not implementation or activation approval |
 | What is the archived ChatGPT subscription eligibility research? | [ChatGPT subscription research](research/CHATGPT_SUBSCRIPTION_2026_10_09.md); source assessment only, no live eligibility or OAuth activation |
 | What is the proposed CRM source-linkage and contact migration design? | [CRM migration linkage](design/CRM_MIGRATION_LINKAGE.md), [plan](exec-plans/active/crm-migration-linkage.md); design only (issue #161), no runtime |
+| What is the scoped Zapier Platform SDK integration plan? | [Zapier Platform scope](design/ZAPIER_PLATFORM_SCOPE.md) (issue #76); assessment only, Zapier claims unverified, no installation or account approval |
 | Should Cloudflare Artifacts back agent drafts? | [Cloudflare Artifacts evaluation](research/CLOUDFLARE_ARTIFACTS_EVALUATION_2026_10_11.md) (issue #91); exploratory defer recommendation, not installation approval; earlier [source assessment](research/CLOUDFLARE_ARTIFACTS_2026_10_09.md) |
 | How might a painter's existing CRM coexist with Painter OS? | [CRM coexistence plan](design/CRM_COEXISTENCE_PLAN.md); planning only (issue #144) |
 | How is cloud deployment configured? | [Deployment guide](CONVEX_DEPLOYMENT.md); requires separate live acceptance |
