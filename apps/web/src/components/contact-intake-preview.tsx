@@ -33,7 +33,7 @@ export function ContactIntakePreview({workspaceId, revision}: {workspaceId: stri
     {load.kind === 'ready' && (() => {
       const {preview} = load, state = previewState(preview);
       return <div data-preview-state={state}>
-        <p role="status" className="contact-preview-state">{state === 'public' ? 'Visitors can open the project guide, and the saved contact policy is ready.' : state === 'guidance_off' ? 'The public form is unavailable: project guidance is not enabled. Visitors see “Project guidance is unavailable.”' : 'The contact policy is off or not saved, so contact collection is closed even though project guidance is available.'}</p>
+        <p role="status" className="contact-preview-state">{state === 'public' ? 'Visitors can open the project guide and the consented contact form.' : state === 'guidance_off' ? 'The public form is unavailable: project guidance is not enabled. Visitors see “Project guidance is unavailable.”' : 'The contact policy is off or not saved, so contact collection is closed even though project guidance is available.'}</p>
         {preview.guidance.state === 'ready' && <div className="contact-preview-card">
           <h4>Project guidance (visitor view)</h4>
           <p>A few details help you see whether {preview.guidance.intake.companyName} is a fit.</p>
@@ -44,7 +44,7 @@ export function ContactIntakePreview({workspaceId, revision}: {workspaceId: stri
           <h4>Contact consent (visitor view)</h4>
           <p>{preview.contact.policy.consentText}</p>
           <p className="contact-intake-disclosure">{CONTACT_RETENTION_DISCLOSURE}</p>
-          <p>The public page does not yet show contact fields; this saved wording is what they will use. Nothing is sent, booked or activated by this preview.</p>
+          <p>When both policies are enabled, the public page shows a contact form with name, email and phone fields, this consent checkbox and the retention notice above, and a &ldquo;Submit project request&rdquo; button. This preview shows the saved wording only and sends nothing.</p>
         </div>}
         {state !== 'public' && <p>Enable both project guidance and contact collection, and save, for the contact policy to be public.</p>}
         <Button type="button" variant="outline" onClick={() => setNonce(n => n + 1)}>Refresh preview</Button>

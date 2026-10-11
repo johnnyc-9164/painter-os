@@ -80,6 +80,8 @@ try {
   assert.equal(server.writes, 1, 'replay did not write twice');
   await page.locator('[data-preview-state="public"]').waitFor();
   await region.getByText('Synthetic consent: we may contact you about this request.').nth(1).waitFor();
+  const publicPreview = await page.locator('[data-preview-state="public"]').innerText();
+  assert.ok(publicPreview.includes('Visitors can open the project guide and the consented contact form.') && publicPreview.includes('Submit project request') && !publicPreview.includes('does not yet show'), 'public-state preview describes the real contact form');
   await page.screenshot({path: join(out, 'desktop-enabled.png'), fullPage: true});
   // Revision conflict preserves edits until an explicit reload.
   server.contact = {...server.contact, consentText: 'Changed elsewhere', revision: server.contact.revision + 1};
