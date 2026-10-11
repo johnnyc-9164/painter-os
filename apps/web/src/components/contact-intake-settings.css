@@ -14,3 +14,9 @@
 .contact-intake-settings .contact-intake-error{color:#9a2424}
 .contact-intake-settings .contact-intake-success{color:#246038}
 @media(max-width:760px){.contact-intake-settings{padding:20px}.contact-intake-actions span{width:100%}}
+.contact-intake-preview{margin-top:28px;padding-top:20px;border-top:1px solid #e5eaf1}
+.contact-intake-preview h3{font-size:18px}
+.contact-intake-preview h4{font-size:15px;font-weight:650;color:#243750}
+.contact-intake-preview code{overflow-wrap:anywhere}
+.contact-preview-card{margin-top:14px;padding:16px;border:1px solid #c4cedd;border-radius:8px;background:#f7f9fc;overflow-wrap:anywhere}
+.contact-preview-state{font-weight:600;color:#243750}
