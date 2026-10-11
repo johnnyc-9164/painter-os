@@ -16,6 +16,7 @@ Start with [agent setup](development/AGENT_SETUP.md) and the [repository map](..
 | What are the browser automation research limits? | [Stagehand/Clef research record](research/STAGEHAND_CLEF_RESEARCH_RECORD_2026_10_11.md) (issue #103); detailed source in [Jev/Clef research](research/JEV_CLEF_BROWSER_2026_10_09.md) |
 | What is the archived Pi durability and Convex component research? | [Convex Pi research](research/CONVEX_PI_2026_10_09.md), [Convex components research](research/CONVEX_COMPONENTS_2026_10_09.md); tracking records, not implementation or activation approval |
 | What is the archived ChatGPT subscription eligibility research? | [ChatGPT subscription research](research/CHATGPT_SUBSCRIPTION_2026_10_09.md); source assessment only, no live eligibility or OAuth activation |
+| What is the scoped Zapier Platform SDK integration plan? | [Zapier Platform scope](design/ZAPIER_PLATFORM_SCOPE.md) (issue #76); assessment only, Zapier claims unverified, no installation or account approval |
 | How is cloud deployment configured? | [Deployment guide](CONVEX_DEPLOYMENT.md); requires separate live acceptance |
 
 `docs/harness.json` records owners/review dates for the current agent entry points. `agent:check` validates their links, freshness, schema inventory and source dependency rules. Historical evidence and imported documentation are not silently re-dated or rewritten. The weekly hygiene workflow reports debt/check failures; a human or assigned agent reviews proposed repairs.
