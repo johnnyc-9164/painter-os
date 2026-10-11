@@ -10,6 +10,7 @@ const hooks = registerHooks({resolve(specifier, context, nextResolve) {
   return nextResolve(specifier, context);
 }});
 const route = createRequire(import.meta.url)('../apps/web/src/app/api/contact-intake/route.ts') as {GET(request: Request): Promise<Response>; POST(request: Request): Promise<Response>};
+const preview = createRequire(import.meta.url)('../apps/web/src/app/api/contact-intake/preview/route.ts') as {GET(request: Request): Promise<Response>};
 const seam = globalThis as typeof globalThis & {[key: symbol]: unknown};
 const key = Symbol.for('painter.contact.route.test');
 const settings = {enabled: true, consentText: 'We may contact you about your painting request.', acknowledgeRetention: true};
@@ -51,6 +52,32 @@ test('origin, forged authority, invalid enable and local runtime stop before clo
     assert.equal((await route.POST(request())).status, 503);
     assert.equal((await route.GET(get())).status, 503);
   } finally {seam[Symbol.for('painter.workspace.local.test')] = false;}
+  assert.equal(calls, 0);
+});
+const ready = {state: 'ready', policy: {companyName: 'Acme Painting', contactPolicyRevision: 2, guidanceRevision: 3, consentText: 'We may contact you.', retentionDays: 30, retentionDisclosure: 'Unprocessed requests are deleted after 30 days. Editing, contacting or closing a request does not extend this period. If the company converts your request into a customer record, it manages the retention of that customer record separately.'}};
+const guidance = {state: 'ready', intake: {companyName: 'Acme Painting', enabled: true, servicePostalCodes: ['55401'], supportedProjectTypes: ['interior'], consentText: 'Guidance consent', revision: 3}};
+const previewGet = () => Object.assign(new Request('https://painter.test/api/contact-intake/preview?workspaceId=company'), {nextUrl: new URL('https://painter.test/api/contact-intake/preview?workspaceId=company')});
+test('preview returns only the decoded public projections, no-store, read-only', async () => {
+  const calls: unknown[][] = [];
+  seam[key] = async (...args: unknown[]) => {calls.push(args); return {guidance, contact: ready};};
+  const response = await preview.GET(previewGet());
+  assert.equal(response.status, 200); assert.equal(response.headers.get('cache-control'), 'no-store');
+  const json = await response.json() as {contact: {policy: Record<string, unknown>}};
+  assert.deepEqual(Object.keys(json.contact.policy).sort(), ['companyName', 'consentText', 'contactPolicyRevision', 'guidanceRevision']);
+  assert.deepEqual(calls, [['preview', 'company']]);
+  seam[key] = async () => ({guidance: {state: 'unavailable'}, contact: {state: 'unavailable'}});
+  assert.deepEqual(await (await preview.GET(previewGet())).json(), {guidance: {state: 'unavailable'}, contact: {state: 'unavailable'}});
+});
+test('preview denials, malformed projections and local runtime fail closed', async () => {
+  for (const [code, status] of [['UNAUTHENTICATED', 401], ['FORBIDDEN', 403], ['WORKSPACE_MEMBERSHIP_REQUIRED', 403]] as const) {
+    seam[key] = async () => {throw new Error(code);};
+    assert.equal((await preview.GET(previewGet())).status, status, code);
+  }
+  seam[key] = async () => ({guidance, contact: {...ready, extra: 1}});
+  assert.notEqual((await preview.GET(previewGet())).status, 200);
+  let calls = 0; seam[key] = async () => {calls++;};
+  seam[Symbol.for('painter.workspace.local.test')] = true;
+  try { assert.equal((await preview.GET(previewGet())).status, 503); } finally {seam[Symbol.for('painter.workspace.local.test')] = false;}
   assert.equal(calls, 0);
 });
 test.after(() => hooks.deregister());
