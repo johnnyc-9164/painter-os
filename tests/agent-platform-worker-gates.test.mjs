@@ -5,7 +5,13 @@ import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { assertNoLegacyWranglerConfig, workerGateEnvironment } from '../scripts/agent-worker-gate.mjs';
 import { verificationGates } from '../scripts/agent-verification-gates.mjs';
-import { assertNoEnvFiles, verificationEnvironment, root } from '../scripts/agent-common.mjs';
+import { assertNoEnvFiles, verificationEnvironment, testGateEnvironment, root } from '../scripts/agent-common.mjs';
+
+test('only the vitest Convex gate drops production NODE_ENV so Better Auth rate limiting stays off', () => {
+ const env = { NODE_ENV: 'production', PATH: '/bin' };
+ assert.deepStrictEqual(testGateEnvironment('convex-tests', env), { NODE_ENV: 'test', PATH: '/bin' });
+ for (const name of ['web-build', 'browser', 'typecheck']) assert.strictEqual(testGateEnvironment(name, env), env);
+});
 
 const priorNames = ['doctor','agent-check','agent-tests','typecheck','lint','domain-tests','node-tests','forms-tests','factory-tests','convex-tests','web-build','compatibility','platform-render','contractor-component','marketing-build','company-site-build','http','marketing-http','company-site-http','platform-http'];
 test('default real gates retain all prior order and add fourth-app build/HTTP plus one complete worker gate', async()=>{

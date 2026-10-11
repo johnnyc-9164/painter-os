@@ -4,7 +4,7 @@ import { spawn } from 'node:child_process';
 import { createWriteStream } from 'node:fs';
 import { join } from 'node:path';
 import { verificationGates } from './agent-verification-gates.mjs';
-import { root, assertNoEnvFiles, createRun, verificationEnvironment, gitState, writeJson, observe, stop } from './agent-common.mjs';
+import { root, assertNoEnvFiles, createRun, verificationEnvironment, testGateEnvironment, gitState, writeJson, observe, stop } from './agent-common.mjs';
 import { captureNextArtifacts, restoreOwnedNextArtifacts } from './agent-generated.mjs';
 
 const browser = process.argv.includes('--browser');
@@ -32,7 +32,7 @@ try {
     console.log(`Running ${name}; logs: ${directory}`);
     const log = createWriteStream(join(directory, `${name}.log`), { mode: 0o600 });
     const started = performance.now();
-    child = spawn(process.execPath, args, { cwd: root, env: workerGateEnvironment(name, browserGateEnvironment(name, env), directory), stdio: ['ignore', 'pipe', 'pipe'], shell: false }); state = observe(child);
+    child = spawn(process.execPath, args, { cwd: root, env: workerGateEnvironment(name, browserGateEnvironment(name, testGateEnvironment(name, env)), directory), stdio: ['ignore', 'pipe', 'pipe'], shell: false }); state = observe(child);
     child.stdout.pipe(log, { end: false }); child.stderr.pipe(log, { end: false });
     let timer;
     try {
