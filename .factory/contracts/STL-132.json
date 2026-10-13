@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "issue": 244,
+  "linearIssue": "STL-132",
+  "branch": "factory/STL-132-build-or-hide-platform-admin",
+  "goal": "Hide or clearly label unimplemented platform-admin sections; add read-only sites and health views.",
+  "successConditions": [
+    "Typed feature map hides unimplemented sections",
+    "Sites lists company sites read-only",
+    "Health shows read-only status once STL-117 lands"
+  ],
+  "nonGoals": [
+    "Billing section (after STL-116)",
+    "Cross-company mutations"
+  ],
+  "stopConditions": [
+    "A required change falls outside allowedPaths or inside forbiddenPaths (including .github/**, scripts/**, docs/contracts/**): stop and report; a maintainer PR or a new reviewed contract is required",
+    "Any production deploy, production env var change, DNS change, billing/payment action or destructive data operation is needed: stop for Johnny's explicit approval",
+    "A secret value would need to be read, printed or committed: stop; reference secrets by name only",
+    "Required CI checks cannot run (hosted CI unavailable) or fail for reasons outside this scope: report evidence, do not mark passed"
+  ],
+  "allowedPaths": [
+    "apps/platform-admin/src/**",
+    "packages/platform-admin-ui/src/**",
+    "tests/platform-*.test.*",
+    "tests/platform-admin-*.mjs"
+  ],
+  "forbiddenPaths": [
+    ".github/**",
+    "scripts/**",
+    "docs/contracts/**",
+    "**/.env*",
+    "**/_generated/**"
+  ],
+  "requiredEvidence": [
+    "PR body links the Linear issue and GitHub issue, lists changed files, and carries Factory-Contract-Hash and Factory-Attempt trailers",
+    "Exact commands run (npm run agent:check plus the scoped tests below) with results attached to the PR head SHA",
+    "All required checks green on the PR head: typecheck, lint, domain-tests, convex-tests, contractor-component, build",
+    "Test: npm run test:platform-admin",
+    "Test: platform-admin http acceptance"
+  ],
+  "riskClass": "low",
+  "requiredChecks": [
+    "typecheck",
+    "lint",
+    "domain-tests",
+    "convex-tests",
+    "contractor-component",
+    "build"
+  ],
+  "testRequirements": [
+    "npm run test:platform-admin",
+    "platform-admin http acceptance"
+  ],
+  "envSecretNames": [],
+  "humanApprovalGates": [
+    "None"
+  ],
+  "dependsOn": [
+    "STL-117"
+  ],
+  "blocks": [],
+  "phase": 3,
+  "size": "S",
+  "ownerType": "agent",
+  "factoryEligible": true
+}

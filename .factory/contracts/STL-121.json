@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "issue": 233,
+  "linearIssue": "STL-121",
+  "branch": "factory/STL-121-playwright-e2e-on-previews-as",
+  "goal": "Playwright suite for sign-up, estimate, job and invoice running against Vercel previews.",
+  "successConditions": [
+    "E2E suite covers sign-up, create estimate, convert to job, send invoice",
+    "Runs against a preview URL",
+    "Workflow wiring and required-check change prepared for maintainer PR"
+  ],
+  "nonGoals": [
+    "Load testing"
+  ],
+  "stopConditions": [
+    "A required change falls outside allowedPaths or inside forbiddenPaths (including .github/**, scripts/**, docs/contracts/**): stop and report; a maintainer PR or a new reviewed contract is required",
+    "Any production deploy, production env var change, DNS change, billing/payment action or destructive data operation is needed: stop for Johnny's explicit approval",
+    "A secret value would need to be read, printed or committed: stop; reference secrets by name only",
+    "Required CI checks cannot run (hosted CI unavailable) or fail for reasons outside this scope: report evidence, do not mark passed",
+    "Human-approval gate reached: Making it a required check (ruleset change)"
+  ],
+  "allowedPaths": [
+    "tests/e2e/**",
+    "playwright.config.ts",
+    "package.json",
+    "package-lock.json",
+    "docs/development/E2E.md"
+  ],
+  "forbiddenPaths": [
+    ".github/**",
+    "scripts/**",
+    "docs/contracts/**",
+    "**/.env*",
+    "**/_generated/**"
+  ],
+  "requiredEvidence": [
+    "PR body links the Linear issue and GitHub issue, lists changed files, and carries Factory-Contract-Hash and Factory-Attempt trailers",
+    "Exact commands run (npm run agent:check plus the scoped tests below) with results attached to the PR head SHA",
+    "All required checks green on the PR head: typecheck, lint, domain-tests, convex-tests, contractor-component, build",
+    "Test: npx playwright test against a preview URL passes"
+  ],
+  "riskClass": "low",
+  "requiredChecks": [
+    "typecheck",
+    "lint",
+    "domain-tests",
+    "convex-tests",
+    "contractor-component",
+    "build"
+  ],
+  "testRequirements": [
+    "npx playwright test against a preview URL passes"
+  ],
+  "envSecretNames": [
+    "E2E_TEST_EMAIL",
+    "E2E_TEST_PASSWORD",
+    "VERCEL_AUTOMATION_BYPASS_SECRET"
+  ],
+  "humanApprovalGates": [
+    "Making it a required check (ruleset change)"
+  ],
+  "dependsOn": [
+    "STL-66",
+    "STL-92",
+    "STL-104"
+  ],
+  "blocks": [],
+  "phase": 2,
+  "size": "M",
+  "ownerType": "agent; maintainer wires workflow",
+  "factoryEligible": true
+}

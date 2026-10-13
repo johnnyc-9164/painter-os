@@ -1,0 +1,76 @@
+{
+  "version": 1,
+  "issue": 242,
+  "linearIssue": "STL-130",
+  "branch": "factory/STL-130-unify-artisan-core-design-tokens",
+  "goal": "One shared Artisan Core token source used by the app, marketing and company templates.",
+  "successConditions": [
+    "Shared tokens derived from docs/references/ARTISAN_CORE.md",
+    "Inter used everywhere; Painter's Blue only for actions, teal for money",
+    "Templates keep per-template accents",
+    "Before/after screenshots attached"
+  ],
+  "nonGoals": [
+    "Copy changes (STL-131)"
+  ],
+  "stopConditions": [
+    "A required change falls outside allowedPaths or inside forbiddenPaths (including .github/**, scripts/**, docs/contracts/**): stop and report; a maintainer PR or a new reviewed contract is required",
+    "Any production deploy, production env var change, DNS change, billing/payment action or destructive data operation is needed: stop for Johnny's explicit approval",
+    "A secret value would need to be read, printed or committed: stop; reference secrets by name only",
+    "Required CI checks cannot run (hosted CI unavailable) or fail for reasons outside this scope: report evidence, do not mark passed"
+  ],
+  "allowedPaths": [
+    "packages/ui/src/styles/**",
+    "packages/ui/src/lib/**",
+    "apps/marketing/src/app/styles.css",
+    "apps/marketing/src/app/product/product.css",
+    "apps/marketing/src/app/layout.tsx",
+    "apps/marketing/DESIGN.md",
+    "apps/company-site/src/app/styles.css",
+    "apps/company-site/src/app/layout.tsx",
+    "apps/web/src/index.css",
+    "tests/marketing-boundary.test.mjs",
+    "tests/company-site-boundary.test.mjs",
+    "docs/evidence/ui/**"
+  ],
+  "forbiddenPaths": [
+    ".github/**",
+    "scripts/**",
+    "docs/contracts/**",
+    "**/.env*",
+    "**/_generated/**"
+  ],
+  "requiredEvidence": [
+    "PR body links the Linear issue and GitHub issue, lists changed files, and carries Factory-Contract-Hash and Factory-Attempt trailers",
+    "Exact commands run (npm run agent:check plus the scoped tests below) with results attached to the PR head SHA",
+    "All required checks green on the PR head: typecheck, lint, domain-tests, convex-tests, contractor-component, build",
+    "Test: Boundary tests green",
+    "Test: Visual screenshots for marketing home, dashboard, each template"
+  ],
+  "riskClass": "low",
+  "requiredChecks": [
+    "typecheck",
+    "lint",
+    "domain-tests",
+    "convex-tests",
+    "contractor-component",
+    "build"
+  ],
+  "testRequirements": [
+    "Boundary tests green",
+    "Visual screenshots for marketing home, dashboard, each template"
+  ],
+  "envSecretNames": [],
+  "humanApprovalGates": [
+    "None"
+  ],
+  "dependsOn": [],
+  "blocks": [
+    "STL-47",
+    "STL-131"
+  ],
+  "phase": 3,
+  "size": "M",
+  "ownerType": "agent",
+  "factoryEligible": true
+}

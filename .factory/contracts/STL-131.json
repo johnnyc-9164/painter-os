@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "issue": 243,
+  "linearIssue": "STL-131",
+  "branch": "factory/STL-131-ai-positioning-on-marketing",
+  "goal": "Add an AI section and AI features page to the marketing site describing only real or clearly-labeled upcoming features.",
+  "successConditions": [
+    "AI section on home + AI page",
+    "No invented prices or unshipped claims"
+  ],
+  "nonGoals": [
+    "Pricing page"
+  ],
+  "stopConditions": [
+    "A required change falls outside allowedPaths or inside forbiddenPaths (including .github/**, scripts/**, docs/contracts/**): stop and report; a maintainer PR or a new reviewed contract is required",
+    "Any production deploy, production env var change, DNS change, billing/payment action or destructive data operation is needed: stop for Johnny's explicit approval",
+    "A secret value would need to be read, printed or committed: stop; reference secrets by name only",
+    "Required CI checks cannot run (hosted CI unavailable) or fail for reasons outside this scope: report evidence, do not mark passed",
+    "Human-approval gate reached: Johnny approves marketing claims"
+  ],
+  "allowedPaths": [
+    "apps/marketing/src/**",
+    "apps/marketing/public/**",
+    "tests/marketing-*.test.*",
+    "tests/product-landing.test.ts"
+  ],
+  "forbiddenPaths": [
+    ".github/**",
+    "scripts/**",
+    "docs/contracts/**",
+    "apps/marketing/src/app/site/**",
+    "**/.env*",
+    "**/_generated/**"
+  ],
+  "requiredEvidence": [
+    "PR body links the Linear issue and GitHub issue, lists changed files, and carries Factory-Contract-Hash and Factory-Attempt trailers",
+    "Exact commands run (npm run agent:check plus the scoped tests below) with results attached to the PR head SHA",
+    "All required checks green on the PR head: typecheck, lint, domain-tests, convex-tests, contractor-component, build",
+    "Test: npm run test:marketing",
+    "Test: marketing http acceptance"
+  ],
+  "riskClass": "low",
+  "requiredChecks": [
+    "typecheck",
+    "lint",
+    "domain-tests",
+    "convex-tests",
+    "contractor-component",
+    "build"
+  ],
+  "testRequirements": [
+    "npm run test:marketing",
+    "marketing http acceptance"
+  ],
+  "envSecretNames": [],
+  "humanApprovalGates": [
+    "Johnny approves marketing claims"
+  ],
+  "dependsOn": [
+    "STL-129",
+    "STL-130"
+  ],
+  "blocks": [],
+  "phase": 3,
+  "size": "S",
+  "ownerType": "agent; Johnny approves claims",
+  "factoryEligible": true
+}

@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "issue": 234,
+  "linearIssue": "STL-122",
+  "branch": "factory/STL-122-product-analytics-and-onboarding-funnel",
+  "goal": "Consent-aware analytics with key funnel events and an onboarding checklist.",
+  "successConditions": [
+    "Analytics on app + marketing respecting consent",
+    "Events: sign-up, onboarding complete, first estimate, job, invoice",
+    "Onboarding checklist"
+  ],
+  "nonGoals": [
+    "Marketing A/B tests"
+  ],
+  "stopConditions": [
+    "A required change falls outside allowedPaths or inside forbiddenPaths (including .github/**, scripts/**, docs/contracts/**): stop and report; a maintainer PR or a new reviewed contract is required",
+    "Any production deploy, production env var change, DNS change, billing/payment action or destructive data operation is needed: stop for Johnny's explicit approval",
+    "A secret value would need to be read, printed or committed: stop; reference secrets by name only",
+    "Required CI checks cannot run (hosted CI unavailable) or fail for reasons outside this scope: report evidence, do not mark passed",
+    "Human-approval gate reached: Choosing vendor (Johnny)"
+  ],
+  "allowedPaths": [
+    "apps/marketing/src/lib/analytics/**",
+    "apps/web/src/components/analytics/**",
+    "apps/web/src/components/onboarding/**",
+    "apps/web/src/components/workspace-setup.tsx",
+    "apps/web/src/app/layout.tsx",
+    "apps/marketing/src/app/layout.tsx",
+    "package.json",
+    "package-lock.json",
+    "tests/workspace-setup.test.tsx",
+    "tests/analytics-*.test.ts"
+  ],
+  "forbiddenPaths": [
+    ".github/**",
+    "scripts/**",
+    "docs/contracts/**",
+    "**/.env*",
+    "**/_generated/**"
+  ],
+  "requiredEvidence": [
+    "PR body links the Linear issue and GitHub issue, lists changed files, and carries Factory-Contract-Hash and Factory-Attempt trailers",
+    "Exact commands run (npm run agent:check plus the scoped tests below) with results attached to the PR head SHA",
+    "All required checks green on the PR head: typecheck, lint, domain-tests, convex-tests, contractor-component, build",
+    "Test: Event emission unit tests",
+    "Test: Consent off -> no events"
+  ],
+  "riskClass": "low",
+  "requiredChecks": [
+    "typecheck",
+    "lint",
+    "domain-tests",
+    "convex-tests",
+    "contractor-component",
+    "build"
+  ],
+  "testRequirements": [
+    "Event emission unit tests",
+    "Consent off -> no events"
+  ],
+  "envSecretNames": [
+    "NEXT_PUBLIC_POSTHOG_KEY (if PostHog)"
+  ],
+  "humanApprovalGates": [
+    "Choosing vendor (Johnny)"
+  ],
+  "dependsOn": [
+    "STL-120"
+  ],
+  "blocks": [],
+  "phase": 4,
+  "size": "M",
+  "ownerType": "agent",
+  "factoryEligible": true
+}

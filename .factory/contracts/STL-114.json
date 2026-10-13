@@ -1,0 +1,85 @@
+{
+  "version": 1,
+  "issue": 226,
+  "linearIssue": "STL-114",
+  "branch": "factory/STL-114-custom-domain-for-app-marketing",
+  "goal": "Move all four apps from *.vercel.app to the owned launch domain with auth origins and site URLs updated per environment.",
+  "successConditions": [
+    "Domain verified on Vercel for marketing (apex), app., admin. and company-site hosts",
+    "HTTPS and www/apex redirects work",
+    "SITE_URL, MARKETING_SITE_URL, Better Auth baseURL/trusted origins updated per environment (prod changes applied only after approval)",
+    "Sign-in verified end to end on the new domains (evidence screenshots)"
+  ],
+  "nonGoals": [
+    "Per-company custom domains for tenant sites"
+  ],
+  "stopConditions": [
+    "A required change falls outside allowedPaths or inside forbiddenPaths (including .github/**, scripts/**, docs/contracts/**): stop and report; a maintainer PR or a new reviewed contract is required",
+    "Any production deploy, production env var change, DNS change, billing/payment action or destructive data operation is needed: stop for Johnny's explicit approval",
+    "A secret value would need to be read, printed or committed: stop; reference secrets by name only",
+    "Required CI checks cannot run (hosted CI unavailable) or fail for reasons outside this scope: report evidence, do not mark passed",
+    "Human-approval gate reached: Domain purchase and DNS records (Johnny)",
+    "Human-approval gate reached: Production env var changes",
+    "Human-approval gate reached: Production deploy"
+  ],
+  "allowedPaths": [
+    "packages/backend/convex/authOrigins.ts",
+    "apps/web/src/lib/auth-server.ts",
+    "apps/web/src/lib/auth-client.ts",
+    "apps/*/next.config.*",
+    "apps/*/vercel.json",
+    "tests/auth-route.test.ts",
+    "tests/marketing-seo.test.ts",
+    "docs/runbooks/DOMAINS.md"
+  ],
+  "forbiddenPaths": [
+    ".github/**",
+    "scripts/**",
+    "docs/contracts/**",
+    "**/.env*",
+    "**/_generated/**"
+  ],
+  "requiredEvidence": [
+    "PR body links the Linear issue and GitHub issue, lists changed files, and carries Factory-Contract-Hash and Factory-Attempt trailers",
+    "Exact commands run (npm run agent:check plus the scoped tests below) with results attached to the PR head SHA",
+    "All required checks green on the PR head: typecheck, lint, domain-tests, convex-tests, contractor-component, build",
+    "Test: Unit tests for exact-origin allowlist incl. new hosts; no wildcard origins",
+    "Test: Browser sign-in check on preview and, after approval, production"
+  ],
+  "riskClass": "high",
+  "requiredChecks": [
+    "typecheck",
+    "lint",
+    "domain-tests",
+    "convex-tests",
+    "contractor-component",
+    "build"
+  ],
+  "testRequirements": [
+    "Unit tests for exact-origin allowlist incl. new hosts; no wildcard origins",
+    "Browser sign-in check on preview and, after approval, production"
+  ],
+  "envSecretNames": [
+    "SITE_URL",
+    "MARKETING_SITE_URL",
+    "BETTER_AUTH_URL",
+    "PAINTER_APP_URL",
+    "NEXT_PUBLIC_CONVEX_SITE_URL"
+  ],
+  "humanApprovalGates": [
+    "Domain purchase and DNS records (Johnny)",
+    "Production env var changes",
+    "Production deploy"
+  ],
+  "dependsOn": [],
+  "blocks": [
+    "STL-115",
+    "STL-120",
+    "STL-124",
+    "STL-128"
+  ],
+  "phase": 0,
+  "size": "M",
+  "ownerType": "Johnny (buy domain, DNS) + agent (config)",
+  "factoryEligible": true
+}

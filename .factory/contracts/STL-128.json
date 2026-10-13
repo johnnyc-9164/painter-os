@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "issue": 240,
+  "linearIssue": "STL-128",
+  "branch": "factory/STL-128-marketing-technical-seo",
+  "goal": "Sitemap, robots, JSON-LD and OG images for the marketing site.",
+  "successConditions": [
+    "sitemap/robots use MARKETING_SITE_URL",
+    "Organization + SoftwareApplication JSON-LD",
+    "OG images per page"
+  ],
+  "nonGoals": [
+    "Tenant sitemaps"
+  ],
+  "stopConditions": [
+    "A required change falls outside allowedPaths or inside forbiddenPaths (including .github/**, scripts/**, docs/contracts/**): stop and report; a maintainer PR or a new reviewed contract is required",
+    "Any production deploy, production env var change, DNS change, billing/payment action or destructive data operation is needed: stop for Johnny's explicit approval",
+    "A secret value would need to be read, printed or committed: stop; reference secrets by name only",
+    "Required CI checks cannot run (hosted CI unavailable) or fail for reasons outside this scope: report evidence, do not mark passed",
+    "Human-approval gate reached: Search Console submission (Johnny)"
+  ],
+  "allowedPaths": [
+    "apps/marketing/src/app/sitemap.ts",
+    "apps/marketing/src/app/robots.ts",
+    "apps/marketing/src/app/**/opengraph-image*",
+    "apps/marketing/src/lib/seo/**",
+    "tests/marketing-seo.test.ts"
+  ],
+  "forbiddenPaths": [
+    ".github/**",
+    "scripts/**",
+    "docs/contracts/**",
+    "**/.env*",
+    "**/_generated/**"
+  ],
+  "requiredEvidence": [
+    "PR body links the Linear issue and GitHub issue, lists changed files, and carries Factory-Contract-Hash and Factory-Attempt trailers",
+    "Exact commands run (npm run agent:check plus the scoped tests below) with results attached to the PR head SHA",
+    "All required checks green on the PR head: typecheck, lint, domain-tests, convex-tests, contractor-component, build",
+    "Test: npm run test:marketing; tests/marketing-seo.test.ts"
+  ],
+  "riskClass": "low",
+  "requiredChecks": [
+    "typecheck",
+    "lint",
+    "domain-tests",
+    "convex-tests",
+    "contractor-component",
+    "build"
+  ],
+  "testRequirements": [
+    "npm run test:marketing; tests/marketing-seo.test.ts"
+  ],
+  "envSecretNames": [
+    "MARKETING_SITE_URL"
+  ],
+  "humanApprovalGates": [
+    "Search Console submission (Johnny)"
+  ],
+  "dependsOn": [
+    "STL-114"
+  ],
+  "blocks": [],
+  "phase": 5,
+  "size": "S",
+  "ownerType": "agent; Johnny submits Search Console",
+  "factoryEligible": true
+}
