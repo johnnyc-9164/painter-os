@@ -1,0 +1,77 @@
+{
+  "version": 1,
+  "issue": 120,
+  "linearIssue": "STL-47",
+  "branch": "factory/STL-47-editable-company-website-templates-at",
+  "goal": "Studio, Editorial and Direct templates at Painter OS marketing quality, with editable logo, photos, reviews, blog, pricing and contact info.",
+  "successConditions": [
+    "All three templates render published content at marketing quality",
+    "Editor supports logo, photos, reviews, blog, pricing, phone, address",
+    "Draft preview stays authenticated"
+  ],
+  "nonGoals": [
+    "Custom tenant domains",
+    "AI chat (STL-24)"
+  ],
+  "stopConditions": [
+    "A required change falls outside allowedPaths or inside forbiddenPaths (including .github/**, scripts/**, docs/contracts/**): stop and report; a maintainer PR or a new reviewed contract is required",
+    "Any production deploy, production env var change, DNS change, billing/payment action or destructive data operation is needed: stop for Johnny's explicit approval",
+    "A secret value would need to be read, printed or committed: stop; reference secrets by name only",
+    "Required CI checks cannot run (hosted CI unavailable) or fail for reasons outside this scope: report evidence, do not mark passed",
+    "Human-approval gate reached: Schema changes reviewed by Johnny"
+  ],
+  "allowedPaths": [
+    "apps/company-site/src/**",
+    "packages/public-content/src/**",
+    "apps/web/src/components/company-website-editor.*",
+    "packages/backend/convex/companyWebsite.ts",
+    "packages/backend/convex/websiteMedia*.ts",
+    "packages/backend/convex/websiteValidators.ts",
+    "tests/company-website*.ts",
+    "tests/company-website*.tsx",
+    "tests/company-site*.mjs",
+    "docs/evidence/company-site/**"
+  ],
+  "forbiddenPaths": [
+    ".github/**",
+    "scripts/**",
+    "docs/contracts/**",
+    "**/.env*",
+    "**/_generated/**"
+  ],
+  "requiredEvidence": [
+    "PR body links the Linear issue and GitHub issue, lists changed files, and carries Factory-Contract-Hash and Factory-Attempt trailers",
+    "Exact commands run (npm run agent:check plus the scoped tests below) with results attached to the PR head SHA",
+    "All required checks green on the PR head: typecheck, lint, domain-tests, convex-tests, contractor-component, build",
+    "Test: Renderer and editor tests",
+    "Test: Browser evidence for each template"
+  ],
+  "riskClass": "high",
+  "requiredChecks": [
+    "typecheck",
+    "lint",
+    "domain-tests",
+    "convex-tests",
+    "contractor-component",
+    "build"
+  ],
+  "testRequirements": [
+    "Renderer and editor tests",
+    "Browser evidence for each template"
+  ],
+  "envSecretNames": [],
+  "humanApprovalGates": [
+    "Schema changes reviewed by Johnny"
+  ],
+  "dependsOn": [
+    "STL-130",
+    "STL-79"
+  ],
+  "blocks": [
+    "STL-24"
+  ],
+  "phase": 3,
+  "size": "L",
+  "ownerType": "agent",
+  "factoryEligible": true
+}

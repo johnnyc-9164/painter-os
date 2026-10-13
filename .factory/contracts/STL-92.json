@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "issue": 189,
+  "linearIssue": "STL-92",
+  "branch": "factory/STL-92-lead-to-review-lifecycle-acceptance",
+  "goal": "One acceptance test covering lead -> estimate -> approval -> deposit -> job -> invoice -> payment -> review on a fixed SHA.",
+  "successConditions": [
+    "Single test exercises the full lifecycle against local runtime",
+    "Evidence records SHA and results"
+  ],
+  "nonGoals": [
+    "Changing business logic"
+  ],
+  "stopConditions": [
+    "A required change falls outside allowedPaths or inside forbiddenPaths (including .github/**, scripts/**, docs/contracts/**): stop and report; a maintainer PR or a new reviewed contract is required",
+    "Any production deploy, production env var change, DNS change, billing/payment action or destructive data operation is needed: stop for Johnny's explicit approval",
+    "A secret value would need to be read, printed or committed: stop; reference secrets by name only",
+    "Required CI checks cannot run (hosted CI unavailable) or fail for reasons outside this scope: report evidence, do not mark passed"
+  ],
+  "allowedPaths": [
+    "tests/lifecycle.acceptance.*",
+    "tests/fixtures/lifecycle/**",
+    "docs/evidence/verification/**"
+  ],
+  "forbiddenPaths": [
+    ".github/**",
+    "scripts/**",
+    "docs/contracts/**",
+    "**/.env*",
+    "**/_generated/**"
+  ],
+  "requiredEvidence": [
+    "PR body links the Linear issue and GitHub issue, lists changed files, and carries Factory-Contract-Hash and Factory-Attempt trailers",
+    "Exact commands run (npm run agent:check plus the scoped tests below) with results attached to the PR head SHA",
+    "All required checks green on the PR head: typecheck, lint, domain-tests, convex-tests, contractor-component, build",
+    "Test: The new acceptance test passes locally and in CI"
+  ],
+  "riskClass": "low",
+  "requiredChecks": [
+    "typecheck",
+    "lint",
+    "domain-tests",
+    "convex-tests",
+    "contractor-component",
+    "build"
+  ],
+  "testRequirements": [
+    "The new acceptance test passes locally and in CI"
+  ],
+  "envSecretNames": [],
+  "humanApprovalGates": [
+    "None"
+  ],
+  "dependsOn": [
+    "STL-66"
+  ],
+  "blocks": [
+    "STL-121"
+  ],
+  "phase": 2,
+  "size": "M",
+  "ownerType": "agent",
+  "factoryEligible": true
+}

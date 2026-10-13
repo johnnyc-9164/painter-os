@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "issue": 241,
+  "linearIssue": "STL-129",
+  "branch": "factory/STL-129-decide-white-label-first-vs",
+  "goal": "Record Johnny's launch-sequencing decision and re-sequence billing/entitlement work in the roadmap.",
+  "successConditions": [
+    "Johnny's decision (A white-label first or B self-serve SaaS) quoted with date in docs/product-specs/index.md",
+    "Roadmap phase for STL-116/STL-28/STL-122 updated to match"
+  ],
+  "nonGoals": [
+    "Implementing billing or entitlements"
+  ],
+  "stopConditions": [
+    "A required change falls outside allowedPaths or inside forbiddenPaths (including .github/**, scripts/**, docs/contracts/**): stop and report; a maintainer PR or a new reviewed contract is required",
+    "Any production deploy, production env var change, DNS change, billing/payment action or destructive data operation is needed: stop for Johnny's explicit approval",
+    "A secret value would need to be read, printed or committed: stop; reference secrets by name only",
+    "Required CI checks cannot run (hosted CI unavailable) or fail for reasons outside this scope: report evidence, do not mark passed",
+    "Human-approval gate reached: The decision itself is Johnny-only; agent must not choose"
+  ],
+  "allowedPaths": [
+    "docs/product-specs/index.md",
+    "docs/roadmap/LAUNCH_ROADMAP.md"
+  ],
+  "forbiddenPaths": [
+    ".github/**",
+    "scripts/**",
+    "docs/contracts/**",
+    "**/.env*",
+    "**/_generated/**"
+  ],
+  "requiredEvidence": [
+    "PR body links the Linear issue and GitHub issue, lists changed files, and carries Factory-Contract-Hash and Factory-Attempt trailers",
+    "Exact commands run (npm run agent:check plus the scoped tests below) with results attached to the PR head SHA",
+    "All required checks green on the PR head: typecheck, lint, domain-tests, convex-tests, contractor-component, build",
+    "Test: npm run agent:check passes"
+  ],
+  "riskClass": "low",
+  "requiredChecks": [
+    "typecheck",
+    "lint",
+    "domain-tests",
+    "convex-tests",
+    "contractor-component",
+    "build"
+  ],
+  "testRequirements": [
+    "npm run agent:check passes"
+  ],
+  "envSecretNames": [],
+  "humanApprovalGates": [
+    "The decision itself is Johnny-only; agent must not choose"
+  ],
+  "dependsOn": [],
+  "blocks": [
+    "STL-131",
+    "STL-116",
+    "STL-28"
+  ],
+  "phase": 0,
+  "size": "S",
+  "ownerType": "Johnny decision, agent records it",
+  "factoryEligible": true
+}

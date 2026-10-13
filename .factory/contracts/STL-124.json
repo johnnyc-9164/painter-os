@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "issue": 236,
+  "linearIssue": "STL-124",
+  "branch": "factory/STL-124-status-page-and-support-channel",
+  "goal": "Public status page fed by uptime checks and support links in app and marketing.",
+  "successConditions": [
+    "Status page live from Checkly",
+    "Support email on launch domain",
+    "Links in app and marketing"
+  ],
+  "nonGoals": [
+    "In-app chat vendor"
+  ],
+  "stopConditions": [
+    "A required change falls outside allowedPaths or inside forbiddenPaths (including .github/**, scripts/**, docs/contracts/**): stop and report; a maintainer PR or a new reviewed contract is required",
+    "Any production deploy, production env var change, DNS change, billing/payment action or destructive data operation is needed: stop for Johnny's explicit approval",
+    "A secret value would need to be read, printed or committed: stop; reference secrets by name only",
+    "Required CI checks cannot run (hosted CI unavailable) or fail for reasons outside this scope: report evidence, do not mark passed",
+    "Human-approval gate reached: Creating support mailbox (Johnny)"
+  ],
+  "allowedPaths": [
+    "apps/marketing/src/components/**",
+    "apps/web/src/components/header.tsx",
+    "apps/web/src/components/user-menu.tsx",
+    "docs/runbooks/SUPPORT.md"
+  ],
+  "forbiddenPaths": [
+    ".github/**",
+    "scripts/**",
+    "docs/contracts/**",
+    "**/.env*",
+    "**/_generated/**"
+  ],
+  "requiredEvidence": [
+    "PR body links the Linear issue and GitHub issue, lists changed files, and carries Factory-Contract-Hash and Factory-Attempt trailers",
+    "Exact commands run (npm run agent:check plus the scoped tests below) with results attached to the PR head SHA",
+    "All required checks green on the PR head: typecheck, lint, domain-tests, convex-tests, contractor-component, build",
+    "Test: Link tests in marketing boundary suite"
+  ],
+  "riskClass": "low",
+  "requiredChecks": [
+    "typecheck",
+    "lint",
+    "domain-tests",
+    "convex-tests",
+    "contractor-component",
+    "build"
+  ],
+  "testRequirements": [
+    "Link tests in marketing boundary suite"
+  ],
+  "envSecretNames": [],
+  "humanApprovalGates": [
+    "Creating support mailbox (Johnny)"
+  ],
+  "dependsOn": [
+    "STL-114",
+    "STL-117",
+    "STL-115"
+  ],
+  "blocks": [],
+  "phase": 5,
+  "size": "S",
+  "ownerType": "Johnny (support inbox) + agent",
+  "factoryEligible": true
+}

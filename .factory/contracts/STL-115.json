@@ -1,0 +1,89 @@
+{
+  "version": 1,
+  "issue": 227,
+  "linearIssue": "STL-115",
+  "branch": "factory/STL-115-transactional-email-verification-and-password",
+  "goal": "Turn on real delivery for the Better Auth callbacks: verification required at sign-up, password reset and invites.",
+  "successConditions": [
+    "Provider chosen by Johnny; SPF, DKIM, DMARC pass on the launch domain",
+    "Email verification required on sign-up",
+    "Password reset and invitation emails deliver",
+    "No token or link values logged"
+  ],
+  "nonGoals": [
+    "Marketing newsletters"
+  ],
+  "stopConditions": [
+    "A required change falls outside allowedPaths or inside forbiddenPaths (including .github/**, scripts/**, docs/contracts/**): stop and report; a maintainer PR or a new reviewed contract is required",
+    "Any production deploy, production env var change, DNS change, billing/payment action or destructive data operation is needed: stop for Johnny's explicit approval",
+    "A secret value would need to be read, printed or committed: stop; reference secrets by name only",
+    "Required CI checks cannot run (hosted CI unavailable) or fail for reasons outside this scope: report evidence, do not mark passed",
+    "Human-approval gate reached: DNS records (Johnny)",
+    "Human-approval gate reached: Production env vars",
+    "Human-approval gate reached: Enabling required verification in production"
+  ],
+  "allowedPaths": [
+    "packages/backend/convex/auth.ts",
+    "packages/backend/convex/authEmail*.ts",
+    "packages/backend/convex/authVerificationDelivery.ts",
+    "packages/backend/convex/agentmailProvider.ts",
+    "packages/backend/convex/agentmailCache.ts",
+    "apps/web/src/components/sign-in-form.tsx",
+    "apps/web/src/components/sign-up-form.tsx",
+    "apps/web/src/components/invitation*.tsx",
+    "apps/web/src/app/**/reset-password/**",
+    "apps/web/src/app/**/verify-email/**",
+    "tests/auth-*.test.ts",
+    "tests/agentmail-registration.test.ts",
+    "docs/evidence/email/**"
+  ],
+  "forbiddenPaths": [
+    ".github/**",
+    "scripts/**",
+    "docs/contracts/**",
+    "**/.env*",
+    "**/_generated/**"
+  ],
+  "requiredEvidence": [
+    "PR body links the Linear issue and GitHub issue, lists changed files, and carries Factory-Contract-Hash and Factory-Attempt trailers",
+    "Exact commands run (npm run agent:check plus the scoped tests below) with results attached to the PR head SHA",
+    "All required checks green on the PR head: typecheck, lint, domain-tests, convex-tests, contractor-component, build",
+    "Test: Unit tests for each callback incl. failure paths",
+    "Test: Browser test: sign up -> verify -> sign in; reset password"
+  ],
+  "riskClass": "high",
+  "requiredChecks": [
+    "typecheck",
+    "lint",
+    "domain-tests",
+    "convex-tests",
+    "contractor-component",
+    "build"
+  ],
+  "testRequirements": [
+    "Unit tests for each callback incl. failure paths",
+    "Browser test: sign up -> verify -> sign in; reset password"
+  ],
+  "envSecretNames": [
+    "AGENTMAIL_API_KEY or RESEND_API_KEY",
+    "AUTH_EMAIL_FROM",
+    "BETTER_AUTH_SECRET"
+  ],
+  "humanApprovalGates": [
+    "DNS records (Johnny)",
+    "Production env vars",
+    "Enabling required verification in production"
+  ],
+  "dependsOn": [
+    "STL-114"
+  ],
+  "blocks": [
+    "STL-118",
+    "STL-116",
+    "STL-124"
+  ],
+  "phase": 1,
+  "size": "M",
+  "ownerType": "agent; Johnny picks provider and adds DNS",
+  "factoryEligible": true
+}

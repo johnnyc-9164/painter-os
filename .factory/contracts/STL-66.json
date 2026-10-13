@@ -1,0 +1,69 @@
+{
+  "version": 1,
+  "issue": 158,
+  "linearIssue": "STL-66",
+  "branch": "factory/STL-66-restore-hosted-ci-execution",
+  "goal": "Get GitHub Actions jobs starting again so CI and Agent readiness run on every PR, and record proof.",
+  "successConditions": [
+    "Johnny has resolved the GitHub billing/spending-limit restriction (Johnny-only step)",
+    "A fresh CI run on main starts and all six required jobs report",
+    "docs/evidence/ci/ records run URLs and head SHA"
+  ],
+  "nonGoals": [
+    "Editing workflow files (maintainer PR if needed)",
+    "Changing required checks or rulesets"
+  ],
+  "stopConditions": [
+    "A required change falls outside allowedPaths or inside forbiddenPaths (including .github/**, scripts/**, docs/contracts/**): stop and report; a maintainer PR or a new reviewed contract is required",
+    "Any production deploy, production env var change, DNS change, billing/payment action or destructive data operation is needed: stop for Johnny's explicit approval",
+    "A secret value would need to be read, printed or committed: stop; reference secrets by name only",
+    "Required CI checks cannot run (hosted CI unavailable) or fail for reasons outside this scope: report evidence, do not mark passed",
+    "Human-approval gate reached: GitHub billing/spending limit change (Johnny)"
+  ],
+  "allowedPaths": [
+    "docs/development/CI_RESTORE.md",
+    "docs/evidence/ci/**"
+  ],
+  "forbiddenPaths": [
+    ".github/**",
+    "scripts/**",
+    "docs/contracts/**",
+    "**/.env*",
+    "**/_generated/**"
+  ],
+  "requiredEvidence": [
+    "PR body links the Linear issue and GitHub issue, lists changed files, and carries Factory-Contract-Hash and Factory-Attempt trailers",
+    "Exact commands run (npm run agent:check plus the scoped tests below) with results attached to the PR head SHA",
+    "All required checks green on the PR head: typecheck, lint, domain-tests, convex-tests, contractor-component, build",
+    "Test: Re-run CI on main and on an open PR; link both run URLs"
+  ],
+  "riskClass": "low",
+  "requiredChecks": [
+    "typecheck",
+    "lint",
+    "domain-tests",
+    "convex-tests",
+    "contractor-component",
+    "build"
+  ],
+  "testRequirements": [
+    "Re-run CI on main and on an open PR; link both run URLs"
+  ],
+  "envSecretNames": [],
+  "humanApprovalGates": [
+    "GitHub billing/spending limit change (Johnny)"
+  ],
+  "dependsOn": [],
+  "blocks": [
+    "STL-104",
+    "STL-123",
+    "STL-92",
+    "STL-121",
+    "STL-125",
+    "STL-126"
+  ],
+  "phase": 0,
+  "size": "S",
+  "ownerType": "Johnny (GitHub billing) + agent evidence",
+  "factoryEligible": true
+}

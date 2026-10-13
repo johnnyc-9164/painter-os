@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "issue": 57,
+  "linearIssue": "STL-11",
+  "branch": "factory/STL-11-full-deposit-gate-with-audited",
+  "goal": "Require full deposit before scheduling/starting a job, with audited owner/office-admin override.",
+  "successConditions": [
+    "Scheduling/start blocked until deposit satisfied",
+    "Override restricted to owner/office-admin and audited",
+    "Existing fixtures updated"
+  ],
+  "nonGoals": [
+    "Stripe payments"
+  ],
+  "stopConditions": [
+    "A required change falls outside allowedPaths or inside forbiddenPaths (including .github/**, scripts/**, docs/contracts/**): stop and report; a maintainer PR or a new reviewed contract is required",
+    "Any production deploy, production env var change, DNS change, billing/payment action or destructive data operation is needed: stop for Johnny's explicit approval",
+    "A secret value would need to be read, printed or committed: stop; reference secrets by name only",
+    "Required CI checks cannot run (hosted CI unavailable) or fail for reasons outside this scope: report evidence, do not mark passed",
+    "Human-approval gate reached: Behaviour change for live company reviewed by Johnny"
+  ],
+  "allowedPaths": [
+    "packages/domain/src/**",
+    "packages/contractor-os-core/**",
+    "packages/backend/convex/painter.ts",
+    "packages/backend/convex/painterStore.ts",
+    "apps/web/src/components/painter-forms.tsx",
+    "apps/web/src/components/next-action-panel.tsx",
+    "tests/domain.test.ts",
+    "tests/payment-*.test.ts",
+    "tests/next-action-*.test.*"
+  ],
+  "forbiddenPaths": [
+    ".github/**",
+    "scripts/**",
+    "docs/contracts/**",
+    "**/.env*",
+    "**/_generated/**"
+  ],
+  "requiredEvidence": [
+    "PR body links the Linear issue and GitHub issue, lists changed files, and carries Factory-Contract-Hash and Factory-Attempt trailers",
+    "Exact commands run (npm run agent:check plus the scoped tests below) with results attached to the PR head SHA",
+    "All required checks green on the PR head: typecheck, lint, domain-tests, convex-tests, contractor-component, build",
+    "Test: Domain + Convex regression tests for gate and override"
+  ],
+  "riskClass": "high",
+  "requiredChecks": [
+    "typecheck",
+    "lint",
+    "domain-tests",
+    "convex-tests",
+    "contractor-component",
+    "build"
+  ],
+  "testRequirements": [
+    "Domain + Convex regression tests for gate and override"
+  ],
+  "envSecretNames": [],
+  "humanApprovalGates": [
+    "Behaviour change for live company reviewed by Johnny"
+  ],
+  "dependsOn": [],
+  "blocks": [],
+  "phase": 3,
+  "size": "M",
+  "ownerType": "agent",
+  "factoryEligible": true
+}
