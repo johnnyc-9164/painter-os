@@ -4,7 +4,22 @@ import { resolve } from 'node:path';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 
+export function isPreviewDeployKey(key) {
+  return typeof key === 'string' && /^preview:[^|\s]+\|\S+$/.test(key.trim());
+}
+
 export function buildPlan(environment, repositoryRoot = root) {
+  if (environment.VERCEL_ENV === 'preview' && isPreviewDeployKey(environment.CONVEX_DEPLOY_KEY)) {
+    // Preview builds get their own isolated Convex preview deployment (per branch).
+    // Only a Convex *preview* deploy key enables this; any other key type stays frontend-only,
+    // so a production key configured on Preview can never push code to production.
+    return {
+      command: 'npx',
+      args: ['--no-install', 'convex', 'deploy', '--cmd-url-env-var-name',
+        'NEXT_PUBLIC_CONVEX_URL', '--cmd', 'node ../../scripts/with-convex-site-url.mjs'],
+      cwd: resolve(repositoryRoot, 'packages/backend'),
+    };
+  }
   if (environment.VERCEL_ENV !== 'production') {
     return { command: 'npm', args: ['run', 'build'], cwd: repositoryRoot };
   }
