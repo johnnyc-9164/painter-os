@@ -1,0 +1,77 @@
+{
+  "contract": {
+    "version": 1,
+    "issue": 172,
+    "linearIssue": "STL-79",
+    "branch": "factory/STL-79-deploy-company-site-preview-then",
+    "goal": "Get apps/company-site building and deployed on Vercel preview, with a production promotion awaiting Johnny's approval.",
+    "successConditions": [
+      "company-site preview deployment READY with exact SHA recorded",
+      "npm run build:company-site and test:http:company-site pass",
+      "Production promotion prepared but not executed without Johnny's approval"
+    ],
+    "nonGoals": [
+      "Custom domains (STL-114)",
+      "Template redesign (STL-47)"
+    ],
+    "stopConditions": [
+      "A required change falls outside allowedPaths or inside forbiddenPaths (including .github/**, scripts/**, docs/contracts/**): stop and report; a maintainer PR or a new reviewed contract is required",
+      "Any production deploy, production env var change, DNS change, billing/payment action or destructive data operation is needed: stop for Johnny's explicit approval",
+      "A secret value would need to be read, printed or committed: stop; reference secrets by name only",
+      "Required CI checks cannot run (hosted CI unavailable) or fail for reasons outside this scope: report evidence, do not mark passed",
+      "Human-approval gate reached: Production deploy of company-site"
+    ],
+    "allowedPaths": [
+      "apps/company-site/**",
+      "tests/company-site-boundary.test.mjs",
+      "tests/company-site.http.acceptance.mjs",
+      "docs/evidence/company-site/**"
+    ],
+    "forbiddenPaths": [
+      ".github/**",
+      "scripts/**",
+      "docs/contracts/**",
+      "apps/company-site/.env*",
+      "**/.env*",
+      "**/_generated/**"
+    ],
+    "requiredEvidence": [
+      "PR body links the Linear issue and GitHub issue, lists changed files, and carries Factory-Contract-Hash and Factory-Attempt trailers",
+      "Exact commands run (npm run agent:check plus the scoped tests below) with results attached to the PR head SHA",
+      "All required checks green on the PR head: typecheck, lint, domain-tests, convex-tests, contractor-component, build",
+      "Test: npm run build:company-site",
+      "Test: npm run test:company-site",
+      "Test: npm run test:http:company-site"
+    ],
+    "riskClass": "low",
+    "requiredChecks": [
+      "typecheck",
+      "lint",
+      "domain-tests",
+      "convex-tests",
+      "contractor-component",
+      "build"
+    ],
+    "testRequirements": [
+      "npm run build:company-site",
+      "npm run test:company-site",
+      "npm run test:http:company-site"
+    ],
+    "envSecretNames": [
+      "NEXT_PUBLIC_CONVEX_URL",
+      "NEXT_PUBLIC_CONVEX_SITE_URL"
+    ],
+    "humanApprovalGates": [
+      "Production deploy of company-site"
+    ],
+    "dependsOn": [],
+    "blocks": [
+      "STL-47"
+    ],
+    "phase": 0,
+    "size": "S",
+    "ownerType": "agent; Johnny approves production",
+    "factoryEligible": true
+  },
+  "attempt": "STL-79-attempt-1"
+}

@@ -1,0 +1,77 @@
+{
+  "contract": {
+    "version": 1,
+    "issue": 232,
+    "linearIssue": "STL-120",
+    "branch": "factory/STL-120-terms-privacy-policy-and-customer",
+    "goal": "Publish Terms and Privacy on marketing, link at sign-up, and give owners audited data export and deletion.",
+    "successConditions": [
+      "Terms and Privacy pages live and linked at sign-up",
+      "Cookie consent present if non-essential cookies are used",
+      "Owner can request export and deletion; actions audited; deletion is soft-delete with retention window"
+    ],
+    "nonGoals": [
+      "Analytics (STL-122)"
+    ],
+    "stopConditions": [
+      "A required change falls outside allowedPaths or inside forbiddenPaths (including .github/**, scripts/**, docs/contracts/**): stop and report; a maintainer PR or a new reviewed contract is required",
+      "Any production deploy, production env var change, DNS change, billing/payment action or destructive data operation is needed: stop for Johnny's explicit approval",
+      "A secret value would need to be read, printed or committed: stop; reference secrets by name only",
+      "Required CI checks cannot run (hosted CI unavailable) or fail for reasons outside this scope: report evidence, do not mark passed",
+      "Human-approval gate reached: Legal text approved by Johnny before publish",
+      "Human-approval gate reached: Any hard-delete path"
+    ],
+    "allowedPaths": [
+      "apps/marketing/src/app/terms/**",
+      "apps/marketing/src/app/privacy/**",
+      "apps/marketing/src/components/**",
+      "apps/web/src/components/sign-up-form.tsx",
+      "packages/backend/convex/companyDataExport.ts",
+      "packages/backend/convex/companyDataDeletion.ts",
+      "tests/company-data-*.test.ts",
+      "tests/marketing-*.test.*"
+    ],
+    "forbiddenPaths": [
+      ".github/**",
+      "scripts/**",
+      "docs/contracts/**",
+      "**/.env*",
+      "**/_generated/**"
+    ],
+    "requiredEvidence": [
+      "PR body links the Linear issue and GitHub issue, lists changed files, and carries Factory-Contract-Hash and Factory-Attempt trailers",
+      "Exact commands run (npm run agent:check plus the scoped tests below) with results attached to the PR head SHA",
+      "All required checks green on the PR head: typecheck, lint, domain-tests, convex-tests, contractor-component, build",
+      "Test: Tests: only owner can export/delete; audit record written; other tenants untouched"
+    ],
+    "riskClass": "high",
+    "requiredChecks": [
+      "typecheck",
+      "lint",
+      "domain-tests",
+      "convex-tests",
+      "contractor-component",
+      "build"
+    ],
+    "testRequirements": [
+      "Tests: only owner can export/delete; audit record written; other tenants untouched"
+    ],
+    "envSecretNames": [],
+    "humanApprovalGates": [
+      "Legal text approved by Johnny before publish",
+      "Any hard-delete path"
+    ],
+    "dependsOn": [
+      "STL-114"
+    ],
+    "blocks": [
+      "STL-116",
+      "STL-122"
+    ],
+    "phase": 1,
+    "size": "M",
+    "ownerType": "agent drafts; Johnny/legal review",
+    "factoryEligible": true
+  },
+  "attempt": "STL-120-attempt-1"
+}

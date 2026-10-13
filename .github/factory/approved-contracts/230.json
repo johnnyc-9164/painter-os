@@ -1,0 +1,83 @@
+{
+  "contract": {
+    "version": 1,
+    "issue": 230,
+    "linearIssue": "STL-118",
+    "branch": "factory/STL-118-better-auth-db-rate-limiting",
+    "goal": "Add database-backed Better Auth rate limiting with the real client IP, and two-factor for owners (required for platform-admin).",
+    "successConditions": [
+      "Rate limits stored in DB, keyed on forwarded client IP from trusted headers only",
+      "Tests prove limits trigger without locking out normal users",
+      "2FA available to owners and enforced for platform-admin"
+    ],
+    "nonGoals": [
+      "Social login"
+    ],
+    "stopConditions": [
+      "A required change falls outside allowedPaths or inside forbiddenPaths (including .github/**, scripts/**, docs/contracts/**): stop and report; a maintainer PR or a new reviewed contract is required",
+      "Any production deploy, production env var change, DNS change, billing/payment action or destructive data operation is needed: stop for Johnny's explicit approval",
+      "A secret value would need to be read, printed or committed: stop; reference secrets by name only",
+      "Required CI checks cannot run (hosted CI unavailable) or fail for reasons outside this scope: report evidence, do not mark passed",
+      "Human-approval gate reached: Better Auth schema changes (migration review by Johnny)",
+      "Human-approval gate reached: Production rollout"
+    ],
+    "allowedPaths": [
+      "packages/backend/convex/auth.ts",
+      "packages/backend/convex/authRateLimit.ts",
+      "packages/backend/convex/authOrigins.ts",
+      "packages/backend/convex/convex.config.ts",
+      "apps/web/src/lib/auth-server.ts",
+      "apps/web/src/lib/auth-client.ts",
+      "apps/web/src/components/sign-in-form.tsx",
+      "apps/web/src/components/two-factor*.tsx",
+      "apps/platform-admin/src/**",
+      "tests/auth-*.test.ts",
+      "tests/platform-admin-auth.test.ts"
+    ],
+    "forbiddenPaths": [
+      ".github/**",
+      "scripts/**",
+      "docs/contracts/**",
+      "**/.env*",
+      "**/_generated/**"
+    ],
+    "requiredEvidence": [
+      "PR body links the Linear issue and GitHub issue, lists changed files, and carries Factory-Contract-Hash and Factory-Attempt trailers",
+      "Exact commands run (npm run agent:check plus the scoped tests below) with results attached to the PR head SHA",
+      "All required checks green on the PR head: typecheck, lint, domain-tests, convex-tests, contractor-component, build",
+      "Test: Rate-limit unit tests (burst, recovery, IP spoof header ignored)",
+      "Test: 2FA enrol/verify/backup-code tests",
+      "Test: npm run test:convex"
+    ],
+    "riskClass": "high",
+    "requiredChecks": [
+      "typecheck",
+      "lint",
+      "domain-tests",
+      "convex-tests",
+      "contractor-component",
+      "build"
+    ],
+    "testRequirements": [
+      "Rate-limit unit tests (burst, recovery, IP spoof header ignored)",
+      "2FA enrol/verify/backup-code tests",
+      "npm run test:convex"
+    ],
+    "envSecretNames": [
+      "BETTER_AUTH_SECRET"
+    ],
+    "humanApprovalGates": [
+      "Better Auth schema changes (migration review by Johnny)",
+      "Production rollout"
+    ],
+    "dependsOn": [
+      "STL-115"
+    ],
+    "blocks": [],
+    "phase": 1,
+    "size": "M",
+    "ownerType": "agent",
+    "factoryEligible": true
+  },
+  "attempt": "STL-118-attempt-1"
+}
