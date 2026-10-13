@@ -1,0 +1,70 @@
+{
+  "contract": {
+    "version": 1,
+    "issue": 213,
+    "linearIssue": "STL-104",
+    "branch": "factory/STL-104-agent-verify-playwright-path-allowlist",
+    "goal": "Allowlist PLAYWRIGHT_BROWSERS_PATH in agent:verify and fail with a clear message when run as root.",
+    "successConditions": [
+      "Regression tests cover the allowlisted env var and the root refusal message",
+      "AGENT_SETUP.md documents the behaviour"
+    ],
+    "nonGoals": [
+      "Other agent:* script changes"
+    ],
+    "stopConditions": [
+      "A required change falls outside allowedPaths or inside forbiddenPaths (including .github/**, scripts/**, docs/contracts/**): stop and report; a maintainer PR or a new reviewed contract is required",
+      "Any production deploy, production env var change, DNS change, billing/payment action or destructive data operation is needed: stop for Johnny's explicit approval",
+      "A secret value would need to be read, printed or committed: stop; reference secrets by name only",
+      "Required CI checks cannot run (hosted CI unavailable) or fail for reasons outside this scope: report evidence, do not mark passed",
+      "Human-approval gate reached: The scripts/agent-verify.mjs change itself must land in a maintainer (non-factory) PR"
+    ],
+    "allowedPaths": [
+      "tests/agent-harness.test.mjs",
+      "tests/agent-browser-runner.test.mjs",
+      "docs/development/AGENT_SETUP.md"
+    ],
+    "forbiddenPaths": [
+      ".github/**",
+      "scripts/**",
+      "docs/contracts/**",
+      "**/.env*",
+      "**/_generated/**"
+    ],
+    "requiredEvidence": [
+      "PR body links the Linear issue and GitHub issue, lists changed files, and carries Factory-Contract-Hash and Factory-Attempt trailers",
+      "Exact commands run (npm run agent:check plus the scoped tests below) with results attached to the PR head SHA",
+      "All required checks green on the PR head: typecheck, lint, domain-tests, convex-tests, contractor-component, build",
+      "Test: npm run test:agent"
+    ],
+    "riskClass": "low",
+    "requiredChecks": [
+      "typecheck",
+      "lint",
+      "domain-tests",
+      "convex-tests",
+      "contractor-component",
+      "build"
+    ],
+    "testRequirements": [
+      "npm run test:agent"
+    ],
+    "envSecretNames": [
+      "PLAYWRIGHT_BROWSERS_PATH"
+    ],
+    "humanApprovalGates": [
+      "The scripts/agent-verify.mjs change itself must land in a maintainer (non-factory) PR"
+    ],
+    "dependsOn": [
+      "STL-66"
+    ],
+    "blocks": [
+      "STL-121"
+    ],
+    "phase": 0,
+    "size": "S",
+    "ownerType": "maintainer (scripts/** is guard-protected)",
+    "factoryEligible": false
+  },
+  "attempt": "STL-104-attempt-1"
+}

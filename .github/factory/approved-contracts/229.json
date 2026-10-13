@@ -1,0 +1,87 @@
+{
+  "contract": {
+    "version": 1,
+    "issue": 229,
+    "linearIssue": "STL-117",
+    "branch": "factory/STL-117-sentry-error-tracking-and-checkly",
+    "goal": "Report errors from all four Next apps and Convex to Sentry with releases, and run Checkly checks on sign-in and core flows.",
+    "successConditions": [
+      "Sentry initialised in web, marketing, company-site, platform-admin and Convex with source maps and release tags",
+      "Checkly checks for sign-in and core flows on production URLs",
+      "Alerts routed to Slack/phone",
+      "A deliberate test error is received (evidence link)"
+    ],
+    "nonGoals": [
+      "Product analytics (STL-122)",
+      "Status page (STL-124)"
+    ],
+    "stopConditions": [
+      "A required change falls outside allowedPaths or inside forbiddenPaths (including .github/**, scripts/**, docs/contracts/**): stop and report; a maintainer PR or a new reviewed contract is required",
+      "Any production deploy, production env var change, DNS change, billing/payment action or destructive data operation is needed: stop for Johnny's explicit approval",
+      "A secret value would need to be read, printed or committed: stop; reference secrets by name only",
+      "Required CI checks cannot run (hosted CI unavailable) or fail for reasons outside this scope: report evidence, do not mark passed",
+      "Human-approval gate reached: Production env vars",
+      "Human-approval gate reached: Alert routing to Johnny's phone"
+    ],
+    "allowedPaths": [
+      "apps/*/sentry.*.config.ts",
+      "apps/*/instrumentation*.ts",
+      "apps/*/next.config.*",
+      "apps/*/package.json",
+      "package-lock.json",
+      "packages/backend/convex/observability.ts",
+      "checkly/**",
+      "docs/development/OBSERVABILITY.md"
+    ],
+    "forbiddenPaths": [
+      ".github/**",
+      "scripts/**",
+      "docs/contracts/**",
+      "**/.env*",
+      "**/_generated/**"
+    ],
+    "requiredEvidence": [
+      "PR body links the Linear issue and GitHub issue, lists changed files, and carries Factory-Contract-Hash and Factory-Attempt trailers",
+      "Exact commands run (npm run agent:check plus the scoped tests below) with results attached to the PR head SHA",
+      "All required checks green on the PR head: typecheck, lint, domain-tests, convex-tests, contractor-component, build",
+      "Test: Build passes for all four apps with Sentry enabled",
+      "Test: Checkly checks pass against a preview URL"
+    ],
+    "riskClass": "high",
+    "requiredChecks": [
+      "typecheck",
+      "lint",
+      "domain-tests",
+      "convex-tests",
+      "contractor-component",
+      "build"
+    ],
+    "testRequirements": [
+      "Build passes for all four apps with Sentry enabled",
+      "Checkly checks pass against a preview URL"
+    ],
+    "envSecretNames": [
+      "SENTRY_DSN",
+      "NEXT_PUBLIC_SENTRY_DSN",
+      "SENTRY_AUTH_TOKEN",
+      "SENTRY_ORG",
+      "SENTRY_PROJECT",
+      "CHECKLY_API_KEY",
+      "CHECKLY_ACCOUNT_ID"
+    ],
+    "humanApprovalGates": [
+      "Production env vars",
+      "Alert routing to Johnny's phone"
+    ],
+    "dependsOn": [],
+    "blocks": [
+      "STL-132",
+      "STL-124"
+    ],
+    "phase": 0,
+    "size": "M",
+    "ownerType": "agent; Johnny routes alerts to phone",
+    "factoryEligible": true
+  },
+  "attempt": "STL-117-attempt-1"
+}
