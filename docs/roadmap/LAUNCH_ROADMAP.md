@@ -4,7 +4,9 @@ Issue-by-issue plan to take Painter OS from today's state to a launchable produc
 
 Legend — **Size:** S ≤1 day, M 2–4 days, L 1–2 weeks of agent work. **Owner:** `agent` = any coding agent under its contract; Johnny-only steps are called out explicitly. **Factory:** ✅ can run on a `factory/` branch; ⚠️ needs a maintainer (non-factory) PR because it touches guard-protected paths (`.github/**`, `scripts/**`) or GitHub settings.
 
-Launch-critical path: STL-66 → STL-114 → STL-115 → STL-118/STL-120 → STL-129 decision → STL-116. Everything else can run in parallel once its blockers clear.
+**Sequencing decision (STL-129, Johnny, 2026-10-13): both — white-label first, then self-serve SaaS.** Launch 1 is operator-provisioned white-label for Sky's the Limit (Phases 0–3, 5). Phase 4 monetization (STL-116 Stripe, STL-28 AI entitlements) and STL-131 AI/pricing positioning happen **after** the white-label launch, as the self-serve SaaS step.
+
+White-label launch critical path: STL-66 → STL-114 → STL-115 → STL-118/STL-120. Self-serve path afterward: STL-116 → STL-28. Everything else can run in parallel once its blockers clear.
 
 ## Dependency graph
 
@@ -125,7 +127,9 @@ graph LR
 | [STL-11](https://linear.app/johnny-cage/issue/STL-11) Full-deposit gate with audited override | #57 | Require full deposit before scheduling/starting a job, with audited owner/office-admin override. | — | M | agent | high | ✅ | [`STL-11.json`](../../.factory/contracts/STL-11.json) |
 | [STL-24](https://linear.app/johnny-cage/issue/STL-24) Company-site chat lead qualification and estimate booking | #78 | Chatbot on company sites that qualifies leads and books verified estimate visits without inventing prices. | STL-47, STL-28 | L | agent | high | ✅ | [`STL-24.json`](../../.factory/contracts/STL-24.json) |
 
-## Phase 4 — Monetization
+## Phase 4 — Monetization (post-white-label launch, self-serve SaaS)
+
+Starts only after the white-label launch is live for Sky's the Limit. STL-131 (Phase 3 table) also ships with this phase.
 
 | Issue | GH | Goal | Depends on | Size | Owner | Risk | Factory | Contract |
 |---|---|---|---|---|---|---|---|---|
@@ -144,7 +148,7 @@ graph LR
 ## Johnny-only steps
 
 - **STL-66:** fix GitHub Actions billing/spending limit (Settings → Billing & plans).
-- **STL-129:** decide white-label-first vs self-serve SaaS — gates billing and AI entitlement work.
+- **STL-129:** ✅ decided 2026-10-13 — white-label first, then self-serve SaaS.
 - **STL-114:** buy the launch domain and approve DNS.
 - **STL-115:** pick email provider (Resend or AgentMail); approve SPF/DKIM/DMARC records.
 - **STL-116:** create Stripe account, products and prices; approve live mode.
