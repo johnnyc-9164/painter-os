@@ -49,6 +49,18 @@ describe('explicit backend origin selection', () => {
     expect(painterAuthOrigins(site, JSON.stringify(eight))).toEqual([site, ...eight]);
     expect(() => painterAuthOrigins(site, JSON.stringify([...eight, platform]))).toThrow('INVALID_AUTH_TRUSTED_ORIGINS');
   });
+  it('accepts exactly the two project-scoped Vercel preview patterns', () => {
+    const patterns = ['https://painter-os-*-johnnyc.vercel.app', 'https://painter-os-git-*-johnnyc.vercel.app'];
+    expect(painterAuthOrigins(site, JSON.stringify(patterns))).toEqual([site, ...patterns]);
+    expect(painterAuthOrigins(site, JSON.stringify([...patterns, platform, ...patterns]))).toEqual([site, ...patterns, platform]);
+    const eight = [...patterns, ...Array.from({ length: 6 }, (_, i) => `https://approved-${i}.vercel.app`)];
+    expect(painterAuthOrigins(site, JSON.stringify(eight))).toEqual([site, ...eight]);
+    expect(() => painterAuthOrigins(site, JSON.stringify([...eight, platform]))).toThrow('INVALID_AUTH_TRUSTED_ORIGINS');
+  });
+  it('rejects wildcard lookalikes of the preview patterns', () => {
+    const lookalikes = ['https://*-johnnyc.vercel.app', 'https://painter-os-*.vercel.app', 'https://*painter-os-*-johnnyc.vercel.app', 'https://painter-os-**-johnnyc.vercel.app', 'https://painter-os-*-johnnyc.vercel.app/', 'http://painter-os-*-johnnyc.vercel.app', 'https://painter-os-*-johnnyc.vercel.app.evil.test', 'https://painter-os-*-other.vercel.app', 'https://painter-os-*-johnnyc.example.com', 'https://PAINTER-OS-*-johnnyc.vercel.app', ' https://painter-os-*-johnnyc.vercel.app', 'https://painter-os-*-johnnyc.vercel.app:443', 'https://painter-os-git-*-johnnyc.vercel.app/*', 'https://painter-os-git-*'];
+    for (const url of lookalikes) expect(() => painterAuthOrigins(site, JSON.stringify([url]))).toThrow('INVALID_AUTH_TRUSTED_ORIGINS');
+  });
   it('rejects malformed, reflected, wildcard, alternate-host and noncanonical origins without echoing them', () => {
     const bad = ['', 'null', '{}', '[null]', '[true]', '[1]', 'not-json', ' '.repeat(4097)];
     const urls = ['https://*.vercel.app', 'https://vercel.app', 'https://other.example', 'https://foo.vercel.app.evil.test', 'http://foo.vercel.app', 'https://foo.vercel.app:443', 'https://foo.vercel.app:8443', 'https://foo.vercel.app/', 'https://foo.vercel.app/path', 'https://foo.vercel.app?x=1', 'https://foo.vercel.app#x', 'https://user:secret@foo.vercel.app', 'https://FOO.vercel.app', 'https://127.0.0.1', 'https://localhost', 'https://a.b.vercel.app', 'https://-bad.vercel.app', 'https://bad-.vercel.app', `https://${'a'.repeat(64)}.vercel.app`, ' https://foo.vercel.app', 'https://foo.vercel.app\n'];
@@ -76,6 +88,15 @@ describe('installed Better Auth with real Convex component origin checks', () =>
     // Source configuration does not widen cookie domains or make a cross-host SSO claim.
     expect(accepted.cookies.every(cookie => !/;\s*Domain=/i.test(cookie))).toBe(true);
     for (const origin of ['https://unapproved-platform-app.vercel.app', `${platform}.evil.test`, 'https://evil.test', 'null']) {
+      const denied = await login(origin); expect(denied.status).toBe(403); expect(denied.cookies).toEqual([]);
+    }
+  });
+  it('preview patterns admit project preview hosts and deny lookalike origins', async () => {
+    const { login } = await fixture(JSON.stringify(['https://painter-os-*-johnnyc.vercel.app', 'https://painter-os-git-*-johnnyc.vercel.app']));
+    for (const origin of ['https://painter-os-abc123xyz-johnnyc.vercel.app', 'https://painter-os-git-feature-branch-johnnyc.vercel.app']) {
+      const accepted = await login(origin); expect(accepted.status).toBe(200);
+    }
+    for (const origin of ['https://painter-os-abc-other.vercel.app', 'https://evil-painter-os-abc-johnnyc.vercel.app', 'https://painter-os-abc-johnnyc.vercel.app.evil.test', 'http://painter-os-abc-johnnyc.vercel.app', 'https://painter-os-marketing.vercel.app', 'https://evil.test/painter-os-x-johnnyc.vercel.app']) {
       const denied = await login(origin); expect(denied.status).toBe(403); expect(denied.cookies).toEqual([]);
     }
   });

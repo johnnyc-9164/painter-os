@@ -1,5 +1,10 @@
 /** Backend-only origin selection. Configuration is not domain ownership or a session grant. */
 const maxAdditionalOrigins = 8;
+// The only wildcard entries accepted: Vercel preview hosts scoped to this project and team.
+const previewOriginPatterns: ReadonlySet<string> = new Set([
+  'https://painter-os-*-johnnyc.vercel.app',
+  'https://painter-os-git-*-johnnyc.vercel.app',
+]);
 const invalid = () => new Error('INVALID_AUTH_TRUSTED_ORIGINS');
 
 export function painterAuthOrigins(siteUrl: string, configured?: string): string[] {
@@ -11,6 +16,7 @@ export function painterAuthOrigins(siteUrl: string, configured?: string): string
   if (!Array.isArray(entries) || entries.length > maxAdditionalOrigins) throw invalid();
   for (const entry of entries) {
     if (typeof entry !== 'string') throw invalid();
+    if (previewOriginPatterns.has(entry)) continue;
     try {
       const url = new URL(entry);
       const label = url.hostname.split('.')[0];
