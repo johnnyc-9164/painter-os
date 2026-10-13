@@ -1,0 +1,58 @@
+# Production deploy gate for Painter OS.
+#
+# Vercel does not auto-deploy main (vercel.json, PR #218). Instead, once CI has passed on a
+# main commit, this workflow waits for approval on the protected `production` environment and
+# then triggers the Vercel production build through a Deploy Hook. That build
+# (scripts/vercel-build.mjs) runs `convex deploy`, which typechecks and pushes the backend and
+# fails on incompatible schema/data before the frontend is built, so production Convex and
+# the Next app ship together, from one place, only after CI is green.
+#
+# Required (set by the repo owner):
+#   - GitHub environment `production` with required reviewer johnnyc-9164
+#   - environment secret VERCEL_DEPLOY_HOOK_URL (Vercel > painter-os > Settings > Git > Deploy Hooks, branch main)
+name: production-deploy
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: production-deploy
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_repository.full_name == github.repository
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Only deploy the current head of main
+        id: head
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          current=$(gh api "repos/${GITHUB_REPOSITORY}/commits/main" --jq .sha)
+          if [ "$current" != "$RUN_SHA" ]; then
+            echo "main moved to $current; its own CI run will deploy it. Skipping $RUN_SHA."
+            echo "deploy=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "deploy=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Trigger Vercel production build (deploys Convex, then Next)
+        if: steps.head.outputs.deploy == 'true'
+        env:
+          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$HOOK" ]; then echo "::error::VERCEL_DEPLOY_HOOK_URL is not configured"; exit 1; fi
+          curl -fsS -X POST "$HOOK" -o /dev/null
+          echo "Vercel production build triggered for ${{ github.event.workflow_run.head_sha }}"
