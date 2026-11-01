@@ -48,7 +48,7 @@
     "test:agent-worker": "npm run test --workspace @painter-os-bts/agent-worker"
   },
   "dependencies": {
-    "zod": "^4.5.4"
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@painter-os-bts/config": "*",
