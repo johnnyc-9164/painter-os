@@ -86,6 +86,22 @@ export async function loadPainterCommandState(ctx: Ctx, tenantId: TenantId, comm
   else if (group === 'article' && (verb === 'create' || verb === 'update') && input.slug !== undefined) add(await byType('article'));
   else if (group === 'integration') add(await byType('integration'));
 
+  // The deposit gate is transaction-authoritative, not a UI-only projection.
+  // Bounded command readsets must include the indexed invoice/payment ledger
+  // for the job before checking schedule, job start, field start or exceptions.
+  const depositJobId =
+    group === 'job' && ['start', 'overrideDeposit', 'revokeDepositOverride'].includes(verb ?? '')
+      ? command.entityId
+      : group === 'schedule' && ['create', 'reschedule'].includes(verb ?? '')
+        ? input.jobId ?? data.jobId
+        : group === 'field' && verb === 'start'
+          ? input.jobId
+          : undefined;
+  if (depositJobId) {
+    add(await byRelation('invoice', 'by_tenant_type_job_customer', 'data.jobId', depositJobId));
+    add(await byRelation('payment', 'by_tenant_type_job_customer', 'data.jobId', depositJobId));
+  }
+
   return {
     entities: [...rows.values()].map(painterEntityFromRow),
     events: [],

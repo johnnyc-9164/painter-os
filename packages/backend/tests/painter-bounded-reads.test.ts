@@ -72,9 +72,11 @@ describe('bounded generic Painter reads with large native history', () => {
     await seedNativeHistory(t, tenantId);
     const a = await ordinaryOperations(t, owner, 'a-');
     expect(a.approved.status).toBe('approved');
+    await run(owner, 'job.overrideDeposit', 'a-deposit-exception', {reason: 'Synthetic bounded-read scheduling scenario'}, a.job);
     const sched = await run(owner, 'schedule.create', 'a-sched', {jobId: a.job, crew: 'Crew A', startAt: '2026-11-01T09:00:00Z', endAt: '2026-11-01T17:00:00Z'});
     expect(sched.entity.data.status).toBe('confirmed');
     const b = await ordinaryOperations(t, owner, 'b-');
+    await run(owner, 'job.overrideDeposit', 'b-deposit-exception', {reason: 'Synthetic crew-overlap scenario'}, b.job);
     await expect(run(owner, 'schedule.create', 'b-sched', {jobId: b.job, crew: ' crew a ', startAt: '2026-11-01T12:00:00Z', endAt: '2026-11-01T13:00:00Z'})).rejects.toThrow('CREW_SCHEDULE_CONFLICT');
     await expect(run(owner, 'job.create', 'a-job-dup', {estimateId: a.estimate})).rejects.toThrow('DUPLICATE_JOB');
     const inv = await run(owner, 'invoice.create', 'a-inv', {jobId: a.job, title: 'Deposit', kind: 'deposit'});
