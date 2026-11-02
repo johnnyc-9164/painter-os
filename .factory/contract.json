@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "issue": 231,
+  "linearIssue": "STL-119",
+  "branch": "factory/STL-119-convex-backups-and-rollback-runbook",
+  "goal": "Enable scheduled production Convex backups, rehearse one restore into non-prod, and document rollback.",
+  "successConditions": [
+    "Scheduled prod Convex backups enabled (Johnny/approved dashboard step)",
+    "One restore rehearsed into a non-prod deployment with evidence",
+    "Runbook covers Vercel instant rollback, Convex rollback, schema migration rules"
+  ],
+  "nonGoals": [
+    "Staging environment (STL-125)"
+  ],
+  "stopConditions": [
+    "A required change falls outside allowedPaths or inside forbiddenPaths (including .github/**, scripts/**, docs/contracts/**): stop and report; a maintainer PR or a new reviewed contract is required",
+    "Any production deploy, production env var change, DNS change, billing/payment action or destructive data operation is needed: stop for Johnny's explicit approval",
+    "A secret value would need to be read, printed or committed: stop; reference secrets by name only",
+    "Required CI checks cannot run (hosted CI unavailable) or fail for reasons outside this scope: report evidence, do not mark passed",
+    "Human-approval gate reached: Enabling prod backups",
+    "Human-approval gate reached: Any restore touching production"
+  ],
+  "allowedPaths": [
+    "docs/runbooks/BACKUP_ROLLBACK.md",
+    "docs/evidence/backups/**"
+  ],
+  "forbiddenPaths": [
+    ".github/**",
+    "scripts/**",
+    "docs/contracts/**",
+    "**/.env*",
+    "**/_generated/**"
+  ],
+  "requiredEvidence": [
+    "PR body links the Linear issue and GitHub issue, lists changed files, and carries Factory-Contract-Hash and Factory-Attempt trailers",
+    "Exact commands run (npm run agent:check plus the scoped tests below) with results attached to the PR head SHA",
+    "All required checks green on the PR head: typecheck, lint, domain-tests, convex-tests, contractor-component, build",
+    "Test: Restore rehearsal log in docs/evidence/backups/"
+  ],
+  "riskClass": "low",
+  "requiredChecks": [
+    "typecheck",
+    "lint",
+    "domain-tests",
+    "convex-tests",
+    "contractor-component",
+    "build"
+  ],
+  "testRequirements": [
+    "Restore rehearsal log in docs/evidence/backups/"
+  ],
+  "envSecretNames": [
+    "CONVEX_DEPLOY_KEY (non-prod only for rehearsal)"
+  ],
+  "humanApprovalGates": [
+    "Enabling prod backups",
+    "Any restore touching production"
+  ],
+  "dependsOn": [],
+  "blocks": [
+    "STL-125"
+  ],
+  "phase": 0,
+  "size": "S",
+  "ownerType": "Johnny enables backups; agent writes runbook",
+  "factoryEligible": true
+}
