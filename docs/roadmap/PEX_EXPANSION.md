@@ -2,6 +2,16 @@
 
 **Planning/review proposal; not approved for execution.** These 48 new issue pairs are tracked and native dependency edges exist. This PR does not change business behavior or authorize workers, billing, production, secrets, or deployments.
 
+## Project isolation — binding scope
+
+**Painter OS and Factory are completely separate projects.** Do not interpret matching PEX titles in another repository as shared execution authority or as mirrored Painter OS work. No Factory repository issue, PR, label, status, or workflow may be linked to, synchronized with, closed for, or used as a dispatcher for these Painter OS PBIs.
+
+- **Painter OS authoritative issues:** Linear **Painter OS** project, `STL-248`–`STL-295`.
+- **Painter OS code and GitHub issues:** [`johnnyc-9164/painter-os`](https://github.com/johnnyc-9164/painter-os), issues `#307`–`#354`.
+- **Out-of-scope separate product:** `mplsjohnnycage/factory` and all its GitHub issues. Do not add cross-project attachments to Painter OS Linear issues; do not mutate Factory to repair Painter OS.
+- **Execution hosts:** `painter-os-dev`, `painter-os-design`, `painter-os-features` only for Painter OS tasks. Each worker requires a Painter OS issue and an approved, repository-local contract.
+- Existing `.factory/` and `.github/factory/` **directories inside this repository** describe Painter OS's local contract/CI machinery. Those internal names do not connect Painter OS to the separate Factory repository or authorize shared task dispatch.
+
 ## Controls
 
 - Linear ASDLC Painter OS project is the issue source of truth. GitHub Painter OS issues mirror each candidate.
