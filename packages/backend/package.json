@@ -10,12 +10,12 @@
   },
   "dependencies": {
     "@agentmail/convex": "0.1.0",
-    "@convex-dev/better-auth": "^0.12.5",
+    "@convex-dev/better-auth": "0.12.6",
     "@convex-dev/rate-limiter": "0.4.1",
-    "better-auth": "1.6.22",
+    "better-auth": "1.6.34",
     "convex": "^1.45.0",
-    "zod": "^4.5.4",
-    "image-size": "2.0.2"
+    "image-size": "2.0.4",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@firecrawl/firecrawl-convex": "0.1.1",

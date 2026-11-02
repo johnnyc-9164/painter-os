@@ -14,9 +14,9 @@
     "@painter-os-bts/backend": "*",
     "@painter-os-bts/cloud-session": "*",
     "@painter-os-bts/ui": "*",
-    "next": "^16.3.4",
-    "react": "^19.2.8",
     "lucide-react": "^1.41.0",
-    "zod": "^4.5.4"
+    "next": "^16.4.3",
+    "react": "^19.2.8",
+    "zod": "^4.6.7"
   }
 }

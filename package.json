@@ -48,21 +48,22 @@
     "test:agent-worker": "npm run test --workspace @painter-os-bts/agent-worker"
   },
   "dependencies": {
-    "zod": "^4.5.4"
+    "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@edge-runtime/vm": "5.0.0",
     "@painter-os-bts/config": "*",
+    "@playwright/test": "1.57.0",
     "@types/node": "^26.4.1",
+    "better-auth": "1.6.34",
+    "convex-test": "0.0.59",
+    "eslint": "9.39.2",
+    "eslint-config-next": "16.3.4",
+    "tsx": "4.21.0",
     "turbo": "^2.10.12",
     "typescript": "^6.0.3",
     "varlock": "1.18.0",
-    "tsx": "4.21.0",
-    "eslint": "9.39.2",
-    "eslint-config-next": "16.3.4",
-    "@playwright/test": "1.57.0",
-    "convex-test": "0.0.59",
-    "vitest": "4.1.11",
-    "@edge-runtime/vm": "5.0.0"
+    "vitest": "4.1.12"
   },
   "packageManager": "npm@11.16.0",
   "allowScripts": {
