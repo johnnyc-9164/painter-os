@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "issue": 351,
+  "goal": "AI capability explanation and approval affordances",
+  "successConditions": [
+    "AI provenance, confidence/limitations, human review and disabled states visible; no autonomous writes",
+    "Focused red/green tests, impacted regression suites and exact-head hosted required checks pass.",
+    "Independent reviewer accepts the exact PR SHA, with accessible rollback/evidence receipt."
+  ],
+  "nonGoals": [
+    "Production deployment or promotion, paid service upgrade, DNS changes, schema/data migration or real external business action.",
+    "New auth authority, duplicate business writer, unrelated redesign, cross-tenant data access, or bypass of protected review gates."
+  ],
+  "stopConditions": [
+    "This candidate lacks maintainer-approved factory contract: stop before implementation or merge.",
+    "Any change escapes allowed paths, changes root AGENTS.md/.github/**/scripts/**, or collides with another active owner: stop and reconcile scope.",
+    "Any production state/credentials, customer records, billing, external sends, or deployment modification is necessary: stop for explicit approval.",
+    "Exact-head CI or independent review is missing or tests fail: report evidence and do not merge."
+  ],
+  "allowedPaths": [
+    "apps/web/src/features/ai/affordances/**",
+    "tests/ai-affordances.test.tsx"
+  ],
+  "forbiddenPaths": [
+    ".github/**",
+    "scripts/**",
+    "docs/contracts/**"
+  ],
+  "requiredEvidence": [
+    "PR body cross-links the Linear issue and this GitHub issue and carries Factory-Contract-Hash and Factory-Attempt trailers.",
+    "Reproducible local tests, linked hosted CI results on exact head, scoped change list and distinct independent review verdict.",
+    "Acceptance proof: AI provenance, confidence/limitations, human review and disabled states visible; no autonomous writes",
+    "Verify no customer production data mutation or unapproved external operations occurred."
+  ],
+  "riskClass": "low",
+  "linearIssue": "STL-292",
+  "branch": "factory/STL-292-pex-045-ai-capability-explanation-and-approval-affordances",
+  "requiredChecks": [
+    "typecheck",
+    "lint",
+    "domain-tests",
+    "convex-tests",
+    "contractor-component",
+    "build"
+  ],
+  "testRequirements": [
+    "npm run agent:check",
+    "Focused regression tests for the exact changes",
+    "AI provenance, confidence/limitations, human review and disabled states visible; no autonomous writes"
+  ],
+  "envSecretNames": [],
+  "humanApprovalGates": [
+    "Maintainer approval of the exact typed contract and base-owned approval record before factory dispatch",
+    "Independent PR reviewer on exact head SHA",
+    "Owner approval before any production mutation or external action"
+  ],
+  "dependsOn": [],
+  "blocks": [],
+  "phase": 0,
+  "size": "S",
+  "ownerType": "agent-lead",
+  "factoryEligible": false,
+  "approvalStatus": "proposed_unapproved",
+  "proposalId": "PEX-045",
+  "proposalSourceSha": "8ae8405b3528e89e2fafead670666d6b964a062d",
+  "workstream": "AI interaction & release quality"
+}
