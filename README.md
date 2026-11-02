@@ -6,9 +6,26 @@ A working full-stack implementation of the central painting-business lifecycle, 
 
 Start with [agent setup](docs/development/AGENT_SETUP.md): `npm ci --ignore-scripts`, `npm run agent:doctor`, then `npm run agent:dev`. The [quality record](docs/QUALITY_SCORE.md) and fresh exact-head receipts distinguish local checks from live operation.
 
-## Historical source release status
+## Current deployment topology (verified November 2, 2026)
 
-The following source-release report describes its original delivery, not the current hosting/CI state. Verify current deployments and authentication separately.
+Painter OS is an actively developed product, **not yet a fully accepted or launched self-service SaaS**. Its source of truth is [johnnyc-9164/painter-os](https://github.com/johnnyc-9164/painter-os); the production applications run as four separate Vercel projects in the `johnnyc` team:
+
+| App in this repository | Vercel project | Responsibility |
+| --- | --- | --- |
+| `apps/web` | [`painter-os`](https://vercel.com/johnnyc/painter-os) | Authenticated operator application and customer portal |
+| `apps/platform-admin` | [`painter-os-platform-admin`](https://vercel.com/johnnyc/painter-os-platform-admin) | Platform administration |
+| `apps/marketing` | [`painter-os-marketing`](https://vercel.com/johnnyc/painter-os-marketing) | Public marketing and published content |
+| `apps/company-site` | [`painter-os-company-site`](https://vercel.com/johnnyc/painter-os-company-site) | Public customer-company sites |
+
+Vercel reported a **READY production deployment** for all four projects at source commit `8ae8405b3528e89e2fafead670666d6b964a062d` (the November 1 deployment). READY is a hosting/deployment status, **not** proof of live Better Auth, payment, email delivery, customer data safety or end-to-end launch acceptance. Preview build failures are tracked separately from the latest production deployments.
+
+### Release path and controls
+
+[CI](.github/workflows/ci.yml) runs on pull requests and pushes to `main`. Automatic Vercel production deployment from `main` is disabled by repository configuration. When a **push** to the current `main` SHA passes CI, [the production deployment workflow](.github/workflows/production-deploy.yml) waits at GitHub's protected `production` environment for **maintainer approval** and then calls the configured Vercel deploy hook. The Vercel build path (`scripts/vercel-build.mjs`) deploys/typechecks the Convex backend before building the corresponding frontend. Production rollout is therefore approval-gated; merging a PR does **not** itself establish that production was promoted or accepted. Consult [the issue-by-issue launch roadmap](docs/roadmap/LAUNCH_ROADMAP.md) and [quality record](docs/QUALITY_SCORE.md) for remaining work and verification gaps.
+
+## Historical source release status (original source-only milestone)
+
+The following paragraph captures the original source-release milestone **before** hosting was set up. It is **not** a description of the current deployment state; see the deployment topology above for verified November 2026 status.
 
 The production Next.js build, domain tests, Convex product adapter tests, real local HTTP flows, and browser flows have passed. This is a source deliverable, not an already hosted application. No live Convex deployment, authentication/email provider delivery, payment charge, calendar synchronization, repository push, or production deployment has occurred.
 
@@ -40,7 +57,7 @@ The default runtime is Convex. Use PAINTER_RUNTIME=convex and configure the two 
 
 The cloud adapter uses real Better Auth sessions, resolved memberships, Convex mutations/queries/storage, and the same domain engine. It does not silently switch to local storage when deployment setup is missing. Generic runtime bindings are explicitly hand-authored against installed Convex APIs and schema types, not fabricated generated API files.
 
-A live deployment and complete browser/auth/storage smoke test are still required. Backend invitation acceptance deliberately requires verified email; verification/reset email delivery has not been configured. This is a blocker for normal cloud invitation onboarding, not a gate to remove.
+Live Convex authentication, storage and full cloud browser acceptance still require end-to-end verification; a READY Vercel deployment does not establish them. Backend invitation acceptance deliberately requires verified email; verification/reset email delivery has not been configured. This is a blocker for normal cloud invitation onboarding, not a gate to remove.
 
 ### Local acceptance harness — runnable now
 
@@ -103,4 +120,4 @@ cd packages/contractor-os-core
 npm run verify:all
 ```
 
-See docs/RELEASE_REPORT.md for actual results and docs/evidence/SECURITY_REVIEW.md plus remediation notes for the bounded review. Production approval is a separate gate. No production deployment has been performed.
+See [the historical source-release report](docs/RELEASE_REPORT.md) for its original results and docs/evidence/SECURITY_REVIEW.md plus remediation notes for the bounded review. Newer hosting deployments exist as documented above; production approval, cloud acceptance and full launch readiness remain separate gates.
