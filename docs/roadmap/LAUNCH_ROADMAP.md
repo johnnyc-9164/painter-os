@@ -4,7 +4,9 @@ Issue-by-issue plan to take Painter OS from today's state to a launchable produc
 
 Legend — **Size:** S ≤1 day, M 2–4 days, L 1–2 weeks of agent work. **Owner:** `agent` = any coding agent under its contract; Johnny-only steps are called out explicitly. **Factory:** ✅ can run on a `factory/` branch; ⚠️ needs a maintainer (non-factory) PR because it touches guard-protected paths (`.github/**`, `scripts/**`) or GitHub settings.
 
-Launch-critical path: STL-66 → STL-114 → STL-115 → STL-118/STL-120 → STL-129 decision → STL-116. Everything else can run in parallel once its blockers clear.
+**Sequencing decision (STL-129, Johnny, 2026-10-13): both — white-label first, then self-serve SaaS.** Launch 1 is operator-provisioned white-label for Sky's the Limit (only launch-eligible work in Phases 0–3 and 5). STL-131 AI positioning and STL-24 AI chat are **excluded from Launch 1** despite their existing Phase 3 contract metadata; STL-24 depends on STL-28. Phase 4 monetization (STL-116 Stripe, STL-28 AI entitlements, STL-122 analytics) and those dependent AI capabilities happen **after** the white-label launch, as the self-serve SaaS step. Dependencies and individual approvals, not phase labels, authorize execution.
+
+White-label launch critical path: STL-66 → STL-114 → STL-115 → STL-118/STL-120. Self-serve path afterward: STL-116 → STL-28. Everything else can run in parallel once its blockers clear.
 
 ## Dependency graph
 
@@ -120,12 +122,14 @@ graph LR
 |---|---|---|---|---|---|---|---|---|
 | [STL-130](https://linear.app/johnny-cage/issue/STL-130) Unify Artisan Core design tokens | #242 | One shared Artisan Core token source used by the app, marketing and company templates. | — | M | agent | low | ✅ | [`STL-130.json`](../../.factory/contracts/STL-130.json) |
 | [STL-47](https://linear.app/johnny-cage/issue/STL-47) Editable company website templates at marketing quality | #120 | Studio, Editorial and Direct templates at Painter OS marketing quality, with editable logo, photos, reviews, blog, pricing and contact info. | STL-130, STL-79 | L | agent | high | ✅ | [`STL-47.json`](../../.factory/contracts/STL-47.json) |
-| [STL-131](https://linear.app/johnny-cage/issue/STL-131) AI positioning on marketing | #243 | Add an AI section and AI features page to the marketing site describing only real or clearly-labeled upcoming features. | STL-129, STL-130 | S | agent; Johnny approves claims | low | ✅ | [`STL-131.json`](../../.factory/contracts/STL-131.json) |
+| [STL-131](https://linear.app/johnny-cage/issue/STL-131) AI positioning on marketing | #243 | Post-white-label only: add an AI section and AI features page to the marketing site describing only real or clearly-labeled upcoming features. | STL-129, STL-130 | S | agent; Johnny approves claims | low | ✅ | [`STL-131.json`](../../.factory/contracts/STL-131.json) |
 | [STL-132](https://linear.app/johnny-cage/issue/STL-132) Build or hide platform-admin stub sections | #244 | Hide or clearly label unimplemented platform-admin sections; add read-only sites and health views. | STL-117 | S | agent | low | ✅ | [`STL-132.json`](../../.factory/contracts/STL-132.json) |
 | [STL-11](https://linear.app/johnny-cage/issue/STL-11) Full-deposit gate with audited override | #57 | Require full deposit before scheduling/starting a job, with audited owner/office-admin override. | — | M | agent | high | ✅ | [`STL-11.json`](../../.factory/contracts/STL-11.json) |
-| [STL-24](https://linear.app/johnny-cage/issue/STL-24) Company-site chat lead qualification and estimate booking | #78 | Chatbot on company sites that qualifies leads and books verified estimate visits without inventing prices. | STL-47, STL-28 | L | agent | high | ✅ | [`STL-24.json`](../../.factory/contracts/STL-24.json) |
+| [STL-24](https://linear.app/johnny-cage/issue/STL-24) Company-site chat lead qualification and estimate booking | #78 | Post-white-label only: chatbot on company sites that qualifies leads and books verified estimate visits without inventing prices. | STL-47, STL-28 | L | agent | high | ✅ | [`STL-24.json`](../../.factory/contracts/STL-24.json) |
 
-## Phase 4 — Monetization
+## Phase 4 — Monetization (post-white-label launch, self-serve SaaS)
+
+Starts only after the white-label launch is live for Sky's the Limit. STL-131 and STL-24 remain catalogued in Phase 3 under existing contracts but are explicitly deferred from Launch 1. STL-131 needs its own claims approval; STL-24 also depends on STL-28. This planning note does not change those contracts or authorize implementation.
 
 | Issue | GH | Goal | Depends on | Size | Owner | Risk | Factory | Contract |
 |---|---|---|---|---|---|---|---|---|
@@ -144,7 +148,7 @@ graph LR
 ## Johnny-only steps
 
 - **STL-66:** fix GitHub Actions billing/spending limit (Settings → Billing & plans).
-- **STL-129:** decide white-label-first vs self-serve SaaS — gates billing and AI entitlement work.
+- **STL-129:** ✅ decided 2026-10-13 — white-label first, then self-serve SaaS.
 - **STL-114:** buy the launch domain and approve DNS.
 - **STL-115:** pick email provider (Resend or AgentMail); approve SPF/DKIM/DMARC records.
 - **STL-116:** create Stripe account, products and prices; approve live mode.
