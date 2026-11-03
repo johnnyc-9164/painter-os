@@ -10,6 +10,7 @@ export function seedState(tenantId:string,actorId='demo-owner'):State {
  const estimate=run('estimate.create',{customerId:customer.id,title:'DEMO · Maple Lane interior repaint',lineItems:[{description:'Walls — prep and two finish coats',quantity:1800,unitPrice:2.75},{description:'Trim and doors',quantity:1,unitPrice:850}],taxRate:7.5,depositPercent:25,paintingScope:{area:1800,coats:2,wastePercent:10,sqftPerGallon:350}}).entity!;
  run('estimate.send',{},estimate.id);run('estimate.approve',{},estimate.id,true);
  const job=run('job.create',{estimateId:estimate.id}).entity!;
+ run('job.overrideDeposit',{reason:'Synthetic demo scheduling approval; no payment received.'},job.id);
  run('schedule.create',{jobId:job.id,crew:'Demo crew A',startAt:'2026-06-15T08:00:00Z',endAt:'2026-06-17T17:00:00Z'});
  const invoice=run('invoice.create',{jobId:job.id,title:'DEMO · Mobilization deposit',kind:'deposit'}).entity!;run('invoice.issue',{},invoice.id);
  run('knowledge.create',{title:'DEMO · Interior prep standard',content:'Protect floors, mask fixtures, repair defects, sand, prime repairs, and verify customer-selected colors before coating.'});
