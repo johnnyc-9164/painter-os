@@ -1,4 +1,6 @@
-# Painter OS build and acceptance report
+# Painter OS historical source-build and acceptance report
+
+> **Historical milestone, not current hosting status.** This report records local source/build acceptance from the initial release. As verified November 2, 2026, all four Vercel projects (`painter-os`, `painter-os-platform-admin`, `painter-os-marketing`, `painter-os-company-site`) have READY production deployments at commit `8ae8405b3528e89e2fafead670666d6b964a062d`. These hosting states do not prove live Convex/Better Auth, provider email or payments. See [current deployment topology](../README.md#current-deployment-topology-verified-november-2-2026), [quality gaps](QUALITY_SCORE.md) and [launch roadmap](roadmap/LAUNCH_ROADMAP.md).
 
 ## Delivered
 
@@ -48,7 +50,7 @@ These changes are source/test verified, not a production security certification.
 
 All final HTTP/browser acceptance ran against the optimized Next production build using explicitly selected SQLite LOCAL ACCEPTANCE mode. They prove application integration, not real Convex hosting or Better Auth cloud cookie behavior. Convex product tests exercised actual indexed persistence/transactions via convex-test with the auth user boundary mocked.
 
-No live Convex deployment, cloud signup/session/logout/storage flow, original mounted-component cloud smoke test, hosting deployment, external send/charge, subscription billing, real-data migration, repository push or production deployment occurred.
+**At the historical source-only milestone:** no live Convex deployment, cloud signup/session/logout/storage flow, original mounted-component cloud smoke test, hosting deployment, external send/charge, subscription billing, real-data migration, repository push or production deployment had occurred. Hosting and repository status subsequently changed (see the current README); provider-backed acceptance is still unproven by these historical tests.
 
 ## Product completeness boundaries
 
