@@ -3,7 +3,7 @@
   "issue": 343,
   "goal": "Company identity and trust components",
   "successConditions": [
-    "Only published verified fields; omit missing license/rating/location; no false badges",
+    "The existing shared CompanyWebsite renderer used by the public company route and private editor preview displays only the tenant’s published identity fields; omit missing values and all unsupported license/rating/verification badges.",
     "Focused red/green tests, impacted regression suites and exact-head hosted required checks pass.",
     "Independent reviewer accepts the exact PR SHA, with accessible rollback/evidence receipt."
   ],
@@ -18,8 +18,8 @@
     "Exact-head CI or independent review is missing or tests fail: report evidence and do not merge."
   ],
   "allowedPaths": [
-    "apps/company-site/src/components/company-signature.tsx",
-    "tests/company-signature.test.tsx"
+    "packages/ui/src/components/company-website.tsx",
+    "tests/company-website-renderer.test.tsx"
   ],
   "forbiddenPaths": [
     ".github/**",
@@ -29,7 +29,7 @@
   "requiredEvidence": [
     "PR body cross-links the Linear issue and this GitHub issue and carries Factory-Contract-Hash and Factory-Attempt trailers.",
     "Reproducible local tests, linked hosted CI results on exact head, scoped change list and distinct independent review verdict.",
-    "Acceptance proof: Only published verified fields; omit missing license/rating/location; no false badges",
+    "Acceptance proof: tests exercise the existing shared renderer used by public and private preview; only published tenant identity/media appear; missing license/rating/location and all unsupported trust badges are omitted.",
     "Verify no customer production data mutation or unapproved external operations occurred."
   ],
   "riskClass": "low",
@@ -44,9 +44,10 @@
     "build"
   ],
   "testRequirements": [
-    "npm run agent:check",
-    "Focused regression tests for the exact changes",
-    "Only published verified fields; omit missing license/rating/location; no false badges"
+    "npm run test:forms (Vitest discovers all tests/**/*.test.tsx)",
+    "Extend company-website-renderer.test.tsx to prove the shared renderer is used by the public route and private editor preview, with sparse published-only tenant identity and no false trust claims.",
+    "npm run test:company-site (public route boundary)",
+    "npm run agent:check"
   ],
   "envSecretNames": [],
   "humanApprovalGates": [
@@ -58,6 +59,39 @@
   "blocks": [],
   "phase": 0,
   "size": "S",
+  "agentScope": {
+    "role": "agent-design",
+    "responsibilities": [
+      "Deliver only the assigned PEX design, accessibility, brand, or company-site outcome."
+    ],
+    "authority": [
+      "Read Painter OS source and edit only this contract’s owned paths after base-owned contract approval and dependency clearance."
+    ],
+    "prohibitedActions": [
+      "No self-approval or self-merge.",
+      "No production promotion or changes to production state, secrets, billing, DNS, providers, schemas, customer data, or live payments without explicit owner authorization.",
+      "No work, synchronization, issue mutation, or task dispatch in the separate mplsjohnnycage/factory project."
+    ]
+  },
+  "workerScope": {
+    "worker": "painter-os-design",
+    "repository": "johnnyc-9164/painter-os",
+    "sprite": "painter-os-design",
+    "worktree": "isolated-per-issue",
+    "branch": "factory/STL-284-pex-037-company-identity-and-trust-components",
+    "ownedPaths": [
+      "packages/ui/src/components/company-website.tsx",
+      "tests/company-website-renderer.test.tsx"
+    ],
+    "buildSlot": {
+      "helper": "/home/sprite/workspace/painter-thread-tools/with-build-slot.sh",
+      "maxConcurrentHeavyCommands": 1
+    },
+    "integrationConstraints": [
+      "The public company route and private editor preview already consume packages/ui/src/components/company-website.tsx; integrate the identity treatment in this shared renderer rather than adding an unused apps/company-site component.",
+      "T03 owns only this company-specific renderer change; T04 retains generic UI primitives/global CSS. Do not add verified license/rating fields or badges without a separately approved public-safe provenance source."
+    ]
+  },
   "ownerType": "agent-design",
   "factoryEligible": false,
   "approvalStatus": "proposed_unapproved",

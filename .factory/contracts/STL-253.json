@@ -18,7 +18,8 @@
     "Exact-head CI or independent review is missing or tests fail: report evidence and do not merge."
   ],
   "allowedPaths": [
-    "packages/ui/src/components/{status-badge,summary-metric}.tsx",
+    "packages/ui/src/components/status-badge.tsx",
+    "packages/ui/src/components/summary-metric.tsx",
     "tests/ui-status-metric.test.tsx"
   ],
   "forbiddenPaths": [
@@ -44,9 +45,9 @@
     "build"
   ],
   "testRequirements": [
-    "npm run agent:check",
-    "Focused regression tests for the exact changes",
-    "Non-color-only status, standard money/date formats and sparse numbers, verified light/dark contrast"
+    "npm run test:factory-contracts (contract matcher regression)",
+    "npm run test:forms (Vitest discovers tests/**/*.test.tsx)",
+    "Focused status/metric tests for non-color-only status, money/date formats, sparse values, and light/dark contrast"
   ],
   "envSecretNames": [],
   "humanApprovalGates": [
@@ -60,6 +61,36 @@
   ],
   "phase": 0,
   "size": "S",
+  "agentScope": {
+    "role": "agent-design",
+    "responsibilities": [
+      "Deliver only the assigned PEX design, accessibility, brand, or company-site outcome."
+    ],
+    "authority": [
+      "Read Painter OS source and edit only this contract’s owned paths after base-owned contract approval and dependency clearance."
+    ],
+    "prohibitedActions": [
+      "No self-approval or self-merge.",
+      "No production promotion or changes to production state, secrets, billing, DNS, providers, schemas, customer data, or live payments without explicit owner authorization.",
+      "No work, synchronization, issue mutation, or task dispatch in the separate mplsjohnnycage/factory project."
+    ]
+  },
+  "workerScope": {
+    "worker": "painter-os-design",
+    "repository": "johnnyc-9164/painter-os",
+    "sprite": "painter-os-design",
+    "worktree": "isolated-per-issue",
+    "branch": "factory/STL-253-pex-006-unified-status-metric-and-progress-components",
+    "ownedPaths": [
+      "packages/ui/src/components/status-badge.tsx",
+      "packages/ui/src/components/summary-metric.tsx",
+      "tests/ui-status-metric.test.tsx"
+    ],
+    "buildSlot": {
+      "helper": "/home/sprite/workspace/painter-thread-tools/with-build-slot.sh",
+      "maxConcurrentHeavyCommands": 1
+    }
+  },
   "ownerType": "agent-design",
   "factoryEligible": false,
   "approvalStatus": "proposed_unapproved",

@@ -44,9 +44,9 @@
     "build"
   ],
   "testRequirements": [
-    "npm run agent:check",
-    "Focused regression tests for the exact changes",
-    "Lead-to-paid/review matrix distinguishes local, preview, production; never marks provider-backed steps tested when synthetic"
+    "npm run test:node-mjs (node --test tests/*.test.mjs discovers tests/journey-evidence.test.mjs)",
+    "The journey evidence matrix must distinguish local, preview, and production and never label synthetic provider-backed steps as tested.",
+    "npm run agent:check"
   ],
   "envSecretNames": [],
   "humanApprovalGates": [
@@ -61,6 +61,35 @@
   "blocks": [],
   "phase": 2,
   "size": "M",
+  "agentScope": {
+    "role": "agent-lead",
+    "responsibilities": [
+      "Deliver only the assigned PEX platform, AI, administration, or release-evidence outcome within existing service boundaries."
+    ],
+    "authority": [
+      "Read Painter OS source and edit only this contract’s owned paths after base-owned contract approval and dependency clearance."
+    ],
+    "prohibitedActions": [
+      "No self-approval or self-merge.",
+      "No production promotion or changes to production state, secrets, billing, DNS, providers, schemas, customer data, or live payments without explicit owner authorization.",
+      "No work, synchronization, issue mutation, or task dispatch in the separate mplsjohnnycage/factory project."
+    ]
+  },
+  "workerScope": {
+    "worker": "painter-os-dev",
+    "repository": "johnnyc-9164/painter-os",
+    "sprite": "painter-os-dev",
+    "worktree": "isolated-per-issue",
+    "branch": "factory/STL-295-pex-048-product-journey-evidence-dashboard",
+    "ownedPaths": [
+      "docs/evidence/product-journey/**",
+      "tests/journey-evidence.test.mjs"
+    ],
+    "buildSlot": {
+      "helper": "/home/sprite/workspace/painter-thread-tools/with-build-slot.sh",
+      "maxConcurrentHeavyCommands": 1
+    }
+  },
   "ownerType": "agent-lead",
   "factoryEligible": false,
   "approvalStatus": "proposed_unapproved",

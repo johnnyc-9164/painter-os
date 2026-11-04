@@ -44,9 +44,10 @@
     "build"
   ],
   "testRequirements": [
-    "npm run agent:check",
-    "Focused regression tests for the exact changes",
-    "4 apps x desktop/tablet/mobile, automated diffs, keyboard and Lighthouse receipts with exact SHA"
+    "npm run test:visual-regression (Playwright, tests/visual-regression/**/*.spec.ts; executed in the required build CI job)",
+    "Four apps x desktop/tablet/mobile: automated screenshot diffs and keyboard checks; retain exact-head receipts under docs/evidence/visual/**.",
+    "Lighthouse receipts remain an explicit acceptance artifact tied to the same exact SHA; do not infer them from Playwright screenshots.",
+    "npm run agent:check"
   ],
   "envSecretNames": [],
   "humanApprovalGates": [
@@ -61,6 +62,39 @@
   "blocks": [],
   "phase": 1,
   "size": "M",
+  "agentScope": {
+    "role": "agent-lead",
+    "responsibilities": [
+      "Deliver only the assigned PEX platform, AI, administration, or release-evidence outcome within existing service boundaries."
+    ],
+    "authority": [
+      "Read Painter OS source and edit only this contract’s owned paths after base-owned contract approval and dependency clearance."
+    ],
+    "prohibitedActions": [
+      "No self-approval or self-merge.",
+      "No production promotion or changes to production state, secrets, billing, DNS, providers, schemas, customer data, or live payments without explicit owner authorization.",
+      "No work, synchronization, issue mutation, or task dispatch in the separate mplsjohnnycage/factory project."
+    ]
+  },
+  "workerScope": {
+    "worker": "painter-os-dev",
+    "repository": "johnnyc-9164/painter-os",
+    "sprite": "painter-os-dev",
+    "worktree": "isolated-per-issue",
+    "branch": "factory/STL-294-pex-047-cross-app-visual-regression-and-ux-budgets",
+    "ownedPaths": [
+      "tests/visual-regression/**",
+      "docs/evidence/visual/**"
+    ],
+    "buildSlot": {
+      "helper": "/home/sprite/workspace/painter-thread-tools/with-build-slot.sh",
+      "maxConcurrentHeavyCommands": 1
+    },
+    "integrationConstraints": [
+      "T02 owns the shared Playwright visual-runner configuration and CI registration; PEX-047 owns only tests/visual-regression/** and docs/evidence/visual/**.",
+      "Visual tests run in the required build check against the four locally built Painter OS applications; Lighthouse receipts must be separately evidenced on the exact SHA."
+    ]
+  },
   "ownerType": "agent-lead",
   "factoryEligible": false,
   "approvalStatus": "proposed_unapproved",

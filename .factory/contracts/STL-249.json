@@ -4,7 +4,7 @@
   "goal": "Voice, copy and truthful claims system",
   "successConditions": [
     "Unified wording for lead, estimate, approval, project and payment; no unsupported feature, rating or performance claims",
-    "Focused red/green tests, impacted regression suites and exact-head hosted required checks pass.",
+    "Documentation-only acceptance: claim wording is reviewed for unsupported features, ratings, licensing, service coverage, or performance promises; exact-head hosted required checks pass.",
     "Independent reviewer accepts the exact PR SHA, with accessible rollback/evidence receipt."
   ],
   "nonGoals": [
@@ -43,9 +43,8 @@
     "build"
   ],
   "testRequirements": [
-    "npm run agent:check",
-    "Focused regression tests for the exact changes",
-    "Unified wording for lead, estimate, approval, project and payment; no unsupported feature, rating or performance claims"
+    "npm run agent:check (documentation links and repository checks)",
+    "Review wording for unsupported feature, rating, licensing, service-area, endorsement, or performance claims; this docs-only scope has no runtime test path."
   ],
   "envSecretNames": [],
   "humanApprovalGates": [
@@ -59,6 +58,34 @@
   "blocks": [],
   "phase": 0,
   "size": "S",
+  "agentScope": {
+    "role": "agent-design",
+    "responsibilities": [
+      "Deliver only the assigned PEX design, accessibility, brand, or company-site outcome."
+    ],
+    "authority": [
+      "Read Painter OS source and edit only this contract’s owned paths after base-owned contract approval and dependency clearance."
+    ],
+    "prohibitedActions": [
+      "No self-approval or self-merge.",
+      "No production promotion or changes to production state, secrets, billing, DNS, providers, schemas, customer data, or live payments without explicit owner authorization.",
+      "No work, synchronization, issue mutation, or task dispatch in the separate mplsjohnnycage/factory project."
+    ]
+  },
+  "workerScope": {
+    "worker": "painter-os-design",
+    "repository": "johnnyc-9164/painter-os",
+    "sprite": "painter-os-design",
+    "worktree": "isolated-per-issue",
+    "branch": "factory/STL-249-pex-002-voice-copy-and-truthful-claims-system",
+    "ownedPaths": [
+      "docs/brand/**"
+    ],
+    "buildSlot": {
+      "helper": "/home/sprite/workspace/painter-thread-tools/with-build-slot.sh",
+      "maxConcurrentHeavyCommands": 1
+    }
+  },
   "ownerType": "agent-design",
   "factoryEligible": false,
   "approvalStatus": "proposed_unapproved",

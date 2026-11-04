@@ -37,6 +37,14 @@ const FIELDS = {
 };
 const RISK_CLASSES = new Set(["low", "high", "unknown"]);
 const REQUIRED = ["goal", "successConditions", "stopConditions", "allowedPaths", "requiredEvidence"];
+const PEX_ISSUE_RANGE = { first: 307, last: 354 };
+const PEX_WORKER_BY_ROLE = {
+  "agent-design": "painter-os-design",
+  "agent-features": "painter-os-features",
+  "agent-lead": "painter-os-dev",
+};
+const PEX_REPOSITORY = "johnnyc-9164/painter-os";
+const PEX_BUILD_SLOT_HELPER = "/home/sprite/workspace/painter-thread-tools/with-build-slot.sh";
 
 function normalizeHeading(text) {
   return text.toLowerCase().replace(/\(.*?\)/g, "").replace(/[^a-z]/g, "");
@@ -93,6 +101,46 @@ function validatePattern(pattern, field) {
   if (pattern.startsWith("/") || pattern.split("/").includes("..") || pattern.includes("\\")) {
     throw new Error(`${field}: glob must be repo-relative without '..' or backslashes: ${pattern}`);
   }
+  if (/[{}]/.test(pattern)) throw new Error(`${field}: brace expansion is unsupported by the contract matcher: ${pattern}`);
+}
+
+function validatePexScopes(contract, errors) {
+  if (!Number.isSafeInteger(contract?.issue) || contract.issue < PEX_ISSUE_RANGE.first || contract.issue > PEX_ISSUE_RANGE.last) return;
+  const expectedPex = `PEX-${String(contract.issue - 306).padStart(3, "0")}`;
+  if (contract.proposalId !== undefined && contract.proposalId !== expectedPex) errors.push(`proposalId must be ${expectedPex} for issue ${contract.issue}`);
+  if (contract.linearIssue !== undefined && contract.linearIssue !== `STL-${contract.issue - 59}`) errors.push(`linearIssue must map to STL-${contract.issue - 59}`);
+
+  const agent = contract.agentScope;
+  if (!agent || typeof agent !== "object" || Array.isArray(agent)) errors.push("agentScope must be an object");
+  else {
+    if (agent.role !== contract.ownerType || !Object.hasOwn(PEX_WORKER_BY_ROLE, agent.role)) errors.push("agentScope.role must match ownerType and a supported PEX role");
+    for (const key of ["responsibilities", "authority", "prohibitedActions"]) {
+      if (!Array.isArray(agent[key]) || agent[key].length === 0 || agent[key].some((value) => typeof value !== "string" || !value.trim())) errors.push(`agentScope.${key} must be a nonempty array of strings`);
+    }
+    if (Array.isArray(agent.prohibitedActions)) {
+      if (!agent.prohibitedActions.some((value) => /self-approv/i.test(value))) errors.push("agentScope.prohibitedActions must prohibit self-approval");
+      if (!agent.prohibitedActions.some((value) => /self-merge/i.test(value))) errors.push("agentScope.prohibitedActions must prohibit self-merge");
+      if (!agent.prohibitedActions.some((value) => /production/i.test(value))) errors.push("agentScope.prohibitedActions must preserve production restrictions");
+    }
+  }
+
+  const worker = contract.workerScope;
+  if (!worker || typeof worker !== "object" || Array.isArray(worker)) errors.push("workerScope must be an object");
+  else {
+    const expectedWorker = PEX_WORKER_BY_ROLE[agent?.role];
+    if (!expectedWorker || worker.worker !== expectedWorker || worker.sprite !== expectedWorker) errors.push("workerScope.worker and sprite must match the Linear worker for agentScope.role");
+    if (worker.repository !== PEX_REPOSITORY) errors.push(`workerScope.repository must be ${PEX_REPOSITORY}`);
+    if (worker.worktree !== "isolated-per-issue") errors.push("workerScope.worktree must be isolated-per-issue");
+    if (worker.branch !== contract.branch || typeof contract.branch !== "string") errors.push("workerScope.branch must match contract.branch");
+    if (!Array.isArray(worker.ownedPaths) || JSON.stringify(worker.ownedPaths) !== JSON.stringify(contract.allowedPaths)) errors.push("workerScope.ownedPaths must exactly match allowedPaths");
+    if (!worker.buildSlot || worker.buildSlot.helper !== PEX_BUILD_SLOT_HELPER || worker.buildSlot.maxConcurrentHeavyCommands !== 1) errors.push("workerScope.buildSlot must use the shared one-heavy-command-per-Sprite lock");
+    if (worker.integrationConstraints !== undefined && (!Array.isArray(worker.integrationConstraints) || worker.integrationConstraints.some((value) => typeof value !== "string" || !value.trim()))) errors.push("workerScope.integrationConstraints must be an array of nonempty strings");
+  }
+
+  // Proposal files remain inert. An approved base-owned copy omits proposalId/status metadata.
+  if (contract.proposalId !== undefined && (contract.factoryEligible !== false || contract.approvalStatus !== "proposed_unapproved")) {
+    errors.push("PEX proposal must remain factoryEligible:false and approvalStatus:proposed_unapproved");
+  }
 }
 
 export function validateContract(contract) {
@@ -124,6 +172,7 @@ export function validateContract(contract) {
   for (const pattern of MANDATORY_FORBIDDEN) {
     if (!contract?.forbiddenPaths?.includes(pattern)) errors.push(`forbiddenPaths must include ${pattern}`);
   }
+  validatePexScopes(contract, errors);
   if (errors.length) throw new Error(`invalid contract:\n  - ${errors.join("\n  - ")}`);
   return contract;
 }
@@ -137,6 +186,57 @@ function canonical(value) {
       .join(",")}}`;
   }
   return JSON.stringify(value);
+}
+
+
+export function validatePexProposalSet(contracts) {
+  if (!Array.isArray(contracts)) throw new Error("PEX contract set must be an array");
+  const errors = [];
+  const byLinear = new Map();
+  for (const contract of contracts) {
+    try { validateContract(contract); } catch (error) { errors.push(error.message); }
+    if (contract?.linearIssue) {
+      if (byLinear.has(contract.linearIssue)) errors.push(`duplicate Linear issue ${contract.linearIssue}`);
+      else byLinear.set(contract.linearIssue, contract);
+    }
+    for (const key of ["dependsOn", "blocks"]) {
+      if (!Array.isArray(contract?.[key]) || contract[key].some((value) => typeof value !== "string" || !/^STL-\d+$/.test(value))) {
+        errors.push(`${contract?.proposalId ?? contract?.issue}: ${key} must be an array of Linear issue IDs`);
+      } else if (new Set(contract[key]).size !== contract[key].length) {
+        errors.push(`${contract?.proposalId ?? contract?.issue}: ${key} contains duplicates`);
+      }
+    }
+    if (contract?.dependsOn?.includes(contract?.linearIssue)) errors.push(`${contract.proposalId}: cannot depend on itself`);
+    if (contract?.blocks?.includes(contract?.linearIssue)) errors.push(`${contract.proposalId}: cannot block itself`);
+  }
+  const graph = new Map();
+  for (const contract of contracts) {
+    const current = contract?.linearIssue;
+    if (!current) continue;
+    const internalDependencies = (contract.dependsOn ?? []).filter((id) => byLinear.has(id));
+    graph.set(current, internalDependencies);
+    for (const dependencyId of internalDependencies) {
+      const dependency = byLinear.get(dependencyId);
+      if (dependency.phase > contract.phase) errors.push(`${contract.proposalId}: phase ${contract.phase} depends on later phase ${dependency.proposalId} (${dependency.phase})`);
+      if (!(dependency.blocks ?? []).includes(current)) errors.push(`${dependency.proposalId}: blocks must include dependent ${current}`);
+    }
+    for (const blockedId of (contract.blocks ?? []).filter((id) => byLinear.has(id))) {
+      if (!(byLinear.get(blockedId).dependsOn ?? []).includes(current)) errors.push(`${contract.proposalId}: blocked issue ${blockedId} must depend on ${current}`);
+    }
+  }
+  const visiting = new Set();
+  const visited = new Set();
+  function visit(id, trail = []) {
+    if (visiting.has(id)) { errors.push(`dependency cycle: ${[...trail, id].join(" -> ")}`); return; }
+    if (visited.has(id)) return;
+    visiting.add(id);
+    for (const dependency of graph.get(id) ?? []) visit(dependency, [...trail, id]);
+    visiting.delete(id);
+    visited.add(id);
+  }
+  for (const id of graph.keys()) visit(id);
+  if (errors.length) throw new Error(`invalid PEX proposal set: ${errors.join(" | ")}`);
+  return contracts;
 }
 
 export function contractHash(contract) {

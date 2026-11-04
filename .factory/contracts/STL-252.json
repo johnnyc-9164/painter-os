@@ -60,6 +60,35 @@
   ],
   "phase": 0,
   "size": "S",
+  "agentScope": {
+    "role": "agent-design",
+    "responsibilities": [
+      "Deliver only the assigned PEX design, accessibility, brand, or company-site outcome."
+    ],
+    "authority": [
+      "Read Painter OS source and edit only this contract’s owned paths after base-owned contract approval and dependency clearance."
+    ],
+    "prohibitedActions": [
+      "No self-approval or self-merge.",
+      "No production promotion or changes to production state, secrets, billing, DNS, providers, schemas, customer data, or live payments without explicit owner authorization.",
+      "No work, synchronization, issue mutation, or task dispatch in the separate mplsjohnnycage/factory project."
+    ]
+  },
+  "workerScope": {
+    "worker": "painter-os-design",
+    "repository": "johnnyc-9164/painter-os",
+    "sprite": "painter-os-design",
+    "worktree": "isolated-per-issue",
+    "branch": "factory/STL-252-pex-005-typed-accessible-data-table-primitive",
+    "ownedPaths": [
+      "packages/ui/src/components/entity-table.tsx",
+      "tests/ui-entity-table.test.tsx"
+    ],
+    "buildSlot": {
+      "helper": "/home/sprite/workspace/painter-thread-tools/with-build-slot.sh",
+      "maxConcurrentHeavyCommands": 1
+    }
+  },
   "ownerType": "agent-design",
   "factoryEligible": false,
   "approvalStatus": "proposed_unapproved",

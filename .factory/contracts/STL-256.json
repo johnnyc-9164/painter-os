@@ -19,6 +19,7 @@
   ],
   "allowedPaths": [
     "apps/web/src/components/shell/**",
+    "apps/web/src/components/painter-app.tsx",
     "tests/operator-shell.test.tsx"
   ],
   "forbiddenPaths": [
@@ -44,9 +45,9 @@
     "build"
   ],
   "testRequirements": [
-    "npm run agent:check",
-    "Focused regression tests for the exact changes",
-    "Parity for existing routes/roles; narrow widths, keyboard, active state and mobile navigation pass"
+    "npm run test:forms (Vitest discovers tests/**/*.test.tsx)",
+    "Mounted operator-shell tests must exercise painter-app.tsx, existing routes/roles, narrow widths, keyboard, active state, and mobile navigation.",
+    "npm run agent:check"
   ],
   "envSecretNames": [],
   "humanApprovalGates": [
@@ -60,10 +61,45 @@
   ],
   "blocks": [
     "STL-257",
-    "STL-258"
+    "STL-258",
+    "STL-260"
   ],
   "phase": 1,
   "size": "M",
+  "agentScope": {
+    "role": "agent-design",
+    "responsibilities": [
+      "Deliver only the assigned PEX design, accessibility, brand, or company-site outcome."
+    ],
+    "authority": [
+      "Read Painter OS source and edit only this contract’s owned paths after base-owned contract approval and dependency clearance."
+    ],
+    "prohibitedActions": [
+      "No self-approval or self-merge.",
+      "No production promotion or changes to production state, secrets, billing, DNS, providers, schemas, customer data, or live payments without explicit owner authorization.",
+      "No work, synchronization, issue mutation, or task dispatch in the separate mplsjohnnycage/factory project."
+    ]
+  },
+  "workerScope": {
+    "worker": "painter-os-design",
+    "repository": "johnnyc-9164/painter-os",
+    "sprite": "painter-os-design",
+    "worktree": "isolated-per-issue",
+    "branch": "factory/STL-256-pex-009-extract-operator-shell-and-responsive-navigation",
+    "ownedPaths": [
+      "apps/web/src/components/shell/**",
+      "apps/web/src/components/painter-app.tsx",
+      "tests/operator-shell.test.tsx"
+    ],
+    "buildSlot": {
+      "helper": "/home/sprite/workspace/painter-thread-tools/with-build-slot.sh",
+      "maxConcurrentHeavyCommands": 1
+    },
+    "integrationConstraints": [
+      "The existing operator shell and navigation are mounted by apps/web/src/components/painter-app.tsx; this contract owns that consumer integration for PEX-009.",
+      "Coordinate serially with T01 before touching painter-app.tsx because PR #305 currently changes that shared file; never edit it concurrently or overwrite another owner."
+    ]
+  },
   "ownerType": "agent-design",
   "factoryEligible": false,
   "approvalStatus": "proposed_unapproved",

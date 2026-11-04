@@ -60,6 +60,35 @@
   "blocks": [],
   "phase": 2,
   "size": "M",
+  "agentScope": {
+    "role": "agent-features",
+    "responsibilities": [
+      "Deliver only the assigned PEX feature outcome within existing domain, tenant, authorization, and single-writer boundaries."
+    ],
+    "authority": [
+      "Read Painter OS source and edit only this contract’s owned paths after base-owned contract approval and dependency clearance."
+    ],
+    "prohibitedActions": [
+      "No self-approval or self-merge.",
+      "No production promotion or changes to production state, secrets, billing, DNS, providers, schemas, customer data, or live payments without explicit owner authorization.",
+      "No work, synchronization, issue mutation, or task dispatch in the separate mplsjohnnycage/factory project."
+    ]
+  },
+  "workerScope": {
+    "worker": "painter-os-features",
+    "repository": "johnnyc-9164/painter-os",
+    "sprite": "painter-os-features",
+    "worktree": "isolated-per-issue",
+    "branch": "factory/STL-283-pex-036-closeout-documentation-and-care-guide",
+    "ownedPaths": [
+      "apps/web/src/features/customer/closeout/**",
+      "tests/customer-closeout.test.tsx"
+    ],
+    "buildSlot": {
+      "helper": "/home/sprite/workspace/painter-thread-tools/with-build-slot.sh",
+      "maxConcurrentHeavyCommands": 1
+    }
+  },
   "ownerType": "agent-features",
   "factoryEligible": false,
   "approvalStatus": "proposed_unapproved",
