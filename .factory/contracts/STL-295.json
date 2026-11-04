@@ -1,0 +1,99 @@
+{
+  "version": 1,
+  "issue": 354,
+  "goal": "Product journey evidence dashboard",
+  "successConditions": [
+    "Lead-to-paid/review matrix distinguishes local, preview, production; never marks provider-backed steps tested when synthetic",
+    "Focused red/green tests, impacted regression suites and exact-head hosted required checks pass.",
+    "Independent reviewer accepts the exact PR SHA, with accessible rollback/evidence receipt."
+  ],
+  "nonGoals": [
+    "Production deployment or promotion, paid service upgrade, DNS changes, schema/data migration or real external business action.",
+    "New auth authority, duplicate business writer, unrelated redesign, cross-tenant data access, or bypass of protected review gates."
+  ],
+  "stopConditions": [
+    "This candidate lacks maintainer-approved factory contract: stop before implementation or merge.",
+    "Any change escapes allowed paths, changes root AGENTS.md/.github/**/scripts/**, or collides with another active owner: stop and reconcile scope.",
+    "Any production state/credentials, customer records, billing, external sends, or deployment modification is necessary: stop for explicit approval.",
+    "Exact-head CI or independent review is missing or tests fail: report evidence and do not merge."
+  ],
+  "allowedPaths": [
+    "docs/evidence/product-journey/**",
+    "tests/journey-evidence.test.mjs"
+  ],
+  "forbiddenPaths": [
+    ".github/**",
+    "scripts/**",
+    "docs/contracts/**"
+  ],
+  "requiredEvidence": [
+    "PR body cross-links the Linear issue and this GitHub issue and carries Factory-Contract-Hash and Factory-Attempt trailers.",
+    "Reproducible local tests, linked hosted CI results on exact head, scoped change list and distinct independent review verdict.",
+    "Acceptance proof: Lead-to-paid/review matrix distinguishes local, preview, production; never marks provider-backed steps tested when synthetic",
+    "Verify no customer production data mutation or unapproved external operations occurred."
+  ],
+  "riskClass": "low",
+  "linearIssue": "STL-295",
+  "branch": "factory/STL-295-pex-048-product-journey-evidence-dashboard",
+  "requiredChecks": [
+    "typecheck",
+    "lint",
+    "domain-tests",
+    "convex-tests",
+    "contractor-component",
+    "build"
+  ],
+  "testRequirements": [
+    "npm run test:node-mjs (node --test tests/*.test.mjs discovers tests/journey-evidence.test.mjs)",
+    "The journey evidence matrix must distinguish local, preview, and production and never label synthetic provider-backed steps as tested.",
+    "npm run agent:check"
+  ],
+  "envSecretNames": [],
+  "humanApprovalGates": [
+    "Maintainer approval of the exact typed contract and base-owned approval record before factory dispatch",
+    "Independent PR reviewer on exact head SHA",
+    "Owner approval before any production mutation or external action"
+  ],
+  "dependsOn": [
+    "STL-92",
+    "STL-123"
+  ],
+  "blocks": [],
+  "phase": 2,
+  "size": "M",
+  "agentScope": {
+    "role": "agent-lead",
+    "responsibilities": [
+      "Deliver only the assigned PEX platform, AI, administration, or release-evidence outcome within existing service boundaries."
+    ],
+    "authority": [
+      "Read Painter OS source and edit only this contract’s owned paths after base-owned contract approval and dependency clearance."
+    ],
+    "prohibitedActions": [
+      "No self-approval or self-merge.",
+      "No production promotion or changes to production state, secrets, billing, DNS, providers, schemas, customer data, or live payments without explicit owner authorization.",
+      "No work, synchronization, issue mutation, or task dispatch in the separate mplsjohnnycage/factory project."
+    ]
+  },
+  "workerScope": {
+    "worker": "painter-os-dev",
+    "repository": "johnnyc-9164/painter-os",
+    "sprite": "painter-os-dev",
+    "worktree": "isolated-per-issue",
+    "branch": "factory/STL-295-pex-048-product-journey-evidence-dashboard",
+    "ownedPaths": [
+      "docs/evidence/product-journey/**",
+      "tests/journey-evidence.test.mjs"
+    ],
+    "buildSlot": {
+      "helper": "/home/sprite/workspace/painter-thread-tools/with-build-slot.sh",
+      "maxConcurrentHeavyCommands": 1
+    }
+  },
+  "ownerType": "agent-lead",
+  "factoryEligible": false,
+  "approvalStatus": "proposed_unapproved",
+  "proposalId": "PEX-048",
+  "proposalSourceSha": "8ae8405b3528e89e2fafead670666d6b964a062d",
+  "workstream": "AI interaction & release quality"
+}

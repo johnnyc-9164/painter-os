@@ -1,0 +1,113 @@
+{
+  "version": 1,
+  "issue": 347,
+  "goal": "Four-app release health dashboard",
+  "successConditions": [
+    "Read-only version, deploy and health evidence; unknown status never green",
+    "Focused red/green tests, impacted regression suites and exact-head hosted required checks pass.",
+    "Independent reviewer accepts the exact PR SHA, with accessible rollback/evidence receipt."
+  ],
+  "nonGoals": [
+    "Production deployment or promotion, paid service upgrade, DNS changes, schema/data migration or real external business action.",
+    "New auth authority, duplicate business writer, unrelated redesign, cross-tenant data access, or bypass of protected review gates."
+  ],
+  "stopConditions": [
+    "This candidate lacks maintainer-approved factory contract: stop before implementation or merge.",
+    "Any change escapes allowed paths, changes root AGENTS.md/.github/**/scripts/**, or collides with another active owner: stop and reconcile scope.",
+    "Any production state/credentials, customer records, billing, external sends, or deployment modification is necessary: stop for explicit approval.",
+    "Exact-head CI or independent review is missing or tests fail: report evidence and do not merge."
+  ],
+  "allowedPaths": [
+    "packages/platform-admin-ui/src/features/releases/**",
+    "packages/platform-admin-ui/src/client.ts",
+    "packages/platform-admin-ui/src/components/platform-app.tsx",
+    "packages/platform-admin-ui/src/components/platform-view.tsx",
+    "apps/platform-admin/src/app/platform/[[...section]]/page.tsx",
+    "tests/platform-release-status.test.tsx"
+  ],
+  "forbiddenPaths": [
+    ".github/**",
+    "scripts/**",
+    "docs/contracts/**"
+  ],
+  "requiredEvidence": [
+    "PR body cross-links the Linear issue and this GitHub issue and carries Factory-Contract-Hash and Factory-Attempt trailers.",
+    "Reproducible local tests, linked hosted CI results on exact head, scoped change list and distinct independent review verdict.",
+    "Acceptance proof: Read-only version, deploy and health evidence; unknown status never green",
+    "Verify no customer production data mutation or unapproved external operations occurred."
+  ],
+  "riskClass": "low",
+  "linearIssue": "STL-288",
+  "branch": "factory/STL-288-pex-041-four-app-release-health-dashboard",
+  "requiredChecks": [
+    "typecheck",
+    "lint",
+    "domain-tests",
+    "convex-tests",
+    "contractor-component",
+    "build"
+  ],
+  "testRequirements": [
+    "npm run test:forms (Vitest discovers tests/**/*.test.tsx)",
+    "Mounted /platform/releases tests must exercise PlatformApp/PlatformView and the platform-admin catch-all route; prove read-only source-backed status and unknown-never-green behavior.",
+    "npm run agent:check"
+  ],
+  "envSecretNames": [],
+  "humanApprovalGates": [
+    "Maintainer approval of the exact typed contract and base-owned approval record before factory dispatch",
+    "Independent PR reviewer on exact head SHA",
+    "Owner approval before any production mutation or external action"
+  ],
+  "dependsOn": [
+    "STL-132"
+  ],
+  "blocks": [
+    "STL-290",
+    "STL-291"
+  ],
+  "phase": 2,
+  "size": "M",
+  "agentScope": {
+    "role": "agent-lead",
+    "responsibilities": [
+      "Deliver only the assigned PEX platform, AI, administration, or release-evidence outcome within existing service boundaries."
+    ],
+    "authority": [
+      "Read Painter OS source and edit only this contract’s owned paths after base-owned contract approval and dependency clearance."
+    ],
+    "prohibitedActions": [
+      "No self-approval or self-merge.",
+      "No production promotion or changes to production state, secrets, billing, DNS, providers, schemas, customer data, or live payments without explicit owner authorization.",
+      "No work, synchronization, issue mutation, or task dispatch in the separate mplsjohnnycage/factory project."
+    ]
+  },
+  "workerScope": {
+    "worker": "painter-os-dev",
+    "repository": "johnnyc-9164/painter-os",
+    "sprite": "painter-os-dev",
+    "worktree": "isolated-per-issue",
+    "branch": "factory/STL-288-pex-041-four-app-release-health-dashboard",
+    "ownedPaths": [
+      "packages/platform-admin-ui/src/features/releases/**",
+      "packages/platform-admin-ui/src/client.ts",
+      "packages/platform-admin-ui/src/components/platform-app.tsx",
+      "packages/platform-admin-ui/src/components/platform-view.tsx",
+      "apps/platform-admin/src/app/platform/[[...section]]/page.tsx",
+      "tests/platform-release-status.test.tsx"
+    ],
+    "buildSlot": {
+      "helper": "/home/sprite/workspace/painter-thread-tools/with-build-slot.sh",
+      "maxConcurrentHeavyCommands": 1
+    },
+    "integrationConstraints": [
+      "The platform-admin route delegates to @painter-os-bts/platform/components/platform-app; the real UI integration surface is packages/platform-admin-ui plus apps/platform-admin/src/app/platform/[[...section]]/page.tsx.",
+      "Keep the dashboard read-only; unknown, missing, stale, or unverified status must never be rendered as healthy/green. Do not introduce a second status authority."
+    ]
+  },
+  "ownerType": "agent-lead",
+  "factoryEligible": false,
+  "approvalStatus": "proposed_unapproved",
+  "proposalId": "PEX-041",
+  "proposalSourceSha": "8ae8405b3528e89e2fafead670666d6b964a062d",
+  "workstream": "Platform administration"
+}

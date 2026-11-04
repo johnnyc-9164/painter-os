@@ -1,0 +1,106 @@
+{
+  "version": 1,
+  "issue": 319,
+  "goal": "Lead and customer activity timeline",
+  "successConditions": [
+    "Actual source-tagged events only; tenant boundaries, redactions and deterministic ordering proven",
+    "Focused red/green tests, impacted regression suites and exact-head hosted required checks pass.",
+    "Independent reviewer accepts the exact PR SHA, with accessible rollback/evidence receipt."
+  ],
+  "nonGoals": [
+    "Production deployment or promotion, paid service upgrade, DNS changes, schema/data migration or real external business action.",
+    "New auth authority, duplicate business writer, unrelated redesign, cross-tenant data access, or bypass of protected review gates."
+  ],
+  "stopConditions": [
+    "This candidate lacks maintainer-approved factory contract: stop before implementation or merge.",
+    "Any change escapes allowed paths, changes root AGENTS.md/.github/**/scripts/**, or collides with another active owner: stop and reconcile scope.",
+    "Any production state/credentials, customer records, billing, external sends, or deployment modification is necessary: stop for explicit approval.",
+    "Exact-head CI or independent review is missing or tests fail: report evidence and do not merge."
+  ],
+  "allowedPaths": [
+    "apps/web/src/features/crm/timeline/**",
+    "apps/web/src/components/painter-app.tsx",
+    "tests/crm-timeline.test.tsx"
+  ],
+  "forbiddenPaths": [
+    ".github/**",
+    "scripts/**",
+    "docs/contracts/**"
+  ],
+  "requiredEvidence": [
+    "PR body cross-links the Linear issue and this GitHub issue and carries Factory-Contract-Hash and Factory-Attempt trailers.",
+    "Reproducible local tests, linked hosted CI results on exact head, scoped change list and distinct independent review verdict.",
+    "Acceptance proof: Actual source-tagged events only; tenant boundaries, redactions and deterministic ordering proven",
+    "Verify no customer production data mutation or unapproved external operations occurred."
+  ],
+  "riskClass": "low",
+  "linearIssue": "STL-260",
+  "branch": "factory/STL-260-pex-013-lead-and-customer-activity-timeline",
+  "requiredChecks": [
+    "typecheck",
+    "lint",
+    "domain-tests",
+    "convex-tests",
+    "contractor-component",
+    "build"
+  ],
+  "testRequirements": [
+    "npm run test:forms (Vitest discovers tests/**/*.test.tsx)",
+    "Mounted CRM timeline tests must cover the real painter-app.tsx navigation/render path, source-tagged events, tenant boundaries, redactions, and deterministic ordering.",
+    "npm run agent:check"
+  ],
+  "envSecretNames": [],
+  "humanApprovalGates": [
+    "Maintainer approval of the exact typed contract and base-owned approval record before factory dispatch",
+    "Independent PR reviewer on exact head SHA",
+    "Owner approval before any production mutation or external action"
+  ],
+  "dependsOn": [
+    "STL-256"
+  ],
+  "blocks": [
+    "STL-263"
+  ],
+  "phase": 1,
+  "size": "S",
+  "agentScope": {
+    "role": "agent-features",
+    "responsibilities": [
+      "Deliver only the assigned PEX feature outcome within existing domain, tenant, authorization, and single-writer boundaries."
+    ],
+    "authority": [
+      "Read Painter OS source and edit only this contract’s owned paths after base-owned contract approval and dependency clearance."
+    ],
+    "prohibitedActions": [
+      "No self-approval or self-merge.",
+      "No production promotion or changes to production state, secrets, billing, DNS, providers, schemas, customer data, or live payments without explicit owner authorization.",
+      "No work, synchronization, issue mutation, or task dispatch in the separate mplsjohnnycage/factory project."
+    ]
+  },
+  "workerScope": {
+    "worker": "painter-os-features",
+    "repository": "johnnyc-9164/painter-os",
+    "sprite": "painter-os-features",
+    "worktree": "isolated-per-issue",
+    "branch": "factory/STL-260-pex-013-lead-and-customer-activity-timeline",
+    "ownedPaths": [
+      "apps/web/src/features/crm/timeline/**",
+      "apps/web/src/components/painter-app.tsx",
+      "tests/crm-timeline.test.tsx"
+    ],
+    "buildSlot": {
+      "helper": "/home/sprite/workspace/painter-thread-tools/with-build-slot.sh",
+      "maxConcurrentHeavyCommands": 1
+    },
+    "integrationConstraints": [
+      "The current operator app is a single client shell in apps/web/src/components/painter-app.tsx; the timeline must be mounted there, not left as a disconnected feature folder.",
+      "This shared consumer path is serialized after STL-256 / PEX-009 completes; T06 must rebase and receive T01 path-clearance before editing painter-app.tsx."
+    ]
+  },
+  "ownerType": "agent-features",
+  "factoryEligible": false,
+  "approvalStatus": "proposed_unapproved",
+  "proposalId": "PEX-013",
+  "proposalSourceSha": "8ae8405b3528e89e2fafead670666d6b964a062d",
+  "workstream": "Sales & CRM depth"
+}

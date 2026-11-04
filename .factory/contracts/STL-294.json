@@ -1,0 +1,104 @@
+{
+  "version": 1,
+  "issue": 353,
+  "goal": "Cross-app visual regression and UX budgets",
+  "successConditions": [
+    "4 apps x desktop/tablet/mobile, automated diffs, keyboard and Lighthouse receipts with exact SHA",
+    "Focused red/green tests, impacted regression suites and exact-head hosted required checks pass.",
+    "Independent reviewer accepts the exact PR SHA, with accessible rollback/evidence receipt."
+  ],
+  "nonGoals": [
+    "Production deployment or promotion, paid service upgrade, DNS changes, schema/data migration or real external business action.",
+    "New auth authority, duplicate business writer, unrelated redesign, cross-tenant data access, or bypass of protected review gates."
+  ],
+  "stopConditions": [
+    "This candidate lacks maintainer-approved factory contract: stop before implementation or merge.",
+    "Any change escapes allowed paths, changes root AGENTS.md/.github/**/scripts/**, or collides with another active owner: stop and reconcile scope.",
+    "Any production state/credentials, customer records, billing, external sends, or deployment modification is necessary: stop for explicit approval.",
+    "Exact-head CI or independent review is missing or tests fail: report evidence and do not merge."
+  ],
+  "allowedPaths": [
+    "tests/visual-regression/**",
+    "docs/evidence/visual/**"
+  ],
+  "forbiddenPaths": [
+    ".github/**",
+    "scripts/**",
+    "docs/contracts/**"
+  ],
+  "requiredEvidence": [
+    "PR body cross-links the Linear issue and this GitHub issue and carries Factory-Contract-Hash and Factory-Attempt trailers.",
+    "Reproducible local tests, linked hosted CI results on exact head, scoped change list and distinct independent review verdict.",
+    "Acceptance proof: 4 apps x desktop/tablet/mobile, automated diffs, keyboard and Lighthouse receipts with exact SHA",
+    "Verify no customer production data mutation or unapproved external operations occurred."
+  ],
+  "riskClass": "low",
+  "linearIssue": "STL-294",
+  "branch": "factory/STL-294-pex-047-cross-app-visual-regression-and-ux-budgets",
+  "requiredChecks": [
+    "typecheck",
+    "lint",
+    "domain-tests",
+    "convex-tests",
+    "contractor-component",
+    "build"
+  ],
+  "testRequirements": [
+    "npm run test:visual-regression (Playwright, tests/visual-regression/**/*.spec.ts; executed in the required build CI job)",
+    "Four apps x desktop/tablet/mobile: automated screenshot diffs and keyboard checks; retain exact-head receipts under docs/evidence/visual/**.",
+    "Lighthouse receipts remain an explicit acceptance artifact tied to the same exact SHA; do not infer them from Playwright screenshots.",
+    "npm run agent:check"
+  ],
+  "envSecretNames": [],
+  "humanApprovalGates": [
+    "Maintainer approval of the exact typed contract and base-owned approval record before factory dispatch",
+    "Independent PR reviewer on exact head SHA",
+    "Owner approval before any production mutation or external action"
+  ],
+  "dependsOn": [
+    "STL-121",
+    "STL-126"
+  ],
+  "blocks": [],
+  "phase": 1,
+  "size": "M",
+  "agentScope": {
+    "role": "agent-lead",
+    "responsibilities": [
+      "Deliver only the assigned PEX platform, AI, administration, or release-evidence outcome within existing service boundaries."
+    ],
+    "authority": [
+      "Read Painter OS source and edit only this contract’s owned paths after base-owned contract approval and dependency clearance."
+    ],
+    "prohibitedActions": [
+      "No self-approval or self-merge.",
+      "No production promotion or changes to production state, secrets, billing, DNS, providers, schemas, customer data, or live payments without explicit owner authorization.",
+      "No work, synchronization, issue mutation, or task dispatch in the separate mplsjohnnycage/factory project."
+    ]
+  },
+  "workerScope": {
+    "worker": "painter-os-dev",
+    "repository": "johnnyc-9164/painter-os",
+    "sprite": "painter-os-dev",
+    "worktree": "isolated-per-issue",
+    "branch": "factory/STL-294-pex-047-cross-app-visual-regression-and-ux-budgets",
+    "ownedPaths": [
+      "tests/visual-regression/**",
+      "docs/evidence/visual/**"
+    ],
+    "buildSlot": {
+      "helper": "/home/sprite/workspace/painter-thread-tools/with-build-slot.sh",
+      "maxConcurrentHeavyCommands": 1
+    },
+    "integrationConstraints": [
+      "T02 owns the shared Playwright visual-runner configuration and CI registration; PEX-047 owns only tests/visual-regression/** and docs/evidence/visual/**.",
+      "Visual tests run in the required build check against the four locally built Painter OS applications; Lighthouse receipts must be separately evidenced on the exact SHA."
+    ]
+  },
+  "ownerType": "agent-lead",
+  "factoryEligible": false,
+  "approvalStatus": "proposed_unapproved",
+  "proposalId": "PEX-047",
+  "proposalSourceSha": "8ae8405b3528e89e2fafead670666d6b964a062d",
+  "workstream": "AI interaction & release quality"
+}
